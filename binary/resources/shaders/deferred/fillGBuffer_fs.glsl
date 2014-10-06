@@ -53,9 +53,31 @@ vec3 createNormals(Material material, mat3 tbn, vec2 texCoord) {
 }
 
 vec2 calcParallaxTextureCoords(Material material, mat3 tbnMatrix, vec3 v, vec2 texCoords, float scale, float bias) {
-	return (texCoords.xy + (v * tbnMatrix).xy * (texture(material.displacementMap, texCoords.xy).r * scale + bias));
+	float height = (texture(material.displacementMap, texCoords.xy).r * scale + bias);
+	return (texCoords.xy + (v * tbnMatrix).xy * height);
 }
 
+
+vec2 calcSteepParallaxTextureCoords(Material material, mat3 tbnMatrix, vec3 v, vec2 texCoords, float scale, float bias) {
+	vec2 textureCoordinate = texCoords;
+
+	float n = 15;
+
+	float step = 1.0 / n;
+
+	vec2 dtex = scale * (-v * tbnMatrix).xy / n;
+
+	float height = 1.0f;
+	float nb = texture(material.displacementMap, texCoords.xy).r;
+	while(nb < height) {
+		height -= step;
+
+		textureCoordinate += dtex;
+
+		nb = texture(material.displacementMap, texCoords.xy).r;
+	}
+	return textureCoordinate;
+}
 
 void main() {
 
@@ -77,9 +99,10 @@ void main() {
 
 		vec3 v = normalize(vec3(fragment.v.x, -fragment.v.y, -fragment.v.z));
 
-		float scale = 0.04f;
+		float scale = 0.05f;
 		float bias = -scale*0.5;
-		textureCoordinate = calcParallaxTextureCoords(SoanMaterial, tbn, v, fragment.texCoord, scale, bias);
+		//textureCoordinate = calcParallaxTextureCoords(SoanMaterial, tbn, v, fragment.texCoord, scale, bias);
+		textureCoordinate = calcSteepParallaxTextureCoords(SoanMaterial, tbn, v, fragment.texCoord, scale, bias);
 	}
 
 
@@ -88,14 +111,14 @@ void main() {
 	//
 	if((SoanMaterial.flags & NORMAL_MAP) == NORMAL_MAP) {
 		normalTarget.xyz 		= createNormals(SoanMaterial, tbn, textureCoordinate);
-	//	normalTarget.z *= -1.0;
+		//	normalTarget.z *= -1.0;
 	} else {
 
 		//
 		// Set the default normal of this fragment.
 		//
 		normalTarget.xyz = normal;
-		
+
 	}
 
 	//

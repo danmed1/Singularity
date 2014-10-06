@@ -1,3 +1,4 @@
+
 Version 0.1.4
 	- Lens Flares
 	
@@ -10,6 +11,7 @@ Version 0.1.2
 
 Version 0.1.1
 	- Parallax Occlusion Mapping
+	- Steep Parallax Mapping
 
 Version 0.1.0
 	- 3D Rendering Engine

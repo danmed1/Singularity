@@ -326,7 +326,7 @@ namespace soan {
 		getFillGBufferShaderProgram()->setUniformMatrix4(viewMatrixStage1, 1, getViewMatrix());
 		
 		
-		getFillGBufferShaderProgram()->setUniform3v(cameraPosShader1,1, m_camera->getPosition());
+		getFillGBufferShaderProgram()->setUniform3v(cameraPosShader1, 1, m_camera->getPosition());
 
 
 		return 0;
