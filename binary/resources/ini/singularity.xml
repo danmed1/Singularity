@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the starting element for all XdevL 0.x.y applications -->
+<XdevLProperties>
+
+  <!-- Plug external plugins to the core system. -->
+  <Plugins>
+		<Plugin filename="XdevLWindowSDL-1.0.0"></Plugin>
+		<Plugin filename="XdevLMouseDevice-1.0.0"></Plugin>
+		<Plugin filename="XdevLKeyboardDevice-1.0.0"></Plugin>
+		<Plugin filename="XdevLJoystickDevice-1.0.0"></Plugin>		
+    <Plugin filename="XdevLOpenGL-1.0.0"></Plugin>
+  </Plugins>
+
+  <!-- Create modules which are inside the plugins and give them identification codes. -->
+	<Modules>
+    <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindowDevice"/>
+    <Module id="MyMouse" 		plugin_name="XdevLMouseDevice" module_name="XdevLMouseDevice"/>		
+    <Module id="MyKeyboard" plugin_name="XdevLKeyboardDevice" module_name="XdevLKeyboardDevice"/>
+    <Module id="MyJoystick"   plugin_name="XdevLJoystickDevice"   module_name="XdevLJoystickDevice"/>
+    <Module id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
+  </Modules>
+
+  <!-- Setting some properties of the XdevLWindowDevice module. -->
+  <XdevLWindowDevice id="MyWindow">
+    <Title> Singularity </Title>
+    <Fullscreen> 0 </Fullscreen>
+    <X> 0 </X>
+    <Y> 0 </Y>
+    <Width>1185 </Width>
+    <Height> 700 </Height>
+    <HidePointer>0</HidePointer>
+		<Borderless>0</Borderless>
+		<BackgroundColor>0 0 0 0 </BackgroundColor>		
+  </XdevLWindowDevice>
+
+
+  <!-- Setting some properties of the XdevLOpenGL module. -->
+  <XdevLOpenGL id="MyOpenGL"  profile="core"
+                              major="3"
+                              minor="3" 
+                              framebuffer_depth="32" 
+                              z_buffer_depth="24" 
+                              stencil_buffer_depth="8"  
+                              vsync="0" 
+                              fsaa="0"> 
+  </XdevLOpenGL>
+
+
+
+
+	<XdevLMouseDevice id="MyMouse">
+	</XdevLMouseDevice>
+
+</XdevLProperties>
+

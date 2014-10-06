@@ -1,0 +1,31 @@
+
+Version 0.1.4
+	- Lens Flares
+	
+Version 0.1.3
+	- Basic Cube Map Shadows for point lights
+	- Basic Dynamic Cube Map Reflections
+
+Version 0.1.2
+	- Cascaded Shadow Maps
+
+Version 0.1.1
+	- Parallax Occlusion Mapping
+
+
+Version 0.1.0
+	- Render Engine
+		- Deferred Renderer
+		- Physically based BRDF Materials (Microfacet Specular BRDF (Cook-Torrance))
+		- Basic Shadow Mapping
+		- Basic PCF Shadow Mapping
+		- Variance Shadow Maps
+		- Normal Mapping
+		- Parallax Mapping
+		- Basic Cube Map Reflections
+		- Depth Of Field
+		- Gaus Blur
+	- Font Rendering Engine
+		- Using Glyph Texture Atlas
+		- Signed Distance Field glyph Texture Atlas
+		- Signed Distance Field Font/Image Texture generator

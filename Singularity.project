@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="Singularity" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00140001N0011Debug_Linux0000000000000001N0013Debug_Linux320000000000000001N0013Debug_Linux640000000000000001N0012Debug_MacOSX0000000000000001N0015Debug_MacOSX_640000000000000001N0011Debug_Win320000000000000001N0011Debug_Win640000000000000001N0013Release_Linux0000000000000001N0015Release_Linux320000000000000001N0015Release_Linux640000000000000001N0014Release_MacOSX0000000000000001N0017Release_MacOSX_640000000000000001N0013Release_Win320000000000000001N0013Release_Win64000000000000]]>
+    </Plugin>
+    <Plugin Name="CMakePlugin">
+      <![CDATA[[{
+  "name": "Debug_Linux",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_Linux32",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_Linux64",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_MacOSX",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_MacOSX_64",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_Win32",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_Win64",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_Linux",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_Linux32",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_Linux64",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_MacOSX",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_MacOSX_64",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_Win32",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }]]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="Engine">
+      <VirtualDirectory Name="Effects">
+        <File Name="src/Engine/Effects/ToneMapping.h" ExcludeProjConfig=""/>
+        <File Name="src/Engine/Effects/ToneMapping.cpp" ExcludeProjConfig=""/>
+        <File Name="src/Engine/Effects/ShadowMap.h"/>
+        <File Name="src/Engine/Effects/ShadowMap.cpp"/>
+        <File Name="src/Engine/Effects/PostProcessEffect.h"/>
+        <File Name="src/Engine/Effects/PostProcessEffect.cpp"/>
+        <File Name="src/Engine/Effects/GausBlur.h" ExcludeProjConfig=""/>
+        <File Name="src/Engine/Effects/GausBlur.cpp" ExcludeProjConfig=""/>
+        <File Name="src/Engine/Effects/DepthOfField.h"/>
+        <File Name="src/Engine/Effects/DepthOfField.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Physics">
+        <File Name="src/Engine/Physics/Physics.cpp"/>
+        <File Name="src/Engine/Physics/Physics.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Particles">
+        <File Name="src/Engine/Particles/Particle.h"/>
+        <File Name="src/Engine/Particles/ParticleDynamic.cpp"/>
+        <File Name="src/Engine/Particles/ParticleDynamic.h"/>
+        <File Name="src/Engine/Particles/ParticleDynamicEuler.cpp"/>
+        <File Name="src/Engine/Particles/ParticleDynamicEuler.h"/>
+        <File Name="src/Engine/Particles/ParticleEmitter.cpp"/>
+        <File Name="src/Engine/Particles/ParticleEmitter.h"/>
+        <File Name="src/Engine/Particles/ParticleEmitterBox.h"/>
+        <File Name="src/Engine/Particles/ParticleGenerator.cpp"/>
+        <File Name="src/Engine/Particles/ParticleGenerator.h"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorBox.h"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorBoxHull.h"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorPlane.cpp"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorPlane.h"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorSphere.cpp"/>
+        <File Name="src/Engine/Particles/ParticleGeneratorSphere.h"/>
+        <File Name="src/Engine/Particles/ParticleRenderer.h"/>
+        <File Name="src/Engine/Particles/ParticleRendererShaderCg.cpp"/>
+        <File Name="src/Engine/Particles/ParticleRendererShaderCg.h"/>
+        <File Name="src/Engine/Particles/ParticleServer.cpp"/>
+        <File Name="src/Engine/Particles/ParticleServer.h"/>
+        <File Name="src/Engine/Particles/ParticleSystem.h"/>
+        <File Name="src/Engine/Particles/ParticleRendererImpl.h"/>
+        <File Name="src/Engine/Particles/ParticleRendererImpl.cpp"/>
+      </VirtualDirectory>
+      <File Name="src/Engine/TextureServer.h"/>
+      <File Name="src/Engine/TextureServer.cpp"/>
+      <File Name="src/Engine/Moveable.h"/>
+      <File Name="src/Engine/Moveable.cpp"/>
+      <File Name="src/Engine/Model.h"/>
+      <File Name="src/Engine/Model.cpp"/>
+      <File Name="src/Engine/Mesh.h"/>
+      <File Name="src/Engine/Mesh.cpp"/>
+      <File Name="src/Engine/Material.h"/>
+      <File Name="src/Engine/Material.cpp"/>
+      <File Name="src/Engine/Light.h"/>
+      <File Name="src/Engine/Light.cpp"/>
+      <File Name="src/Engine/GBuffer.h"/>
+      <File Name="src/Engine/GBuffer.cpp"/>
+      <File Name="src/Engine/Color.h"/>
+      <File Name="src/Engine/Camera.h"/>
+      <File Name="src/Engine/Camera.cpp"/>
+      <File Name="src/Engine/SoanMotionState.h"/>
+      <File Name="src/Engine/SoanMotionState.cpp"/>
+      <File Name="src/Engine/Types.h"/>
+      <File Name="src/Engine/SkyBox.h"/>
+      <File Name="src/Engine/SkyBox.cpp"/>
+      <VirtualDirectory Name="Fonts">
+        <File Name="src/Engine/Fonts/XdevLFont.h"/>
+        <File Name="src/Engine/Fonts/XdevLFontImpl.cpp"/>
+        <File Name="src/Engine/Fonts/XdevLFontImpl.h"/>
+        <File Name="src/Engine/Fonts/XdevLTextLayout.h"/>
+        <File Name="src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
+        <File Name="src/Engine/Fonts/XdevLTextLayoutImpl.h"/>
+        <File Name="src/Engine/Fonts/lodepng.cpp"/>
+        <File Name="src/Engine/Fonts/lodepng.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="GUI">
+        <File Name="src/Engine/GUI/CheckBox.h"/>
+        <File Name="src/Engine/GUI/CheckBox.cpp"/>
+        <File Name="src/Engine/GUI/UIBase.h"/>
+        <File Name="src/Engine/GUI/UIBase.cpp"/>
+        <File Name="src/Engine/GUI/UIRenderer.h"/>
+        <File Name="src/Engine/GUI/UIRendererImpl.cpp"/>
+        <File Name="src/Engine/GUI/UIRendererImpl.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Game">
+      <VirtualDirectory Name="Universe">
+        <File Name="src/Game/Universe/Astroid.cpp"/>
+        <File Name="src/Game/Universe/Astroid.h"/>
+        <File Name="src/Game/Universe/CelestialObject.cpp"/>
+        <File Name="src/Game/Universe/CelestialObject.h"/>
+        <File Name="src/Game/Universe/Comet.cpp"/>
+        <File Name="src/Game/Universe/Comet.h"/>
+        <File Name="src/Game/Universe/Planet.cpp"/>
+        <File Name="src/Game/Universe/Planet.h"/>
+        <File Name="src/Game/Universe/PlanetarySystem.cpp"/>
+        <File Name="src/Game/Universe/PlanetarySystem.h"/>
+        <File Name="src/Game/Universe/Satellite.cpp"/>
+        <File Name="src/Game/Universe/Satellite.h"/>
+        <File Name="src/Game/Universe/Star.cpp"/>
+        <File Name="src/Game/Universe/Star.h"/>
+        <File Name="src/Game/Universe/UnisersalUnits.h"/>
+      </VirtualDirectory>
+      <File Name="src/Game/Actor.cpp"/>
+      <File Name="src/Game/Actor.h"/>
+      <File Name="src/Game/Bullet.h"/>
+      <File Name="src/Game/Bullet.cpp"/>
+      <File Name="src/Game/Renderable.h"/>
+      <File Name="src/Game/Renderable.cpp"/>
+      <File Name="src/Game/SpaceShip.h"/>
+      <File Name="src/Game/SpaceShip.cpp"/>
+      <File Name="src/Game/SpaceShipCommands.h"/>
+      <File Name="src/Game/SpaceShipInputHandler.h"/>
+      <File Name="src/Game/SpaceShipInputHandler.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="Utils">
+      <File Name="src/Utils/SingularityDebugDrawer.h"/>
+      <File Name="src/Utils/SingularityDebugDrawer.cpp"/>
+      <File Name="src/Utils/AssimpToModel.h"/>
+      <File Name="src/Utils/AssimpToModel.cpp"/>
+      <File Name="src/Utils/FPSCounter.h"/>
+      <File Name="src/Utils/FPSCounter.cpp"/>
+      <File Name="src/Utils/ProceduralShapes.h"/>
+      <File Name="src/Utils/glew.c"/>
+      <File Name="src/Utils/TinyMathBullet3Utils.h"/>
+      <File Name="src/Utils/SignedDistanceFieldGenerator.h"/>
+      <File Name="src/Utils/SignedDistanceFieldGenerator.cpp"/>
+      <File Name="src/Utils/SignalSlot.h"/>
+    </VirtualDirectory>
+    <File Name="src/Singularity.cpp"/>
+    <File Name="src/Singularity.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="resources">
+    <VirtualDirectory Name="shaders">
+      <File Name="binary/resources/shaders/gs1.gs"/>
+      <File Name="binary/resources/shaders/directional_lighting.fs"/>
+      <File Name="binary/resources/shaders/directional_lighting.vs"/>
+      <File Name="binary/resources/shaders/point_lighting.vs"/>
+      <File Name="binary/resources/shaders/point_lighting.fs"/>
+      <File Name="binary/resources/shaders/spot_lighting.vs"/>
+      <File Name="binary/resources/shaders/spot_lighting.fs"/>
+      <File Name="binary/resources/shaders/fb.vs"/>
+      <File Name="binary/resources/shaders/fb.fs"/>
+      <File Name="binary/resources/shaders/blurBox.fs"/>
+      <File Name="binary/resources/shaders/depthOfField.fs"/>
+      <File Name="binary/resources/shaders/toneMapping.fs"/>
+      <File Name="binary/resources/shaders/depthOfField.vs"/>
+      <File Name="binary/resources/shaders/toneMapping.vs"/>
+      <File Name="binary/resources/shaders/text_vs.glsl"/>
+      <File Name="binary/resources/shaders/text_fs.glsl"/>
+      <File Name="binary/resources/shaders/fillGBufferBillboards_fs.glsl"/>
+      <File Name="binary/resources/shaders/fillGBufferBillboards_vs.glsl"/>
+      <File Name="binary/resources/shaders/debug_fs.glsl"/>
+      <File Name="binary/resources/shaders/debug_vs.glsl"/>
+      <File Name="binary/resources/shaders/brdf.glsl"/>
+      <File Name="binary/resources/shaders/shadow.glsl"/>
+      <VirtualDirectory Name="deferred">
+        <File Name="binary/resources/shaders/deferred/doDeferredLighting_fs.glsl"/>
+        <File Name="binary/resources/shaders/deferred/doDeferredLighting_vs.glsl"/>
+        <File Name="binary/resources/shaders/deferred/fillGBuffer_fs.glsl"/>
+        <File Name="binary/resources/shaders/deferred/fillGBuffer_vs.glsl"/>
+      </VirtualDirectory>
+      <File Name="binary/resources/shaders/shadowMap_fs.glsl"/>
+      <File Name="binary/resources/shaders/shadowMap_vs.glsl"/>
+      <File Name="binary/resources/shaders/blurGaus_vs.glsl"/>
+      <File Name="binary/resources/shaders/blurGaus_fs.glsl"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="ini">
+      <File Name="binary/resources/ini/singularity.xml"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="documentation">
+    <File Name="README.md"/>
+    <File Name="Version.txt"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="src"/>
+        <IncludePath Value="src/engine"/>
+        <IncludePath Value="dependencies/assimp/include"/>
+        <IncludePath Value="dependencies/freeimage/include"/>
+        <IncludePath Value="dependencies/bullet/include"/>
+        <IncludePath Value="$(XDEVL_HOME)/include"/>
+        <IncludePath Value="$(XDEVL_PLUGINS)"/>
+        <IncludePath Value="$(XDEVL_PLUGINS)/XdevLOpenGL"/>
+        <Preprocessor Value="GLEW_STATIC"/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="$(XDEVL_PLUGINS)/lib"/>
+        <LibraryPath Value="dependencies/assimp/lib"/>
+        <LibraryPath Value="dependencies/freeimage/lib"/>
+        <Library Value="assimpd"/>
+        <Library Value="freeimage"/>
+        <Library Value="BulletDynamics"/>
+        <Library Value="BulletCollision"/>
+        <Library Value="LinearMath"/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug_Linux" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-std=c++11" C_Options="-g;" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="src"/>
+        <IncludePath Value="src/opcode"/>
+      </Compiler>
+      <Linker Options="-Wl,-rpath,./" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/bullet/lib/linux"/>
+        <LibraryPath Value="/home/yaakuro/Projects/mesa/lib"/>
+        <LibraryPath Value="/usr/lib/nvidia-340"/>
+        <Library Value="XdevLd"/>
+        <Library Value="dl"/>
+        <Library Value="GL"/>
+        <Library Value="assimpd"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="binary/$(ProjectName)d" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes"/>
+        <Command Enabled="yes"/>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Debug_MacOSX" CompilerType="gnu g++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-std=c++11" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="-framework OpenGL" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/bullet/lib/macosx"/>
+        <Library Value="XdevLd"/>
+        <Library Value="assimp"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="binary/$(ProjectName)d" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary/" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes"/>
+        <Command Enabled="yes"/>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release_Linux" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-std=c++11" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="-O2;-Wl,-rpath,./" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/bullet/lib/linux"/>
+        <Library Value="XdevL"/>
+        <Library Value="GL"/>
+        <Library Value="dl"/>
+        <Library Value="assimp"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes">cp glsl_demo.xml ../bin</Command>
+        <Command Enabled="yes">cp fs1.fs ../bin</Command>
+        <Command Enabled="yes">cp vs1.vs ../bin</Command>
+        <Command Enabled="yes">cp gs1.gs ../bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release_MacOSX" CompilerType="gnu g++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="-O2;-framework OpenGL" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/bullet/lib/macosx"/>
+        <Library Value="XdevL"/>
+        <Library Value="assimp"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary/" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes">cp glsl_demo.xml ../bin</Command>
+        <Command Enabled="yes">cp fs1.fs ../bin</Command>
+        <Command Enabled="yes">cp vs1.vs ../bin</Command>
+        <Command Enabled="yes">cp gs1.gs ../bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Debug_MacOSX"/>
+  <Dependencies Name="Release_Linux"/>
+  <Dependencies Name="Release_MacOSX"/>
+</CodeLite_Project>

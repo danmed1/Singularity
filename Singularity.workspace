@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLite_Workspace Name="Singularity" Database="/Users/coda/Public/Projects/Singularity/.codelite/Singularity.tags">
+  <Project Name="Singularity" Path="Singularity.project" Active="Yes"/>
+  <Project Name="TextureFontCreator" Path="tools/TextureFontCreator/TextureFontCreator.project" Active="No"/>
+  <Project Name="SDFGenerator" Path="tools/SDFGenerator/SDFGenerator.project" Active="No"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
+      <Project Name="TextureFontCreator" ConfigName="Debug_MacOSX"/>
+      <Project Name="Singularity" ConfigName="Debug_MacOSX"/>
+      <Project Name="TextureFontCreator" ConfigName="Debug_MacOSX"/>
+      <Project Name="" ConfigName="Debug"/>
+      <Project Name="SDFGenerator" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release_MacOSX" Selected="no">
+      <Project Name="TextureFontCreator" ConfigName="Release_MacOSX"/>
+      <Project Name="Singularity" ConfigName="Release_MacOSX"/>
+      <Project Name="TextureFontCreator" ConfigName="Release_MacOSX"/>
+      <Project Name="" ConfigName="Debug"/>
+      <Project Name="SDFGenerator" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
+      <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
+      <Project Name="Singularity" ConfigName="Debug_Linux"/>
+      <Project Name="" ConfigName="Debug"/>
+      <Project Name="SDFGenerator" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release_Linux" Selected="yes">
+      <Project Name="TextureFontCreator" ConfigName="Release_Linux"/>
+      <Project Name="Singularity" ConfigName="Release_Linux"/>
+      <Project Name="" ConfigName="Debug"/>
+      <Project Name="SDFGenerator" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

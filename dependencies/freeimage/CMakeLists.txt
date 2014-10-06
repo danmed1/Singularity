@@ -1,0 +1,683 @@
+#
+# CMake project file for FreeImage
+# Author: Cengiz Terzibas
+#
+
+cmake_minimum_required(VERSION 2.8)
+
+
+project(FreeImage)
+
+#
+# Set the names for the stuff we are going to create
+
+set(FreeImageLibrary freeimage)
+
+#
+# Set variable names for the XdevL library
+
+set(SRC_DIR Source)
+
+#
+# Set the output directories for executables and static libraries
+#
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY lib)
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -w -Os -fexceptions -fvisibility=hidden")
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -w -fexceptions -fvisibility=hidden")
+endif()
+
+
+add_definitions(-DNO_LCMS)
+if(APPLE)
+  add_definitions(-D__ANSI__ -DDISABLE_PERF_MEASUREMENT)
+endif()
+
+#
+# Set the source files for the bakka library.
+#
+set(SOURCE_FILES
+  ${SRC_DIR}/FreeImage/BitmapAccess.cpp
+  ${SRC_DIR}/FreeImage/CacheFile.cpp
+  ${SRC_DIR}/FreeImage/ColorLookup.cpp
+  ${SRC_DIR}/FreeImage/Conversion.cpp
+  ${SRC_DIR}/FreeImage/Conversion16_555.cpp
+  ${SRC_DIR}/FreeImage/Conversion16_565.cpp
+  ${SRC_DIR}/FreeImage/Conversion24.cpp
+  ${SRC_DIR}/FreeImage/Conversion32.cpp
+  ${SRC_DIR}/FreeImage/Conversion4.cpp
+  ${SRC_DIR}/FreeImage/Conversion8.cpp
+  ${SRC_DIR}/FreeImage/ConversionFloat.cpp
+  ${SRC_DIR}/FreeImage/ConversionRGB16.cpp
+  ${SRC_DIR}/FreeImage/ConversionRGBF.cpp
+  ${SRC_DIR}/FreeImage/ConversionType.cpp
+  ${SRC_DIR}/FreeImage/ConversionUINT16.cpp
+  ${SRC_DIR}/FreeImage/FreeImage.cpp
+  ${SRC_DIR}/FreeImage/FreeImageC.c
+  ${SRC_DIR}/FreeImage/FreeImageIO.cpp
+  ${SRC_DIR}/FreeImage/GetType.cpp
+  ${SRC_DIR}/FreeImage/Halftoning.cpp
+  ${SRC_DIR}/FreeImage/J2KHelper.cpp
+  ${SRC_DIR}/FreeImage/J2KHelper.h
+  ${SRC_DIR}/FreeImage/MemoryIO.cpp
+  ${SRC_DIR}/FreeImage/MNGHelper.cpp
+  ${SRC_DIR}/FreeImage/MultiPage.cpp
+  ${SRC_DIR}/FreeImage/NNQuantizer.cpp
+  ${SRC_DIR}/FreeImage/PixelAccess.cpp
+  ${SRC_DIR}/FreeImage/Plugin.cpp
+
+  ${SRC_DIR}/FreeImage/PluginBMP.cpp
+  ${SRC_DIR}/FreeImage/PluginCUT.cpp
+  ${SRC_DIR}/FreeImage/PluginDDS.cpp
+  ${SRC_DIR}/FreeImage/PluginEXR.cpp
+  ${SRC_DIR}/FreeImage/PluginG3.cpp
+  ${SRC_DIR}/FreeImage/PluginGIF.cpp
+  ${SRC_DIR}/FreeImage/PluginHDR.cpp
+  ${SRC_DIR}/FreeImage/PluginICO.cpp
+  ${SRC_DIR}/FreeImage/PluginIFF.cpp
+  ${SRC_DIR}/FreeImage/PluginJ2K.cpp
+  ${SRC_DIR}/FreeImage/PluginJNG.cpp
+  ${SRC_DIR}/FreeImage/PluginJP2.cpp
+  ${SRC_DIR}/FreeImage/PluginJPEG.cpp
+  ${SRC_DIR}/FreeImage/PluginJXR.cpp
+  ${SRC_DIR}/FreeImage/PluginKOALA.cpp
+  ${SRC_DIR}/FreeImage/PluginMNG.cpp
+  ${SRC_DIR}/FreeImage/PluginPCD.cpp
+  ${SRC_DIR}/FreeImage/PluginPCX.cpp
+  ${SRC_DIR}/FreeImage/PluginPFM.cpp
+  ${SRC_DIR}/FreeImage/PluginPICT.cpp
+  ${SRC_DIR}/FreeImage/PluginPNG.cpp
+  ${SRC_DIR}/FreeImage/PluginPNM.cpp
+  ${SRC_DIR}/FreeImage/PluginPSD.cpp
+  ${SRC_DIR}/FreeImage/PluginRAS.cpp
+  ${SRC_DIR}/FreeImage/PluginRAW.cpp
+  ${SRC_DIR}/FreeImage/PluginSGI.cpp
+  ${SRC_DIR}/FreeImage/PluginTARGA.cpp
+  ${SRC_DIR}/FreeImage/PluginTIFF.cpp
+  ${SRC_DIR}/FreeImage/PluginWBMP.cpp
+  ${SRC_DIR}/FreeImage/PluginWebP.cpp
+  ${SRC_DIR}/FreeImage/PluginXBM.cpp
+  ${SRC_DIR}/FreeImage/PluginXPM.cpp
+  ${SRC_DIR}/FreeImage/PSDParser.cpp
+  ${SRC_DIR}/FreeImage/TIFFLogLuv.cpp
+  ${SRC_DIR}/FreeImage/tmoColorConvert.cpp
+  ${SRC_DIR}/FreeImage/tmoDrago03.cpp
+  ${SRC_DIR}/FreeImage/tmoFattal02.cpp
+  ${SRC_DIR}/FreeImage/tmoReinhard05.cpp
+  ${SRC_DIR}/FreeImage/ToneMapping.cpp
+  ${SRC_DIR}/FreeImage/WuQuantizer.cpp
+  ${SRC_DIR}/FreeImage/ZLibInterface.cpp
+
+  ${SRC_DIR}/FreeImageToolkit/Background.cpp
+  ${SRC_DIR}/FreeImageToolkit/BSplineRotate.cpp
+  ${SRC_DIR}/FreeImageToolkit/Channels.cpp
+  ${SRC_DIR}/FreeImageToolkit/ClassicRotate.cpp
+  ${SRC_DIR}/FreeImageToolkit/Colors.cpp
+  ${SRC_DIR}/FreeImageToolkit/CopyPaste.cpp
+  ${SRC_DIR}/FreeImageToolkit/Display.cpp
+  ${SRC_DIR}/FreeImageToolkit/Filters.h
+  ${SRC_DIR}/FreeImageToolkit/Flip.cpp
+  ${SRC_DIR}/FreeImageToolkit/JPEGTransform.cpp
+  ${SRC_DIR}/FreeImageToolkit/MultigridPoissonSolver.cpp
+  ${SRC_DIR}/FreeImageToolkit/Rescale.cpp
+  ${SRC_DIR}/FreeImageToolkit/Resize.cpp
+  ${SRC_DIR}/FreeImageToolkit/Resize.h
+
+
+
+
+  ${SRC_DIR}/LibJPEG/jaricom.c
+  ${SRC_DIR}/LibJPEG/jcapimin.c
+  ${SRC_DIR}/LibJPEG/jcapistd.c
+  ${SRC_DIR}/LibJPEG/jcarith.c
+  ${SRC_DIR}/LibJPEG/jccoefct.c
+  ${SRC_DIR}/LibJPEG/jccolor.c
+  ${SRC_DIR}/LibJPEG/jcdctmgr.c
+  ${SRC_DIR}/LibJPEG/jchuff.c
+  ${SRC_DIR}/LibJPEG/jcinit.c
+  ${SRC_DIR}/LibJPEG/jcmainct.c
+  ${SRC_DIR}/LibJPEG/jcmarker.c
+  ${SRC_DIR}/LibJPEG/jcmaster.c
+  ${SRC_DIR}/LibJPEG/jcomapi.c
+  ${SRC_DIR}/LibJPEG/jconfig.h
+  ${SRC_DIR}/LibJPEG/jcparam.c
+  ${SRC_DIR}/LibJPEG/jcprepct.c
+  ${SRC_DIR}/LibJPEG/jcsample.c
+  ${SRC_DIR}/LibJPEG/jctrans.c
+  ${SRC_DIR}/LibJPEG/jdapimin.c
+  ${SRC_DIR}/LibJPEG/jdapistd.c
+  ${SRC_DIR}/LibJPEG/jdarith.c
+  ${SRC_DIR}/LibJPEG/jdatadst.c
+  ${SRC_DIR}/LibJPEG/jdatasrc.c
+  ${SRC_DIR}/LibJPEG/jdcoefct.c
+  ${SRC_DIR}/LibJPEG/jdcolor.c
+  ${SRC_DIR}/LibJPEG/jdct.h
+  ${SRC_DIR}/LibJPEG/jddctmgr.c
+  ${SRC_DIR}/LibJPEG/jdhuff.c
+  ${SRC_DIR}/LibJPEG/jdinput.c
+  ${SRC_DIR}/LibJPEG/jdmainct.c
+  ${SRC_DIR}/LibJPEG/jdmarker.c
+  ${SRC_DIR}/LibJPEG/jdmaster.c
+  ${SRC_DIR}/LibJPEG/jdmerge.c
+  ${SRC_DIR}/LibJPEG/jdpostct.c
+  ${SRC_DIR}/LibJPEG/jdsample.c
+  ${SRC_DIR}/LibJPEG/jdtrans.c
+  ${SRC_DIR}/LibJPEG/jerror.c
+  ${SRC_DIR}/LibJPEG/jfdctflt.c
+  ${SRC_DIR}/LibJPEG/jfdctfst.c
+  ${SRC_DIR}/LibJPEG/jfdctint.c
+  ${SRC_DIR}/LibJPEG/jidctflt.c
+  ${SRC_DIR}/LibJPEG/jidctfst.c
+  ${SRC_DIR}/LibJPEG/jidctint.c
+  ${SRC_DIR}/LibJPEG/jmemmgr.c
+  ${SRC_DIR}/LibJPEG/jmemnobs.c
+  ${SRC_DIR}/LibJPEG/jmemsys.h
+  ${SRC_DIR}/LibJPEG/jmorecfg.h
+  ${SRC_DIR}/LibJPEG/jpegint.h
+  ${SRC_DIR}/LibJPEG/jpeglib.h
+  ${SRC_DIR}/LibJPEG/jquant1.c
+  ${SRC_DIR}/LibJPEG/jquant2.c
+  ${SRC_DIR}/LibJPEG/jutils.c
+  ${SRC_DIR}/LibJPEG/jversion.h
+  ${SRC_DIR}/LibJPEG/transupp.c
+  ${SRC_DIR}/LibJPEG/transupp.h
+
+
+
+  ${SRC_DIR}/LibOpenJPEG/bio.c
+  ${SRC_DIR}/LibOpenJPEG/bio.h
+  ${SRC_DIR}/LibOpenJPEG/cio.c
+  ${SRC_DIR}/LibOpenJPEG/cio.h
+  ${SRC_DIR}/LibOpenJPEG/dwt.c
+  ${SRC_DIR}/LibOpenJPEG/dwt.h
+  ${SRC_DIR}/LibOpenJPEG/event.c
+  ${SRC_DIR}/LibOpenJPEG/event.h
+  ${SRC_DIR}/LibOpenJPEG/function_list.c
+  ${SRC_DIR}/LibOpenJPEG/function_list.h
+  ${SRC_DIR}/LibOpenJPEG/image.c
+  ${SRC_DIR}/LibOpenJPEG/image.h
+  ${SRC_DIR}/LibOpenJPEG/invert.c
+  ${SRC_DIR}/LibOpenJPEG/invert.h
+  ${SRC_DIR}/LibOpenJPEG/j2k.c
+  ${SRC_DIR}/LibOpenJPEG/j2k.h
+  ${SRC_DIR}/LibOpenJPEG/jp2.c
+  ${SRC_DIR}/LibOpenJPEG/jp2.h
+  ${SRC_DIR}/LibOpenJPEG/mct.c
+  ${SRC_DIR}/LibOpenJPEG/mct.h
+  ${SRC_DIR}/LibOpenJPEG/mqc.c
+  ${SRC_DIR}/LibOpenJPEG/mqc.h
+  ${SRC_DIR}/LibOpenJPEG/openjpeg.c
+  ${SRC_DIR}/LibOpenJPEG/openjpeg.h
+  ${SRC_DIR}/LibOpenJPEG/opj_clock.c
+  ${SRC_DIR}/LibOpenJPEG/opj_clock.h
+  ${SRC_DIR}/LibOpenJPEG/opj_codec.h
+  ${SRC_DIR}/LibOpenJPEG/opj_config.h
+  ${SRC_DIR}/LibOpenJPEG/opj_config_private.h
+  ${SRC_DIR}/LibOpenJPEG/opj_includes.h
+  ${SRC_DIR}/LibOpenJPEG/opj_intmath.h
+  ${SRC_DIR}/LibOpenJPEG/opj_inttypes.h
+  ${SRC_DIR}/LibOpenJPEG/opj_malloc.h
+  ${SRC_DIR}/LibOpenJPEG/opj_stdint.h
+  ${SRC_DIR}/LibOpenJPEG/pi.c
+  ${SRC_DIR}/LibOpenJPEG/pi.h
+  ${SRC_DIR}/LibOpenJPEG/raw.c
+  ${SRC_DIR}/LibOpenJPEG/raw.h
+  ${SRC_DIR}/LibOpenJPEG/t1.c
+  ${SRC_DIR}/LibOpenJPEG/t1.h
+  ${SRC_DIR}/LibOpenJPEG/t2.c
+  ${SRC_DIR}/LibOpenJPEG/t2.h
+  ${SRC_DIR}/LibOpenJPEG/tcd.c
+  ${SRC_DIR}/LibOpenJPEG/tcd.h
+  ${SRC_DIR}/LibOpenJPEG/tgt.c
+  ${SRC_DIR}/LibOpenJPEG/tgt.h
+
+  ${SRC_DIR}/LibPNG/png.c
+  ${SRC_DIR}/LibPNG/png.h
+  ${SRC_DIR}/LibPNG/pngconf.h
+  ${SRC_DIR}/LibPNG/pngdebug.h
+  ${SRC_DIR}/LibPNG/pngerror.c
+  ${SRC_DIR}/LibPNG/pngget.c
+  ${SRC_DIR}/LibPNG/pnginfo.h
+  ${SRC_DIR}/LibPNG/pnglibconf.h
+  ${SRC_DIR}/LibPNG/pngmem.c
+  ${SRC_DIR}/LibPNG/pngpread.c
+  ${SRC_DIR}/LibPNG/pngpriv.h
+  ${SRC_DIR}/LibPNG/pngread.c
+  ${SRC_DIR}/LibPNG/pngrio.c
+  ${SRC_DIR}/LibPNG/pngrtran.c
+  ${SRC_DIR}/LibPNG/pngrutil.c
+  ${SRC_DIR}/LibPNG/pngset.c
+  ${SRC_DIR}/LibPNG/pngstruct.h
+  ${SRC_DIR}/LibPNG/pngtrans.c
+  ${SRC_DIR}/LibPNG/pngwio.c
+  ${SRC_DIR}/LibPNG/pngwrite.c
+  ${SRC_DIR}/LibPNG/pngwtran.c
+  ${SRC_DIR}/LibPNG/pngwutil.c
+
+  ${SRC_DIR}/ZLib/adler32.c
+  ${SRC_DIR}/ZLib/compress.c
+  ${SRC_DIR}/ZLib/crc32.c
+  ${SRC_DIR}/ZLib/crc32.h
+  ${SRC_DIR}/ZLib/deflate.c
+  ${SRC_DIR}/ZLib/deflate.h
+  ${SRC_DIR}/ZLib/gzclose.c
+  ${SRC_DIR}/ZLib/gzguts.h
+  ${SRC_DIR}/ZLib/gzlib.c
+  ${SRC_DIR}/ZLib/gzread.c
+  ${SRC_DIR}/ZLib/gzwrite.c
+  ${SRC_DIR}/ZLib/infback.c
+  ${SRC_DIR}/ZLib/inffast.c
+  ${SRC_DIR}/ZLib/inffixed.h
+  ${SRC_DIR}/ZLib/inflate.c
+  ${SRC_DIR}/ZLib/inflate.h
+  ${SRC_DIR}/ZLib/inftrees.c
+  ${SRC_DIR}/ZLib/inftrees.h
+  ${SRC_DIR}/ZLib/trees.c
+  ${SRC_DIR}/ZLib/trees.h
+  ${SRC_DIR}/ZLib/uncompr.c
+  ${SRC_DIR}/ZLib/zconf.h
+  ${SRC_DIR}/ZLib/zlib.h
+  ${SRC_DIR}/ZLib/zutil.c
+  ${SRC_DIR}/ZLib/zutil.h
+
+  ${SRC_DIR}/LibJXR/image/decode/decode.c
+  ${SRC_DIR}/LibJXR/image/decode/decode.h
+  ${SRC_DIR}/LibJXR/image/decode/JXRTranscode.c
+  ${SRC_DIR}/LibJXR/image/decode/postprocess.c
+  ${SRC_DIR}/LibJXR/image/decode/segdec.c
+  ${SRC_DIR}/LibJXR/image/decode/strdec.c
+  ${SRC_DIR}/LibJXR/image/decode/strdec_x86.c
+  ${SRC_DIR}/LibJXR/image/decode/strInvTransform.c
+  ${SRC_DIR}/LibJXR/image/decode/strPredQuantDec.c
+  ${SRC_DIR}/LibJXR/image/encode/encode.c
+  ${SRC_DIR}/LibJXR/image/encode/encode.h
+  ${SRC_DIR}/LibJXR/image/encode/segenc.c
+  ${SRC_DIR}/LibJXR/image/encode/strenc.c
+  ${SRC_DIR}/LibJXR/image/encode/strenc_x86.c
+  ${SRC_DIR}/LibJXR/image/encode/strFwdTransform.c
+  ${SRC_DIR}/LibJXR/image/encode/strPredQuantEnc.c
+  ${SRC_DIR}/LibJXR/image/sys/adapthuff.c
+  ${SRC_DIR}/LibJXR/image/sys/ansi.h
+  ${SRC_DIR}/LibJXR/image/sys/common.h
+  ${SRC_DIR}/LibJXR/image/sys/image.c
+  ${SRC_DIR}/LibJXR/image/sys/perfTimer.h
+  ${SRC_DIR}/LibJXR/image/sys/perfTimerANSI.c
+  ${SRC_DIR}/LibJXR/image/sys/strcodec.c
+  ${SRC_DIR}/LibJXR/image/sys/strcodec.h
+  ${SRC_DIR}/LibJXR/image/sys/strPredQuant.c
+  ${SRC_DIR}/LibJXR/image/sys/strTransform.c
+  ${SRC_DIR}/LibJXR/image/sys/strTransform.h
+  ${SRC_DIR}/LibJXR/image/sys/windowsmediaphoto.h
+  ${SRC_DIR}/LibJXR/image/sys/xplatform_image.h
+  ${SRC_DIR}/LibJXR/image/x86/x86.h
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRGlue.c
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRGlue.h
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRGlueJxr.c
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRGluePFC.c
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRMeta.c
+  ${SRC_DIR}/LibJXR/jxrgluelib/JXRMeta.h
+
+  ${SRC_DIR}/LibWebP/src/dec/alphai.h
+  ${SRC_DIR}/LibWebP/src/dec/dec_alpha.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_buffer.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_frame.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_idec.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_io.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_layer.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_quant.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_tree.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_vp8.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_vp8l.c
+  ${SRC_DIR}/LibWebP/src/dec/dec_webp.c
+  ${SRC_DIR}/LibWebP/src/dec/decode_vp8.h
+  ${SRC_DIR}/LibWebP/src/dec/vp8i.h
+  ${SRC_DIR}/LibWebP/src/dec/vp8li.h
+  ${SRC_DIR}/LibWebP/src/dec/webpi.h
+  ${SRC_DIR}/LibWebP/src/demux/demux.c
+  ${SRC_DIR}/LibWebP/src/dsp/cpu.c
+  ${SRC_DIR}/LibWebP/src/dsp/dec.c
+  ${SRC_DIR}/LibWebP/src/dsp/dec_clip_tables.c
+  ${SRC_DIR}/LibWebP/src/dsp/dec_mips32.c
+  ${SRC_DIR}/LibWebP/src/dsp/dec_neon.c
+  ${SRC_DIR}/LibWebP/src/dsp/dec_sse2.c
+  ${SRC_DIR}/LibWebP/src/dsp/dsp.h
+  ${SRC_DIR}/LibWebP/src/dsp/enc.c
+  ${SRC_DIR}/LibWebP/src/dsp/enc_neon.c
+  ${SRC_DIR}/LibWebP/src/dsp/enc_sse2.c
+  ${SRC_DIR}/LibWebP/src/dsp/lossless.c
+  ${SRC_DIR}/LibWebP/src/dsp/lossless.h
+  ${SRC_DIR}/LibWebP/src/dsp/upsampling.c
+  ${SRC_DIR}/LibWebP/src/dsp/upsampling_mips32.c
+  ${SRC_DIR}/LibWebP/src/dsp/upsampling_neon.c
+  ${SRC_DIR}/LibWebP/src/dsp/upsampling_sse2.c
+  ${SRC_DIR}/LibWebP/src/dsp/yuv.c
+  ${SRC_DIR}/LibWebP/src/dsp/yuv.h
+  ${SRC_DIR}/LibWebP/src/enc/backward_references.h
+  ${SRC_DIR}/LibWebP/src/enc/cost.h
+  ${SRC_DIR}/LibWebP/src/enc/enc_alpha.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_analysis.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_backward_references.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_config.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_cost.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_filter.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_frame.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_histogram.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_iterator.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_layer.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_picture.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_quant.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_syntax.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_tree.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_vp8l.c
+  ${SRC_DIR}/LibWebP/src/enc/enc_webpenc.c
+  ${SRC_DIR}/LibWebP/src/enc/histogram.h
+  ${SRC_DIR}/LibWebP/src/enc/token.c
+  ${SRC_DIR}/LibWebP/src/enc/vp8enci.h
+  ${SRC_DIR}/LibWebP/src/enc/vp8li.h
+  ${SRC_DIR}/LibWebP/src/mux/muxedit.c
+  ${SRC_DIR}/LibWebP/src/mux/muxi.h
+  ${SRC_DIR}/LibWebP/src/mux/muxinternal.c
+  ${SRC_DIR}/LibWebP/src/mux/muxread.c
+  ${SRC_DIR}/LibWebP/src/utils/alpha_processing.c
+  ${SRC_DIR}/LibWebP/src/utils/alpha_processing.h
+  ${SRC_DIR}/LibWebP/src/utils/bit_reader.c
+  ${SRC_DIR}/LibWebP/src/utils/bit_reader.h
+  ${SRC_DIR}/LibWebP/src/utils/bit_writer.c
+  ${SRC_DIR}/LibWebP/src/utils/bit_writer.h
+  ${SRC_DIR}/LibWebP/src/utils/color_cache.c
+  ${SRC_DIR}/LibWebP/src/utils/color_cache.h
+  ${SRC_DIR}/LibWebP/src/utils/filters.c
+  ${SRC_DIR}/LibWebP/src/utils/filters.h
+  ${SRC_DIR}/LibWebP/src/utils/huffman.c
+  ${SRC_DIR}/LibWebP/src/utils/huffman.h
+  ${SRC_DIR}/LibWebP/src/utils/huffman_encode.c
+  ${SRC_DIR}/LibWebP/src/utils/huffman_encode.h
+  ${SRC_DIR}/LibWebP/src/utils/quant_levels.c
+  ${SRC_DIR}/LibWebP/src/utils/quant_levels.h
+  ${SRC_DIR}/LibWebP/src/utils/quant_levels_dec.c
+  ${SRC_DIR}/LibWebP/src/utils/quant_levels_dec.h
+  ${SRC_DIR}/LibWebP/src/utils/random.c
+  ${SRC_DIR}/LibWebP/src/utils/random.h
+  ${SRC_DIR}/LibWebP/src/utils/rescaler.c
+  ${SRC_DIR}/LibWebP/src/utils/rescaler.h
+  ${SRC_DIR}/LibWebP/src/utils/thread.c
+  ${SRC_DIR}/LibWebP/src/utils/thread.h
+  ${SRC_DIR}/LibWebP/src/utils/utils.c
+  ${SRC_DIR}/LibWebP/src/utils/utils.h
+  ${SRC_DIR}/LibWebP/src/webp/decode.h
+  ${SRC_DIR}/LibWebP/src/webp/demux.h
+  ${SRC_DIR}/LibWebP/src/webp/encode.h
+  ${SRC_DIR}/LibWebP/src/webp/format_constants.h
+  ${SRC_DIR}/LibWebP/src/webp/mux.h
+  ${SRC_DIR}/LibWebP/src/webp/mux_types.h
+  ${SRC_DIR}/LibWebP/src/webp/types.h
+
+  ${SRC_DIR}/LibTIFF4/tif_aux.c
+  ${SRC_DIR}/LibTIFF4/tif_close.c
+  ${SRC_DIR}/LibTIFF4/tif_codec.c
+  ${SRC_DIR}/LibTIFF4/tif_color.c
+  ${SRC_DIR}/LibTIFF4/tif_compress.c
+  ${SRC_DIR}/LibTIFF4/tif_config.h
+  ${SRC_DIR}/LibTIFF4/tif_dir.c
+  ${SRC_DIR}/LibTIFF4/tif_dir.h
+  ${SRC_DIR}/LibTIFF4/tif_dirinfo.c
+  ${SRC_DIR}/LibTIFF4/tif_dirread.c
+  ${SRC_DIR}/LibTIFF4/tif_dirwrite.c
+  ${SRC_DIR}/LibTIFF4/tif_dumpmode.c
+  ${SRC_DIR}/LibTIFF4/tif_error.c
+  ${SRC_DIR}/LibTIFF4/tif_extension.c
+  ${SRC_DIR}/LibTIFF4/tif_fax3.c
+  ${SRC_DIR}/LibTIFF4/tif_fax3.h
+  ${SRC_DIR}/LibTIFF4/tif_fax3sm.c
+  ${SRC_DIR}/LibTIFF4/tif_flush.c
+  ${SRC_DIR}/LibTIFF4/tif_getimage.c
+  ${SRC_DIR}/LibTIFF4/tif_jbig.c
+  ${SRC_DIR}/LibTIFF4/tif_jpeg.c
+  ${SRC_DIR}/LibTIFF4/tif_jpeg_12.c
+  ${SRC_DIR}/LibTIFF4/tif_luv.c
+  ${SRC_DIR}/LibTIFF4/tif_lzma.c
+  ${SRC_DIR}/LibTIFF4/tif_lzw.c
+  ${SRC_DIR}/LibTIFF4/tif_next.c
+  ${SRC_DIR}/LibTIFF4/tif_ojpeg.c
+  ${SRC_DIR}/LibTIFF4/tif_open.c
+  ${SRC_DIR}/LibTIFF4/tif_packbits.c
+  ${SRC_DIR}/LibTIFF4/tif_pixarlog.c
+  ${SRC_DIR}/LibTIFF4/tif_predict.c
+  ${SRC_DIR}/LibTIFF4/tif_predict.h
+  ${SRC_DIR}/LibTIFF4/tif_print.c
+  ${SRC_DIR}/LibTIFF4/tif_read.c
+  ${SRC_DIR}/LibTIFF4/tif_stream.cxx
+  ${SRC_DIR}/LibTIFF4/tif_strip.c
+  ${SRC_DIR}/LibTIFF4/tif_swab.c
+  ${SRC_DIR}/LibTIFF4/tif_strip.c
+  ${SRC_DIR}/LibTIFF4/tif_thunder.c
+  ${SRC_DIR}/LibTIFF4/tif_tile.c
+  ${SRC_DIR}/LibTIFF4/tif_version.c
+  ${SRC_DIR}/LibTIFF4/tif_warning.c
+  ${SRC_DIR}/LibTIFF4/tif_write.c
+  ${SRC_DIR}/LibTIFF4/tif_zip.c
+  ${SRC_DIR}/LibTIFF4/tiff.h
+  ${SRC_DIR}/LibTIFF4/tiffconf.h
+  ${SRC_DIR}/LibTIFF4/tiffio.h
+  ${SRC_DIR}/LibTIFF4/tiffio.hxx
+  ${SRC_DIR}/LibTIFF4/tiffiop.h
+  ${SRC_DIR}/LibTIFF4/tiffvers.h
+  ${SRC_DIR}/LibTIFF4/uvcode.h
+
+
+  ${SRC_DIR}/LibRawLite/internal/dcraw_common.cpp
+  ${SRC_DIR}/LibRawLite/internal/dcraw_fileio.cpp
+  ${SRC_DIR}/LibRawLite/internal/demosaic_packs.cpp
+  ${SRC_DIR}/LibRawLite/src/libraw_c_api.cpp
+  ${SRC_DIR}/LibRawLite/src/libraw_cxx.cpp
+  ${SRC_DIR}/LibRawLite/src/libraw_datastream.cpp
+
+  ${SRC_DIR}/Metadata/Exif.cpp
+  ${SRC_DIR}/Metadata/FIRational.cpp
+  ${SRC_DIR}/Metadata/FIRational.h
+  ${SRC_DIR}/Metadata/FreeImageTag.cpp
+  ${SRC_DIR}/Metadata/FreeImageTag.h
+  ${SRC_DIR}/Metadata/IPTC.cpp
+  ${SRC_DIR}/Metadata/TagConversion.cpp
+  ${SRC_DIR}/Metadata/TagLib.cpp
+  ${SRC_DIR}/Metadata/XTIFF.cpp
+
+  ${SRC_DIR}/OpenEXR/Half/half.cpp
+  ${SRC_DIR}/OpenEXR/Half/half.h
+  ${SRC_DIR}/OpenEXR/Iex/IexBaseExc.cpp
+  ${SRC_DIR}/OpenEXR/Iex/IexThrowErrnoExc.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfB44Compressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfBoxAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfBoxAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChannelList.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChannelList.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChannelListAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChannelListAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCheckedArithmetic.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChromaticities.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChromaticities.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChromaticitiesAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfChromaticitiesAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCompression.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCompressionAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCompressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCompressor.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfConvert.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfConvert.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCRgbaFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfCRgbaFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfDoubleAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfDoubleAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfEnvmap.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfEnvmap.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfEnvmapAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfEnvmapAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFloatAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFloatAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFrameBuffer.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFrameBuffer.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFramesPerSecond.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfFramesPerSecond.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfHeader.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfHeader.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfHuf.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfHuf.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfInputFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfInputFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfInt64.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfIntAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfIntAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfIO.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfIO.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfKeyCode.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfKeyCode.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfKeyCodeAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfKeyCodeAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfLineOrder.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfLineOrderAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfLineOrderAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfLut.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfLut.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMatrixAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMatrixAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMisc.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMisc.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMultiView.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfMultiView.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfName.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfOpaqueAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfOpaqueAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfOutputFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfOutputFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPixelType.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPizCompressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPizCompressor.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPreviewImage.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPreviewImage.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPreviewImageAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPreviewImageAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPxr24Compressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfPxr24Compressor.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRational.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRational.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRationalAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRationalAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRgba.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRgbaFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRgbaFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRgbaYca.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRgbaYca.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRleCompressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfRleCompressor.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfScanLineInputFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfScanLineInputFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStandardAttributes.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStandardAttributes.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStdIO.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStdIO.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStringAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStringAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStringVectorAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfStringVectorAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTestFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTestFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfThreading.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfThreading.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTileDescription.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTileDescriptionAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTileDescriptionAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledInputFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledInputfile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledMisc.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledMisc.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledOutputFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledOutputfile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledRgbaFile.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTiledRgbaFile.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTileOffsets.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTileOffsets.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTimeCode.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTimeCode.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTimeCodeAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfTimeCodeAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfVecAttribute.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfVecAttribute.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfVersion.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfVersion.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfWav.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfWav.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfXdr.h
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfZipCompressor.cpp
+  ${SRC_DIR}/OpenEXR/IlmImf/ImfZipCompressor.h
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThread.cpp
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThread.h
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadMutex.cpp
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadMutex.h
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadPool.cpp
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadPool.h
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadSemaphore.cpp
+  ${SRC_DIR}/OpenEXR/IlmThread/IlmThreadSemaphore.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathBox.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathBox.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathColorAlgo.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathColorAlgo.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathEuler.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathExc.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathFrame.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathFrustum.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathFrustumTest.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathFun.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathFun.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathMatrixAlgo.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathMatrixAlgo.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathRandom.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathRandom.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathShear.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathShear.h
+  ${SRC_DIR}/OpenEXR/Imath/ImathVec.cpp
+  ${SRC_DIR}/OpenEXR/Imath/ImathVec.h
+)
+
+#TODO I have to add to LibTIFF4 windows and linux specific files.
+
+#
+# Create the FreeImage library
+#
+add_library(${FreeImageLibrary} SHARED
+    ${SOURCE_FILES}
+)
+
+#
+# Add include directories
+#
+include_directories(
+  ${SRC_DIR}
+  ${SRC_DIR}/FreeImage
+  ${SRC_DIR}/LibJPEG
+  ${SRC_DIR}/LibJXR
+  ${SRC_DIR}/LibJXR/common/include
+  ${SRC_DIR}/LibJXR/image/decode
+  ${SRC_DIR}/LibJXR/image/encode
+  ${SRC_DIR}/LibJXR/image/sys
+  ${SRC_DIR}/LibJXR/image/x86
+  ${SRC_DIR}/LibJXR/jxrgluelib
+
+  ${SRC_DIR}/LibOpenJPEG
+  ${SRC_DIR}/LibPNG
+  ${SRC_DIR}/LibRawLite
+  ${SRC_DIR}/LibTIFF4
+  ${SRC_DIR}/LibWebP
+  ${SRC_DIR}/Metadata
+
+  ${SRC_DIR}/OpenEXR
+  ${SRC_DIR}/OpenEXR/Half
+  ${SRC_DIR}/OpenEXR/Iex
+  ${SRC_DIR}/OpenEXR/IlmImf
+  ${SRC_DIR}/OpenEXR/IlmThread
+  ${SRC_DIR}/OpenEXR/Imath
+
+  ${SRC_DIR}/ZLib
+)
