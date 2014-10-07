@@ -147,9 +147,9 @@ void main() {
 		//
 		// Reflection stuff.
 		//
-		vec3 idir = vec3(-v.x, v.y, -v.z);
-		vec3 reflection = texture(reflectionTextureCube,reflect(idir, -n)).rgb;
-		diffuse.rgb = mix(diffuse.rgb, reflection, 0.0);
+	//	vec3 idir = vec3(-v.x, v.y, -v.z);
+	//	vec3 reflection = texture(reflectionTextureCube, reflect(idir, -n)).rgb;
+//		diffuse.rgb = mix(diffuse.rgb, reflection, 0.0);
 
 		//
 		// Shading stuff.
@@ -159,6 +159,11 @@ void main() {
 		//color0.rgb = SoanLight.ambient + blinn_phong(ndotl, ndoth, SoanLight.specular, diffuse.rgb, roughness);
 		//	color0.rgb = vec3(visibility);
 	}
+	
+	//
+	// Do gamma correction.
+	//
+	color0.rgb = pow( color0.rgb, vec3(1.0/2.2) );
 
 
 }

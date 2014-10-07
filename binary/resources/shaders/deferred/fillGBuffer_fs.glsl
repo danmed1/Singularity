@@ -48,7 +48,8 @@ layout(location = 2) out vec4 diffuseTarget;
 
 
 vec3 createNormals(Material material, mat3 tbn, vec2 texCoord) {
-	vec3 nn = 2.0*texture(material.normalMap, texCoord).xyz - 1;
+	vec3 nn =  (2.0*texture(material.normalMap, texCoord).xyz - 1);
+//	nn.z *= -1;
 	return normalize(tbn * nn);
 }
 
@@ -61,7 +62,7 @@ vec2 calcParallaxTextureCoords(Material material, mat3 tbnMatrix, vec3 v, vec2 t
 vec2 calcSteepParallaxTextureCoords(Material material, mat3 tbnMatrix, vec3 v, vec2 texCoords, float scale, float bias) {
 	vec2 textureCoordinate = texCoords;
 
-	float n = 15;
+	float n = 20;
 
 	float step = 1.0 / n;
 
@@ -168,6 +169,6 @@ void main() {
 		diffuseTarget.a = 0.0;
 	}
 
-//diffuseTarget = texture(SoanMaterial.displacementMap,fragment.texCoord);
+	//diffuseTarget.rgb = binormal.rgb;//texture(SoanMaterial.normalMap,fragment.texCoord);
 
 }
