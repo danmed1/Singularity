@@ -4,16 +4,19 @@ namespace soan {
 
 	Light::Light(const Type& type) :
 		m_type(type),
-		m_intensity(3.0) {
+		m_intensity(2.0) {
 
 		m_specular[0] = 1.0f;
 		m_specular[1] = 1.0f;
 		m_specular[2] = 1.0f;
 
-		m_ambient[0] = 0.1f;
-		m_ambient[1] = 0.1f;
-		m_ambient[2] = 0.1f;
-		
+		m_ambient[0] = 0.05f;
+		m_ambient[1] = 0.05f;
+		m_ambient[2] = 0.05f;
+
+	}
+
+	Light::~Light() {
 	}
 
 	const Light::Type& Light::getType() const {

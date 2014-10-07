@@ -303,6 +303,10 @@
     <File Name="README.md"/>
     <File Name="Version.txt"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Debug_MacOSX"/>
+  <Dependencies Name="Release_Linux"/>
+  <Dependencies Name="Release_MacOSX"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -382,7 +386,7 @@
       </Completion>
     </Configuration>
     <Configuration Name="Debug_MacOSX" CompilerType="gnu g++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-g;-std=c++11" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Compiler Options="-Wmain;-g;-pedantic;-Wall;-std=c++11" C_Options="-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
       <Linker Options="-framework OpenGL" Required="yes">
         <LibraryPath Value="$(XDEVL_HOME)/lib"/>
         <LibraryPath Value="dependencies/bullet/lib/macosx"/>
@@ -520,8 +524,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug_Linux"/>
-  <Dependencies Name="Debug_MacOSX"/>
-  <Dependencies Name="Release_Linux"/>
-  <Dependencies Name="Release_MacOSX"/>
 </CodeLite_Project>

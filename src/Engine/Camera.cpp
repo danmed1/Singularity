@@ -16,6 +16,9 @@ namespace soan {
 
 	}
 
+	Camera::~Camera() {
+	}
+
 	unsigned int Camera::getViewPortWidth() {
 		return m_viewPortWidth;
 	}

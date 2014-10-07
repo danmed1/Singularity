@@ -13,18 +13,23 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_coreRunning(xdl::xdl_true),
 	m_mouse_captured(xdl::xdl_false),
 	m_drawMode(1),
+
+	m_gBuffer(nullptr),
+	m_camera(nullptr),
+	m_textureServer(nullptr),
+	m_shadowMap(nullptr),
+	m_gausBlur(nullptr),
+	m_depthOfField(nullptr),
 	m_font2D(nullptr),
+	m_textEngine(nullptr),
 	m_physics(nullptr),
 	m_light(nullptr),
-	m_shadowMap(nullptr),
-	m_depthOfField(nullptr),
-	m_gBuffer(nullptr),
+	m_skybox(nullptr),
 	m_debugMode(xdl::xdl_false),
-	m_cameraMode(xdl::xdl_false),
 	m_spaceShip(nullptr),
 	m_gameInputHandler(nullptr),
 	m_selectedActor(nullptr),
-	m_skybox(nullptr),
+	m_cameraMode(xdl::xdl_false),
 	m_numberOfVertices(0),
 	m_numberOfFaces(0) {
 
@@ -161,8 +166,6 @@ void  Singularity::handleGraphics(double dT) {
 
 	calculateShadowMaps();
 
-	static int counter = 0;
-
 
 	startDeferredLighting();
 
@@ -280,17 +283,17 @@ void  Singularity::handleGraphics(double dT) {
 xdl::xdl_int Singularity::notify(xdl::XdevLEvent& event) {
 	switch(event.type) {
 		case xdl::XDEVL_CORE_EVENT: {
-			if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
-				std::cout << "XDEVL_CORE_SHUTDOWN received.\n";
-				m_coreRunning = xdl::xdl_false;
+				if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
+					std::cout << "XDEVL_CORE_SHUTDOWN received.\n";
+					m_coreRunning = xdl::xdl_false;
+				}
 			}
-		}
-		break;
+			break;
 		case xdl::XDEVL_MOUSE_MOTION: {
-			m_mouse_x = event.motion.x;
-			m_mouse_y = event.motion.y;
-		}
-		break;
+				m_mouse_x = event.motion.x;
+				m_mouse_y = event.motion.y;
+			}
+			break;
 	}
 	return xdl::ERR_OK;
 }
@@ -903,7 +906,6 @@ void Singularity::startDeferredLighting() {
 	//
 	// Render all actors.
 	//
-	std::size_t t = m_renderable.size();
 
 	for(auto& actorObject : m_renderable) {
 		if(!actorObject->isRenderingEnabled()) {
@@ -923,45 +925,45 @@ void Singularity::startDeferredLighting() {
 
 
 	if(xdl::xdl_true == m_debugMode) {
-		
-		
-		
+
+
+
 		for(auto& actorObject : m_renderable) {
 			if(!actorObject->isRenderingEnabled()) {
 				continue;
 			}
-			
-				//
-				// Forward vector -z
-				//
-				const btVector3& from = actorObject->getRigidBody()->getCenterOfMassPosition();
-				btQuaternion orientation = actorObject->getRigidBody()->getOrientation();
-				btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
-				forwardq *= 5.0f;
-				btVector3 forward( from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
-				btVector3 forwardColor(0.0f, 0.0f, 1.0f);
-				m_debugRenderer->drawLine(from, forward, forwardColor, forwardColor);
 
-				//
-				// Right vector x
-				//
-				btQuaternion rightq = orientation * btVector3(1.0f, 0.0f, 0.0f);
-				rightq *= 5.0f;
-				btVector3 right( from.x() + rightq.x(), from.y() + rightq.y(), from.z() + rightq.z());
-				btVector3 rightColor(1.0f, 0.0f, 0.0f);
-				m_debugRenderer->drawLine(from, right, rightColor, rightColor);
+			//
+			// Forward vector -z
+			//
+			const btVector3& from = actorObject->getRigidBody()->getCenterOfMassPosition();
+			btQuaternion orientation = actorObject->getRigidBody()->getOrientation();
+			btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
+			forwardq *= 5.0f;
+			btVector3 forward( from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
+			btVector3 forwardColor(0.0f, 0.0f, 1.0f);
+			m_debugRenderer->drawLine(from, forward, forwardColor, forwardColor);
 
-				//
-				// Up vector y
-				//
-				btQuaternion upq = orientation * btVector3(0.0f, 1.0f, 0.0f);
-				upq *= 5.0f;
-				btVector3 up( from.x() + upq.x(), from.y() + upq.y(), from.z() + upq.z());
-				btVector3 upColor(0.0f, 1.0f, 0.0f);
-				m_debugRenderer->drawLine(from, up, upColor, upColor);
-	
+			//
+			// Right vector x
+			//
+			btQuaternion rightq = orientation * btVector3(1.0f, 0.0f, 0.0f);
+			rightq *= 5.0f;
+			btVector3 right( from.x() + rightq.x(), from.y() + rightq.y(), from.z() + rightq.z());
+			btVector3 rightColor(1.0f, 0.0f, 0.0f);
+			m_debugRenderer->drawLine(from, right, rightColor, rightColor);
+
+			//
+			// Up vector y
+			//
+			btQuaternion upq = orientation * btVector3(0.0f, 1.0f, 0.0f);
+			upq *= 5.0f;
+			btVector3 up( from.x() + upq.x(), from.y() + upq.y(), from.z() + upq.z());
+			btVector3 upColor(0.0f, 1.0f, 0.0f);
+			m_debugRenderer->drawLine(from, up, upColor, upColor);
+
 		}
-		
+
 		//
 		// We have set the model matrix to identity because the lines drawn by bullet are
 		// transformed already.

@@ -107,27 +107,17 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLOpenGL330* 					m_opengl;
 		xdl::XdevLVertexArray* 				vb_framebufferArray;
 		xdl::XdevLVertexShader*				m_fbVertexShader;
-		xdl::XdevLFragmentShader*			m_fbFragmentShader;
-		xdl::XdevLShaderProgram* 			m_fbShaderProgram;
-
-		xdl::xdl_int									m_fbProjectionsMatrix;
-
+		xdl::XdevLFragmentShader*		m_fbFragmentShader;
+		xdl::XdevLShaderProgram* 		m_fbShaderProgram;
 
 		xdl::xdl_int									m_camProjectionsMatrix;
 		xdl::xdl_int									m_camViewMatrix;
 		xdl::xdl_int									m_modelMatrix;
 
-		xdl::xdl_int									m_diffuseTexture;
-		xdl::xdl_int									m_positionTexture;
-		xdl::xdl_int									m_normalTexture;
-		xdl::xdl_int									m_blendTexture;
-		xdl::xdl_int									m_cameraProj;
-		xdl::xdl_int									m_cameraView;
 
 		xdl::xdl_bool 								m_coreRunning;
 		xdl::xdl_uint									m_mouse_x;
 		xdl::xdl_uint									m_mouse_y;
-		xdl::xdl_uint									m_mouse_button;
 
 		xdl::xdl_int									testProj;
 		xdl::xdl_int 									testTex;
@@ -139,23 +129,24 @@ class Singularity : public xdl::XdevLApplication {
 
 		soan::GBuffer* 								m_gBuffer;
 		soan::Camera*									m_camera;
-		soan::Light*									m_light;
 		soan::TextureServer* 					m_textureServer;
 		soan::ShadowMap*							m_shadowMap;
 		soan::GausBlur* 							m_gausBlur;
 		soan::DepthOfField* 					m_depthOfField;
+		soan::XdevLFontImpl*					m_font2D;
+		soan::XdevLTextLayout*				m_textEngine;
 		soan::phys::Physics*					m_physics;
-
+		soan::Light*									m_light;
+		soan::game::SkyBox*						m_skybox;
 
 		soan::utils::FPSCounter 			m_fpsCounter;
-		soan::XdevLFontImpl*						m_font2D;
-		soan::XdevLTextLayout*				m_textEngine;
+
+
 		std::list<soan::game::Renderable*> m_renderable;
 
 
 		xdl::XdevLButton* left_mouse_button;
 		xdl::XdevLButton* right_mouse_button;
-		xdl::XdevLButton* middle_mouse_button;
 
 		xdl::XdevLAxis* 	mouse_x;
 		xdl::XdevLAxis* 	mouse_y;
@@ -213,16 +204,15 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::xdl_double m_old_time;
 		xdl::xdl_double m_dT;
 
-		soan::SingularityDebugDrawer*				m_debugRenderer;
+		soan::SingularityDebugDrawer*			m_debugRenderer;
 		xdl::xdl_bool												m_debugMode;
 
 		soan::game::SpaceShip*							m_spaceShip;
-		soan::game::SpaceShipInputHandler* 	m_gameInputHandler;
+		soan::game::SpaceShipInputHandler* m_gameInputHandler;
 		soan::game::Actor*									m_selectedActor;
 		
 		xdl::xdl_bool 											m_cameraMode;
-		
-		soan::game::SkyBox*									m_skybox;
+
 		
 		std::wstring												m_version;
 		xdl::xdl_uint												m_numberOfVertices;

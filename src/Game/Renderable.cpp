@@ -4,9 +4,14 @@ namespace soan {
 
 	namespace game {
 
-		Renderable::Renderable() : m_physics(nullptr), m_model(nullptr), m_body(nullptr), m_renderingEnabled(xdl::xdl_false),
-			m_mass(1.0f),
-			m_castShadow(xdl::xdl_true) {
+		Renderable::Renderable() :	m_physics(nullptr),	 
+																m_model(nullptr), 
+																m_body(nullptr),
+																m_motionState(nullptr),
+																m_colShape(nullptr),
+																m_renderingEnabled(xdl::xdl_false),
+																m_castShadow(xdl::xdl_true),
+																m_mass(1.0f) {
 
 		}
 

@@ -18,6 +18,8 @@ namespace soan {
 
 			Light(const Type& type);
 
+			virtual ~Light();
+
 			/// Returns the type of the light.
 			const Type& getType() const;
 

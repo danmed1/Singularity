@@ -15,8 +15,8 @@ namespace soan {
 		m_camera(camera),
 		m_viewPortWidth(320),
 		m_viewPortHeight(200),
-		m_debugMode(0),
 		m_skyBoxTexture(nullptr),
+		m_debugMode(0),
 		m_reflectionTextureCube(nullptr) {
 
 

@@ -34,6 +34,8 @@ namespace soan {
 
 			Camera();
 			
+			virtual ~Camera();
+			
 			/// Rotate camera like a First Person game.
 			/**
 				The angles must be in world coordinate system.

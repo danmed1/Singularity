@@ -312,8 +312,6 @@ namespace soan {
 	}
 
 	void TextureServer::removeAll() {
-		//start at the begginning of the texture map
-		textureMapType::iterator i = m_texID.begin();
 
 		//Unload the textures untill the end of the texture map is found
 		for(auto& texture : m_texID) {
