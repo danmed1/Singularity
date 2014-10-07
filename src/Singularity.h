@@ -213,7 +213,8 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::xdl_double m_old_time;
 		xdl::xdl_double m_dT;
 
-		xdl::xdl_bool		m_debugMode;
+		soan::SingularityDebugDrawer*				m_debugRenderer;
+		xdl::xdl_bool												m_debugMode;
 
 		soan::game::SpaceShip*							m_spaceShip;
 		soan::game::SpaceShipInputHandler* 	m_gameInputHandler;

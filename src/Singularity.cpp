@@ -2,6 +2,7 @@
 #include "Engine/Mesh.h"
 #include "Engine/Types.h"
 #include "Utils/AssimpToModel.h"
+#include <LinearMath/btQuaternion.h>
 #include <random>
 #include <string>
 #include <locale>
@@ -333,8 +334,10 @@ xdl::xdl_int Singularity::initializeEngine() {
 	Singularity::m_textureServer = soan::TextureServer::Inst();
 	soan::TextureServer::Inst()->init(get3DProcessor(), "resources/models/");
 
+	m_debugRenderer = new soan::SingularityDebugDrawer(get3DProcessor());
+
 	m_physics = new soan::phys::Physics();
-	m_physics->init(new soan::SingularityDebugDrawer(get3DProcessor()));
+	m_physics->init(m_debugRenderer);
 
 	m_font2D = new soan::XdevLFontImpl(getWindow(), get3DProcessor());
 	soan::TextureServer::Inst()->setResourcePathPrefix("./");
@@ -481,29 +484,28 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 //		model.loadAsset("resources/models/HN48/Federation Interceptor HN48 flying.obj");
-//			model.loadAsset("resources/models/box.obj");
-//			model.loadAsset("resources/models/scene.obj");
+//		model.loadAsset("resources/models/scene.obj");
 //		model.loadAsset("resources/models/sponza/sponza.obj");
 //		model.loadAsset("resources/models/sphere.obj");
 
 
 
-//	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
-//	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-//		for(unsigned int as = 0; as < 150; as++) {
-//			soan::game::Astroid* astroid 	= new soan::game::Astroid();
-//			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
-//			astroid->setPhysics(m_physics, 0.1f);
-//			astroid->setLifeTime(0);
-//			m_renderable.push_back(astroid);
-//
-//			m_numberOfVertices += model->getNumberOfVertices();
-//			m_numberOfFaces += model->getNumberOfFaces();
-//		}
-//	} else {
-//		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
-//		return xdl::ERR_ERROR;
-//	}
+	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
+	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
+		for(unsigned int as = 0; as < 1; as++) {
+			soan::game::Astroid* astroid 	= new soan::game::Astroid();
+			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
+			astroid->setPhysics(m_physics, 0.1f);
+			astroid->setLifeTime(0);
+			m_renderable.push_back(astroid);
+
+			m_numberOfVertices += model->getNumberOfVertices();
+			m_numberOfFaces += model->getNumberOfFaces();
+		}
+	} else {
+		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
+		return xdl::ERR_ERROR;
+	}
 
 
 //	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
@@ -562,33 +564,33 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-//	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
-//
-//	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
-//	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
-//		for(unsigned int as = 0; as < 2; as++) {
-//			soan::game::Planet* planet = new soan::game::Planet();
-//			planet->setName("Earth");
-//			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
-//			std::cout << "Material: " << planet->getModel().get()->getMesh(0)<< std::endl;
-//			planet->setLifeTime(0);
-//			planet->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(true);
-//			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
-//			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
-//			planet->setPhysics(m_physics, 10.0);
-//			planet->getModel()->setPosition(0.0f, 0.0f, -100.0f);
-//			m_renderable.push_back(planet);
-//
-//			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
-//			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
-//
-//			//		m_selectedActor = planet;
-//			//	m_camera->startTrackObject(planet->getModel());
-//		}
-//	} else {
-//		return xdl::ERR_ERROR;
-//	}
-//
+	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
+
+	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
+	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
+		for(unsigned int as = 0; as < 2; as++) {
+			soan::game::Planet* planet = new soan::game::Planet();
+			planet->setName("Earth");
+			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
+			std::cout << "Material: " << planet->getModel().get()->getMesh(0)<< std::endl;
+			planet->setLifeTime(0);
+			planet->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(true);
+			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
+			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
+			planet->setPhysics(m_physics, 10.0);
+			planet->getModel()->setPosition(0.0f, 0.0f, -100.0f);
+			m_renderable.push_back(planet);
+
+			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
+			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
+
+			//		m_selectedActor = planet;
+			//	m_camera->startTrackObject(planet->getModel());
+		}
+	} else {
+		return xdl::ERR_ERROR;
+	}
+
 
 
 
@@ -643,7 +645,7 @@ xdl::xdl_int Singularity::initializeInputConnections() {
 	getKeyboard()->getButton(xdl::KEY_6, 					&key_6);
 	getKeyboard()->getButton(xdl::KEY_7, 					&key_7);
 	getKeyboard()->getButton(xdl::KEY_8, 					&key_8);
-	getKeyboard()->getButton(xdl::KEY_9, 					&key_9);	
+	getKeyboard()->getButton(xdl::KEY_9, 					&key_9);
 	getKeyboard()->getButton(xdl::KEY_0, 					&key_0);
 	getKeyboard()->getButton(xdl::KEY_BACKSLASH, 	&key_backslash);
 	getKeyboard()->getButton(xdl::KEY_SLASH, 			&key_slash);
@@ -842,7 +844,7 @@ void Singularity::calculateShadowMaps() {
 
 void Singularity::startDeferredLighting() {
 
-	
+
 	//m_light->setPosition(m_camera->getPosition());
 
 //	glEnable(GL_MULTISAMPLE);
@@ -914,12 +916,52 @@ void Singularity::startDeferredLighting() {
 
 			get3DProcessor()->setActiveVertexArray(mesh->getVertexArray());
 			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);
+
 		}
 
 	}
 
 
 	if(xdl::xdl_true == m_debugMode) {
+		
+		
+		
+		for(auto& actorObject : m_renderable) {
+			if(!actorObject->isRenderingEnabled()) {
+				continue;
+			}
+			
+				//
+				// Forward vector -z
+				//
+				const btVector3& from = actorObject->getRigidBody()->getCenterOfMassPosition();
+				btQuaternion orientation = actorObject->getRigidBody()->getOrientation();
+				btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
+				forwardq *= 5.0f;
+				btVector3 forward( from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
+				btVector3 forwardColor(0.0f, 0.0f, 1.0f);
+				m_debugRenderer->drawLine(from, forward, forwardColor, forwardColor);
+
+				//
+				// Right vector x
+				//
+				btQuaternion rightq = orientation * btVector3(1.0f, 0.0f, 0.0f);
+				rightq *= 5.0f;
+				btVector3 right( from.x() + rightq.x(), from.y() + rightq.y(), from.z() + rightq.z());
+				btVector3 rightColor(1.0f, 0.0f, 0.0f);
+				m_debugRenderer->drawLine(from, right, rightColor, rightColor);
+
+				//
+				// Up vector y
+				//
+				btQuaternion upq = orientation * btVector3(0.0f, 1.0f, 0.0f);
+				upq *= 5.0f;
+				btVector3 up( from.x() + upq.x(), from.y() + upq.y(), from.z() + upq.z());
+				btVector3 upColor(0.0f, 1.0f, 0.0f);
+				m_debugRenderer->drawLine(from, up, upColor, upColor);
+	
+		}
+		
 		//
 		// We have set the model matrix to identity because the lines drawn by bullet are
 		// transformed already.

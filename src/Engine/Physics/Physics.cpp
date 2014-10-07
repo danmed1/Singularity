@@ -35,7 +35,8 @@ namespace soan {
 																		btIDebugDraw::DBG_DrawContactPoints |
 																		btIDebugDraw::DBG_DrawNormals | 
 																		btIDebugDraw::DBG_DrawFrames |
-																		btIDebugDraw::DBG_DrawText);
+																		btIDebugDraw::DBG_DrawText |
+																		btIDebugDraw::DBG_EnableCCD);
 			}
 			return 0;
 		}

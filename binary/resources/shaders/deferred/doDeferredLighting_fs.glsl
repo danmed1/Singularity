@@ -163,7 +163,7 @@ void main() {
 	//
 	// Do gamma correction.
 	//
-	color0.rgb = pow( color0.rgb, vec3(1.0/2.2) );
+	color0.rgb = pow( color0.rgb, vec3(1.0/2.0) );
 
 
 }

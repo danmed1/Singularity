@@ -8,14 +8,23 @@ namespace soan {
 	}
 
 	tmath::vec3 Moveable::getDirection() {
-
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 0.0f, -1.0f);
 		tmath::normalize(tmp);
 		return tmp;
 	}
-	
+
 	tmath::vec3 Moveable::getForwardVector() {
-		tmath::vec4 tmp (getTransformationMatrix() * tmath::vec4(0.0f, 0.0f, -1.0f, 1.0f));
+		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(0.0f, 0.0f, -1.0f, 1.0f));
+		return tmath::vec3(tmp);
+	}
+
+	tmath::vec3 Moveable::getRightVector() {
+		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		return tmath::vec3(tmp);
+	}
+
+	tmath::vec3 Moveable::getUpVector() {
+		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		return tmath::vec3(tmp);
 	}
 
@@ -26,11 +35,11 @@ namespace soan {
 	tmath::quat& Moveable::getOrientation() {
 		return m_orientation;
 	}
-	
+
 	tmath::quat Moveable::getInverseOrientation() {
 		return tmath::inverse(m_orientation);
 	}
-	
+
 	tmath::vec3&  Moveable::getScale() {
 		return m_scale;
 	}

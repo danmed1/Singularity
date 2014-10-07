@@ -33,8 +33,14 @@ namespace soan {
 			/// Return the orientation in world space as matrix.
 			tmath::mat4 getOrientationMatrix();
 
-			/// Returns the forward vector in world space.
+			/// Returns the position of the forward vector in world space in unit length.
 			tmath::vec3 getForwardVector();
+			
+			/// Returns the position of the right vector in world space in unit length.
+			tmath::vec3 getRightVector();
+
+			/// Returns the position of the up vector in world space in unit length.
+			tmath::vec3 getUpVector();
 
 			/// Return the transformation in world space as a matrix.
 			/**

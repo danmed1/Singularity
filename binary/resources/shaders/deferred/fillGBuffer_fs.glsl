@@ -49,8 +49,7 @@ layout(location = 2) out vec4 diffuseTarget;
 
 vec3 createNormals(Material material, mat3 tbn, vec2 texCoord) {
 	vec3 nn =  (2.0*texture(material.normalMap, texCoord).xyz - 1);
-//	nn.z *= -1;
-	return normalize(tbn * nn);
+	return normalize( tbn * nn);
 }
 
 vec2 calcParallaxTextureCoords(Material material, mat3 tbnMatrix, vec3 v, vec2 texCoords, float scale, float bias) {
@@ -112,7 +111,6 @@ void main() {
 	//
 	if((SoanMaterial.flags & NORMAL_MAP) == NORMAL_MAP) {
 		normalTarget.xyz 		= createNormals(SoanMaterial, tbn, textureCoordinate);
-		//	normalTarget.z *= -1.0;
 	} else {
 
 		//

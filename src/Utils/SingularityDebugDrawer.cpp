@@ -136,8 +136,7 @@ namespace soan {
 	}
 
 	void SingularityDebugDrawer::drawSphere(const btVector3& p, btScalar radius, const btVector3& color) {
-		glColor4f(color.getX(), color.getY(), color.getZ(), btScalar(1.0f));
-		glPushMatrix();
+
 		glTranslatef(p.getX(), p.getY(), p.getZ());
 
 		int lats = 5;
@@ -173,7 +172,6 @@ namespace soan {
 
 
 	void	SingularityDebugDrawer::drawTriangle(const btVector3& a,const btVector3& b,const btVector3& c,const btVector3& color,btScalar alpha) {
-
 
 		const btVector3	n = btCross(b-a,c-a).normalized();
 

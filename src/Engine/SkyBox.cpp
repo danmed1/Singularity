@@ -29,12 +29,12 @@ namespace soan {
 
 		xdl::xdl_int SkyBox::init() {
 
-			const char* names [] = { 	"SkyboxTest2/right.jpg",
-			                          "SkyboxTest2/left.jpg",
-			                          "SkyboxTest2/bottom.jpg",
-			                          "SkyboxTest2/top.jpg",
-			                          "SkyboxTest2/back.jpg",
-			                          "SkyboxTest2/front.jpg"
+			const char* names [] = { 	"Skybox/right.jpg",
+			                          "Skybox/left.jpg",
+			                          "Skybox/bottom.jpg",
+			                          "Skybox/top.jpg",
+			                          "Skybox/back.jpg",
+			                          "Skybox/front.jpg"
 			                       };
 
 			soan::TextureServer::Inst()->setResourcePathPrefix("resources/models");
