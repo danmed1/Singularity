@@ -1,6 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <XdevLTypes.h>
+
 #include <tm/tm.h>
 #include <tm/tmg.h>
 
@@ -40,7 +42,7 @@ namespace soan {
 			/**
 				The angles must be in world coordinate system.
 			*/
-			void fpsView(float pitch, float yaw, float dT = 1.0f);
+			void fpsView(xdl::xdl_float pitch, xdl::xdl_float yaw, xdl::xdl_float dT = 1.0f);
 			
 			/// Look at a specific point with a specified up vector.
 			void lookAt(tmath::vec3 target, tmath::vec3 up);
@@ -49,37 +51,37 @@ namespace soan {
 			/**
 				@param value Amount to move in forward direction.
 			*/
-			void moveForward(float value);
+			void moveForward(xdl::xdl_float value);
 			
 			/// Move camera left/right.
 			/**
 				@param value Amount to move in forward sidways.
 			*/
-			void moveSide(float value);
+			void moveSide(xdl::xdl_float value);
 			
 			/// Move camera up/down.
 			/**
 				@param value Amount to move in upward direction.
 			*/
-			void moveUp(float value);
+			void moveUp(xdl::xdl_float value);
 			
 			/// Roll camera.
 			/**
 				@param value Amount to do a roll rotation in degrees.
 			*/			
-			void doRoll(float value);
+			void doRoll(xdl::xdl_float value);
 			
 			/// Pitch camera.
 			/**
 				@param value Amount to do a pitch rotation in degrees.
 			*/	
-			void doPitch(float value);
+			void doPitch(xdl::xdl_float value);
 			
 			/// Yaw camera.
 			/**
 				@param value Amount to do a yaw rotation in degrees.
 			*/				
-			void doYaw(float value);
+			void doYaw(xdl::xdl_float value);
 					
 			/// Return the cameras projections matrix.
 			tmath::mat4& getProjectionMatrix();
@@ -103,22 +105,22 @@ namespace soan {
 			void stopTrackObject();
 			
 			/// Set tracking object properties.
-			void setTrackingProperties(float heading, float pitch, float distance);
+			void setTrackingProperties(xdl::xdl_float heading, xdl::xdl_float pitch, xdl::xdl_float distance, xdl::xdl_float dT);
 			
 			/// Returns if the tracking mode is active or not.
 			bool isTrackingModeActive();
 			
 			/// Sets the forward speed.
-			void setForwardSpeed(float forwardSpeed);
+			void setForwardSpeed(xdl::xdl_float forwardSpeed);
 			
 			/// Sets the side speed.
-			void setSideSpeed(float sideSpeed);
+			void setSideSpeed(xdl::xdl_float sideSpeed);
 			
 			/// Sets the up speed.
-			void setUpSpeed(float upSpeed);
+			void setUpSpeed(xdl::xdl_float upSpeed);
 			
 			/// Sets the LERP speed
-			void setSLERPSpeed(float slerp);
+			void setSLERPSpeed(xdl::xdl_float slerp);
 			
 	private:
 		
@@ -137,15 +139,15 @@ namespace soan {
 			// Holds the tracked object.
 			std::shared_ptr<Moveable>			m_trackedObject;
 			
-			float 								m_pitch;
-			float									m_heading;
-			float									m_roll;
+			xdl::xdl_float 								m_pitch;
+			xdl::xdl_float									m_heading;
+			xdl::xdl_float									m_roll;
 			
-			float									m_forwardSpeed;
-			float									m_sideSpeed;
-			float									m_upSpeed;
+			xdl::xdl_float									m_forwardSpeed;
+			xdl::xdl_float									m_sideSpeed;
+			xdl::xdl_float									m_upSpeed;
 			
-			float									m_slerpSpeed;
+			xdl::xdl_float									m_slerpSpeed;
 	};
 
 }

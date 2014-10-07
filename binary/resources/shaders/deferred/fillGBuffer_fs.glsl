@@ -99,7 +99,7 @@ void main() {
 
 		vec3 v = normalize(vec3(fragment.v.x, -fragment.v.y, -fragment.v.z));
 
-		float scale = 0.05f;
+		float scale = 0.1f;
 		float bias = -scale*0.5;
 		//textureCoordinate = calcParallaxTextureCoords(SoanMaterial, tbn, v, fragment.texCoord, scale, bias);
 		textureCoordinate = calcSteepParallaxTextureCoords(SoanMaterial, tbn, v, fragment.texCoord, scale, bias);

@@ -45,7 +45,7 @@ namespace soan {
 		return m_projection;
 	}
 
-	void Camera::fpsView(float pitch, float yaw, float dT) {
+	void Camera::fpsView(xdl::xdl_float pitch, xdl::xdl_float yaw, xdl::xdl_float dT) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
@@ -68,57 +68,57 @@ namespace soan {
 		tmath::convert(tmp, m_orientation);
 	}
 
-	void Camera::moveForward(float value) {
+	void Camera::moveForward(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		m_position += m_orientation * tmath::vec3(0.0f, 0.0f, -m_forwardSpeed)*value;
 	}
 
-	void Camera::moveSide(float value) {
+	void Camera::moveSide(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		m_position += m_orientation * tmath::vec3(m_sideSpeed, 0.0f, 0.0f)*value;
 	}
 
-	void Camera::moveUp(float value) {
+	void Camera::moveUp(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		m_position +=  m_orientation * tmath::vec3(0.0f, m_upSpeed, 0.0f)*value;
 	}
 
-	void Camera::doRoll(float value) {
+	void Camera::doRoll(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		rotateLocalZ(value);
 	}
 
-	void Camera::doPitch(float value) {
+	void Camera::doPitch(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		rotateLocalX(value);
 	}
 
-	void Camera::doYaw(float value) {
+	void Camera::doYaw(xdl::xdl_float value) {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
 		rotateLocalY(value);
 	}
 
-	void Camera::setForwardSpeed(float forwardSpeed) {
+	void Camera::setForwardSpeed(xdl::xdl_float forwardSpeed) {
 		m_forwardSpeed = forwardSpeed;
 	}
 
-	void Camera::setSideSpeed(float sideSpeed) {
+	void Camera::setSideSpeed(xdl::xdl_float sideSpeed) {
 		m_sideSpeed = sideSpeed;
 	}
 
-	void Camera::setUpSpeed(float upSpeed) {
+	void Camera::setUpSpeed(xdl::xdl_float upSpeed) {
 		m_upSpeed = upSpeed;
 	}
 
@@ -133,7 +133,7 @@ namespace soan {
 		tmath::q2e(m_orientation, m_pitch, m_heading, m_roll);
 	}
 
-	void  Camera::setSLERPSpeed(float slerp) {
+	void  Camera::setSLERPSpeed(xdl::xdl_float slerp) {
 		m_slerpSpeed = slerp;
 	}
 
@@ -145,11 +145,11 @@ namespace soan {
 		return false;
 	}
 
-	void Camera::setTrackingProperties(float heading, float pitch, float distance) {
+	void Camera::setTrackingProperties(xdl::xdl_float heading, xdl::xdl_float pitch, xdl::xdl_float distance, xdl::xdl_float dT) {
 		if(m_trackedObject == nullptr) {
 			return;
 		}
-
+		
 		//
 		// This rotation represents an offset rotation for the camera around the object.
 		//
@@ -168,7 +168,7 @@ namespace soan {
 		q2 = m_trackedObject->getOrientation() * qtmp;
 
 		// Do slerp.
-		tmath::slerp(q1, q2, 0.04f, qresult);
+		tmath::slerp(q1, q2, m_slerpSpeed*dT, qresult);
 
 		// This is the new position for the camera which is around the tracked object.
 		// The vector (0.0f, 0.0f, distance) is in the tracked object space the back position.

@@ -145,14 +145,10 @@ void Singularity::main(const Arguments& argv) throw() {
 		handlePhysics(m_dT);
 
 		if(m_cameraMode == xdl::xdl_false) {
-			m_camera->setTrackingProperties(0.0f, -10.0f, 200.0f);
+			m_camera->setTrackingProperties(0.0f, -10.0f, 200.0f, m_dT);
 		}
 
-//	m_light->rotateLocalX(getCore()->getTime()*0.08);
-//		m_light->setPosition(m_camera->getPosition().x, 0.0, m_camera->getPosition().z);
-
 		handleGraphics(m_dT);
-
 
 	}
 
