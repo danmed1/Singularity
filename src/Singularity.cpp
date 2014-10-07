@@ -156,7 +156,7 @@ void Singularity::main(const Arguments& argv) throw() {
 
 void  Singularity::handleGraphics(double dT) {
 
-
+	//m_model->rotateLocalX(40);
 
 	calculateShadowMaps();
 
@@ -547,6 +547,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	ground->setPhysics(m_physics, 0.0f);
 
 	m_material = ground->getModel()->getMesh(0)->getMaterial();
+	m_model			= groundModel;
 
 	ground->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(xdl::xdl_false);
 	ground->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
@@ -841,6 +842,7 @@ void Singularity::calculateShadowMaps() {
 
 void Singularity::startDeferredLighting() {
 
+	
 	//m_light->setPosition(m_camera->getPosition());
 
 //	glEnable(GL_MULTISAMPLE);

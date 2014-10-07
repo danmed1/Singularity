@@ -229,6 +229,7 @@ class Singularity : public xdl::XdevLApplication {
 		std::wstringstream 									ss;
 		
 		std::shared_ptr<soan::Material>	m_material;
+		std::shared_ptr<soan::Model> 		m_model;
 };
 
 
