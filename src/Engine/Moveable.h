@@ -14,31 +14,34 @@ namespace soan {
 		public:
 
 			Moveable();
-			
+
 			/// Returns the forward direction of the object.
 			tmath::vec3 getDirection();
-			
-			/// Return the position in global space.
+
+			/// Return the position in world space.
 			tmath::vec3& getPosition();
 
-			/// Return the scale in global space.
+			/// Return the scale in world space.
 			tmath::vec3& getScale();
 
-			/// Return the orientation in global space.
+			/// Return the orientation in world space.
 			tmath::quat& getOrientation();
 
 			/// Returns the inverse of the orientation.
 			tmath::quat getInverseOrientation();
 
-			/// Return the orientation in global space as matrix.
+			/// Return the orientation in world space as matrix.
 			tmath::mat4 getOrientationMatrix();
-						
-			/// Return the transformation in global space as a matrix.
+
+			/// Returns the forward vector in world space.
+			tmath::vec3 getForwardVector();
+
+			/// Return the transformation in world space as a matrix.
 			/**
 				The transformation is calculated by Transformation = TranslationMatrix * OrientationMatrix * ScaleMatrix
 				@return The transformation matrix.
 			*/
-			virtual tmath::mat4 getTransformationMatrix();	
+			virtual tmath::mat4 getTransformationMatrix();
 
 			/// Return the cameras inverse transformation matrix.
 			/**
@@ -60,7 +63,7 @@ namespace soan {
 
 			/// Set the orientation.
 			void setOrientation(float x, float y, float z, float w);
-			
+
 			/// Set the orientation of the object.
 			void setOrientation(const tmath::quat& orientation);
 
@@ -80,6 +83,7 @@ namespace soan {
 			void rotateLocalZ(float angle);
 
 		protected:
+
 			// Holds the position of the object in world coordinate.
 			tmath::vec3		m_position;
 
