@@ -87,7 +87,7 @@ namespace soan {
 		return (sc * rotation * trans);
 	}
 
-	void Moveable::setPosition(float x, float y, float z) {
+	void Moveable::setPosition(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
 		m_position.x = x;
 		m_position.y = y;
 		m_position.z = z;
@@ -97,7 +97,7 @@ namespace soan {
 		m_position = position;
 	}
 
-	void Moveable::setScale(float sx, float sy, float sz) {
+	void Moveable::setScale(xdl::xdl_float sx, xdl::xdl_float sy, xdl::xdl_float sz) {
 		m_scale.x = sx;
 		m_scale.y = sy;
 		m_scale.z = sz;
@@ -108,7 +108,7 @@ namespace soan {
 		m_scale = scale;
 	}
 
-	void Moveable::setOrientation(float x, float y, float z, float w) {
+	void Moveable::setOrientation(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z, xdl::xdl_float w) {
 		m_orientation.x = x;
 		m_orientation.y = y;
 		m_orientation.z = z;
@@ -119,7 +119,7 @@ namespace soan {
 		m_orientation = orientation;
 	}
 
-	void Moveable::moveRelative(float x, float y, float z) {
+	void Moveable::moveRelative(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
 		m_position.x += x;
 		m_position.y += y;
 		m_position.z += z;
@@ -129,7 +129,7 @@ namespace soan {
 		m_position += distance;
 	}
 
-	void  Moveable::rotateLocalX(float angle) {
+	void  Moveable::rotateLocalX(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(1.0f, 0.0f, 0.0f);
@@ -143,7 +143,7 @@ namespace soan {
 		tmath::normalize(m_orientation);
 	}
 
-	void  Moveable::rotateLocalY(float angle) {
+	void  Moveable::rotateLocalY(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 1.0f, 0.0f);
@@ -159,7 +159,7 @@ namespace soan {
 	}
 
 
-	void  Moveable::rotateLocalZ(float angle) {
+	void  Moveable::rotateLocalZ(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 0.0f, 1.0f);

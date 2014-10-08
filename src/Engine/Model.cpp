@@ -39,7 +39,7 @@ namespace soan {
 		m_meshes.push_back(std::shared_ptr<Mesh>(mesh));
 	}
 
-	Mesh* Model::getMesh(unsigned int idx) {
+	Mesh* Model::getMesh(xdl::xdl_uint idx) {
 		assert((m_meshes.size() > idx) && "Model::getMesh(): Specified index is biger than the number of meshes.");
 		return m_meshes[idx].get();
 	}
@@ -48,15 +48,15 @@ namespace soan {
 		return m_meshes;
 	}
 
-	float  Model::getBoundingBoxX() {
+	xdl::xdl_float  Model::getBoundingBoxX() {
 		return(m_boundingBoxMax.x - m_boundingBoxMin.x);
 	}
 
-	float  Model::getBoundingBoxY() {
+	xdl::xdl_float  Model::getBoundingBoxY() {
 		return(m_boundingBoxMax.y - m_boundingBoxMin.y);
 	}
 
-	float  Model::getBoundingBoxZ() {
+	xdl::xdl_float  Model::getBoundingBoxZ() {
 		return(m_boundingBoxMax.z - m_boundingBoxMin.z);
 	}
 

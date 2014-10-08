@@ -63,37 +63,37 @@ namespace soan {
 		return 2;
 	}
 
-	float* Material::getAmbient() {
+	xdl::xdl_float* Material::getAmbient() {
 		return ambient;
 	}
 
-	float* Material::getDiffuse() {
+	xdl::xdl_float* Material::getDiffuse() {
 		return diffuse;
 	}
 
-	float* Material::getSpecular() {
+	xdl::xdl_float* Material::getSpecular() {
 		return specular;
 	}
 
-	float Material::getRoughness() {
+	xdl::xdl_float Material::getRoughness() {
 		return m_roughness;
 	}
 
-	void Material::setAmbient(float r, float g, float b, float a) {
+	void Material::setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
 		ambient[0] = r;
 		ambient[1] = g;
 		ambient[2] = b;
 		ambient[3] = a;
 	}
 
-	void Material::setDiffuse(float r, float g, float b, float a) {
+	void Material::setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
 		diffuse[0] = r;
 		diffuse[1] = g;
 		diffuse[2] = b;
 		diffuse[3] = a;
 	}
 
-	void Material::setSpecular(float r, float g, float b, float a) {
+	void Material::setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
 		specular[0] = r;
 		specular[1] = g;
 		specular[2] = b;
@@ -101,7 +101,7 @@ namespace soan {
 	}
 
 
-	void Material::setRoughness(float roughness) {
+	void Material::setRoughness(xdl::xdl_float roughness) {
 		m_roughness = roughness;
 	}
 
@@ -113,7 +113,7 @@ namespace soan {
 		m_skyBoxTexture = skyBoxTexture;
 	}
 
-	xdl::XdevLTexture*  Material::getTexture(unsigned int idx) {
+	xdl::XdevLTexture*  Material::getTexture(xdl::xdl_uint idx) {
 		return m_textures[idx];
 	}
 

@@ -55,31 +55,31 @@ namespace soan {
 			xdl::xdl_uint getStates();
 
 			/// Sets the diffuse color of the material.
-			void setDiffuse(float r, float g, float b, float a);
+			void setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
 
 			/// Sets the ambient color of the material.
-			void setAmbient(float r, float g, float b, float a);
+			void setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
 
 			/// Sets the specular color of the material.
-			void setSpecular(float r, float g, float b, float a);
+			void setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
 
 			/// Sets the roughness of the material.
-			void setRoughness(float roughness);
+			void setRoughness(xdl::xdl_float roughness);
 
 			/// Returns a pointer to the diffuse color array.
-			float* getDiffuse();
+			xdl::xdl_float* getDiffuse();
 
 			/// Returns a pointer to the ambient color array.
-			float* getAmbient();
+			xdl::xdl_float* getAmbient();
 
 			/// Returns a pointer to the specular color array.
-			float* getSpecular();
+			xdl::xdl_float* getSpecular();
 
 			/// Returns the shininess factor.
-			float getShininess();
+			xdl::xdl_float getShininess();
 
 			/// Returns the roughness.
-			float getRoughness();
+			xdl::xdl_float getRoughness();
 
 			/// Sets the texture.
 			void setTexture(MaterialTextures texture_index, xdl::XdevLTexture* texture);
@@ -88,26 +88,26 @@ namespace soan {
 			void setTexture(xdl::XdevLTextureCube* skybox);
 
 			/// Returns the number of available textures.
-			unsigned int getNumTextures();
+			xdl::xdl_uint getNumTextures();
 
 			/// Returns the texture.
-			xdl::XdevLTexture* getTexture(unsigned int idx);
+			xdl::XdevLTexture* getTexture(xdl::xdl_uint idx);
 
 			/// Returns the skybox texture.
 			xdl::XdevLTextureCube* getSkyBoxTexture();
 	
 		private:
 			// Holds the diffuse part of the material.
-			float diffuse[4];
+			xdl::xdl_float diffuse[4];
 
 			// Holds the ambient part of the material.
-			float ambient[4];
+			xdl::xdl_float ambient[4];
 
 			// Holds the specular part of the material.
-			float specular[4];
+			xdl::xdl_float specular[4];
 
 			// Holds the roughness of the material.
-			float m_roughness;
+			xdl::xdl_float m_roughness;
 
 			xdl::XdevLTexture*				m_textures[7];
 

@@ -27,7 +27,7 @@ namespace soan {
 		void add(Mesh* mesh);
 		
 		/// Returns one specific mesh from the mesh list.
-		Mesh* getMesh(unsigned int idx);
+		Mesh* getMesh(xdl::xdl_uint idx);
 		
 		/// Returns a list of all meshes attached to this model.
 		std::vector<std::shared_ptr<Mesh>>& getMeshList();
@@ -40,13 +40,13 @@ namespace soan {
 		std::shared_ptr<Model> refCopy();
 		
 		/// Returns the length of the bounding box in x-direction.		
-		float getBoundingBoxX();
+		xdl::xdl_float getBoundingBoxX();
 
 		/// Returns the length of the bounding box in y-direction.
-		float getBoundingBoxY();
+		xdl::xdl_float getBoundingBoxY();
 		
 		/// Returns the length of the bounding box in z-direction.
-		float getBoundingBoxZ();		
+		xdl::xdl_float getBoundingBoxZ();		
 		
 		/// sets the bounding box.
 		void setBoundingBox(tmath::vec3& min, tmath::vec3& max);

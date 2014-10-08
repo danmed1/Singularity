@@ -1,6 +1,8 @@
 #ifndef MOVEABLE_H
 #define MOVEABLE_H
 
+
+#include <XdevLTypes.h>
 #include <tm/tm.h>
 #include <tm/tmg.h>
 
@@ -56,37 +58,37 @@ namespace soan {
 			virtual tmath::mat4 getInverseTransformationMatrix();
 
 			/// Set the position of the object.
-			void setPosition(float x, float y, float z);
+			void setPosition(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z);
 
 			/// Set the position of the object.
 			void setPosition(const tmath::vec3& position);
 
 			/// Set the scale factor of the object.
-			void setScale(float sx, float sy, float sz);
+			void setScale(xdl::xdl_float sx, xdl::xdl_float sy, xdl::xdl_float sz);
 
 			/// Set the scale factor of the object.
 			void setScale(const tmath::vec3& scale);
 
 			/// Set the orientation.
-			void setOrientation(float x, float y, float z, float w);
+			void setOrientation(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z, xdl::xdl_float w);
 
 			/// Set the orientation of the object.
 			void setOrientation(const tmath::quat& orientation);
 
 			/// Move the object relative from the current position.
-			void moveRelative(float x, float y, float z);
+			void moveRelative(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z);
 
 			/// Move the object relative from the current position.
 			void moveRelative(const tmath::vec3& distance);
 
 			/// Rotate around it's local X axis
-			void rotateLocalX(float angle);
+			void rotateLocalX(xdl::xdl_float angle);
 
 			/// Rotate around it's local Y axis
-			void rotateLocalY(float angle);
+			void rotateLocalY(xdl::xdl_float angle);
 
 			/// Rotate around it's local Z axis
-			void rotateLocalZ(float angle);
+			void rotateLocalZ(xdl::xdl_float angle);
 
 		protected:
 
