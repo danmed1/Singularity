@@ -103,7 +103,7 @@ namespace soan {
 		m_frameBuffer->getTexture(0)->unlock();
 
 
-		m_frameBuffer->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24, xdl::XDEVL_FLOAT);
+		m_frameBuffer->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24);
 
 
 

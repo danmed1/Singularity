@@ -175,7 +175,7 @@ namespace soan {
 		m_fb->getTexture(LIGHTING)->unlock();
 
 
-		m_fb->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24, xdl::XDEVL_FLOAT);
+		m_fb->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24);
 
 		m_opengl->createShaderProgram(&m_stage1sp);
 		if(m_opengl->createVertexShader(&m_stage1vs)  == xdl::ERR_ERROR) {
