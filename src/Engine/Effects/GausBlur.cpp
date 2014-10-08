@@ -21,7 +21,7 @@ namespace soan {
 		m_blurSize[1] = (1.0f/m_height)*ySize;
 	}
 
-	int GausBlur::init(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextureFormat textureFormat) {
+	int GausBlur::init(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLFrameBufferColorFormat textureFormat) {
 
 		PostProcessEffect::init(width, height);
 

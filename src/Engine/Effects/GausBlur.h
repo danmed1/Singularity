@@ -10,7 +10,7 @@ namespace soan {
 			GausBlur(xdl::XdevLOpenGL330* opengl);
 			virtual ~GausBlur();
 			virtual void setBlurSize(xdl::xdl_float xSize, xdl::xdl_float ySize);
-			virtual int init(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextureFormat textureFormat);
+			virtual int init(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLFrameBufferColorFormat textureFormat);
 			virtual void apply();
 	private:
 

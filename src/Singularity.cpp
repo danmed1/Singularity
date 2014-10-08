@@ -356,7 +356,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 
 	m_gausBlur = new soan::GausBlur(get3DProcessor());
-	m_gausBlur->init(w,h, xdl::XDEVL_RGBA);
+	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
 
 	m_shadowMap = new soan::ShadowMap(get3DProcessor());
 	m_shadowMap->init(w,h);

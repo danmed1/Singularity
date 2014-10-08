@@ -62,7 +62,7 @@ namespace soan {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
 		}
-		m_frameBuffer->addColorTarget(0, xdl::XDEVL_RGBA32F);
+		m_frameBuffer->addColorTarget(0, xdl::XDEVL_FB_COLOR_RGBA32F);
 		
 		return 0;
 	}

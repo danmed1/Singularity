@@ -62,7 +62,7 @@ namespace soan {
 		// TODO The texture format can be xdl::XDEVL_RG16F
 
 		PostProcessEffect::init(width, height);
-		m_gausBlur.init(width, height, xdl::XDEVL_RG32F);
+		m_gausBlur.init(width, height, xdl::XDEVL_FB_COLOR_RG32F);
 
 		m_opengl->createShaderProgram(&m_shaderProgram);
 
@@ -92,7 +92,7 @@ namespace soan {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
 		}
-		m_frameBuffer->addColorTarget(0, xdl::XDEVL_RG32F);
+		m_frameBuffer->addColorTarget(0, xdl::XDEVL_FB_COLOR_RG32F);
 		m_frameBuffer->getTexture(0)->lock();
 		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
 		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
@@ -103,7 +103,7 @@ namespace soan {
 		m_frameBuffer->getTexture(0)->unlock();
 
 
-		m_frameBuffer->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24);
+		m_frameBuffer->addDepthTarget(xdl::XDEVL_FB_DEPTH_COMPONENT24);
 
 
 

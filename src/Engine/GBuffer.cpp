@@ -135,7 +135,7 @@ namespace soan {
 		//
 		// Add Position target. Position data will be in world coordinate system.
 		//
-		m_fb->addColorTarget(POSITION	, xdl::XDEVL_RGBA32F);
+		m_fb->addColorTarget(POSITION	, xdl::XDEVL_FB_COLOR_RGBA32F);
 		m_fb->getTexture(POSITION)->lock();
 		m_fb->getTexture(POSITION)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
 		m_fb->getTexture(POSITION)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
@@ -146,7 +146,7 @@ namespace soan {
 		//
 		// Create normal target. Normal data will be in world coordinate system.
 		//
-		m_fb->addColorTarget(NORMAL		, xdl::XDEVL_RGBA16F);
+		m_fb->addColorTarget(NORMAL		, xdl::XDEVL_FB_COLOR_RGBA16F);
 		m_fb->getTexture(NORMAL)->lock();
 		m_fb->getTexture(NORMAL)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
 		m_fb->getTexture(NORMAL)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
@@ -157,7 +157,7 @@ namespace soan {
 		//
 		// Create albedo target.
 		//
-		m_fb->addColorTarget(DIFFUSE	, xdl::XDEVL_RGBA);
+		m_fb->addColorTarget(DIFFUSE	, xdl::XDEVL_FB_COLOR_RGBA);
 		m_fb->getTexture(DIFFUSE)->lock();
 		m_fb->getTexture(DIFFUSE)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 		m_fb->getTexture(DIFFUSE)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
@@ -166,7 +166,7 @@ namespace soan {
 		m_fb->getTexture(DIFFUSE)->unlock();
 
 
-		m_fb->addColorTarget(LIGHTING	, xdl::XDEVL_RGBA);
+		m_fb->addColorTarget(LIGHTING	, xdl::XDEVL_FB_COLOR_RGBA);
 		m_fb->getTexture(LIGHTING)->lock();
 		m_fb->getTexture(LIGHTING)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 		m_fb->getTexture(LIGHTING)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
@@ -175,7 +175,7 @@ namespace soan {
 		m_fb->getTexture(LIGHTING)->unlock();
 
 
-		m_fb->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24);
+		m_fb->addDepthTarget(xdl::XDEVL_FB_DEPTH_COMPONENT24);
 
 		m_opengl->createShaderProgram(&m_stage1sp);
 		if(m_opengl->createVertexShader(&m_stage1vs)  == xdl::ERR_ERROR) {
