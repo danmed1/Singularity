@@ -7,17 +7,27 @@ class setUniform;
 class setUniform;
 namespace soan {
 
-	GBuffer::GBuffer(xdl::XdevLOpenGL330* opengl, Camera* camera)	:	m_opengl(opengl),
+	GBuffer::GBuffer(xdl::XdevLOpenGL330* opengl, Camera* camera)	:
+		m_opengl(opengl),
+		m_va(nullptr),
 		m_fb(nullptr),
+		m_skyBoxTexture(nullptr),
+		m_reflectionTextureCube(nullptr),
+		m_stage1vs(nullptr),
+		m_stage1fs(nullptr),
+		m_stage1sp(nullptr),
+		m_stage2vs(nullptr),
+		m_stage2fs(nullptr),
+		m_stage2sp(nullptr),
+		m_debugShaderProgram(nullptr),
+		m_debugFragmentShader(nullptr),
 		m_begin(false),
 		m_beginStage1(false),
 		m_blendStage(false),
 		m_camera(camera),
 		m_viewPortWidth(320),
 		m_viewPortHeight(200),
-		m_skyBoxTexture(nullptr),
-		m_debugMode(0),
-		m_reflectionTextureCube(nullptr) {
+		m_debugMode(0) {
 
 
 	}
@@ -116,50 +126,50 @@ namespace soan {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
 		}
-		
+
 		//
 		// Add Position target. Position data will be in world coordinate system.
 		//
 		m_fb->addColorTarget(POSITION	, xdl::XDEVL_RGBA32F);
 		m_fb->getTexture(POSITION)->lock();
 		m_fb->getTexture(POSITION)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
-		m_fb->getTexture(POSITION)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);	
+		m_fb->getTexture(POSITION)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
 //		m_fb->getTexture(POSITION)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
 //		m_fb->getTexture(POSITION)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
 		m_fb->getTexture(POSITION)->unlock();
-		
+
 		//
 		// Create normal target. Normal data will be in world coordinate system.
 		//
 		m_fb->addColorTarget(NORMAL		, xdl::XDEVL_RGBA16F);
 		m_fb->getTexture(NORMAL)->lock();
 		m_fb->getTexture(NORMAL)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
-		m_fb->getTexture(NORMAL)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);	
+		m_fb->getTexture(NORMAL)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
 //		m_fb->getTexture(NORMAL)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
 //		m_fb->getTexture(NORMAL)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
-		m_fb->getTexture(NORMAL)->unlock();		
-		
+		m_fb->getTexture(NORMAL)->unlock();
+
 		//
-		// Create albedo target. 
+		// Create albedo target.
 		//
 		m_fb->addColorTarget(DIFFUSE	, xdl::XDEVL_RGBA);
 		m_fb->getTexture(DIFFUSE)->lock();
 		m_fb->getTexture(DIFFUSE)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-		m_fb->getTexture(DIFFUSE)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);	
+		m_fb->getTexture(DIFFUSE)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
 		m_fb->getTexture(DIFFUSE)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
 		m_fb->getTexture(DIFFUSE)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
-		m_fb->getTexture(DIFFUSE)->unlock();				
-		
-		
+		m_fb->getTexture(DIFFUSE)->unlock();
+
+
 		m_fb->addColorTarget(LIGHTING	, xdl::XDEVL_RGBA);
 		m_fb->getTexture(LIGHTING)->lock();
 		m_fb->getTexture(LIGHTING)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-		m_fb->getTexture(LIGHTING)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);	
+		m_fb->getTexture(LIGHTING)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
 		m_fb->getTexture(LIGHTING)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
 		m_fb->getTexture(LIGHTING)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
-		m_fb->getTexture(LIGHTING)->unlock();			
-		
-		
+		m_fb->getTexture(LIGHTING)->unlock();
+
+
 		m_fb->addDepthTarget(xdl::XDEVL_DEPTH_COMPONENT24, xdl::XDEVL_FLOAT);
 
 		m_opengl->createShaderProgram(&m_stage1sp);
@@ -177,11 +187,11 @@ namespace soan {
 			std::cerr << "GBuffer::Could not create fragment shader object." << std::endl;
 			return -1;
 		}
-			if(m_stage1fs->compileFromFile("resources/shaders/deferred/fillGBuffer_fs.glsl") != xdl::ERR_OK) {
+		if(m_stage1fs->compileFromFile("resources/shaders/deferred/fillGBuffer_fs.glsl") != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
 			return -1;
 		}
-		
+
 		m_stage1sp->attach(m_stage1vs);
 		m_stage1sp->attach(m_stage1fs);
 		m_stage1sp->link();
@@ -265,13 +275,13 @@ namespace soan {
 		lightAmbient			= m_stage2sp->getUniformLocation("SoanLight.ambient");
 
 
-		
+
 		depthBiasMatrix 										= m_stage2sp->getUniformLocation("depthBiasMatrix");
 		shadowMapTexture										= m_stage2sp->getUniformLocation("SoanShadowMap.shadowMap");
 		shadowMapSize												= m_stage2sp->getUniformLocation("SoanShadowMap.shadowMapSize");
 		shadowMapMinVariance								= m_stage2sp->getUniformLocation("SoanShadowMap.minVariance");;
-		shadowMapReduceLightBleedingAmount	= m_stage2sp->getUniformLocation("SoanShadowMap.reduceLightBleedingAmount");;		
-		
+		shadowMapReduceLightBleedingAmount	= m_stage2sp->getUniformLocation("SoanShadowMap.reduceLightBleedingAmount");;
+
 		reflectionTextureCube = m_stage2sp->getUniformLocation("reflectionTextureCube");
 
 		debug			 						= m_stage1sp->getUniformLocation("debug");
@@ -324,7 +334,7 @@ namespace soan {
 
 		getFillGBufferShaderProgram()->setUniformMatrix4(projMatrixStage1, 1, getProjectionMatrix());
 		getFillGBufferShaderProgram()->setUniformMatrix4(viewMatrixStage1, 1, getViewMatrix());
-		
+
 		getFillGBufferShaderProgram()->setUniform3v(cameraPosShader1, 1, m_camera->getForwardVector());
 
 
@@ -391,7 +401,7 @@ namespace soan {
 
 		m_stage2sp->setUniformMatrix4(depthBiasMatrix, 1, m_depthBiasVP);
 		m_stage2sp->setUniformi(shadowMapTexture, 	4);
-		
+
 		m_stage2sp->setUniform(shadowMapMinVariance, m_shadowMap->getMinVariance());
 		m_stage2sp->setUniform(shadowMapReduceLightBleedingAmount, m_shadowMap->getReduceLightBleedingAmount());
 		m_stage2sp->setUniform(shadowMapSize, m_shadowMap->getOutputTexture(0)->getWidth(), m_shadowMap->getOutputTexture(0)->getHeight());
@@ -456,11 +466,11 @@ namespace soan {
 		m_depthBiasVP = depthBias;
 	}
 
-	
+
 	void GBuffer::setShadowMap(ShadowMap* shadowMap) {
 		m_shadowMap = shadowMap;
 	}
-	
+
 	void  GBuffer::setProjectionMatrix(const tmath::mat4& projectionMatrix) {
 		m_projectionMatrix = projectionMatrix;
 	}
@@ -521,7 +531,7 @@ namespace soan {
 			getFillGBufferShaderProgram()->setUniformi(m_sh_normalMap, 1);
 			getMaterial().getTexture(Material::NORMAL_MAP)->activate(1);
 		}
-		
+
 
 		if(getMaterial().getTexture(Material::SPECULAR_MAP) != nullptr) {
 			getFillGBufferShaderProgram()->setUniformi(m_sh_specularMap, 0);

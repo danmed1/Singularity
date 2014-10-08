@@ -31,7 +31,7 @@ void CParticleGeneratorSphere::CreateParticle(CParticle& pCParticle, CParticleEm
 		break;		
 	}	
 
-	pCParticle.pos = pEmitter.GetPos() + v;
+	pCParticle.position = pEmitter.GetPos() + v;
 	tmath::normalize(v);
 	pCParticle.v = v*0.1f;
 	pCParticle.lt = GetRandomMinMax(m_MinLifeTime ,m_MaxLifeTime);

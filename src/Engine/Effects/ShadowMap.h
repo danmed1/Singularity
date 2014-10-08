@@ -40,11 +40,11 @@ namespace soan {
 			/// Returns the reduce amount of the light bleeding.
 			xdl::xdl_float getReduceLightBleedingAmount();
 	private:
-
-		xdl::XdevLFrameBuffer* 			m_frameBuffer;	
-		xdl::XdevLShaderProgram* 		m_shaderProgram;
+		GausBlur										m_gausBlur;
+		xdl::XdevLFrameBuffer*			m_frameBuffer;	
+		xdl::XdevLShaderProgram*		m_shaderProgram;
 		xdl::XdevLVertexShader*			m_vs;
-		xdl::XdevLFragmentShader*		m_fs;		
+		xdl::XdevLFragmentShader*	m_fs;		
 		soan::Camera*								m_camera;
 		xdl::xdl_uint 							m_projMatrix;
 		xdl::xdl_uint 							m_viewMatrix;
@@ -58,8 +58,6 @@ namespace soan {
 		
 		
 		tmath::mat4 								m_depthBiasVP;
-		
-		GausBlur										m_gausBlur;
 		
 		xdl::xdl_float							m_minVariance;
 		xdl::xdl_float							m_reduceLightBleedingAmount;

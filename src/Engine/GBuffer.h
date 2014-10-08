@@ -117,18 +117,19 @@ namespace soan {
 
 
 			xdl::XdevLTextureCube*				m_skyBoxTexture;
-
 			xdl::XdevLTextureCube*				m_reflectionTextureCube;
 
 			xdl::XdevLVertexShader*				m_stage1vs;
-			xdl::XdevLFragmentShader*			m_stage1fs;
-			xdl::XdevLShaderProgram* 			m_stage1sp;
+			xdl::XdevLFragmentShader*		m_stage1fs;
+			xdl::XdevLShaderProgram*			m_stage1sp;
+
+			xdl::XdevLVertexShader*				m_stage2vs;
+			xdl::XdevLFragmentShader*		m_stage2fs;
+			xdl::XdevLShaderProgram*			m_stage2sp;
+
 			xdl::XdevLShaderProgram*			m_debugShaderProgram;
 			xdl::XdevLFragmentShader* 		m_debugFragmentShader;
 
-			xdl::XdevLVertexShader*				m_stage2vs;
-			xdl::XdevLFragmentShader*			m_stage2fs;
-			xdl::XdevLShaderProgram* 			m_stage2sp;
 
 
 			xdl::xdl_uint projMatrixStage1;
@@ -178,24 +179,23 @@ namespace soan {
 
 			xdl::xdl_uint viewMatrixStage2;
 
-			bool m_begin;
-			bool m_beginStage1;
-			bool m_blendStage;
+			xdl::xdl_bool m_begin;
+			xdl::xdl_bool m_beginStage1;
+			xdl::xdl_bool m_blendStage;
 
-			Camera* 						m_camera;
-			std::vector<Light*> m_lights;
+			Camera*							m_camera;
+			std::vector<Light*>	m_lights;
 			ShadowMap*					m_shadowMap;
 
-			unsigned int m_viewPortWidth;
-			unsigned int m_viewPortHeight;
+			xdl::xdl_uint m_viewPortWidth;
+			xdl::xdl_uint m_viewPortHeight;
 
-			tmath::mat4 m_depthBiasVP;
-			tmath::mat4 m_projectionMatrix;
-			tmath::mat4 m_viewMatrix;
-			tmath::mat4 m_modelMatrix;
+			tmath::mat4 	m_depthBiasVP;
+			tmath::mat4 	m_projectionMatrix;
+			tmath::mat4 	m_viewMatrix;
+			tmath::mat4 	m_modelMatrix;
 
-			Material		m_material;
-
+			Material			m_material;
 
 			xdl::xdl_int m_debugMode;
 

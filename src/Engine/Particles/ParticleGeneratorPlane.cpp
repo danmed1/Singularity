@@ -16,7 +16,7 @@ void CParticleGeneratorPlane::CreateParticle(CParticle& pParticle, CParticleEmit
 	pos.z = GetRandomMinMax(-m_Size, m_Size);
 
 
-	pParticle.pos 			= pEmitter.GetPos() + pos;
+	pParticle.position 			= pEmitter.GetPos() + pos;
 	pParticle.v 				= pEmitter.GetDir()*GetRandomMinMax(3.001f, 5.1f);
 	pParticle.lt				= GetRandomMinMax(0.5f, 1.5f);
 	pParticle.age				= 0.0f;

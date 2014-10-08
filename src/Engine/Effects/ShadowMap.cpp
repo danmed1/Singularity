@@ -6,7 +6,9 @@
 namespace soan {
 
 
-	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl) : 	PostProcessEffect(opengl), m_gausBlur(opengl),
+	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl) : 	
+		PostProcessEffect(opengl), 
+		m_gausBlur(opengl),
 		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.5f,
 		              0.0f, 0.5f, 0.0f, 0.5f,
 		              0.0f, 0.0f, 0.5f, 0.5f,

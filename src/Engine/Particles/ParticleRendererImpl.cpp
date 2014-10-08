@@ -56,14 +56,13 @@ void ParticleRendererImpl::Render(CParticleEmitter& pEmitter) {
 
 	float fAdjustedSize = pEmitter.GetParticleSize()/300.0f;
 	int idx = 0;
-	int numparticle = 0;
 
 	int numparticles = pEmitter.GetNumParticles();
 	for(int a = 0; a < numparticles; a++) {
 
-		vCenter.x = particles[a].pos.x;
-		vCenter.y = particles[a].pos.y;
-		vCenter.z = particles[a].pos.z;
+		vCenter.x = particles[a].position.x;
+		vCenter.y = particles[a].position.y;
+		vCenter.z = particles[a].position.z;
 
 		vPoint0 = vCenter + ((-vRight - vUp) * fAdjustedSize);
 		vPoint1 = vCenter + ((vRight - vUp) * fAdjustedSize);
