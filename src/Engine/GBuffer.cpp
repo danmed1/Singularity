@@ -7,10 +7,11 @@ class setUniform;
 class setUniform;
 namespace soan {
 
-	GBuffer::GBuffer(xdl::XdevLOpenGL330* opengl, Camera* camera)	:
+	GBuffer::GBuffer(xdl::XdevLOpenGL330* opengl) :
 		m_opengl(opengl),
 		m_va(nullptr),
 		m_fb(nullptr),
+		m_camera(nullptr),
 		m_skyBoxTexture(nullptr),
 		m_reflectionTextureCube(nullptr),
 		m_stage1vs(nullptr),
@@ -24,7 +25,6 @@ namespace soan {
 		m_begin(false),
 		m_beginStage1(false),
 		m_blendStage(false),
-		m_camera(camera),
 		m_viewPortWidth(320),
 		m_viewPortHeight(200),
 		m_debugMode(0) {
@@ -60,6 +60,11 @@ namespace soan {
 			m_opengl->destroy(m_fb);
 		}
 	}
+	
+	void GBuffer::setCamera(Camera* camera) {
+		assert(camera && "GBuffer::setCamera: Invalid pointer.");
+		m_camera = camera;
+	}
 
 	void GBuffer::setDebugMode(xdl::xdl_int mode) {
 		m_debugMode = mode;
@@ -77,11 +82,11 @@ namespace soan {
 		return m_stage2sp;
 	}
 
-	unsigned int GBuffer::getViewPortWidth() {
+	xdl::xdl_uint GBuffer::getViewPortWidth() {
 		return m_viewPortWidth;
 	}
 
-	unsigned int GBuffer::getViewPortHeight() {
+	xdl::xdl_uint GBuffer::getViewPortHeight() {
 		return m_viewPortHeight;
 	}
 
@@ -89,11 +94,11 @@ namespace soan {
 		m_lights.push_back(light);
 	}
 
-	Light* GBuffer::getLight(unsigned int idx) {
+	Light* GBuffer::getLight(xdl::xdl_uint idx) {
 		return m_lights[idx];
 	}
 
-	int GBuffer::init(unsigned int width, unsigned int height) {
+	xdl::xdl_int GBuffer::init(xdl::xdl_uint width, xdl::xdl_uint height) {
 		m_viewPortHeight 	= height;
 		m_viewPortWidth 	= width;
 
@@ -307,7 +312,7 @@ namespace soan {
 	}
 
 
-	int GBuffer::startFillGBuffer() {
+	xdl::xdl_int GBuffer::startFillGBuffer() {
 		assert(!m_begin && " GBuffer::startFillGBuffer() already used");
 		m_begin = true;
 
@@ -342,13 +347,13 @@ namespace soan {
 	}
 
 
-	int GBuffer::stopFillGBuffer() {
+	xdl::xdl_int GBuffer::stopFillGBuffer() {
 		m_stage1sp->deactivate();
 
 		return 0;
 	}
 
-	int GBuffer::startLightingStage() {
+	xdl::xdl_int GBuffer::startLightingStage() {
 
 
 		// Disble the depth buffer.
@@ -479,7 +484,6 @@ namespace soan {
 		return m_projectionMatrix;
 	}
 
-
 	void  GBuffer::setViewMatrix(const tmath::mat4& viewMatrix) {
 		m_viewMatrix = viewMatrix;
 		getFillGBufferShaderProgram()->setUniformMatrix4(viewMatrixStage1, 1, m_viewMatrix);
@@ -508,7 +512,6 @@ namespace soan {
 		getFillGBufferShaderProgram()->setUniform4v(m_sh_specular,	1, 	getMaterial().getSpecular());
 		getFillGBufferShaderProgram()->setUniform(m_sh_roughness, 			getMaterial().getRoughness());
 		getFillGBufferShaderProgram()->setUniformi(m_sh_flags, 				getMaterial().getStates());
-
 
 
 		if(getMaterial().getSkyBoxTexture() != nullptr) {

@@ -17,7 +17,7 @@ namespace soan {
 	*/
 	class GBuffer {
 		public:
-			GBuffer(xdl::XdevLOpenGL330* opengl, Camera* camera);
+			GBuffer(xdl::XdevLOpenGL330* opengl);
 			~GBuffer();
 
 			/**
@@ -33,25 +33,28 @@ namespace soan {
 			};
 
 			/// Initialize the G-Buffer.
-			int init(unsigned int width, unsigned int height);
+			xdl::xdl_int init(xdl::xdl_uint width, xdl::xdl_uint height);
+
+			/// Sets the current camera.
+			void setCamera(Camera* camera);
 
 			/// Start the filling of the G-Buffer.
-			int startFillGBuffer();
+			xdl::xdl_int startFillGBuffer();
 
 			/// stop the filling of the G-Buffer.
-			int stopFillGBuffer();
+			xdl::xdl_int stopFillGBuffer();
 
 			/// Begin the Lighting Stage.
-			int startLightingStage();
+			xdl::xdl_int startLightingStage();
 
 			/// Return a specific texture of the G-Buffer.
 			xdl::XdevLTexture* getTexture(GBufferTexture texture);
 
 			/// Returns the width of the G-Buffer.
-			unsigned int getViewPortWidth();
+			xdl::xdl_uint getViewPortWidth();
 
 			/// Returns the height of the G-Buffer.
-			unsigned int getViewPortHeight();
+			xdl::xdl_uint getViewPortHeight();
 
 			/// Returns the G-Buffer object.
 			xdl::XdevLFrameBuffer* 	getGBuffer();
@@ -69,7 +72,7 @@ namespace soan {
 			void addLight(Light* light);
 
 			/// Return a light from the G-Buffer.
-			Light* getLight(unsigned int idx);
+			Light* getLight(xdl::xdl_uint idx);
 
 			/// Set the depth bias matrix for the Shadow Mapping process.
 			void setDepthBias(tmath::mat4& depthBias);
@@ -115,7 +118,7 @@ namespace soan {
 			xdl::XdevLVertexArray*				m_va;
 			xdl::XdevLFrameBuffer*				m_fb;
 
-
+			Camera*												m_camera;
 			xdl::XdevLTextureCube*				m_skyBoxTexture;
 			xdl::XdevLTextureCube*				m_reflectionTextureCube;
 
@@ -183,7 +186,6 @@ namespace soan {
 			xdl::xdl_bool m_beginStage1;
 			xdl::xdl_bool m_blendStage;
 
-			Camera*							m_camera;
 			std::vector<Light*>	m_lights;
 			ShadowMap*					m_shadowMap;
 

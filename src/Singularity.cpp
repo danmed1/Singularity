@@ -366,10 +366,11 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	m_camera = new soan::Camera();
 
-	m_gBuffer = new soan::GBuffer(get3DProcessor(), m_camera);
+	m_gBuffer = new soan::GBuffer(get3DProcessor());
 	if(m_gBuffer->init(w,h) == xdl::ERR_ERROR) {
 		return xdl::ERR_ERROR;
 	}
+	m_gBuffer->setCamera(m_camera);
 	m_gBuffer->setShadowMap(m_shadowMap);
 
 	m_camProjectionsMatrix 		= m_gBuffer->getFillGBufferShaderProgram()->getUniformLocation("projMatrix");
