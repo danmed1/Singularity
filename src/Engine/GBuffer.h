@@ -4,7 +4,7 @@
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLOpenGL/XdevLFrameBuffer.h>
 #include "Light.h"
-#include "Material.h"
+#include "Entity/Material.h"
 #include "Effects/ShadowMap.h"
 
 namespace soan {

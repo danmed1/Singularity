@@ -2,7 +2,7 @@
 #define RENDERABLE_H
 
 #include "Engine/Physics/Physics.h"
-#include "Engine/Model.h"
+#include "Engine/Entity/Model.h"
 #include <btBulletDynamicsCommon.h>
 #include <memory>
 

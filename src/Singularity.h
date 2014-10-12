@@ -16,7 +16,7 @@
 
 #include "Engine/Camera.h"
 #include "Engine/Moveable.h"
-#include "Engine/Model.h"
+#include "Engine/Entity/Model.h"
 #include "Engine/GBuffer.h"
 #include "Engine/TextureServer.h"
 #include "Engine/Effects/GausBlur.h"

@@ -4,8 +4,8 @@
 
 #include "AssimpToModel.h"
 #include "Engine/TextureServer.h"
-#include "Engine/Mesh.h"
-#include "Engine/Model.h"
+#include "Engine/Entity/Mesh.h"
+#include "Engine/Entity/Model.h"
 
 #include <string>
 

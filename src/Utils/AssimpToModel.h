@@ -1,7 +1,7 @@
 #ifndef ASSIMP_TO_MODEL_H
 #define ASSIMP_TO_MODEL_H
 
-#include "Engine/Mesh.h"
+#include "Engine/Entity/Mesh.h"
 #include <tm/tm.h>
 
 #include <assimp/cimport.h>

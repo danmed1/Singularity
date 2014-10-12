@@ -3,7 +3,7 @@
 
 
 #include <Game/Actor.h>
-#include <Engine/Model.h>
+#include <Engine/Entity/Model.h>
 
 namespace soan {
 

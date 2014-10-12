@@ -1,5 +1,5 @@
 #include "Singularity.h"
-#include "Engine/Mesh.h"
+#include "Engine/Entity/Mesh.h"
 #include "Engine/Types.h"
 #include "Utils/AssimpToModel.h"
 #include <LinearMath/btQuaternion.h>

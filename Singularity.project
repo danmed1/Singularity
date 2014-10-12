@@ -175,12 +175,6 @@
       <File Name="src/Engine/TextureServer.cpp"/>
       <File Name="src/Engine/Moveable.h"/>
       <File Name="src/Engine/Moveable.cpp"/>
-      <File Name="src/Engine/Model.h"/>
-      <File Name="src/Engine/Model.cpp"/>
-      <File Name="src/Engine/Mesh.h"/>
-      <File Name="src/Engine/Mesh.cpp"/>
-      <File Name="src/Engine/Material.h"/>
-      <File Name="src/Engine/Material.cpp"/>
       <File Name="src/Engine/Light.h"/>
       <File Name="src/Engine/Light.cpp"/>
       <File Name="src/Engine/GBuffer.h"/>
@@ -210,6 +204,14 @@
         <File Name="src/Engine/GUI/UIRenderer.h"/>
         <File Name="src/Engine/GUI/UIRendererImpl.cpp"/>
         <File Name="src/Engine/GUI/UIRendererImpl.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="Entity">
+        <File Name="src/Engine/Entity/Material.cpp"/>
+        <File Name="src/Engine/Entity/Material.h"/>
+        <File Name="src/Engine/Entity/Mesh.cpp"/>
+        <File Name="src/Engine/Entity/Mesh.h"/>
+        <File Name="src/Engine/Entity/Model.cpp"/>
+        <File Name="src/Engine/Entity/Model.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="Game">

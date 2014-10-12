@@ -2,9 +2,9 @@
 #define MESH_H
 
 #include <XdevLOpenGL/XdevLVertexArray.h>
-#include "Material.h"
-#include "Moveable.h"
-#include "Types.h"
+#include "Engine/Entity/Material.h"
+#include "Engine/Moveable.h"
+#include "Engine/Types.h"
 #include <memory>
 
 namespace soan {
