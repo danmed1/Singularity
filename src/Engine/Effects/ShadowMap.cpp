@@ -6,15 +6,16 @@
 namespace soan {
 
 
-	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl) : 	
-		PostProcessEffect(opengl), 
-		m_gausBlur(opengl),
+	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl, ShadowMapModes mode) :
+		PostProcessEffect(opengl),
+		m_gausBlur(nullptr),
 		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.5f,
 		              0.0f, 0.5f, 0.0f, 0.5f,
 		              0.0f, 0.0f, 0.5f, 0.5f,
 		              0.0f, 0.0f, 0.0f, 1.0f),
 		m_minVariance(0.00002f),
-		m_reduceLightBleedingAmount(0.2f) {
+		m_reduceLightBleedingAmount(0.2f),
+		m_shadowMapMode(mode) {
 
 		// Orthographic projection is used for directional light.
 		tmath::ortho(-20.0f, 20.0f, -20.0f, 20.0f,-80.0f, 40.0f, m_projectionMatrix);
@@ -24,9 +25,16 @@ namespace soan {
 
 		// Let's pre-calculate the matrix.
 		m_biasProjectionMatrix = m_biasMatrix*m_projectionMatrix;
+
+		if(m_shadowMapMode == VSM) {
+			m_gausBlur = new GausBlur(opengl);
+		}
 	}
 
 	ShadowMap::~ShadowMap() {
+		if(m_shadowMapMode == VSM) {
+			delete m_gausBlur;
+		}
 		m_opengl->destroy(m_vs);
 		m_opengl->destroy(m_fs);
 		m_opengl->destroy(m_frameBuffer);
@@ -44,7 +52,7 @@ namespace soan {
 	void ShadowMap::setMinVariance(xdl::xdl_float minVariance) {
 		m_minVariance = minVariance;
 	}
-	
+
 	void ShadowMap::setReduceLightBleedingAmount(xdl::xdl_float reduceLightBleedingAmount) {
 		m_reduceLightBleedingAmount = reduceLightBleedingAmount;
 	}
@@ -57,12 +65,14 @@ namespace soan {
 		return m_reduceLightBleedingAmount;
 	}
 
-	int ShadowMap::init(unsigned int width, unsigned height) {
+	int ShadowMap::init(xdl::xdl_uint width, xdl::xdl_uint height) {
 
 		// TODO The texture format can be xdl::XDEVL_RG16F
 
 		PostProcessEffect::init(width, height);
-		m_gausBlur.init(width, height, xdl::XDEVL_FB_COLOR_RG32F);
+		if(m_shadowMapMode == VSM) {
+			m_gausBlur->init(width, height, xdl::XDEVL_FB_COLOR_RG32F);
+		}
 
 		m_opengl->createShaderProgram(&m_shaderProgram);
 
@@ -96,10 +106,16 @@ namespace soan {
 		m_frameBuffer->getTexture(0)->lock();
 		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
 		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
-		m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-		m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);
-		m_frameBuffer->getTexture(0)->setTextureMaxAnisotropy(16.0);
-		m_frameBuffer->getTexture(0)->generateMipMap();
+
+		if(m_shadowMapMode == VSM) {
+			m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
+			m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);
+			m_frameBuffer->getTexture(0)->setTextureMaxAnisotropy(16.0);
+			m_frameBuffer->getTexture(0)->generateMipMap();
+		} else {
+			m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
+			m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
+		}
 		m_frameBuffer->getTexture(0)->unlock();
 
 
@@ -149,21 +165,23 @@ namespace soan {
 		m_shaderProgram->deactivate();
 		m_frameBuffer->deactivate();
 
-		m_gausBlur.setInputTexture(0, m_frameBuffer->getTexture(0));
-		m_gausBlur.setBlurSize(1.0, 1.0);
-		m_gausBlur.apply();
+		if(m_shadowMapMode == VSM) {
 
-		m_frameBuffer->getTexture(0)->lock();
-		m_frameBuffer->getTexture(0)->generateMipMap();
-		m_frameBuffer->getTexture(0)->unlock();
+			m_gausBlur->setInputTexture(0, m_frameBuffer->getTexture(0));
+			m_gausBlur->setBlurSize(1.0, 1.0);
+			m_gausBlur->apply();
+			m_frameBuffer->getTexture(0)->lock();
+			m_frameBuffer->getTexture(0)->generateMipMap();
+			m_frameBuffer->getTexture(0)->unlock();
+			setOutputTexture(0,	m_gausBlur->getOutputTexture(0));
 
+		} else {
 
-		// This is important. Set the output texture.
-		//setOutputTexture(0,	m_frameBuffer->getTexture(0));
-		setOutputTexture(0,	m_gausBlur.getOutputTexture(0));
+			setOutputTexture(0,	m_frameBuffer->getTexture(0));
+
+		}
 
 	}
-
 
 	xdl::XdevLShaderProgram* ShadowMap::getShaderProgram() {
 		return m_shaderProgram;
