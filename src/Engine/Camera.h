@@ -86,6 +86,9 @@ namespace soan {
 			/// Return the cameras projections matrix.
 			tmath::mat4& getProjectionMatrix();
 			
+			/// Returns the projectsion view matrix.
+			tmath::mat4 getProjectionsViewMatrix();
+			
 			/// Returns the viewports width.
 			unsigned int getViewPortWidth();
 			

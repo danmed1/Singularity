@@ -45,6 +45,10 @@ namespace soan {
 		return m_projection;
 	}
 
+	tmath::mat4  Camera::getProjectionsViewMatrix() {
+		return (m_projection * getTransformationMatrix());
+	}
+
 	void Camera::fpsView(xdl::xdl_float pitch, xdl::xdl_float yaw, xdl::xdl_float dT) {
 		if(m_trackedObject != nullptr) {
 			return;
@@ -149,7 +153,7 @@ namespace soan {
 		if(m_trackedObject == nullptr) {
 			return;
 		}
-		
+
 		//
 		// This rotation represents an offset rotation for the camera around the object.
 		//

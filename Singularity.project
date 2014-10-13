@@ -213,6 +213,8 @@
         <File Name="src/Engine/Entity/Model.cpp"/>
         <File Name="src/Engine/Entity/Model.h"/>
       </VirtualDirectory>
+      <File Name="src/Engine/Frustum.h"/>
+      <File Name="src/Engine/Frustum.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Game">
       <VirtualDirectory Name="Universe">

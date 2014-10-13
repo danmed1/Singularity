@@ -3,6 +3,7 @@
 #include "Engine/Types.h"
 #include "Utils/AssimpToModel.h"
 #include <LinearMath/btQuaternion.h>
+#include <tm/tm.h>
 #include <random>
 #include <string>
 #include <locale>
@@ -16,6 +17,7 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 
 	m_gBuffer(nullptr),
 	m_camera(nullptr),
+	m_frustum(nullptr),
 	m_textureServer(nullptr),
 	m_shadowMap(nullptr),
 	m_gausBlur(nullptr),
@@ -51,6 +53,7 @@ Singularity::~Singularity() {
 //		}
 //	}
 	delete m_camera;
+	delete m_frustum;
 	delete m_skybox;
 	delete m_font2D;
 	delete m_textEngine;
@@ -146,6 +149,13 @@ void Singularity::main(const Arguments& argv) throw() {
 
 		if(m_cameraMode == xdl::xdl_false) {
 			m_camera->setTrackingProperties(0.0f, -10.0f, 200.0f, m_dT);
+		}
+		
+		m_frustum->update(m_camera, false);
+
+		tmath::vec3 pp(0.0f, 0.0f, 0.0f);
+		if(m_frustum->isPointInside(pp)) {
+			std::cout << "Inside the Frustum.\n";
 		}
 
 		handleGraphics(m_dT);
@@ -365,7 +375,8 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_depthOfField->init(w,h);
 
 	m_camera = new soan::Camera();
-
+	m_frustum = new soan::Frustum();
+	
 	m_gBuffer = new soan::GBuffer(get3DProcessor());
 	if(m_gBuffer->init(w,h) == xdl::ERR_ERROR) {
 		return xdl::ERR_ERROR;

@@ -15,6 +15,7 @@
 #include <tm/tmg.h>
 
 #include "Engine/Camera.h"
+#include "Engine/Frustum.h"
 #include "Engine/Moveable.h"
 #include "Engine/Entity/Model.h"
 #include "Engine/GBuffer.h"
@@ -129,6 +130,7 @@ class Singularity : public xdl::XdevLApplication {
 
 		soan::GBuffer* 								m_gBuffer;
 		soan::Camera*									m_camera;
+		soan::Frustum*								m_frustum;
 		soan::TextureServer* 					m_textureServer;
 		soan::ShadowMap*							m_shadowMap;
 		soan::GausBlur* 							m_gausBlur;
