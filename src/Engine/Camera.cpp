@@ -35,7 +35,7 @@ namespace soan {
 	void Camera::setProjection(CameraProjectionType type) {
 		m_type = type;
 		if(m_type == PERSPECTIVE) {
-			tmath::frustum(-0.35f, 0.35f, -0.25f, 0.25f, 0.5f, 4000.0f, m_projection);
+			tmath::frustum(-0.35f, 0.35f, -0.25f, 0.25f, 0.5f, 100.0f, m_projection);
 		} else if(m_type == ORTHO) {
 			tmath::ortho(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 20.0f, m_projection);
 		}

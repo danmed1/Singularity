@@ -46,6 +46,7 @@ namespace soan {
 
 			virtual ~SingularityDebugDrawer();
 
+
 			virtual void doDrawing(tmath::mat4& projectionMatrix);
 
 			virtual void	drawLine(const btVector3& from,const btVector3& to,const btVector3& fromColor, const btVector3& toColor);
@@ -56,7 +57,7 @@ namespace soan {
 
 			virtual void	drawTriangle(const btVector3& a,const btVector3& b,const btVector3& c,const btVector3& color,btScalar alpha);
 
-			virtual void	drawContactPoint(const btVector3& PointOnB,const btVector3& normalOnB,btScalar distance,int lifeTime,const btVector3& color);
+			virtual void	drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color);
 
 			virtual void	reportErrorWarning(const char* warningString);
 

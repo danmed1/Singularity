@@ -28,6 +28,9 @@ namespace soan {
 
 				/// Return the rigid body.
 				btRigidBody*	getRigidBody();
+				
+				/// Returns the collision shape.
+				btBoxShape* getCollisionShape();
 
 				virtual bool update(xdl::xdl_uint64 timeStep);
 

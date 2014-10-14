@@ -42,9 +42,18 @@ namespace soan {
 			/// Checks if a sphere is inside the frustum.
 			xdl::xdl_bool isSphereInside(const tmath::vec3& point, xdl::xdl_float radius);
 			
+			/// Checks if a bounding box inside the frustum.
+			xdl::xdl_bool isCubeInside(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z, xdl::xdl_float size);
+
+			/// Checks if a bounding box is inside the frustum.
+			xdl::xdl_bool isCubeInside(const tmath::vec3& point, xdl::xdl_float size);
+			
+			/// Returns the edge points of the frustum.
+			tmath::vec3& getPoints(xdl::xdl_uint idx);
 		private:
 
 			tmath::matrix<float, 4, 6> m_frustumMatrix;
+			tmath::vec3 m_points[8];
 			
 	};
 

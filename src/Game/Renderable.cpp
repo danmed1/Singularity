@@ -109,6 +109,10 @@ namespace soan {
 		btRigidBody* Renderable::getRigidBody() {
 			return m_body;
 		}
+		
+		btBoxShape* Renderable::getCollisionShape() {
+			return m_colShape;
+		}
 
 		void Renderable::reset() {
 			if(m_body == nullptr) {

@@ -77,19 +77,19 @@ namespace soan {
 		//
 		// Do the point drawing here.
 		//
-//		if(m_pointVertexList.size() > 0) {
-//			m_pointsVertexBuffer->lock();
-//			m_pointsVertexBuffer->upload((xdl::xdl_uint8*)m_pointVertexList.data(),vd->vertexSize() * m_pointVertexList.size());
-//			m_pointsVertexBuffer->unlock();
-//
-//			m_openGL->setActiveVertexArray(m_pointsVertexArray);
-//
-//			glPointSize(2.0f);
-//			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_POINTS,m_pointVertexList.size());
-//			m_pointVertexList.clear();
-//			glPointSize(2.0f);
-//
-//		}
+		if(m_pointVertexList.size() > 0) {
+			m_pointsVertexBuffer->lock();
+			m_pointsVertexBuffer->upload((xdl::xdl_uint8*)m_pointVertexList.data(),vd->vertexSize() * m_pointVertexList.size());
+			m_pointsVertexBuffer->unlock();
+
+			m_openGL->setActiveVertexArray(m_pointsVertexArray);
+
+			glPointSize(2.0f);
+			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_POINTS,m_pointVertexList.size());
+			m_pointVertexList.clear();
+			glPointSize(2.0f);
+
+		}
 
 		//
 		// Do the triangle drawing here.

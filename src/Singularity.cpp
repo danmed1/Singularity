@@ -150,12 +150,40 @@ void Singularity::main(const Arguments& argv) throw() {
 		if(m_cameraMode == xdl::xdl_false) {
 			m_camera->setTrackingProperties(0.0f, -10.0f, 200.0f, m_dT);
 		}
-		
-		m_frustum->update(m_camera, false);
 
-		tmath::vec3 pp(0.0f, 0.0f, 0.0f);
-		if(m_frustum->isPointInside(pp)) {
-			std::cout << "Inside the Frustum.\n";
+		m_frustum->update(m_camera, true);
+
+		tmath::matrix<float, 4, 6>& frustum = m_frustum->getFrustumMatrix();
+		btVector3 from, to1, to2, to3;
+
+		from.setX(m_frustum->getPoints(0).x);
+		from.setY(m_frustum->getPoints(0).y);
+		from.setZ(m_frustum->getPoints(0).z);
+
+		to1.setX(m_frustum->getPoints(1).x);
+		to1.setY(m_frustum->getPoints(1).y);
+		to1.setZ(m_frustum->getPoints(1).z);
+
+		to2.setX(m_frustum->getPoints(2).x);
+		to2.setY(m_frustum->getPoints(2).y);
+		to2.setZ(m_frustum->getPoints(2).z);
+
+		to3.setX(m_frustum->getPoints(3).x);
+		to3.setY(m_frustum->getPoints(3).y);
+		to3.setZ(m_frustum->getPoints(3).z);
+
+		m_debugRenderer->drawLine(from, to1, btVector3(1,1,1),  btVector3(1,1,1));
+		m_debugRenderer->drawLine(from, to2, btVector3(1,1,1),  btVector3(1,1,1));
+		m_debugRenderer->drawLine(from, to3, btVector3(1,1,1),  btVector3(1,1,1));
+
+		for(auto renderable : m_renderable) {
+			renderable->getCollisionShape();
+			if(m_frustum->isPointInside(renderable->getModel()->getPosition())) {
+				std::cout << "Inside the Frustum: " << renderable->getModel()->getPosition() << std::endl;
+				renderable->setCastShadow(xdl::xdl_false);
+			} else {
+				renderable->setCastShadow(xdl::xdl_true);
+			}
 		}
 
 		handleGraphics(m_dT);
@@ -289,17 +317,17 @@ void  Singularity::handleGraphics(double dT) {
 xdl::xdl_int Singularity::notify(xdl::XdevLEvent& event) {
 	switch(event.type) {
 		case xdl::XDEVL_CORE_EVENT: {
-				if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
-					std::cout << "XDEVL_CORE_SHUTDOWN received.\n";
-					m_coreRunning = xdl::xdl_false;
-				}
+			if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
+				std::cout << "XDEVL_CORE_SHUTDOWN received.\n";
+				m_coreRunning = xdl::xdl_false;
 			}
-			break;
+		}
+		break;
 		case xdl::XDEVL_MOUSE_MOTION: {
-				m_mouse_x = event.motion.x;
-				m_mouse_y = event.motion.y;
-			}
-			break;
+			m_mouse_x = event.motion.x;
+			m_mouse_y = event.motion.y;
+		}
+		break;
 	}
 	return xdl::ERR_OK;
 }
@@ -368,7 +396,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_gausBlur = new soan::GausBlur(get3DProcessor());
 	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
 
-	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::VSM);
+	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::NORMAL);
 	m_shadowMap->init(2048, 2048);
 
 	m_depthOfField = new soan::DepthOfField(get3DProcessor());
@@ -376,7 +404,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	m_camera = new soan::Camera();
 	m_frustum = new soan::Frustum();
-	
+
 	m_gBuffer = new soan::GBuffer(get3DProcessor());
 	if(m_gBuffer->init(w,h) == xdl::ERR_ERROR) {
 		return xdl::ERR_ERROR;
@@ -475,7 +503,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 xdl::xdl_int Singularity::initializeAssets() {
 	soan::TextureServer::Inst()->setResourcePathPrefix("resources/models/");
 
-	m_camera->setPosition(0.0f, -7.0f, 10.0f);
+	//m_camera->setPosition(0.0f, -7.0f, 10.0f);
 
 	// Assimp to Singularity importer.
 	soan::utils::AssimpToModel assimpToModel(get3DProcessor());
@@ -948,7 +976,7 @@ void Singularity::startDeferredLighting() {
 			btQuaternion orientation = actorObject->getRigidBody()->getOrientation();
 			btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
 			forwardq *= 5.0f;
-			btVector3 forward( from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
+			btVector3 forward(from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
 			btVector3 forwardColor(0.0f, 0.0f, 1.0f);
 			m_debugRenderer->drawLine(from, forward, forwardColor, forwardColor);
 
@@ -957,7 +985,7 @@ void Singularity::startDeferredLighting() {
 			//
 			btQuaternion rightq = orientation * btVector3(1.0f, 0.0f, 0.0f);
 			rightq *= 5.0f;
-			btVector3 right( from.x() + rightq.x(), from.y() + rightq.y(), from.z() + rightq.z());
+			btVector3 right(from.x() + rightq.x(), from.y() + rightq.y(), from.z() + rightq.z());
 			btVector3 rightColor(1.0f, 0.0f, 0.0f);
 			m_debugRenderer->drawLine(from, right, rightColor, rightColor);
 
@@ -966,7 +994,7 @@ void Singularity::startDeferredLighting() {
 			//
 			btQuaternion upq = orientation * btVector3(0.0f, 1.0f, 0.0f);
 			upq *= 5.0f;
-			btVector3 up( from.x() + upq.x(), from.y() + upq.y(), from.z() + upq.z());
+			btVector3 up(from.x() + upq.x(), from.y() + upq.y(), from.z() + upq.z());
 			btVector3 upColor(0.0f, 1.0f, 0.0f);
 			m_debugRenderer->drawLine(from, up, upColor, upColor);
 
