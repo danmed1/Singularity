@@ -58,7 +58,7 @@ namespace soan {
 
 		tmath::convert(m_orientation, rotation);
 
-		return (trans * rotation * sc);
+		return (sc * rotation * trans);
 
 	}
 
@@ -84,7 +84,7 @@ namespace soan {
 		// Create inverse translation matrix.
 		tmath::translate(-m_position, trans);
 
-		return (sc * rotation * trans);
+		return (trans * rotation * sc);
 	}
 
 	void Moveable::setPosition(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
