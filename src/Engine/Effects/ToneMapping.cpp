@@ -71,12 +71,12 @@ namespace soan {
 		
 		glViewport(0, 0, getWidth(), getHeight());
 		tmath::mat4 fbProjection;
-		fbProjection = tmath::ortho(0.0f,
+		tmath::ortho(0.0f,
 		                          (float)getWidth(),
 		                          0.0f,
 		                          (float)getHeight(),
 		                          -1.0f,
-		                          1.0f);
+		                          1.0f, fbProjection);
 															
 
 

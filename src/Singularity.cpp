@@ -196,7 +196,7 @@ void Singularity::main(const Arguments& argv) throw() {
 
 void  Singularity::handleGraphics(double dT) {
 
-	//m_model->rotateLocalX(40);
+//	m_model->rotateLocalX(40);
 
 	calculateShadowMaps();
 
@@ -217,12 +217,12 @@ void  Singularity::handleGraphics(double dT) {
 
 	glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 	tmath::mat4 fbProjection;
-	fbProjection = tmath::ortho(0.0f,
+	tmath::ortho(0.0f,
 	                            (float)getWindow()->getWidth(),
 	                            0.0f,
 	                            (float)getWindow()->getHeight(),
 	                            -1.0f,
-	                            1.0f);
+	                            1.0f, fbProjection);
 	m_fbShaderProgram->activate();
 	m_fbShaderProgram->setUniformMatrix4(testProj, 1, fbProjection);
 	m_fbShaderProgram->setUniformi(testTex, 0);
@@ -503,7 +503,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 xdl::xdl_int Singularity::initializeAssets() {
 	soan::TextureServer::Inst()->setResourcePathPrefix("resources/models/");
 
-	//m_camera->setPosition(0.0f, -7.0f, 10.0f);
+	m_camera->setPosition(0.0f, -7.0f, 10.0f);
 
 	// Assimp to Singularity importer.
 	soan::utils::AssimpToModel assimpToModel(get3DProcessor());
