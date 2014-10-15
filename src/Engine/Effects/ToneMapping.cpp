@@ -1,6 +1,6 @@
 #include "ToneMapping.h"
 #include <tm/tm.h>
-#include <tm/tmg.h>
+
 
 namespace soan {
 
