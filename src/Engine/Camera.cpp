@@ -59,7 +59,7 @@ namespace soan {
 
 		tmath::quat q1,q2;
 		q1 = m_orientation;
-		tmath::e2q(m_heading, m_pitch, q2);
+		tmath::euler_to_quaternion(m_heading, m_pitch, q2);
 
 		tmath::slerp(q1, q2, m_slerpSpeed*dT, m_orientation);
 	}
@@ -134,7 +134,7 @@ namespace soan {
 	void Camera::stopTrackObject() {
 		m_trackedObject = nullptr;
 
-		tmath::q2e(m_orientation, m_pitch, m_heading, m_roll);
+		tmath::quaternion_to_euler(m_orientation, m_pitch, m_heading, m_roll);
 	}
 
 	void  Camera::setSLERPSpeed(xdl::xdl_float slerp) {
@@ -158,7 +158,7 @@ namespace soan {
 		// This rotation represents an offset rotation for the camera around the object.
 		//
 		tmath::quat qtmp;
-		tmath::e2q(tmath::d2r(heading), tmath::d2r(pitch), qtmp);
+		tmath::euler_to_quaternion(tmath::d2r(heading), tmath::d2r(pitch), qtmp);
 
 		//
 		// To get a smooth rotation from the previous to the new orientation we use slerp.

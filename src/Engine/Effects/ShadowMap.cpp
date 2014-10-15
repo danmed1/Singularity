@@ -9,10 +9,10 @@ namespace soan {
 	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl, ShadowMapModes mode) :
 		PostProcessEffect(opengl),
 		m_gausBlur(nullptr),
-		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.5f,
-		              0.0f, 0.5f, 0.0f, 0.5f,
-		              0.0f, 0.0f, 0.5f, 0.5f,
-		              0.0f, 0.0f, 0.0f, 1.0f),
+		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.0f,
+		              0.0f, 0.5f, 0.0f, 0.0f,
+		              0.0f, 0.0f, 0.5f, 0.0f,
+		              0.5f, 0.5f, 0.5f, 1.0f),
 		m_minVariance(0.00002f),
 		m_reduceLightBleedingAmount(0.2f),
 		m_shadowMapMode(mode) {
