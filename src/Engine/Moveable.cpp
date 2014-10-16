@@ -136,7 +136,7 @@ namespace soan {
 
 		// Create rotation quaternion around that axis.
 		tmath::quat rotation;
-		tmath::rot(angle, tmp, 	rotation);
+		tmath::rotate(angle, tmp, 	rotation);
 
 		// Rotate object.
 		m_orientation = rotation * m_orientation;
@@ -150,7 +150,7 @@ namespace soan {
 
 		// Create rotation quaternion around that axis.
 		tmath::quat rotation;
-		tmath::rot(angle, tmp, 	rotation);
+		tmath::rotate(angle, tmp, 	rotation);
 
 		// Rotate object.
 		m_orientation = rotation*m_orientation;
@@ -166,7 +166,7 @@ namespace soan {
 
 		// Create rotation quaternion around that axis.
 		tmath::quat rotation;
-		tmath::rot(angle, tmp, 	rotation);
+		tmath::rotate(angle, tmp, 	rotation);
 
 		// Rotate object.
 		m_orientation = rotation*m_orientation;
