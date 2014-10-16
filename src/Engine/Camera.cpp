@@ -68,7 +68,9 @@ namespace soan {
 		if(m_trackedObject != nullptr) {
 			return;
 		}
-		tmath::mat4 tmp = tmath::look_at(m_position, target, up);
+		tmath::mat4 tmp;
+		tmp = tmath::look_at(m_position, target, up, tmp);
+		
 		tmath::convert(tmp, m_orientation);
 	}
 
