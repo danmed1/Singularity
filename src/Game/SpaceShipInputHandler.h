@@ -4,7 +4,7 @@
 
 #include <XdevLMouse/XdevLMouse.h>
 #include <XdevLKeyboard/XdevLKeyboard.h>
-#include <XdevLJoystickDevice/XdevLJoystickDevice.h>
+#include <XdevLJoystick/XdevLJoystick.h>
 
 #include <Game/SpaceShipCommands.h>
 
@@ -16,7 +16,7 @@ namespace soan {
 			public:
 				SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
 				                  xdl::XdevLMouse* md,
-				                  xdl::XdevLJoystickDevice* jd);
+				                  xdl::XdevLJoystick* jd);
 				~SpaceShipInputHandler();
 
 				/// Initialize the handler.
@@ -36,7 +36,7 @@ namespace soan {
 			private:
 				xdl::XdevLKeyboard* 				m_kd;
 				xdl::XdevLMouse* 					m_md;
-				xdl::XdevLJoystickDevice* 	m_jd;
+				xdl::XdevLJoystick* 				m_jd;
 
 				xdl::XdevLButton*						m_thrust;
 				xdl::XdevLButton*						m_thrustBackward;				

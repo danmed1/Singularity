@@ -8,7 +8,7 @@
 		<Plugin filename="XdevLWindowSDL-1.0.0"></Plugin>
 		<Plugin filename="XdevLMouse-1.0.0"></Plugin>
 		<Plugin filename="XdevLKeyboard-1.0.0"></Plugin>
-		<Plugin filename="XdevLJoystickDevice-1.0.0"></Plugin>		
+		<Plugin filename="XdevLJoystick-1.0.0"></Plugin>		
     <Plugin filename="XdevLOpenGL-1.0.0"></Plugin>
   </Plugins>
 
@@ -17,7 +17,7 @@
     <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
     <Module id="MyMouse" 		plugin_name="XdevLMouse" module_name="XdevLMouse"/>		
     <Module id="MyKeyboard" plugin_name="XdevLKeyboard" module_name="XdevLKeyboard"/>
-    <Module id="MyJoystick"   plugin_name="XdevLJoystickDevice"   module_name="XdevLJoystickDevice"/>
+    <Module id="MyJoystick"   plugin_name="XdevLJoystick"   module_name="XdevLJoystick"/>
     <Module id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
   </Modules>
 
