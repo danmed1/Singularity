@@ -5,8 +5,6 @@
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLWindow/XdevLWindow.h>
-#include <XdevLMouseDevice/XdevLMouseDevice.h>
-#include <XdevLKeyboard/XdevLKeyboard.h>
 #include <XdevLRingBuffer.h>
 #include <cmath>
 #include <vector>

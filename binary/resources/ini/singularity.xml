@@ -6,7 +6,7 @@
   <!-- Plug external plugins to the core system. -->
   <Plugins>
 		<Plugin filename="XdevLWindowSDL-1.0.0"></Plugin>
-		<Plugin filename="XdevLMouseDevice-1.0.0"></Plugin>
+		<Plugin filename="XdevLMouse-1.0.0"></Plugin>
 		<Plugin filename="XdevLKeyboard-1.0.0"></Plugin>
 		<Plugin filename="XdevLJoystickDevice-1.0.0"></Plugin>		
     <Plugin filename="XdevLOpenGL-1.0.0"></Plugin>
@@ -15,7 +15,7 @@
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<Modules>
     <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
-    <Module id="MyMouse" 		plugin_name="XdevLMouseDevice" module_name="XdevLMouseDevice"/>		
+    <Module id="MyMouse" 		plugin_name="XdevLMouse" module_name="XdevLMouse"/>		
     <Module id="MyKeyboard" plugin_name="XdevLKeyboard" module_name="XdevLKeyboard"/>
     <Module id="MyJoystick"   plugin_name="XdevLJoystickDevice"   module_name="XdevLJoystickDevice"/>
     <Module id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
