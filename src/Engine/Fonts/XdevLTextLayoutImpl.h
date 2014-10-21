@@ -1,7 +1,7 @@
 #ifndef XDEVL_TEXT_LAYOUT_IMPL_H
 #define XDEVL_TEXT_LAYOUT_IMPL_H
 
-#include <XdevLWindowDevice/XdevLWindowDevice.h>
+#include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <Engine/Fonts/XdevLTextLayout.h>
 #include <map>
@@ -13,7 +13,7 @@ namespace soan {
 	class XdevLTextLayoutImpl : public XdevLTextLayout {
 		public:
 
-			XdevLTextLayoutImpl(xdl::XdevLWindowDevice* window, xdl::XdevLOpenGL330* openGL);
+			XdevLTextLayoutImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL);
 
 			virtual ~XdevLTextLayoutImpl() {}
 
@@ -47,7 +47,7 @@ namespace soan {
 			void layoutVertexBuffer(std::vector<XdevLTextLayoutText>& textList, std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex> >& vertexList);
 			
 		private:
-			xdl::XdevLWindowDevice*				m_window;
+			xdl::XdevLWindow*				m_window;
 			xdl::XdevLOpenGL330*					m_openGL;
 			XdevLFont*										m_font;
 			xdl::XdevLShaderProgram* 			m_shaderProgram;

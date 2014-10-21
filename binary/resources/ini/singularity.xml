@@ -14,7 +14,7 @@
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<Modules>
-    <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindowDevice"/>
+    <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
     <Module id="MyMouse" 		plugin_name="XdevLMouseDevice" module_name="XdevLMouseDevice"/>		
     <Module id="MyKeyboard" plugin_name="XdevLKeyboardDevice" module_name="XdevLKeyboardDevice"/>
     <Module id="MyJoystick"   plugin_name="XdevLJoystickDevice"   module_name="XdevLJoystickDevice"/>
@@ -22,7 +22,7 @@
   </Modules>
 
   <!-- Setting some properties of the XdevLWindowDevice module. -->
-  <XdevLWindowDevice id="MyWindow">
+  <XdevLWindow id="MyWindow">
     <Title> Singularity </Title>
     <Fullscreen> 0 </Fullscreen>
     <X> 0 </X>
@@ -32,7 +32,7 @@
     <HidePointer>0</HidePointer>
 		<Borderless>0</Borderless>
 		<BackgroundColor>0 0 0 0 </BackgroundColor>		
-  </XdevLWindowDevice>
+  </XdevLWindow>
 
 
   <!-- Setting some properties of the XdevLOpenGL module. -->

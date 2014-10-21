@@ -4,7 +4,7 @@
 #include <XdevL.h>
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
-#include <XdevLWindowDevice/XdevLWindowDevice.h>
+#include <XdevLWindow/XdevLWindow.h>
 #include <XdevLMouseDevice/XdevLMouseDevice.h>
 #include <XdevLKeyboardDevice/XdevLKeyboardDevice.h>
 #include <XdevLRingBuffer.h>

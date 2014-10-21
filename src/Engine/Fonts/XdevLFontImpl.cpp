@@ -11,7 +11,7 @@
 namespace soan {
 
 
-	XdevLFontImpl::XdevLFontImpl(xdl::XdevLWindowDevice* window, xdl::XdevLOpenGL330* openGL) :
+	XdevLFontImpl::XdevLFontImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL) :
 		m_window(window),
 		m_openGL(openGL),
 		m_numberOfTextures(0),

@@ -1,7 +1,7 @@
 #ifndef XDEVL_FONT_IMPL_H
 #define XDEVL_FONT_IMPL_H
 
-#include <XdevLWindowDevice/XdevLWindowDevice.h>
+#include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <Engine/Fonts/XdevLFont.h>
 #include <map>
@@ -16,7 +16,7 @@ namespace soan {
 			typedef std::vector<xdl::XdevLTexture*> XdevLTextureArray;
 			typedef std::map<xdl::xdl_uint32, XdevLGlyphMetric> XdevLGlyphMetricMap;
 			
-			XdevLFontImpl(xdl::XdevLWindowDevice* window, xdl::XdevLOpenGL330* openGL);
+			XdevLFontImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL);
 
 			virtual ~XdevLFontImpl();
 
@@ -34,7 +34,7 @@ namespace soan {
 			XdevLGlyphMetric& readLine(std::ifstream& os, XdevLGlyphMetric& gp);
 			void calculateGlyphInformation(std::ifstream& os);
 		private:
-			xdl::XdevLWindowDevice*	m_window;
+			xdl::XdevLWindow*	m_window;
 			xdl::XdevLOpenGL330*		m_openGL;
 			XdevLTextureArray				m_textureList;
 			xdl::xdl_uint						m_numberOfTextures;

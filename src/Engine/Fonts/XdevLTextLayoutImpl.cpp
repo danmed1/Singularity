@@ -3,7 +3,7 @@
 
 namespace soan {
 
-	XdevLTextLayoutImpl::XdevLTextLayoutImpl(xdl::XdevLWindowDevice* window, xdl::XdevLOpenGL330* openGL) :
+	XdevLTextLayoutImpl::XdevLTextLayoutImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL) :
 		m_window(window),
 		m_openGL(openGL),
 		m_shaderProgram(nullptr),
