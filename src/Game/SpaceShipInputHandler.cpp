@@ -3,7 +3,7 @@
 
 namespace soan {
 	namespace game {
-		SpaceShipInputHandler::SpaceShipInputHandler(xdl::XdevLKeyboardDevice* kd,
+		SpaceShipInputHandler::SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
 		    xdl::XdevLMouseDevice* md,
 		    xdl::XdevLJoystickDevice* jd) : 	m_kd(kd),
 			m_md(md),

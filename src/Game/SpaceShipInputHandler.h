@@ -3,7 +3,7 @@
 
 
 #include <XdevLMouseDevice/XdevLMouseDevice.h>
-#include <XdevLKeyboardDevice/XdevLKeyboardDevice.h>
+#include <XdevLKeyboard/XdevLKeyboard.h>
 #include <XdevLJoystickDevice/XdevLJoystickDevice.h>
 
 #include <Game/SpaceShipCommands.h>
@@ -14,7 +14,7 @@ namespace soan {
 		
 		class SpaceShipInputHandler {
 			public:
-				SpaceShipInputHandler(xdl::XdevLKeyboardDevice* kd,
+				SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
 				                  xdl::XdevLMouseDevice* md,
 				                  xdl::XdevLJoystickDevice* jd);
 				~SpaceShipInputHandler();
@@ -34,7 +34,7 @@ namespace soan {
 				btVector3 compensatePitchDrift(SpaceShip* actor, double dT);
 				
 			private:
-				xdl::XdevLKeyboardDevice* 	m_kd;
+				xdl::XdevLKeyboard* 				m_kd;
 				xdl::XdevLMouseDevice* 			m_md;
 				xdl::XdevLJoystickDevice* 	m_jd;
 
