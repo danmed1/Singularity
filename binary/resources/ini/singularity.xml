@@ -14,11 +14,11 @@
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<XdevLModules>
-    <XdevLModule id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
-    <XdevLModule id="MyMouse" 		plugin_name="XdevLMouse" module_name="XdevLMouse"/>		
-    <XdevLModule id="MyKeyboard" plugin_name="XdevLKeyboard" module_name="XdevLKeyboard"/>
-    <XdevLModule id="MyJoystick"   plugin_name="XdevLJoystick"   module_name="XdevLJoystick"/>
-    <XdevLModule id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
+    <XdevLModule id="MyWindow"		module_name="XdevLWindow"/>
+    <XdevLModule id="MyMouse" 		module_name="XdevLMouse"/>		
+    <XdevLModule id="MyKeyboard"	module_name="XdevLKeyboard"/>
+    <XdevLModule id="MyJoystick"	module_name="XdevLJoystick"/>
+    <XdevLModule id="MyOpenGL"		module_name="XdevLOpenGL"/>
   </XdevLModules>
 
   <!-- Setting some properties of the XdevLWindowDevice module. -->
