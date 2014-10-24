@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- This is the starting element for all XdevL 0.x.y applications -->
-<XdevLProperties>
+<XdevLCoreProperties>
 
   <!-- Plug external plugins to the core system. -->
-  <Plugins>
-		<Plugin filename="XdevLWindowSDL-1.0.0"></Plugin>
-		<Plugin filename="XdevLMouse-1.0.0"></Plugin>
-		<Plugin filename="XdevLKeyboard-1.0.0"></Plugin>
-		<Plugin filename="XdevLJoystick-1.0.0"></Plugin>		
-    <Plugin filename="XdevLOpenGL-1.0.0"></Plugin>
-  </Plugins>
+  <XdevLPlugins>
+		<XdevLPlugin filename="XdevLWindowSDL-1.0.0"/>
+		<XdevLPlugin filename="XdevLMouse-1.0.0"/>
+		<XdevLPlugin filename="XdevLKeyboard-1.0.0"/>
+		<XdevLPlugin filename="XdevLJoystick-1.0.0"/>		
+    <XdevLPlugin filename="XdevLOpenGL-1.0.0"/>
+  </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
-	<Modules>
-    <Module id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
-    <Module id="MyMouse" 		plugin_name="XdevLMouse" module_name="XdevLMouse"/>		
-    <Module id="MyKeyboard" plugin_name="XdevLKeyboard" module_name="XdevLKeyboard"/>
-    <Module id="MyJoystick"   plugin_name="XdevLJoystick"   module_name="XdevLJoystick"/>
-    <Module id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
-  </Modules>
+	<XdevLModules>
+    <XdevLModule id="MyWindow"   plugin_name="XdevLWindowSDL"   module_name="XdevLWindow"/>
+    <XdevLModule id="MyMouse" 		plugin_name="XdevLMouse" module_name="XdevLMouse"/>		
+    <XdevLModule id="MyKeyboard" plugin_name="XdevLKeyboard" module_name="XdevLKeyboard"/>
+    <XdevLModule id="MyJoystick"   plugin_name="XdevLJoystick"   module_name="XdevLJoystick"/>
+    <XdevLModule id="MyOpenGL"   plugin_name="XdevLOpenGL"   module_name="XdevLOpenGL"/>
+  </XdevLModules>
 
   <!-- Setting some properties of the XdevLWindowDevice module. -->
   <XdevLWindow id="MyWindow">
@@ -52,5 +52,5 @@
 	<XdevLMouseDevice id="MyMouse">
 	</XdevLMouseDevice>
 
-</XdevLProperties>
+</XdevLCoreProperties>
 
