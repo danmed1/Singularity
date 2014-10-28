@@ -3,21 +3,23 @@
 
 #include <XdevL.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLThread.h>
 #include <XdevLMutex.h>
 
 namespace soan {
 
 	namespace utils {
 		
-		class SplashScreen : public xdl::XdevLListener {
+		class SplashScreen : public xdl::XdevLListener, public thread::Thread {
 			public:
-				SplashScreen(xdl::IPXdevLCore core, xdl::XdevLOpenGL330* opengl);
+				SplashScreen(xdl::IPXdevLCore core);
 				~SplashScreen();
 				xdl::XdevLID* getID();
 				xdl::xdl_int notify(xdl::XdevLEvent& event);
 				void show();
 				void hide();
 		private:
+				int RunThread(thread::ThreadArgument* p_arg) final;
 				xdl::xdl_bool getRunningState();
 		private:
 				xdl::IPXdevLCore 			m_core;

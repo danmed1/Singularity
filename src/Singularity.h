@@ -33,7 +33,7 @@
 #include "Game/Bullet.h"
 #include "Game/SpaceShip.h"
 
-
+#include "Utils/SplashScreen.h"
 #include "Utils/FPSCounter.h"
 #include "Engine/Fonts/XdevLFontImpl.h"
 #include "Engine/Fonts/XdevLTextLayoutImpl.h"
@@ -221,6 +221,8 @@ class Singularity : public xdl::XdevLApplication {
 		
 		std::shared_ptr<soan::Material>	m_material;
 		std::shared_ptr<soan::Model> 		m_model;
+		
+		soan::utils::SplashScreen*					m_splashScreen;
 };
 
 

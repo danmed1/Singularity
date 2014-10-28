@@ -34,6 +34,13 @@
 		<BackgroundColor>0 0 0 0 </BackgroundColor>		
   </XdevLWindow>
 
+  <XdevLWindow id="SplashWindow">
+    <Width>480 </Width>
+    <Height> 300 </Height>
+		<Borderless>0</Borderless>
+		<BackgroundColor>0 0 0 0 </BackgroundColor>		
+  </XdevLWindow>
+
 
   <!-- Setting some properties of the XdevLOpenGL module. -->
   <XdevLOpenGL id="MyOpenGL"  profile="core"

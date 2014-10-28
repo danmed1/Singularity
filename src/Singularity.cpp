@@ -33,7 +33,8 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_selectedActor(nullptr),
 	m_cameraMode(xdl::xdl_false),
 	m_numberOfVertices(0),
-	m_numberOfFaces(0) {
+	m_numberOfFaces(0),
+	m_splashScreen(nullptr){
 
 	// Register Singularity as a listener to the event system.
 	getCore()->registerListener(this);
@@ -100,8 +101,11 @@ void Singularity::main(const Arguments& argv) throw() {
 
 
 	getWindow()->setTitle(ver.c_str());
+	getWindow()->hide();
 
-
+	m_splashScreen = new soan::utils::SplashScreen(getCore());
+	m_splashScreen->show();
+	
 	//
 	// Initialize everything.
 	//
@@ -124,7 +128,10 @@ void Singularity::main(const Arguments& argv) throw() {
 	if(initializeAssets() != xdl::ERR_OK) {
 		return;
 	}
-
+	
+	m_splashScreen->hide();
+	
+	getWindow()->show();
 	//
 	// Start main loop.
 	//
@@ -354,6 +361,8 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 		XDEVL_MODULE_ERROR(glewGetErrorString(err) << std::endl);
 		return xdl::ERR_ERROR;
 	}
+	
+	
 
 	std::cout << "--------------------------------------------------\n";
 	std::cout << "OpenGL Vendor : " << m_opengl->getVendor() << std::endl;
