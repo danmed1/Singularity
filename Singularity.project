@@ -259,6 +259,8 @@
       <File Name="src/Utils/SignedDistanceFieldGenerator.h"/>
       <File Name="src/Utils/SignedDistanceFieldGenerator.cpp"/>
       <File Name="src/Utils/SignalSlot.h"/>
+      <File Name="src/Utils/SplashScreen.h"/>
+      <File Name="src/Utils/SplashScreen.cpp"/>
     </VirtualDirectory>
     <File Name="src/Singularity.cpp"/>
     <File Name="src/Singularity.h"/>

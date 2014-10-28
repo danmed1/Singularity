@@ -344,7 +344,7 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 	}
 
 	// We must attach the OpenGL context to a render m_window.
-	if(m_opengl->attach(getWindow()) != xdl::ERR_OK) {
+	if(m_opengl->createContext(getWindow()) != xdl::ERR_OK) {
 		return xdl::ERR_ERROR;
 	}
 
@@ -760,10 +760,10 @@ void Singularity::handleInputEvents(double dT) {
 		m_mouse_captured = !m_mouse_captured;
 
 		if(m_mouse_captured == xdl::xdl_true) {
-			getWindow()->setHidePointer(xdl::xdl_true);
+			getWindow()->hidePointer();
 			getMouse()->setRelativeMode(xdl::xdl_true);
 		} else {
-			getWindow()->setHidePointer(xdl::xdl_false);
+			getWindow()->showPointer();
 			getMouse()->setRelativeMode(xdl::xdl_false);
 		}
 	}
