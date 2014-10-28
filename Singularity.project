@@ -299,6 +299,10 @@
       <File Name="binary/resources/shaders/shadowMap_vs.glsl"/>
       <File Name="binary/resources/shaders/blurGaus_vs.glsl"/>
       <File Name="binary/resources/shaders/blurGaus_fs.glsl"/>
+      <VirtualDirectory Name="splashscreen">
+        <File Name="binary/resources/shaders/splashscreen/splash_fs.glsl"/>
+        <File Name="binary/resources/shaders/splashscreen/splash_vs.glsl"/>
+      </VirtualDirectory>
     </VirtualDirectory>
     <VirtualDirectory Name="ini">
       <File Name="binary/resources/ini/singularity.xml"/>
@@ -353,6 +357,7 @@
         <Library Value="GL"/>
         <Library Value="assimpd"/>
         <Library Value="freeimage"/>
+        <Library Value="pthread"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="binary/$(ProjectName)d" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -449,6 +454,7 @@
         <Library Value="dl"/>
         <Library Value="assimp"/>
         <Library Value="freeimage"/>
+        <Library Value="pthread"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

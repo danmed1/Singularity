@@ -129,7 +129,7 @@ void Singularity::main(const Arguments& argv) throw() {
 		return;
 	}
 	
-	m_splashScreen->hide();
+	//m_splashScreen->hide();
 	
 	getWindow()->show();
 	//

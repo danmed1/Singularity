@@ -1,12 +1,20 @@
 #include "SplashScreen.h"
 #include <XdevLWindow/XdevLWindow.h>
 
+#include "Engine/TextureServer.h"
+#include "Engine/Fonts/XdevLFontImpl.h"
+#include "Engine/Fonts/XdevLTextLayoutImpl.h"
+
 namespace soan {
 
 	namespace utils {
 
-		SplashScreen::SplashScreen(xdl::IPXdevLCore core) : 	m_core(core),
-			m_openGL(nullptr),
+		xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
+			return soan::TextureServer::Inst()->import(filename);
+		}
+
+		SplashScreen::SplashScreen(xdl::IPXdevLCore core) :
+			m_core(core),
 			m_running(xdl::xdl_true) {
 		}
 
@@ -48,6 +56,16 @@ namespace soan {
 			m_openGL->createContext(window);
 			m_openGL->makeCurrent(window);
 
+			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(window, m_openGL);
+			soan::TextureServer::Inst()->setResourcePathPrefix("./");
+
+			fontEngine->setCreateTextureCallback(createTextureFromFile);
+			fontEngine->importFromFontFile("resources/fonts/default_info.txt");
+
+			soan::XdevLTextLayout* textLayouter = new soan::XdevLTextLayoutImpl(window, m_openGL);
+			textLayouter->init(fontEngine);
+
+
 			xdl::XdevLVertexShader* vs;
 			m_openGL->createVertexShader(&vs);
 			xdl::XdevLFragmentShader* fs;
@@ -55,8 +73,13 @@ namespace soan {
 			xdl::XdevLShaderProgram* sp;
 			m_openGL->createShaderProgram(&sp);
 
-			vs->compileFromFile("resources/shaders/splash/splash_vs.glsl");
-			fs->compileFromFile("resources/shaders/splash/splash_fs.glsl");
+			if(vs->compileFromFile("resources/shaders/splashscreen/splash_vs.glsl") != xdl::ERR_OK) {
+				return xdl::ERR_ERROR;
+			}
+
+			if(fs->compileFromFile("resources/shaders/splashscreen/splash_fs.glsl") != xdl::ERR_OK) {
+				return xdl::ERR_ERROR;
+			}
 
 			sp->attach(vs);
 			sp->attach(fs);
@@ -86,8 +109,8 @@ namespace soan {
 				return -1;
 			}
 
-
 			while(true) {
+
 				if(!getRunningState()) {
 					break;
 				}
@@ -100,6 +123,14 @@ namespace soan {
 				m_openGL->setActiveVertexArray(va);
 
 				m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
+
+				
+				std::wstring maxVertices = L"Singularity";
+				textLayouter->setScale(1.0f);
+				textLayouter->setColor(1.0f, 1.0f, 1.0f);
+				textLayouter->addDynamicText(maxVertices.c_str(), -0.10, 0.0);
+
+				textLayouter->render();
 
 				m_openGL->swapBuffers();
 

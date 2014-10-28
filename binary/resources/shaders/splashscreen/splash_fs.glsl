@@ -1,12 +1,4 @@
-
-#if PLATFORM_USES_ES2
-precision highp float;
-#else
-// #version 120 at the beginning is added in FSlateOpenGLShader::CompileShader()
-#extension GL_EXT_gpu_shader4 : enable
-#endif
-
-varying vec2 textureCoordinate;
+in vec2 textureCoordinate;
 
 uniform sampler2D SplashTexture;
 

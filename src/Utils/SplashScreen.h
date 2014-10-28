@@ -22,10 +22,10 @@ namespace soan {
 				int RunThread(thread::ThreadArgument* p_arg) final;
 				xdl::xdl_bool getRunningState();
 		private:
-				xdl::IPXdevLCore 			m_core;
-				xdl::XdevLOpenGL330*	m_openGL;
-				xdl::xdl_bool 				m_running;
-				thread::Mutex					m_mutex;
+				xdl::IPXdevLCore 				m_core;
+				xdl::XdevLOpenGL330*		m_openGL;
+				xdl::xdl_bool 					m_running;
+				thread::Mutex						m_mutex;
 		};
 
 	}
