@@ -1,5 +1,5 @@
 #include "SplashScreen.h"
-#include <XdevLWindow/XdevLWindow.h>
+
 
 #include "Engine/TextureServer.h"
 #include "Engine/Fonts/XdevLFontImpl.h"
@@ -15,6 +15,7 @@ namespace soan {
 
 		SplashScreen::SplashScreen(xdl::IPXdevLCore core) :
 			m_core(core),
+			m_window(nullptr),
 			m_running(xdl::xdl_true) {
 		}
 
@@ -50,19 +51,19 @@ namespace soan {
 		}
 
 		int SplashScreen::RunThread(thread::ThreadArgument* p_arg) {
-			xdl::IPXdevLWindow window = xdl::createModule<xdl::IPXdevLWindow>(m_core, "XdevLWindow", "SplashWindow");
+			m_window = xdl::createModule<xdl::IPXdevLWindow>(m_core, "XdevLWindow", "SplashWindow");
 
 			xdl::XdevLOpenGL330* m_openGL = static_cast<xdl::XdevLOpenGL330*>(m_core->createModule("XdevLOpenGL", "SplashScreenContext"));
-			m_openGL->createContext(window);
-			m_openGL->makeCurrent(window);
+			m_openGL->createContext(m_window);
+			m_openGL->makeCurrent(m_window);
 
-			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(window, m_openGL);
+			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window, m_openGL);
 			soan::TextureServer::Inst()->setResourcePathPrefix("./");
 
 			fontEngine->setCreateTextureCallback(createTextureFromFile);
 			fontEngine->importFromFontFile("resources/fonts/default_info.txt");
 
-			soan::XdevLTextLayout* textLayouter = new soan::XdevLTextLayoutImpl(window, m_openGL);
+			soan::XdevLTextLayout* textLayouter = new soan::XdevLTextLayoutImpl(m_window, m_openGL);
 			textLayouter->init(fontEngine);
 
 
@@ -110,7 +111,8 @@ namespace soan {
 			}
 
 			while(true) {
-
+				m_openGL->makeCurrent(m_window);
+				
 				if(!getRunningState()) {
 					break;
 				}
@@ -137,7 +139,7 @@ namespace soan {
 				xdl::sleep(0.100);
 			}
 
-			xdl::destroyModule(m_core, window);
+			xdl::destroyModule(m_core, m_window);
 			return 0;
 		}
 

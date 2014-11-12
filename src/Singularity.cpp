@@ -129,7 +129,7 @@ void Singularity::main(const Arguments& argv) throw() {
 		return;
 	}
 	
-	//m_splashScreen->hide();
+	m_splashScreen->hide();
 	
 	getWindow()->show();
 	//
@@ -355,12 +355,12 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 		return xdl::ERR_ERROR;
 	}
 
-	glewExperimental= GL_TRUE;
-	GLenum err = glewInit();
-	if(GLEW_OK != err) {
-		XDEVL_MODULE_ERROR(glewGetErrorString(err) << std::endl);
-		return xdl::ERR_ERROR;
-	}
+//	glewExperimental= GL_TRUE;
+//	GLenum err = glewInit();
+//	if(GLEW_OK != err) {
+//		XDEVL_MODULE_ERROR(glewGetErrorString(err) << std::endl);
+//		return xdl::ERR_ERROR;
+//	}
 	
 	
 

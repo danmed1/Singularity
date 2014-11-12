@@ -2,6 +2,7 @@
 #define SPLASH_SCREEN_H
 
 #include <XdevL.h>
+#include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLThread.h>
 #include <XdevLMutex.h>
@@ -23,6 +24,7 @@ namespace soan {
 				xdl::xdl_bool getRunningState();
 		private:
 				xdl::IPXdevLCore 				m_core;
+				xdl::IPXdevLWindow			m_window;
 				xdl::XdevLOpenGL330*		m_openGL;
 				xdl::xdl_bool 					m_running;
 				thread::Mutex						m_mutex;
