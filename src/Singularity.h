@@ -40,8 +40,8 @@
 
 
 const xdl::xdl_uint MAJOR = 0;
-const xdl::xdl_uint MINOR = 4;
-const xdl::xdl_uint PATCH = 2;
+const xdl::xdl_uint MINOR = 1;
+const xdl::xdl_uint PATCH = 0;
 
 /**
 	@class Singularity

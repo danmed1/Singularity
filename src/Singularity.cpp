@@ -101,10 +101,9 @@ void Singularity::main(const Arguments& argv) throw() {
 
 
 	getWindow()->setTitle(ver.c_str());
-	getWindow()->hide();
 
-	m_splashScreen = new soan::utils::SplashScreen(getCore());
-	m_splashScreen->show();
+	//m_splashScreen = new soan::utils::SplashScreen(getCore());
+	//m_splashScreen->show();
 	
 	//
 	// Initialize everything.
@@ -129,7 +128,7 @@ void Singularity::main(const Arguments& argv) throw() {
 		return;
 	}
 	
-	m_splashScreen->hide();
+	//m_splashScreen->hide();
 	
 	getWindow()->show();
 	//
@@ -140,7 +139,8 @@ void Singularity::main(const Arguments& argv) throw() {
 
 	// Start main loop.
 	while(!esc->getClicked() && (m_coreRunning == true)) {
-
+	//	xdl::XdevLOpenGLContextScope scope(m_opengl, getWindow());
+		
 		// Update the Core System.
 		getCore()->update();
 
