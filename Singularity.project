@@ -215,6 +215,7 @@
       </VirtualDirectory>
       <File Name="src/Engine/Frustum.h"/>
       <File Name="src/Engine/Frustum.cpp"/>
+      <File Name="src/Engine/Color.h"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Game">
       <VirtualDirectory Name="Universe">

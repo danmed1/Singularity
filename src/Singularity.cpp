@@ -9,6 +9,8 @@
 #include <locale>
 #include <memory>
 
+#include <Engine/Color.h>
+
 Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw() : xdl::XdevLApplication(argc, argv, xml_filename),
 	m_id("Singularity"),
 	m_coreRunning(xdl::xdl_true),
@@ -79,7 +81,7 @@ xdl::XdevLID* Singularity::getID() {
 
 
 void Singularity::main(const Arguments& argv) throw() {
-
+	
 	//
 	// Set title of the window.
 	//
@@ -103,8 +105,8 @@ void Singularity::main(const Arguments& argv) throw() {
 	getWindow()->setTitle(ver.c_str());
 	getWindow()->hide();
 
-	m_splashScreen = new soan::utils::SplashScreen(getCore());
-	m_splashScreen->show();
+	//m_splashScreen = new soan::utils::SplashScreen(getCore());
+	//m_splashScreen->show();
 	
 	//
 	// Initialize everything.
@@ -129,7 +131,7 @@ void Singularity::main(const Arguments& argv) throw() {
 		return;
 	}
 	
-	m_splashScreen->hide();
+//	m_splashScreen->hide();
 	
 	getWindow()->show();
 	//
