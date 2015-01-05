@@ -37,16 +37,14 @@ namespace soan {
 		}
 
 		void SplashScreen::hide() {
-			m_mutex.Lock();
+			thread::XdevLScopeLock lock(m_mutex);
 			m_running = xdl::xdl_false;
-			m_mutex.Unlock();
 		}
 
 		xdl::xdl_bool SplashScreen::getRunningState() {
+			thread::XdevLScopeLock lock(m_mutex);
 			xdl::xdl_bool tmp;
-			m_mutex.Lock();
 			tmp = m_running;
-			m_mutex.Unlock();
 			return tmp;
 		}
 
@@ -111,7 +109,8 @@ namespace soan {
 			}
 
 			while(true) {
-				m_openGL->makeCurrent(m_window);
+				xdl::XdevLOpenGLContextScope scope(m_openGL, m_window);
+
 				
 				if(!getRunningState()) {
 					break;
@@ -138,7 +137,7 @@ namespace soan {
 
 				xdl::sleep(0.100);
 			}
-
+			std::cout << "************";
 			xdl::destroyModule(m_core, m_window);
 			return 0;
 		}

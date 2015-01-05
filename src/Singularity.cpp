@@ -9,8 +9,6 @@
 #include <locale>
 #include <memory>
 
-#include <Engine/Color.h>
-
 Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw() : xdl::XdevLApplication(argc, argv, xml_filename),
 	m_id("Singularity"),
 	m_coreRunning(xdl::xdl_true),
@@ -81,7 +79,7 @@ xdl::XdevLID* Singularity::getID() {
 
 
 void Singularity::main(const Arguments& argv) throw() {
-	
+
 	//
 	// Set title of the window.
 	//
@@ -133,7 +131,17 @@ void Singularity::main(const Arguments& argv) throw() {
 	
 //	m_splashScreen->hide();
 	
+	
+	xdl::XdevLWindow* tooltip = static_cast<xdl::XdevLWindow*>(getCore()->createModule("XdevLWindow", "ToolTip"));
+	tooltip->setTitle("test");
+	tooltip->setWidth(320);
+	tooltip->setHeight(200);
+	//tooltip->setParent(getWindow());
+	tooltip->show();	
+
 	getWindow()->show();
+
+	
 	//
 	// Start main loop.
 	//
@@ -204,7 +212,9 @@ void Singularity::main(const Arguments& argv) throw() {
 
 
 void  Singularity::handleGraphics(double dT) {
-
+//	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
+get3DProcessor()->makeCurrent(getWindow());
+	
 //	m_model->rotateLocalX(40);
 
 	calculateShadowMaps();
