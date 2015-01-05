@@ -96,11 +96,10 @@ void Singularity::main(const Arguments& argv) throw() {
 	major << MAJOR;
 	minor << MINOR;
 	patch << PATCH;
-	std::string ver = tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str();
 
+	xdl::XdevLWindowTitle title{tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str()};
 
-
-	getWindow()->setTitle(ver.c_str());
+	getWindow()->setTitle(title);
 	getWindow()->hide();
 
 	//m_splashScreen = new soan::utils::SplashScreen(getCore());
@@ -131,13 +130,6 @@ void Singularity::main(const Arguments& argv) throw() {
 	
 //	m_splashScreen->hide();
 	
-	
-	xdl::XdevLWindow* tooltip = static_cast<xdl::XdevLWindow*>(getCore()->createModule("XdevLWindow", "ToolTip"));
-	tooltip->setTitle("test");
-	tooltip->setWidth(320);
-	tooltip->setHeight(200);
-	//tooltip->setParent(getWindow());
-	tooltip->show();	
 
 	getWindow()->show();
 
@@ -357,7 +349,7 @@ soan::TextureServer* Singularity::getTextureServer() {
 
 xdl::xdl_int Singularity::initializeRenderSystem() {
 	// Get the OpenGL context.
-	m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), "MyOpenGL");
+	m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
 	if(!m_opengl) {
 		return xdl::ERR_ERROR;
 	}
