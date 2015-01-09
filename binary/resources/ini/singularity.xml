@@ -5,20 +5,20 @@
 
   <!-- Plug external plugins to the core system. -->
   <XdevLPlugins>
-		<XdevLPlugin name="XdevLWindowSDL" version="1.0.0"/>
+		<XdevLPlugin name="XdevLWindowSDL" 	version="1.0.0"/>
 		<XdevLPlugin name="XdevLMouse"			version="1.0.0"/>
-		<XdevLPlugin name="XdevLKeyboard"	version="1.0.0"/>
-		<XdevLPlugin name="XdevLJoystick"	version="1.0.0"/>		
-    <XdevLPlugin name="XdevLOpenGL"		version="1.0.0"/>
+		<XdevLPlugin name="XdevLKeyboard"		version="1.0.0"/>
+		<XdevLPlugin name="XdevLJoystick"		version="1.0.0"/>		
+    <XdevLPlugin name="XdevLOpenGL"			version="1.0.0"/>
   </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<XdevLModules>
-    <XdevLModule id="MyWindow"		module_name="XdevLWindow"/>
-    <XdevLModule id="MyMouse" 		module_name="XdevLMouse"/>		
-    <XdevLModule id="MyKeyboard"	module_name="XdevLKeyboard"/>
-    <XdevLModule id="MyJoystick"	module_name="XdevLJoystick"/>
-    <XdevLModule id="MyOpenGL"		module_name="XdevLOpenGL"/>
+    <XdevLModule id="MyWindow"		name="XdevLWindow"/>
+    <XdevLModule id="MyMouse" 		name="XdevLMouse"/>		
+    <XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
+    <XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
+    <XdevLModule id="MyOpenGL"		name="XdevLOpenGL"/>
   </XdevLModules>
 
   <!-- Setting some properties of the XdevLWindowDevice module. -->
