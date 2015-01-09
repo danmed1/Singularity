@@ -49,9 +49,9 @@ namespace soan {
 		}
 
 		int SplashScreen::RunThread(thread::ThreadArgument* p_arg) {
-			m_window = xdl::createModule<xdl::IPXdevLWindow>(m_core, "XdevLWindow", "SplashWindow");
+			m_window = xdl::createModule<xdl::IPXdevLWindow>(m_core, xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("SplashWindow"));
 
-			xdl::XdevLOpenGL330* m_openGL = static_cast<xdl::XdevLOpenGL330*>(m_core->createModule("XdevLOpenGL", "SplashScreenContext"));
+			xdl::XdevLOpenGL330* m_openGL = static_cast<xdl::XdevLOpenGL330*>(m_core->createModule(xdl::XdevLModuleName("XdevLOpenGL"), xdl::XdevLID("SplashScreenContext")));
 			m_openGL->createContext(m_window);
 			m_openGL->makeCurrent(m_window);
 

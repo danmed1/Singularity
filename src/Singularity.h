@@ -88,7 +88,7 @@ class Singularity : public xdl::XdevLApplication {
 		void handleGraphics(double dT);
 
 		/// Returns the ID for message handling.
-		virtual xdl::XdevLID* getID() final;
+		virtual const xdl::XdevLID& getID() const final;
 
 	private:
 

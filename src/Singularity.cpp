@@ -73,8 +73,8 @@ xdl::XdevLOpenGL330*	Singularity::get3DProcessor() {
 	return m_opengl;
 }
 
-xdl::XdevLID* Singularity::getID() {
-	return &m_id;
+const xdl::XdevLID& Singularity::getID() const {
+	return m_id;
 }
 
 
@@ -99,8 +99,9 @@ void Singularity::main(const Arguments& argv) throw() {
 	std::string ver = tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str();
 
 
-
-	getWindow()->setTitle(ver.c_str());
+	xdl::XdevLWindowTitle title {ver};
+	
+	getWindow()->setTitle(title);
 
 	//m_splashScreen = new soan::utils::SplashScreen(getCore());
 	//m_splashScreen->show();
@@ -345,7 +346,7 @@ soan::TextureServer* Singularity::getTextureServer() {
 
 xdl::xdl_int Singularity::initializeRenderSystem() {
 	// Get the OpenGL context.
-	m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), "MyOpenGL");
+	m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
 	if(!m_opengl) {
 		return xdl::ERR_ERROR;
 	}
@@ -401,19 +402,25 @@ xdl::xdl_int Singularity::initializeEngine() {
 //	w =	640;
 //	h = 400;
 
-
+	// Create gaus blur post process effect.
 	m_gausBlur = new soan::GausBlur(get3DProcessor());
 	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
 
+	// Create shadow map processor.
 	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::NORMAL);
 	m_shadowMap->init(2048, 2048);
 
+	// Create depth of field post process effect.
 	m_depthOfField = new soan::DepthOfField(get3DProcessor());
 	m_depthOfField->init(w,h);
 
+	// Create one camera.
 	m_camera = new soan::Camera();
+	
+	// Create the frustum class.
 	m_frustum = new soan::Frustum();
-
+	
+	// Create the G-Buffer which does the deferred rendering.
 	m_gBuffer = new soan::GBuffer(get3DProcessor());
 	if(m_gBuffer->init(w,h) == xdl::ERR_ERROR) {
 		return xdl::ERR_ERROR;

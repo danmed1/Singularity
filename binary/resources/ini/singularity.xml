@@ -5,11 +5,11 @@
 
   <!-- Plug external plugins to the core system. -->
   <XdevLPlugins>
-		<XdevLPlugin filename="XdevLWindowSDL-1.0.0"/>
-		<XdevLPlugin filename="XdevLMouse-1.0.0"/>
-		<XdevLPlugin filename="XdevLKeyboard-1.0.0"/>
-		<XdevLPlugin filename="XdevLJoystick-1.0.0"/>		
-    <XdevLPlugin filename="XdevLOpenGL-1.0.0"/>
+		<XdevLPlugin name="XdevLWindowSDL" version="1.0.0"/>
+		<XdevLPlugin name="XdevLMouse"			version="1.0.0"/>
+		<XdevLPlugin name="XdevLKeyboard"	version="1.0.0"/>
+		<XdevLPlugin name="XdevLJoystick"	version="1.0.0"/>		
+    <XdevLPlugin name="XdevLOpenGL"		version="1.0.0"/>
   </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
