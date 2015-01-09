@@ -11,7 +11,6 @@
 
 namespace soan {
 
-
 	/**
 		@class Camera
 		@brief A camera in the virtual space..

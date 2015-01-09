@@ -96,11 +96,9 @@ void Singularity::main(const Arguments& argv) throw() {
 	major << MAJOR;
 	minor << MINOR;
 	patch << PATCH;
-	std::string ver = tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str();
 
+	xdl::XdevLWindowTitle title{tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str()};
 
-	xdl::XdevLWindowTitle title {ver};
-	
 	getWindow()->setTitle(title);
 
 	//m_splashScreen = new soan::utils::SplashScreen(getCore());
@@ -129,9 +127,12 @@ void Singularity::main(const Arguments& argv) throw() {
 		return;
 	}
 	
-	//m_splashScreen->hide();
+//	m_splashScreen->hide();
 	
+
 	getWindow()->show();
+
+	
 	//
 	// Start main loop.
 	//
@@ -140,8 +141,7 @@ void Singularity::main(const Arguments& argv) throw() {
 
 	// Start main loop.
 	while(!esc->getClicked() && (m_coreRunning == true)) {
-	//	xdl::XdevLOpenGLContextScope scope(m_opengl, getWindow());
-		
+
 		// Update the Core System.
 		getCore()->update();
 
@@ -203,7 +203,9 @@ void Singularity::main(const Arguments& argv) throw() {
 
 
 void  Singularity::handleGraphics(double dT) {
-
+//	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
+get3DProcessor()->makeCurrent(getWindow());
+	
 //	m_model->rotateLocalX(40);
 
 	calculateShadowMaps();

@@ -8,7 +8,7 @@ namespace soan {
 		m_pitch(0.0f),
 		m_heading(0.0f),
 		m_forwardSpeed(10.0f),
-		m_sideSpeed(2.0f),
+		m_sideSpeed(10.0f),
 		m_upSpeed(10.0f),
 		m_slerpSpeed(10.0f) {
 
