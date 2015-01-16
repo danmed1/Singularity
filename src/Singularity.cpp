@@ -9,7 +9,7 @@
 #include <locale>
 #include <memory>
 
-Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw() : xdl::XdevLApplication(argc, argv, xml_filename),
+Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw() : xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
 	m_id("Singularity"),
 	m_coreRunning(xdl::xdl_true),
 	m_mouse_captured(xdl::xdl_false),
