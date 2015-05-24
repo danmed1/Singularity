@@ -180,7 +180,7 @@ void Singularity::main(const Arguments& argv) throw() {
 		handlePhysics(m_dT);
 
 		if(m_cameraMode == xdl::xdl_false) {
-			m_camera->setTrackingProperties(0.0f, -10.0f, 200.0f, m_dT);
+			m_camera->setTrackingProperties(0.0f, -10.0f, 100.0f, m_dT);
 		}
 
 		m_frustum->update(m_camera, true);
@@ -230,8 +230,6 @@ void  Singularity::handleGraphics(double dT) {
 //	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
 get3DProcessor()->makeCurrent(getWindow());
 	
-//	m_model->rotateLocalX(40);
-
 	calculateShadowMaps();
 
 
@@ -573,7 +571,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
 	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 1; as++) {
+		for(unsigned int as = 0; as < 100; as++) {
 			soan::game::Astroid* astroid 	= new soan::game::Astroid();
 			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
 			astroid->setPhysics(m_physics, 0.1f);
@@ -589,24 +587,25 @@ xdl::xdl_int Singularity::initializeAssets() {
 	}
 
 
-//	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
-//	if(assimpToModel.import("resources/models/HN48/FederationInterceptor1.obj", spaceModel) != xdl::ERR_OK) {
-////	if(assimpToModel.import("resources/models/HN21/space_ship.obj", spaceModel) != xdl::ERR_OK) {
-//		return xdl::ERR_ERROR;
-//	}
-//
-//	m_spaceShip = new soan::game::SpaceShip();
-//	m_spaceShip->setName("SpaceShip");
-//	m_spaceShip->setModel(spaceModel);
-//	m_spaceShip->setLifeTime(0);
-//	m_spaceShip->setPhysics(m_physics, 12.0f);
-//	m_renderable.push_back(m_spaceShip);
-//
-//	m_numberOfVertices += spaceModel->getNumberOfVertices();
-//	m_numberOfFaces += spaceModel->getNumberOfFaces();
-//
-//	m_selectedActor = m_spaceShip;
-//	m_camera->startTrackObject(m_spaceShip->getModel());
+	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
+	if(assimpToModel.import("resources/models/HN48/FederationInterceptor1.obj", spaceModel) != xdl::ERR_OK) {
+//	if(assimpToModel.import("resources/models/HN21/space_ship.obj", spaceModel) != xdl::ERR_OK) {
+		return xdl::ERR_ERROR;
+	}
+
+	m_spaceShip = new soan::game::SpaceShip();
+	m_spaceShip->setName("SpaceShip");
+	m_spaceShip->setModel(spaceModel);
+	m_spaceShip->setLifeTime(0);
+	m_spaceShip->setPhysics(m_physics, 22.0f);
+
+	m_renderable.push_back(m_spaceShip);
+
+	m_numberOfVertices += spaceModel->getNumberOfVertices();
+	m_numberOfFaces += spaceModel->getNumberOfFaces();
+
+	m_selectedActor = m_spaceShip;
+	m_camera->startTrackObject(m_spaceShip->getModel());
 
 
 
@@ -636,7 +635,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	ground->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
 	ground->getModel()->getMesh(0)->getMaterial()->setTexture(soan::Material::DISPLACEMENT_MAP, displacementMap);
 	ground->getModel()->getMesh(0)->getMaterial()->setUseDisplacementMap(xdl::xdl_true);
-	//ground->getModel()->getMesh(0)->getMaterial()->setUseNormalMap(xdl::xdl_false);
+	ground->getModel()->getMesh(0)->getMaterial()->setUseNormalMap(xdl::xdl_false);
 	m_numberOfVertices += groundModel->getNumberOfVertices();
 	m_numberOfFaces += groundModel->getNumberOfFaces();
 	m_renderable.push_back(ground);

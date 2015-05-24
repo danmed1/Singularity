@@ -49,7 +49,7 @@ namespace soan {
 			m_broadphase 								= new btDbvtBroadphase();
 			m_solver 										= new btSequentialImpulseConstraintSolver;
 			m_dynamicsWorld 						= new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
-			m_dynamicsWorld->setGravity(btVector3(0.0f, -10.0f,0.0f));
+			m_dynamicsWorld->setGravity(btVector3(0.0f, 0.0f,0.0f));
 
 			m_debugDrawer = debugDraw;
 			if(debugDraw != nullptr) {
