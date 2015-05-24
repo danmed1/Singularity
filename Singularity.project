@@ -264,6 +264,7 @@
       <File Name="src/Utils/SplashScreen.cpp"/>
     </VirtualDirectory>
     <File Name="src/Singularity.h"/>
+    <File Name="src/Singularity.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <VirtualDirectory Name="shaders">
@@ -311,7 +312,6 @@
   <VirtualDirectory Name="documentation">
     <File Name="README.md"/>
     <File Name="Version.txt"/>
-    <File Name="src/Singularity.cpp"/>
   </VirtualDirectory>
   <Dependencies Name="Debug_Linux"/>
   <Dependencies Name="Debug_MacOSX"/>
