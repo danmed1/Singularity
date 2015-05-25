@@ -27,10 +27,14 @@
 namespace soan {
 
 
-	Camera::Camera() : 	m_type(PERSPECTIVE),
+	Camera::Camera() : 
+		m_type(PERSPECTIVE),
+		m_viewPortWidth(0),
+		m_viewPortHeight(0),
 		m_trackedObject(nullptr),
 		m_pitch(0.0f),
 		m_heading(0.0f),
+		m_roll(0.0f),
 		m_forwardSpeed(10.0f),
 		m_sideSpeed(10.0f),
 		m_upSpeed(10.0f),
@@ -152,7 +156,7 @@ namespace soan {
 		m_upSpeed = upSpeed;
 	}
 
-	void Camera::startTrackObject(const std::shared_ptr<Moveable>& moveable) {
+	void Camera::startTrackObject(Moveable* moveable) {
 		m_trackedObject = moveable;
 	}
 

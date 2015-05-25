@@ -59,7 +59,7 @@ namespace soan {
 				startTransform.setIdentity();
 
 
-				startTransform.setOrigin(btVector3(getModel()->getPosition().x,getModel()->getPosition().y,getModel()->getPosition().z));
+				startTransform.setOrigin(btVector3(getPosition().x,getPosition().y,getPosition().z));
 
 
 				m_colShape = new btBoxShape(btVector3(m_model->getBoundingBoxX()/2.0, m_model->getBoundingBoxY()/2.0f, m_model->getBoundingBoxZ()/2.0f));
@@ -146,8 +146,8 @@ namespace soan {
 			// TODO This part can be optimized. :D I was just to lazy to do, later I will.
 			btMotionState* ms = m_body->getMotionState();
 			btTransform tf;
-			tf.setOrigin(btVector3(getModel()->getPosition().x, getModel()->getPosition().y, getModel()->getPosition().z));
-			tf.setRotation(btQuaternion(getModel()->getOrientation().x, getModel()->getOrientation().y,getModel()->getOrientation().z,getModel()->getOrientation().w));
+			tf.setOrigin(btVector3(getPosition().x, getPosition().y, getPosition().z));
+			tf.setRotation(btQuaternion(getOrientation().x, getOrientation().y,getOrientation().z,getOrientation().w));
 			ms->setWorldTransform(tf);
 		}
 
@@ -159,8 +159,8 @@ namespace soan {
 					ms->getWorldTransform(ts);
 					btQuaternion 	qr 	= ts.getRotation();
 					btVector3 		pos = ts.getOrigin();
-					getModel()->setOrientation(qr.x(), qr.y(), qr.z(), qr.w());
-					getModel()->setPosition(pos.x(), pos.y(), pos.z());
+					setOrientation(qr.x(), qr.y(), qr.z(), qr.w());
+					setPosition(pos.x(), pos.y(), pos.z());
 				}
 			}
 			// We have to return false because it did not die yet.

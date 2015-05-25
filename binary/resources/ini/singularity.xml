@@ -45,7 +45,7 @@
   <!-- Setting some properties of the XdevLOpenGL module. -->
   <XdevLOpenGL id="MyOpenGL"  profile="core"
                               major="3"
-                              minor="3" 
+                              minor="2" 
                               framebuffer_depth="32" 
                               z_buffer_depth="24" 
                               stencil_buffer_depth="8"  

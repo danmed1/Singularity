@@ -210,8 +210,8 @@ void Singularity::main(const Arguments& argv) throw() {
 
 		for(auto renderable : m_renderable) {
 			renderable->getCollisionShape();
-			if(m_frustum->isPointInside(renderable->getModel()->getPosition())) {
-				std::cout << "Inside the Frustum: " << renderable->getModel()->getPosition() << std::endl;
+			if(m_frustum->isPointInside(renderable->getPosition())) {
+				std::cout << "Inside the Frustum: " << renderable->getPosition() << std::endl;
 				renderable->setCastShadow(xdl::xdl_false);
 			} else {
 				renderable->setCastShadow(xdl::xdl_true);
@@ -605,7 +605,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	m_numberOfFaces += spaceModel->getNumberOfFaces();
 
 	m_selectedActor = m_spaceShip;
-	m_camera->startTrackObject(m_spaceShip->getModel());
+	m_camera->startTrackObject(m_spaceShip);
 
 
 
@@ -625,7 +625,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	ground->setName("Ground");
 	ground->setLifeTime(0);
 	ground->setModel(groundModel);
-	ground->getModel()->setPosition(0.0f, -10.0f, 0.0f);
+	ground->setPosition(0.0f, -10.0f, 0.0f);
 	ground->setPhysics(m_physics, 0.0f);
 
 	m_material = ground->getModel()->getMesh(0)->getMaterial();
@@ -658,7 +658,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
 			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
 			planet->setPhysics(m_physics, 10.0);
-			planet->getModel()->setPosition(0.0f, 0.0f, -100.0f);
+			planet->setPosition(0.0f, 0.0f, -100.0f);
 			m_renderable.push_back(planet);
 
 			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
@@ -839,8 +839,7 @@ void Singularity::handleInputEvents(double dT) {
 		m_cameraMode = !m_cameraMode;
 
 		if(!m_cameraMode) {
-			std::shared_ptr<soan::Moveable> to = std::dynamic_pointer_cast<soan::Moveable>(m_spaceShip->getModel());
-			m_camera->startTrackObject(to);
+			m_camera->startTrackObject(m_spaceShip);
 		} else {
 			m_camera->stopTrackObject();
 		}
@@ -910,7 +909,7 @@ void Singularity::calculateShadowMaps() {
 
 		for(auto& mesh : actorObject->getModel()->getMeshList()) {
 
-			m_shadowMap->setModelMatrix(actorObject->getModel()->getTransformationMatrix());
+			m_shadowMap->setModelMatrix(actorObject->getTransformationMatrix());
 
 			get3DProcessor()->setActiveVertexArray(mesh->getVertexArray());
 
@@ -991,7 +990,7 @@ void Singularity::startDeferredLighting() {
 
 		for(auto& mesh : actorObject->getModel()->getMeshList()) {
 			m_gBuffer->setMaterial(*mesh->getMaterial());
-			m_gBuffer->setModelMatrix(actorObject->getModel()->getTransformationMatrix());
+			m_gBuffer->setModelMatrix(actorObject->getTransformationMatrix());
 
 			get3DProcessor()->setActiveVertexArray(mesh->getVertexArray());
 			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);

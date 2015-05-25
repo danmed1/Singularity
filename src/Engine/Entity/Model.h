@@ -40,7 +40,7 @@ namespace soan {
 		A model may have more then one mesh. The main purpose of this class is to provide a mechanism
 		that allows connecting different types of mesh into one object.
 	*/
-	class Model : public Moveable {
+	class Model {
 	public:
 		Model();
 		

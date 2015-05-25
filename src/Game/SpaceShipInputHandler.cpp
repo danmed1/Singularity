@@ -208,8 +208,8 @@ namespace soan {
 				sum += compensateHeadingDrift(actor, dT);
 			}
 			
-			m_headingCommand->executeAxis(actor, -m_headingAxis->getValue(), dT);
-			m_pitchCommand->executeAxis(actor, m_pitchAxis->getValue(), dT);
+		//	m_headingCommand->executeAxis(actor, -m_headingAxis->getValue(), dT);
+		//	m_pitchCommand->executeAxis(actor, m_pitchAxis->getValue(), dT);
 
 
 			//
