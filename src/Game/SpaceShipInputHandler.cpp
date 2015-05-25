@@ -44,14 +44,18 @@ namespace soan {
 			delete m_thrustBackwardCommand;
 			delete m_rollLeftCommand;
 			delete m_rollRightCommand;
+			delete m_pitchCommand;
 			delete m_pitchForwardCommand;
 			delete m_pitchBackwardCommand;
+			delete m_headingCommand;
 			delete m_headLeftCommand;
 			delete m_headRightCommand;
 			delete m_thrustUpCommand;
 			delete m_thrustDownCommand;
 			delete m_thrustRightCommand;
 			delete m_thrustLeftCommand;
+			
+
 
 			m_initialized = xdl::xdl_false;
 		}
@@ -79,6 +83,14 @@ namespace soan {
 			m_jd->getAxis(xdl::JOY_AXIS_3,			&m_thrustAxis);
 			m_thrustAxis->setMinMax(0.0f, 1.0f);
 			
+			m_md->getAxis(xdl::MOUSE_AXIS_X, &m_headingAxis);
+			m_headingAxis->setMinMax(-1.0f, 1.0f);
+
+			m_md->getAxis(xdl::MOUSE_AXIS_Y, &m_pitchAxis);
+			m_pitchAxis->setMinMax(-1.0f, 1.0f);
+			
+			
+			
 			//
 			// Create all used commands.
 			//
@@ -86,8 +98,10 @@ namespace soan {
 			m_thrustBackwardCommand		= new ThrustBackwardCommand();
 			m_rollLeftCommand 				= new RollLeftCommand();
 			m_rollRightCommand 				= new RollRightCommand();
+			m_pitchCommand 		= new PitchCommand();
 			m_pitchForwardCommand 		= new PitchForwardCommand();
 			m_pitchBackwardCommand 		= new PitchBackwardCommand();
+			m_headingCommand			= new HeadingCommand();
 			m_headLeftCommand					= new HeadLeftCommand();
 			m_headRightCommand				= new HeadRightCommand();
 			m_thrustUpCommand					= new ThrustUpCommand();
@@ -193,6 +207,9 @@ namespace soan {
 			if(headingActivated == xdl::xdl_false) {
 				sum += compensateHeadingDrift(actor, dT);
 			}
+			
+			m_headingCommand->executeAxis(actor, -m_headingAxis->getValue(), dT);
+			m_pitchCommand->executeAxis(actor, m_pitchAxis->getValue(), dT);
 
 
 			//

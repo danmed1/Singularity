@@ -76,13 +76,17 @@ namespace soan {
 				xdl::XdevLButton*						m_thrustRight;
 				
 				xdl::XdevLAxis*							m_thrustAxis;
+				xdl::XdevLAxis*							m_headingAxis;
+				xdl::XdevLAxis*							m_pitchAxis;
 
 				ThrustCommand*							m_thrustCommand;
 				ThrustBackwardCommand*			m_thrustBackwardCommand;
 				RollLeftCommand*						m_rollLeftCommand;
 				RollRightCommand*						m_rollRightCommand;
+				PitchCommand*							m_pitchCommand;
 				PitchForwardCommand* 				m_pitchForwardCommand;
 				PitchBackwardCommand*				m_pitchBackwardCommand;
+				HeadingCommand*						m_headingCommand;
 				HeadLeftCommand*						m_headLeftCommand;
 				HeadRightCommand*						m_headRightCommand;
 				ThrustUpCommand*						m_thrustUpCommand;

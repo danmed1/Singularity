@@ -36,7 +36,8 @@ namespace soan {
 
 				virtual ~Command() {};
 
-				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) = 0;
+				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) {};
+				virtual void executeAxis(SpaceShip* actor, xdl::xdl_double value, xdl::xdl_double dT) {};
 				virtual void undo() = 0;
 
 		};
@@ -122,6 +123,19 @@ namespace soan {
 				virtual void undo() override {}
 		};
 
+		class PitchCommand : public Command {
+			public:
+				virtual ~PitchCommand() {}
+
+				virtual void executeAxis(SpaceShip* actor, xdl::xdl_double value, xdl::xdl_double dT) override {
+					btVector3 pitch(btVector3(actor->getMaxPitchImpulse()*value*10, 0.0f, 0.0f));
+					pitch = quatRotate(actor->getRigidBody()->getOrientation(), pitch);
+					actor->getRigidBody()->applyTorque(pitch);
+				}
+
+				virtual void undo() override {}
+		};
+
 		class PitchForwardCommand : public Command {
 			public:
 				virtual ~PitchForwardCommand() {}
@@ -143,6 +157,20 @@ namespace soan {
 					btVector3 pitch(btVector3(-actor->getMaxPitchImpulse(), 0.0f, 0.0f));
 					pitch = quatRotate(actor->getRigidBody()->getOrientation(), pitch);
 					actor->getRigidBody()->applyTorque(pitch);
+				}
+
+				virtual void undo() override {}
+		};
+
+		class HeadingCommand : public Command {
+			public:
+				virtual ~HeadingCommand() {}
+				
+
+				virtual void executeAxis(SpaceShip* actor, xdl::xdl_double value, xdl::xdl_double dT) override {
+					btVector3 heading(btVector3(0.0f, actor->getMaxTurnImpulse() * value * 10, 0.0f));
+					heading = quatRotate(actor->getRigidBody()->getOrientation(), heading);
+					actor->getRigidBody()->applyTorque(heading);
 				}
 
 				virtual void undo() override {}
