@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -35,33 +35,33 @@ namespace soan {
 			public:
 				SpaceShip();
 				virtual ~SpaceShip();
-				
+
 				virtual xdl::xdl_int init() final;
-				
+
 				/// Sets the thrust level value. 0.0f - 1.0f
 				void setCurrentThrustLevel(xdl::xdl_float level);
-				
+
 				/// Returns the current thrust impulse.
 				xdl::xdl_float getCurrentThrustImpulse();
-				
+
 				/// Returns the maximum thrust impulse.
 				xdl::xdl_float getMaxThrustImpulse();
-				
+
 				/// Returns the maximum turn impulse.
 				xdl::xdl_float getMaxTurnImpulse();
-				
+
 				/// Returns the maximum roll impulse.
 				xdl::xdl_float getMaxRollImpulse();
-				
+
 				/// Returns the maximum pitch impulse.
 				xdl::xdl_float getMaxPitchImpulse();
-				
-		private:
+
+			private:
 				xdl::xdl_float m_maxThrustImpulse;
 				xdl::xdl_float m_maxTurnImpulse;
 				xdl::xdl_float m_maxRollImpulse;
 				xdl::xdl_float m_maxPitchImpulse;
-				
+
 				xdl::xdl_float m_currentThrustLevel;
 		};
 

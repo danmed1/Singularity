@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -28,11 +28,12 @@ namespace soan {
 
 	namespace game {
 
-		SpaceShip::SpaceShip() : 	m_maxThrustImpulse(10.5f), 
-															m_maxTurnImpulse(5000.0f), 
-															m_maxRollImpulse(5000.0f),
-															m_maxPitchImpulse(5000.0f),
-															m_currentThrustLevel(1.0f) {
+		SpaceShip::SpaceShip() :
+			m_maxThrustImpulse(10.5f),
+			m_maxTurnImpulse(5000.0f),
+			m_maxRollImpulse(5000.0f),
+			m_maxPitchImpulse(5000.0f),
+			m_currentThrustLevel(1.0f) {
 
 		}
 
@@ -44,17 +45,17 @@ namespace soan {
 
 			return Actor::init();
 		}
-		
+
 		void SpaceShip::setCurrentThrustLevel(xdl::xdl_float level) {
 			// TODO Implement clamp of level.
-			
+
 			m_currentThrustLevel = level;
 		}
-		
+
 		xdl::xdl_float SpaceShip::getCurrentThrustImpulse() {
 			return m_maxThrustImpulse * m_currentThrustLevel;
 		}
-		
+
 		xdl::xdl_float  SpaceShip::getMaxThrustImpulse() {
 			return m_maxThrustImpulse;
 		}
@@ -62,11 +63,11 @@ namespace soan {
 		xdl::xdl_float  SpaceShip::getMaxTurnImpulse() {
 			return m_maxTurnImpulse;
 		}
-		
+
 		xdl::xdl_float SpaceShip::getMaxRollImpulse() {
 			return m_maxRollImpulse;
 		}
-		
+
 		xdl::xdl_float SpaceShip::getMaxPitchImpulse() {
 			return m_maxPitchImpulse;
 		}
