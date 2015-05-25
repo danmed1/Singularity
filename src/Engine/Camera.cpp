@@ -156,7 +156,7 @@ namespace soan {
 		m_upSpeed = upSpeed;
 	}
 
-	void Camera::startTrackObject(Moveable* moveable) {
+	void Camera::startTrackObject(Transformable* moveable) {
 		m_trackedObject = moveable;
 	}
 

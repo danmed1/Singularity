@@ -173,8 +173,6 @@
       </VirtualDirectory>
       <File Name="src/Engine/TextureServer.h"/>
       <File Name="src/Engine/TextureServer.cpp"/>
-      <File Name="src/Engine/Moveable.h"/>
-      <File Name="src/Engine/Moveable.cpp"/>
       <File Name="src/Engine/Light.h"/>
       <File Name="src/Engine/Light.cpp"/>
       <File Name="src/Engine/GBuffer.h"/>
@@ -216,6 +214,8 @@
       <File Name="src/Engine/Frustum.h"/>
       <File Name="src/Engine/Frustum.cpp"/>
       <File Name="src/Engine/Color.h"/>
+      <File Name="src/Engine/Transformable.h"/>
+      <File Name="src/Engine/Transformable.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Game">
       <VirtualDirectory Name="Universe">

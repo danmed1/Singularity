@@ -26,12 +26,12 @@
 #define LIGHT_H
 
 #include <XdevLTypes.h>
-#include "Moveable.h"
+#include "Transformable.h"
 
 
 namespace soan {
 
-	class Light : public Moveable {
+	class Light : public Transformable {
 		public:
 
 			enum Type {

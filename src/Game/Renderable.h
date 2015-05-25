@@ -34,7 +34,7 @@ namespace soan {
 
 	namespace game {
 
-		class Renderable : public Moveable {
+		class Renderable : public Transformable {
 			public:
 				Renderable();
 

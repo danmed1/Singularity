@@ -30,7 +30,7 @@
 #include <tm/tm.h>
 
 
-#include "Moveable.h"
+#include "Transformable.h"
 #include <memory>
 
 namespace soan {
@@ -45,7 +45,7 @@ namespace soan {
 		-# Tracking mode: Camera will track a object at a specific distance.
 
 	*/
-	class Camera : public Moveable {
+	class Camera : public Transformable {
 		public:
 
 			/**
@@ -125,7 +125,7 @@ namespace soan {
 			void setProjection(CameraProjectionType type);
 
 			/// Start to track object.
-			void startTrackObject(Moveable* moveable);
+			void startTrackObject(Transformable* moveable);
 
 			/// Stop tracking object.
 			void stopTrackObject();
@@ -163,7 +163,7 @@ namespace soan {
 			unsigned int 			m_viewPortHeight;
 
 			// Holds the tracked object.
-			Moveable*				m_trackedObject;
+			Transformable*				m_trackedObject;
 
 			xdl::xdl_float 			m_pitch;
 			xdl::xdl_float			m_heading;

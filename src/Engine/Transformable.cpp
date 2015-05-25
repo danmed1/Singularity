@@ -22,59 +22,59 @@
 	cengiz@terzibas.de
 */
 
-#include "Moveable.h"
+#include "Transformable.h"
 
 namespace soan {
 
-	Moveable::Moveable() : 	m_position(0.0f, 0.0f, 0.0f),
+	Transformable::Transformable() : 	m_position(0.0f, 0.0f, 0.0f),
 		m_scale(1.0f, 1.0f, 1.0f) {
 		tmath::identity(m_orientation);
 	}
 
-	tmath::vec3 Moveable::getDirection() {
+	tmath::vec3 Transformable::getDirection() {
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 0.0f, -1.0f);
 		tmath::normalize(tmp);
 		return tmp;
 	}
 
-	tmath::vec3 Moveable::getForwardVector() {
+	tmath::vec3 Transformable::getForwardVector() {
 		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(0.0f, 0.0f, -1.0f, 1.0f));
 		return tmath::vec3(tmp);
 	}
 
-	tmath::vec3 Moveable::getRightVector() {
+	tmath::vec3 Transformable::getRightVector() {
 		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 		return tmath::vec3(tmp);
 	}
 
-	tmath::vec3 Moveable::getUpVector() {
+	tmath::vec3 Transformable::getUpVector() {
 		tmath::vec4 tmp(getTransformationMatrix() * tmath::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		return tmath::vec3(tmp);
 	}
 
-	tmath::vec3& Moveable::getPosition() {
+	tmath::vec3& Transformable::getPosition() {
 		return m_position;
 	}
 
-	tmath::quat& Moveable::getOrientation() {
+	tmath::quat& Transformable::getOrientation() {
 		return m_orientation;
 	}
 
-	tmath::quat Moveable::getInverseOrientation() {
+	tmath::quat Transformable::getInverseOrientation() {
 		return tmath::inverse(m_orientation);
 	}
 
-	tmath::vec3&  Moveable::getScale() {
+	tmath::vec3&  Transformable::getScale() {
 		return m_scale;
 	}
 
-	tmath::mat4 Moveable::getOrientationMatrix() {
+	tmath::mat4 Transformable::getOrientationMatrix() {
 		tmath::mat4 tmp;
 		tmath::convert(m_orientation, tmp);
 		return tmp;
 	}
 
-	tmath::mat4 Moveable::getTransformationMatrix() {
+	tmath::mat4 Transformable::getTransformationMatrix() {
 		tmath::mat4 rotation, trans, sc, tmp;
 
 		tmath::translate(m_position, trans);
@@ -86,7 +86,7 @@ namespace soan {
 
 	}
 
-	tmath::mat4 Moveable::getInverseTransformationMatrix() {
+	tmath::mat4 Transformable::getInverseTransformationMatrix() {
 
 		// We have to calculate the inverse of the transformation.
 		// The transformation                = Translation * Rotation*Scale
@@ -111,49 +111,49 @@ namespace soan {
 		return (sc * rotation * trans);
 	}
 
-	void Moveable::setPosition(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
+	void Transformable::setPosition(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
 		m_position.x = x;
 		m_position.y = y;
 		m_position.z = z;
 	}
 
-	void  Moveable::setPosition(const tmath::vec3& position) {
+	void  Transformable::setPosition(const tmath::vec3& position) {
 		m_position = position;
 	}
 
-	void Moveable::setScale(xdl::xdl_float sx, xdl::xdl_float sy, xdl::xdl_float sz) {
+	void Transformable::setScale(xdl::xdl_float sx, xdl::xdl_float sy, xdl::xdl_float sz) {
 		m_scale.x = sx;
 		m_scale.y = sy;
 		m_scale.z = sz;
 	}
 
 
-	void Moveable::setScale(const tmath::vec3& scale) {
+	void Transformable::setScale(const tmath::vec3& scale) {
 		m_scale = scale;
 	}
 
-	void Moveable::setOrientation(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z, xdl::xdl_float w) {
+	void Transformable::setOrientation(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z, xdl::xdl_float w) {
 		m_orientation.x = x;
 		m_orientation.y = y;
 		m_orientation.z = z;
 		m_orientation.w = w;
 	}
 
-	void  Moveable::setOrientation(const tmath::quat& orientation) {
+	void  Transformable::setOrientation(const tmath::quat& orientation) {
 		m_orientation = orientation;
 	}
 
-	void Moveable::moveRelative(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
+	void Transformable::moveRelative(xdl::xdl_float x, xdl::xdl_float y, xdl::xdl_float z) {
 		m_position.x += x;
 		m_position.y += y;
 		m_position.z += z;
 	}
 
-	void Moveable::moveRelative(const tmath::vec3& distance) {
+	void Transformable::moveRelative(const tmath::vec3& distance) {
 		m_position += distance;
 	}
 
-	void  Moveable::rotateLocalX(xdl::xdl_float angle) {
+	void  Transformable::rotateLocalX(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(1.0f, 0.0f, 0.0f);
@@ -167,7 +167,7 @@ namespace soan {
 		tmath::normalize(m_orientation);
 	}
 
-	void  Moveable::rotateLocalY(xdl::xdl_float angle) {
+	void  Transformable::rotateLocalY(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 1.0f, 0.0f);
@@ -183,7 +183,7 @@ namespace soan {
 	}
 
 
-	void  Moveable::rotateLocalZ(xdl::xdl_float angle) {
+	void  Transformable::rotateLocalZ(xdl::xdl_float angle) {
 
 		// Create x axis vector in global space.
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 0.0f, 1.0f);

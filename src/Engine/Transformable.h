@@ -22,8 +22,8 @@
 	cengiz@terzibas.de
 */
 
-#ifndef MOVEABLE_H
-#define MOVEABLE_H
+#ifndef TRANSFORMABLE_H
+#define TRANSFORMABLE_H
 
 
 #include <XdevLTypes.h>
@@ -33,13 +33,13 @@
 
 namespace soan {
 	/**
-		@class Moveable
-		@brief A moveable object in 3D space.
+		@class Transformable
+		@brief A Transformable object in 3D space.
 	*/
-	class Moveable {
+	class Transformable {
 		public:
 
-			Moveable();
+			Transformable();
 
 			/// Returns the forward direction of the object.
 			tmath::vec3 getDirection();

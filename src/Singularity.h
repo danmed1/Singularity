@@ -38,7 +38,7 @@
 
 #include "Engine/Camera.h"
 #include "Engine/Frustum.h"
-#include "Engine/Moveable.h"
+#include "Engine/Transformable.h"
 #include "Engine/Entity/Model.h"
 #include "Engine/GBuffer.h"
 #include "Engine/TextureServer.h"

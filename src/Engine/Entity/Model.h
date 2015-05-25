@@ -25,7 +25,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "Engine/Moveable.h"
+#include "Engine/Transformable.h"
 #include "Engine/Entity/Mesh.h"
 #include <memory>
 

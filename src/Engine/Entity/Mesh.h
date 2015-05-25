@@ -27,7 +27,7 @@
 
 #include <XdevLOpenGL/XdevLVertexArray.h>
 #include "Engine/Entity/Material.h"
-#include "Engine/Moveable.h"
+#include "Engine/Transformable.h"
 #include "Engine/Types.h"
 #include <memory>
 
@@ -35,7 +35,7 @@ namespace soan {
 
 	class Model;
 
-	class Mesh : public Moveable {
+	class Mesh : public Transformable {
 		public:
 
 			Mesh();
