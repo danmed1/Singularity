@@ -4,7 +4,7 @@
   <Project Name="TextureFontCreator" Path="tools/TextureFontCreator/TextureFontCreator.project" Active="No"/>
   <Project Name="SDFGenerator" Path="tools/SDFGenerator/SDFGenerator.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="yes">
+    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
       <Project Name="TextureFontCreator" ConfigName="Debug_MacOSX"/>
       <Project Name="Singularity" ConfigName="Debug_MacOSX"/>
       <Project Name="SDFGenerator" ConfigName="Debug_MacOSX"/>
@@ -14,7 +14,7 @@
       <Project Name="Singularity" ConfigName="Release_MacOSX"/>
       <Project Name="SDFGenerator" ConfigName="Release_MacOSX"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="no">
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
       <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
       <Project Name="Singularity" ConfigName="Debug_Linux"/>
       <Project Name="SDFGenerator" ConfigName="Debug"/>

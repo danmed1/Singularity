@@ -34,11 +34,11 @@ namespace soan {
 
 	namespace game {
 
-		class Renderable : public Transformable {
+		class Renderable {
 			public:
 				Renderable();
 
-				Renderable(phys::Physics* physics, Model* model);
+				Renderable(Model* model);
 
 				virtual ~Renderable();
 
@@ -50,11 +50,6 @@ namespace soan {
 				/// Sets the model.
 				void setModel(const std::shared_ptr<Model>& model, xdl::xdl_uint collisionShape = 0);
 
-				/// Return the rigid body.
-				btRigidBody*	getRigidBody();
-				
-				/// Returns the collision shape.
-				btBoxShape* getCollisionShape();
 
 				virtual bool update(xdl::xdl_uint64 timeStep);
 
@@ -66,19 +61,14 @@ namespace soan {
 
 				void setCastShadow(xdl::xdl_bool state);
 
-				void setPhysics(phys::Physics* physics, xdl::xdl_float mass);
+
 
 				void reset();
 
 			private:
-				phys::Physics*						m_physics;
 				std::shared_ptr<Model>		m_model;
-				btRigidBody* 							m_body;
-				btDefaultMotionState* 		m_motionState;
-				btBoxShape*								m_colShape;
 				xdl::xdl_bool							m_renderingEnabled;
 				xdl::xdl_bool							m_castShadow;
-				xdl::xdl_float						m_mass;
 		};
 
 	}

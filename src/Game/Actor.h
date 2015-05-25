@@ -39,52 +39,69 @@ namespace soan {
 			@brief Objects that have some sort of behaviour in the game.
 			@author Cengiz Terzibas
 		*/
-		class Actor : public Renderable {
-			public:
+		class Actor : public Renderable, public Transformable  {
+		public:
 
-				Actor();
+			Actor();
 
-				virtual ~Actor();
+			virtual ~Actor();
 
-				/// Returns the name.
-				std::string& getName();
+			/// Returns the name.
+			std::string& getName();
 
-				/// Sets the name.
-				void setName(const std::string& name);
+			/// Sets the name.
+			void setName(const std::string& name);
 
-				/// Returns the lifetime.
-				xdl::xdl_uint64 getLifeTime();
+			/// Returns the lifetime.
+			xdl::xdl_uint64 getLifeTime();
 
-				/// Sets the lifetime.
-				/**
-					@param lifeTime Life time of the actor. If this is zero the actor lives infinit.
-				*/
-				void setLifeTime(xdl::xdl_uint64 lifeTime);
-				
-				/// Returns the lived time.
-				xdl::xdl_uint64 getLivedTime() const;
+			/// Sets the lifetime.
+			/**
+				@param lifeTime Life time of the actor. If this is zero the actor lives infinit.
+			*/
+			void setLifeTime(xdl::xdl_uint64 lifeTime);
 
-				/// Increase the lived time.
-				/**
-					@param timeStep A time step in milliseconds.
-				*/
-				void increaseLivedTime(xdl::xdl_uint64 timeStep);
+			/// Returns the lived time.
+			xdl::xdl_uint64 getLivedTime() const;
 
-				/// Update actors state.
-				virtual bool update(xdl::xdl_uint64 timeStep);
+			/// Increase the lived time.
+			/**
+				@param timeStep A time step in milliseconds.
+			*/
+			void increaseLivedTime(xdl::xdl_uint64 timeStep);
 
-				/// Initialize the actor.
-				virtual xdl::xdl_int init();
+			/// Update actors state.
+			virtual bool update(xdl::xdl_uint64 timeStep);
 
-			private:
-				/// Holds the name of the actor.
-				std::string		m_name;
+			/// Initialize the actor.
+			virtual xdl::xdl_int init();
 
-				/// Holds the lifetime of the actor.
-				xdl::xdl_uint64	m_lifeTime;
+			void setPhysics(phys::Physics* physics, xdl::xdl_float mass);
+			
+			/// Return the rigid body.
+			btRigidBody*	getRigidBody();
 
-				/// Holds the current lived time.
-				xdl::xdl_uint64	m_livedTime;
+			/// Returns the collision shape.
+			btBoxShape* getCollisionShape();
+			
+			void reset();
+			
+		private:
+			/// Holds the name of the actor.
+			std::string				m_name;
+
+			/// Holds the lifetime of the actor.
+			xdl::xdl_uint64			m_lifeTime;
+
+			/// Holds the current lived time.
+			xdl::xdl_uint64			m_livedTime;
+
+			phys::Physics*			m_physics;
+			btRigidBody* 			m_body;
+			btDefaultMotionState* 	m_motionState;
+			btBoxShape*				m_colShape;
+			xdl::xdl_float			m_mass;
+
 
 		};
 

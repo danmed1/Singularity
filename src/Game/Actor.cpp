@@ -32,12 +32,22 @@ namespace soan {
 		Actor::Actor() :
 			m_name("Not Specified"),
 			m_lifeTime(0),
-			m_livedTime(0) {
+			m_livedTime(0),
+			m_physics(nullptr),
+			m_body(nullptr),
+			m_motionState(nullptr),
+			m_colShape(nullptr),
+			m_mass(1.0f)  {
 
 		}
 
 		Actor::~Actor() {
-
+			if(m_body != nullptr) {
+				m_physics->removeRigidBody(m_body);
+				delete m_motionState;
+				delete m_body;
+				m_body = nullptr;
+			}
 		}
 
 
@@ -59,7 +69,7 @@ namespace soan {
 		void Actor::setLifeTime(xdl::xdl_uint64	 lifeTime) {
 			m_lifeTime = lifeTime;
 		}
-		
+
 		xdl::xdl_uint64 Actor::getLivedTime() const {
 			return m_livedTime;
 		}
@@ -83,14 +93,77 @@ namespace soan {
 				}
 			}
 
+			if(m_physics != nullptr) {
+				if(m_body != nullptr) {
+					btMotionState* ms = m_body->getMotionState();
+					btTransform ts;
+					ms->getWorldTransform(ts);
+					btQuaternion 	qr 	= ts.getRotation();
+					btVector3 		pos = ts.getOrigin();
+					setOrientation(qr.x(), qr.y(), qr.z(), qr.w());
+					setPosition(pos.x(), pos.y(), pos.z());
+				}
+			}
+
 			return Renderable::update(timeStep);
 
 		}
 
 		xdl::xdl_int Actor::init() {
+			if(m_physics != nullptr) {
 
+				btTransform startTransform;
+				startTransform.setIdentity();
+
+
+				startTransform.setOrigin(btVector3(getPosition().x,getPosition().y,getPosition().z));
+
+
+				m_colShape = new btBoxShape(btVector3(getModel()->getBoundingBoxX()/2.0, getModel()->getBoundingBoxY()/2.0f, getModel()->getBoundingBoxZ()/2.0f));
+				btVector3 localInertia(0,0,0);
+
+				m_colShape->calculateLocalInertia(m_mass, localInertia);
+
+
+				//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+				m_motionState = new btDefaultMotionState(startTransform);
+				btRigidBody::btRigidBodyConstructionInfo rbInfo(m_mass, m_motionState, m_colShape, localInertia);
+				m_body = new btRigidBody(rbInfo);
+
+				m_body->setActivationState(DISABLE_DEACTIVATION);
+				m_physics->addRigidBody(m_body);
+			}
 			return xdl::ERR_OK;
 		}
+
+		void Actor::setPhysics(phys::Physics* physics, xdl::xdl_float mass) {
+			m_mass = mass;
+			m_physics = physics;
+			init();
+		}
+
+		btRigidBody* Actor::getRigidBody() {
+			return m_body;
+		}
+
+		btBoxShape* Actor::getCollisionShape() {
+			return m_colShape;
+		}
+
+		void Actor::reset() {
+			if(m_body == nullptr) {
+				return;
+			}
+
+			// TODO This part can be optimized. :D I was just to lazy to do, later I will.
+			btMotionState* ms = m_body->getMotionState();
+			btTransform tf;
+			tf.setOrigin(btVector3(getPosition().x, getPosition().y, getPosition().z));
+			tf.setRotation(btQuaternion(getOrientation().x, getOrientation().y,getOrientation().z,getOrientation().w));
+			ms->setWorldTransform(tf);
+		}
+
+
 	}
 
 }

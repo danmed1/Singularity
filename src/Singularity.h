@@ -166,7 +166,7 @@ class Singularity : public xdl::XdevLApplication {
 		soan::utils::FPSCounter 			m_fpsCounter;
 
 
-		std::list<soan::game::Renderable*> m_renderable;
+		std::list<soan::game::Actor*> m_renderable;
 
 
 		xdl::XdevLButton* left_mouse_button;
