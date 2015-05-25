@@ -19,7 +19,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -29,7 +29,10 @@ namespace soan {
 
 	namespace game {
 
-		Actor::Actor() : m_name("Not Specified"), m_lifeTime(0), m_livedTime(0) {
+		Actor::Actor() :
+			m_name("Not Specified"),
+			m_lifeTime(0),
+			m_livedTime(0) {
 
 		}
 
@@ -56,6 +59,10 @@ namespace soan {
 		void Actor::setLifeTime(xdl::xdl_uint64	 lifeTime) {
 			m_lifeTime = lifeTime;
 		}
+		
+		xdl::xdl_uint64 Actor::getLivedTime() const {
+			return m_livedTime;
+		}
 
 		void  Actor::increaseLivedTime(xdl::xdl_uint64 timeStep) {
 			m_livedTime += timeStep;
@@ -75,13 +82,13 @@ namespace soan {
 					return true;
 				}
 			}
-			
+
 			return Renderable::update(timeStep);
 
 		}
 
 		xdl::xdl_int Actor::init() {
-			
+
 			return xdl::ERR_OK;
 		}
 	}
