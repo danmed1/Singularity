@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -33,19 +33,19 @@
 #include <Game/SpaceShipCommands.h>
 
 namespace soan {
-	
+
 	namespace game {
-		
+
 		class SpaceShipInputHandler {
 			public:
 				SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
-				                  xdl::XdevLMouse* md,
-				                  xdl::XdevLJoystick* jd);
+				                      xdl::XdevLMouse* md,
+				                      xdl::XdevLJoystick* jd);
 				~SpaceShipInputHandler();
 
 				/// Initialize the handler.
 				xdl::xdl_int init();
-				
+
 				/// Handle incomming inputs.
 				void handleInput(SpaceShip* actor, xdl::xdl_double dT);
 
@@ -56,49 +56,49 @@ namespace soan {
 				btVector3 compensateRollDrift(SpaceShip* actor, double dT);
 				btVector3 compensateHeadingDrift(SpaceShip* actor, double dT);
 				btVector3 compensatePitchDrift(SpaceShip* actor, double dT);
-				
+
 			private:
-				xdl::XdevLKeyboard* 				m_kd;
-				xdl::XdevLMouse* 					m_md;
-				xdl::XdevLJoystick* 				m_jd;
+				xdl::XdevLKeyboard* 	m_kd;
+				xdl::XdevLMouse* 		m_md;
+				xdl::XdevLJoystick* 	m_jd;
 
-				xdl::XdevLButton*						m_thrust;
-				xdl::XdevLButton*						m_thrustBackward;				
-				xdl::XdevLButton*						m_pitchUp;
-				xdl::XdevLButton*						m_pitchDown;
-				xdl::XdevLButton*						m_rollLeft;
-				xdl::XdevLButton*						m_rollRight;
-				xdl::XdevLButton*						m_headLeft;
-				xdl::XdevLButton*						m_headRight;
-				xdl::XdevLButton*						m_thrustUp;
-				xdl::XdevLButton*						m_thrustDown;
-				xdl::XdevLButton*						m_thrustLeft;
-				xdl::XdevLButton*						m_thrustRight;
-				
-				xdl::XdevLAxis*							m_thrustAxis;
-				xdl::XdevLAxis*							m_headingAxis;
-				xdl::XdevLAxis*							m_pitchAxis;
+				xdl::XdevLButton*		m_thrust;
+				xdl::XdevLButton*		m_thrustBackward;
+				xdl::XdevLButton*		m_pitchUp;
+				xdl::XdevLButton*		m_pitchDown;
+				xdl::XdevLButton*		m_rollLeft;
+				xdl::XdevLButton*		m_rollRight;
+				xdl::XdevLButton*		m_headLeft;
+				xdl::XdevLButton*		m_headRight;
+				xdl::XdevLButton*		m_thrustUp;
+				xdl::XdevLButton*		m_thrustDown;
+				xdl::XdevLButton*		m_thrustLeft;
+				xdl::XdevLButton*		m_thrustRight;
 
-				ThrustCommand*							m_thrustCommand;
-				ThrustBackwardCommand*			m_thrustBackwardCommand;
-				RollLeftCommand*						m_rollLeftCommand;
-				RollRightCommand*						m_rollRightCommand;
-				PitchCommand*							m_pitchCommand;
-				PitchForwardCommand* 				m_pitchForwardCommand;
-				PitchBackwardCommand*				m_pitchBackwardCommand;
-				HeadingCommand*						m_headingCommand;
-				HeadLeftCommand*						m_headLeftCommand;
-				HeadRightCommand*						m_headRightCommand;
-				ThrustUpCommand*						m_thrustUpCommand;
-				ThrustDownCommand*					m_thrustDownCommand;
-				ThrustLeftCommand*					m_thrustLeftCommand;
-				ThrustRightCommand*					m_thrustRightCommand;
-				
-				xdl::xdl_bool 							m_initialized;
+				xdl::XdevLAxis*			m_thrustAxis;
+				xdl::XdevLAxis*			m_headingAxis;
+				xdl::XdevLAxis*			m_pitchAxis;
+
+				ThrustCommand*			m_thrustCommand;
+				ThrustBackwardCommand*	m_thrustBackwardCommand;
+				RollLeftCommand*		m_rollLeftCommand;
+				RollRightCommand*		m_rollRightCommand;
+				PitchCommand*			m_pitchCommand;
+				PitchForwardCommand* 	m_pitchForwardCommand;
+				PitchBackwardCommand*	m_pitchBackwardCommand;
+				HeadingCommand*			m_headingCommand;
+				HeadLeftCommand*		m_headLeftCommand;
+				HeadRightCommand*		m_headRightCommand;
+				ThrustUpCommand*		m_thrustUpCommand;
+				ThrustDownCommand*		m_thrustDownCommand;
+				ThrustLeftCommand*		m_thrustLeftCommand;
+				ThrustRightCommand*		m_thrustRightCommand;
+
+				xdl::xdl_bool 			m_initialized;
 		};
-		
+
 	}
-	
+
 }
 
 #endif // GAME_INPUT_HANDLER_H

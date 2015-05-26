@@ -86,6 +86,12 @@ namespace soan {
 			
 			void reset();
 			
+			/// Change the state of the physics system.
+			void enablePhysics(xdl::xdl_bool enableIt);
+			
+			/// Is the physics system enabled?
+			xdl::xdl_bool isPhysicsEnabled() const;
+			
 		private:
 			/// Holds the name of the actor.
 			std::string				m_name;
@@ -101,7 +107,7 @@ namespace soan {
 			btDefaultMotionState* 	m_motionState;
 			btBoxShape*				m_colShape;
 			xdl::xdl_float			m_mass;
-
+			xdl::xdl_bool			m_physicsEnabled;
 
 		};
 

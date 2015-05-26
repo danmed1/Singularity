@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -28,8 +28,8 @@
 namespace soan {
 	namespace game {
 		SpaceShipInputHandler::SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
-		    xdl::XdevLMouse* md,
-		    xdl::XdevLJoystick* jd) : 	m_kd(kd),
+		        xdl::XdevLMouse* md,
+		        xdl::XdevLJoystick* jd) : 	m_kd(kd),
 			m_md(md),
 			m_jd(jd),
 			m_initialized(xdl::xdl_false) {
@@ -54,7 +54,7 @@ namespace soan {
 			delete m_thrustDownCommand;
 			delete m_thrustRightCommand;
 			delete m_thrustLeftCommand;
-			
+
 
 
 			m_initialized = xdl::xdl_false;
@@ -66,48 +66,48 @@ namespace soan {
 			//
 			// Connect key events to button objects.
 			//
-			m_kd->getButton(xdl::KEY_UP, 				&m_pitchUp);
-			m_kd->getButton(xdl::KEY_DOWN, 			&m_pitchDown);
-			m_kd->getButton(xdl::KEY_A,	 				&m_rollLeft);
-			m_kd->getButton(xdl::KEY_D,					&m_rollRight);
-			m_kd->getButton(xdl::KEY_LEFT, 			&m_headLeft);
-			m_kd->getButton(xdl::KEY_RIGHT,			&m_headRight);
-			m_kd->getButton(xdl::KEY_W,					&m_thrust);
-			m_kd->getButton(xdl::KEY_S,					&m_thrustBackward);
-			m_kd->getButton(xdl::KEY_SPACE,			&m_thrustUp);
-			m_kd->getButton(xdl::KEY_C,					&m_thrustDown);
-			m_kd->getButton(xdl::KEY_Q,					&m_thrustLeft);
-			m_kd->getButton(xdl::KEY_E,					&m_thrustRight);
+			m_kd->getButton(xdl::KEY_UP, 	&m_pitchUp);
+			m_kd->getButton(xdl::KEY_DOWN, 	&m_pitchDown);
+			m_kd->getButton(xdl::KEY_A,	 	&m_rollLeft);
+			m_kd->getButton(xdl::KEY_D,		&m_rollRight);
+			m_kd->getButton(xdl::KEY_LEFT, 	&m_headLeft);
+			m_kd->getButton(xdl::KEY_RIGHT,	&m_headRight);
+			m_kd->getButton(xdl::KEY_W,		&m_thrust);
+			m_kd->getButton(xdl::KEY_S,		&m_thrustBackward);
+			m_kd->getButton(xdl::KEY_SPACE,	&m_thrustUp);
+			m_kd->getButton(xdl::KEY_C,		&m_thrustDown);
+			m_kd->getButton(xdl::KEY_Q,		&m_thrustLeft);
+			m_kd->getButton(xdl::KEY_E,		&m_thrustRight);
 
-			
-			m_jd->getAxis(xdl::JOY_AXIS_3,			&m_thrustAxis);
+
+			m_jd->getAxis(xdl::JOY_AXIS_3,	&m_thrustAxis);
 			m_thrustAxis->setMinMax(0.0f, 1.0f);
-			
+
 			m_md->getAxis(xdl::MOUSE_AXIS_X, &m_headingAxis);
 			m_headingAxis->setMinMax(-1.0f, 1.0f);
 
 			m_md->getAxis(xdl::MOUSE_AXIS_Y, &m_pitchAxis);
 			m_pitchAxis->setMinMax(-1.0f, 1.0f);
-			
-			
-			
+
+
+
 			//
 			// Create all used commands.
 			//
-			m_thrustCommand						= new ThrustCommand();
-			m_thrustBackwardCommand		= new ThrustBackwardCommand();
-			m_rollLeftCommand 				= new RollLeftCommand();
-			m_rollRightCommand 				= new RollRightCommand();
-			m_pitchCommand 		= new PitchCommand();
-			m_pitchForwardCommand 		= new PitchForwardCommand();
-			m_pitchBackwardCommand 		= new PitchBackwardCommand();
-			m_headingCommand			= new HeadingCommand();
-			m_headLeftCommand					= new HeadLeftCommand();
-			m_headRightCommand				= new HeadRightCommand();
-			m_thrustUpCommand					= new ThrustUpCommand();
-			m_thrustDownCommand				= new ThrustDownCommand();
-			m_thrustLeftCommand				= new ThrustLeftCommand();
-			m_thrustRightCommand			= new ThrustRightCommand();
+			m_thrustCommand			= new ThrustCommand();
+			m_thrustBackwardCommand	= new ThrustBackwardCommand();
+			m_rollLeftCommand 		= new RollLeftCommand();
+			m_rollRightCommand 		= new RollRightCommand();
+			m_pitchCommand 			= new PitchCommand();
+			m_pitchForwardCommand 	= new PitchForwardCommand();
+			m_pitchBackwardCommand 	= new PitchBackwardCommand();
+			m_headingCommand		= new HeadingCommand();
+			m_headLeftCommand		= new HeadLeftCommand();
+			m_headRightCommand		= new HeadRightCommand();
+			m_thrustUpCommand		= new ThrustUpCommand();
+			m_thrustDownCommand		= new ThrustDownCommand();
+			m_thrustLeftCommand		= new ThrustLeftCommand();
+			m_thrustRightCommand	= new ThrustRightCommand();
 
 			m_initialized = xdl::xdl_true;
 
@@ -116,32 +116,32 @@ namespace soan {
 
 		xdl::xdl_int SpaceShipInputHandler::redirect(xdl::xdl_bool state) {
 			if(state) {
-				m_kd->getButton(xdl::KEY_UP, 				&m_pitchUp);
-				m_kd->getButton(xdl::KEY_DOWN, 			&m_pitchDown);
-				m_kd->getButton(xdl::KEY_Q,	 				&m_rollLeft);
-				m_kd->getButton(xdl::KEY_E,					&m_rollRight);
-				m_kd->getButton(xdl::KEY_LEFT, 			&m_headLeft);
-				m_kd->getButton(xdl::KEY_RIGHT,			&m_headRight);
-				m_kd->getButton(xdl::KEY_LSHIFT,		&m_thrust);
-				m_kd->getButton(xdl::KEY_LALT,			&m_thrustBackward);
-				m_kd->getButton(xdl::KEY_PAGEUP,		&m_thrustUp);
+				m_kd->getButton(xdl::KEY_UP, 		&m_pitchUp);
+				m_kd->getButton(xdl::KEY_DOWN, 		&m_pitchDown);
+				m_kd->getButton(xdl::KEY_Q,	 		&m_rollLeft);
+				m_kd->getButton(xdl::KEY_E,			&m_rollRight);
+				m_kd->getButton(xdl::KEY_LEFT, 		&m_headLeft);
+				m_kd->getButton(xdl::KEY_RIGHT,		&m_headRight);
+				m_kd->getButton(xdl::KEY_LSHIFT,	&m_thrust);
+				m_kd->getButton(xdl::KEY_LALT,		&m_thrustBackward);
+				m_kd->getButton(xdl::KEY_PAGEUP,	&m_thrustUp);
 				m_kd->getButton(xdl::KEY_PAGEDOWN,	&m_thrustDown);
-				m_kd->getButton(xdl::KEY_Z,					&m_thrustLeft);
-				m_kd->getButton(xdl::KEY_X,					&m_thrustRight);
+				m_kd->getButton(xdl::KEY_Z,			&m_thrustLeft);
+				m_kd->getButton(xdl::KEY_X,			&m_thrustRight);
 
 			} else {
-				m_kd->getButton(xdl::KEY_UP, 				&m_pitchUp);
-				m_kd->getButton(xdl::KEY_DOWN, 			&m_pitchDown);
-				m_kd->getButton(xdl::KEY_Q,	 				&m_rollLeft);
-				m_kd->getButton(xdl::KEY_E,					&m_rollRight);
-				m_kd->getButton(xdl::KEY_LEFT, 			&m_headLeft);
-				m_kd->getButton(xdl::KEY_RIGHT,			&m_headRight);
-				m_kd->getButton(xdl::KEY_W,					&m_thrust);
-				m_kd->getButton(xdl::KEY_S,					&m_thrustBackward);
-				m_kd->getButton(xdl::KEY_SPACE,			&m_thrustUp);
-				m_kd->getButton(xdl::KEY_C,					&m_thrustDown);
-				m_kd->getButton(xdl::KEY_A,					&m_thrustLeft);
-				m_kd->getButton(xdl::KEY_D,					&m_thrustRight);
+				m_kd->getButton(xdl::KEY_UP, 		&m_pitchUp);
+				m_kd->getButton(xdl::KEY_DOWN, 		&m_pitchDown);
+				m_kd->getButton(xdl::KEY_Q,	 		&m_rollLeft);
+				m_kd->getButton(xdl::KEY_E,			&m_rollRight);
+				m_kd->getButton(xdl::KEY_LEFT, 		&m_headLeft);
+				m_kd->getButton(xdl::KEY_RIGHT,		&m_headRight);
+				m_kd->getButton(xdl::KEY_W,			&m_thrust);
+				m_kd->getButton(xdl::KEY_S,			&m_thrustBackward);
+				m_kd->getButton(xdl::KEY_SPACE,		&m_thrustUp);
+				m_kd->getButton(xdl::KEY_C,			&m_thrustDown);
+				m_kd->getButton(xdl::KEY_A,			&m_thrustLeft);
+				m_kd->getButton(xdl::KEY_D,			&m_thrustRight);
 			}
 			return xdl::ERR_OK;
 		}
@@ -207,9 +207,9 @@ namespace soan {
 			if(headingActivated == xdl::xdl_false) {
 				sum += compensateHeadingDrift(actor, dT);
 			}
-			
-		//	m_headingCommand->executeAxis(actor, -m_headingAxis->getValue(), dT);
-		//	m_pitchCommand->executeAxis(actor, m_pitchAxis->getValue(), dT);
+
+			//	m_headingCommand->executeAxis(actor, -m_headingAxis->getValue(), dT);
+			//	m_pitchCommand->executeAxis(actor, m_pitchAxis->getValue(), dT);
 
 
 			//

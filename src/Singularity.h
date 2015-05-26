@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -117,7 +117,7 @@ class Singularity : public xdl::XdevLApplication {
 	private:
 
 		/// Returns the 3D processor, which is at the moment OpenGL :D.
-		xdl::XdevLOpenGL330*					get3DProcessor();
+		xdl::XdevLOpenGL330* get3DProcessor();
 
 		/// Calculates the shadow map for the scene.
 		void calculateShadowMaps();
@@ -126,44 +126,44 @@ class Singularity : public xdl::XdevLApplication {
 		void startDeferredLighting();
 
 	private:
-		xdl::XdevLID									m_id;
-		xdl::XdevLOpenGL330* 					m_opengl;
-		xdl::XdevLVertexArray* 				vb_framebufferArray;
-		xdl::XdevLVertexShader*				m_fbVertexShader;
-		xdl::XdevLFragmentShader*		m_fbFragmentShader;
-		xdl::XdevLShaderProgram* 		m_fbShaderProgram;
+		xdl::XdevLID				m_id;
+		xdl::XdevLOpenGL330* 		m_opengl;
+		xdl::XdevLVertexArray* 		vb_framebufferArray;
+		xdl::XdevLVertexShader*		m_fbVertexShader;
+		xdl::XdevLFragmentShader*	m_fbFragmentShader;
+		xdl::XdevLShaderProgram* 	m_fbShaderProgram;
 
-		xdl::xdl_int									m_camProjectionsMatrix;
-		xdl::xdl_int									m_camViewMatrix;
-		xdl::xdl_int									m_modelMatrix;
-
-
-		xdl::xdl_bool 								m_coreRunning;
-		xdl::xdl_uint									m_mouse_x;
-		xdl::xdl_uint									m_mouse_y;
-
-		xdl::xdl_int									testProj;
-		xdl::xdl_int 									testTex;
+		xdl::xdl_int				m_camProjectionsMatrix;
+		xdl::xdl_int				m_camViewMatrix;
+		xdl::xdl_int				m_modelMatrix;
 
 
+		xdl::xdl_bool 				m_coreRunning;
+		xdl::xdl_uint				m_mouse_x;
+		xdl::xdl_uint				m_mouse_y;
 
-		xdl::xdl_bool 								m_mouse_captured;
-		xdl::xdl_uint									m_drawMode;
+		xdl::xdl_int				testProj;
+		xdl::xdl_int 				testTex;
 
-		soan::GBuffer* 								m_gBuffer;
-		soan::Camera*									m_camera;
-		soan::Frustum*								m_frustum;
-		soan::TextureServer* 					m_textureServer;
-		soan::ShadowMap*							m_shadowMap;
-		soan::GausBlur* 							m_gausBlur;
-		soan::DepthOfField* 					m_depthOfField;
-		soan::XdevLFontImpl*					m_font2D;
-		soan::XdevLTextLayout*				m_textEngine;
-		soan::phys::Physics*					m_physics;
-		soan::Light*									m_light;
-		soan::game::SkyBox*						m_skybox;
 
-		soan::utils::FPSCounter 			m_fpsCounter;
+
+		xdl::xdl_bool 				m_mouse_captured;
+		xdl::xdl_uint				m_drawMode;
+
+		soan::GBuffer* 				m_gBuffer;
+		soan::Camera*				m_camera;
+		soan::Frustum*				m_frustum;
+		soan::TextureServer* 		m_textureServer;
+		soan::ShadowMap*			m_shadowMap;
+		soan::GausBlur* 			m_gausBlur;
+		soan::DepthOfField* 		m_depthOfField;
+		soan::XdevLFontImpl*		m_font2D;
+		soan::XdevLTextLayout*		m_textEngine;
+		soan::phys::Physics*		m_physics;
+		soan::Light*				m_light;
+		soan::game::SkyBox*			m_skybox;
+
+		soan::utils::FPSCounter 	m_fpsCounter;
 
 
 		std::list<soan::game::Actor*> m_renderable;
@@ -172,8 +172,8 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLButton* left_mouse_button;
 		xdl::XdevLButton* right_mouse_button;
 
-		xdl::XdevLAxis* 	mouse_x;
-		xdl::XdevLAxis* 	mouse_y;
+		xdl::XdevLAxis* mouse_x;
+		xdl::XdevLAxis* mouse_y;
 
 		xdl::XdevLButton* esc;
 		xdl::XdevLButton* key_a;
@@ -213,7 +213,7 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLButton* key_8;
 		xdl::XdevLButton* key_9;
 		xdl::XdevLButton* key_0;
-		
+
 		xdl::XdevLButton*	key_backslash;
 		xdl::XdevLButton*	key_slash;
 		xdl::XdevLButton*	key_comma;
@@ -221,32 +221,29 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLButton*	key_kp_plus;
 		xdl::XdevLButton*	key_kp_minus;
 
-
-
-
 		xdl::xdl_double m_start_time;
 		xdl::xdl_double m_old_time;
 		xdl::xdl_double m_dT;
 
-		soan::SingularityDebugDrawer*			m_debugRenderer;
-		xdl::xdl_bool												m_debugMode;
+		soan::SingularityDebugDrawer*	m_debugRenderer;
+		xdl::xdl_bool					m_debugMode;
 
-		soan::game::SpaceShip*							m_spaceShip;
+		soan::game::SpaceShip*			m_spaceShip;
 		soan::game::SpaceShipInputHandler* m_gameInputHandler;
-		soan::game::Actor*									m_selectedActor;
-		
-		xdl::xdl_bool 											m_cameraMode;
+		soan::game::Actor*				m_selectedActor;
 
-		
-		std::wstring												m_version;
-		xdl::xdl_uint												m_numberOfVertices;
-		xdl::xdl_uint												m_numberOfFaces;		
-		std::wstringstream 									ss;
-		
+		xdl::xdl_bool 					m_cameraMode;
+
+
+		std::wstring					m_version;
+		xdl::xdl_uint					m_numberOfVertices;
+		xdl::xdl_uint					m_numberOfFaces;
+		std::wstringstream 				ss;
+
 		std::shared_ptr<soan::Material>	m_material;
-		std::shared_ptr<soan::Model> 		m_model;
-		
-		soan::utils::SplashScreen*					m_splashScreen;
+		std::shared_ptr<soan::Model> 	m_model;
+
+		soan::utils::SplashScreen*		m_splashScreen;
 };
 
 

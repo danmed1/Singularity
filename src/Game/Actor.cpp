@@ -37,16 +37,14 @@ namespace soan {
 			m_body(nullptr),
 			m_motionState(nullptr),
 			m_colShape(nullptr),
-			m_mass(1.0f)  {
+			m_mass(1.0f),
+			m_physicsEnabled(xdl::xdl_no) {
 
 		}
 
 		Actor::~Actor() {
-			if(m_body != nullptr) {
-				m_physics->removeRigidBody(m_body);
-				delete m_motionState;
-				delete m_body;
-				m_body = nullptr;
+			if(isPhysicsEnabled()) {
+				enablePhysics(xdl::xdl_no);
 			}
 		}
 
@@ -108,30 +106,51 @@ namespace soan {
 			return Renderable::update(timeStep);
 
 		}
+		
+		xdl::xdl_bool Actor::isPhysicsEnabled() const {
+			return m_physicsEnabled;
+		}
+
+		void Actor::enablePhysics(xdl::xdl_bool enableIt) {
+			m_physicsEnabled = enableIt;
+			
+			if(m_physicsEnabled == xdl::xdl_yes) {
+				if(m_physics != nullptr) {
+
+					btTransform startTransform;
+					startTransform.setIdentity();
+
+
+					startTransform.setOrigin(btVector3(getPosition().x,getPosition().y,getPosition().z));
+
+
+					m_colShape = new btBoxShape(btVector3(getModel()->getBoundingBoxX()/2.0, getModel()->getBoundingBoxY()/2.0f, getModel()->getBoundingBoxZ()/2.0f));
+					btVector3 localInertia(0,0,0);
+
+					m_colShape->calculateLocalInertia(m_mass, localInertia);
+
+
+					//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+					m_motionState = new btDefaultMotionState(startTransform);
+					btRigidBody::btRigidBodyConstructionInfo rbInfo(m_mass, m_motionState, m_colShape, localInertia);
+					m_body = new btRigidBody(rbInfo);
+
+					m_body->setActivationState(DISABLE_DEACTIVATION);
+					m_physics->addRigidBody(m_body);
+				}
+			} else {
+				if(m_body != nullptr) {
+					m_physics->removeRigidBody(m_body);
+					delete m_motionState;
+					delete m_body;
+					m_body = nullptr;
+				}
+			}
+		}
 
 		xdl::xdl_int Actor::init() {
-			if(m_physics != nullptr) {
-
-				btTransform startTransform;
-				startTransform.setIdentity();
-
-
-				startTransform.setOrigin(btVector3(getPosition().x,getPosition().y,getPosition().z));
-
-
-				m_colShape = new btBoxShape(btVector3(getModel()->getBoundingBoxX()/2.0, getModel()->getBoundingBoxY()/2.0f, getModel()->getBoundingBoxZ()/2.0f));
-				btVector3 localInertia(0,0,0);
-
-				m_colShape->calculateLocalInertia(m_mass, localInertia);
-
-
-				//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-				m_motionState = new btDefaultMotionState(startTransform);
-				btRigidBody::btRigidBodyConstructionInfo rbInfo(m_mass, m_motionState, m_colShape, localInertia);
-				m_body = new btRigidBody(rbInfo);
-
-				m_body->setActivationState(DISABLE_DEACTIVATION);
-				m_physics->addRigidBody(m_body);
+			if(isPhysicsEnabled()) {
+				enablePhysics(xdl::xdl_yes);
 			}
 			return xdl::ERR_OK;
 		}
