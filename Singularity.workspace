@@ -30,4 +30,7 @@
       <Project Name="filo" ConfigName="Release_Linux"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
+  <Environment>
+    <![CDATA[]]>
+  </Environment>
 </CodeLite_Workspace>

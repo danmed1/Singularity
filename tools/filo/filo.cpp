@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 					  "Options: \n" << 
 			          "  -h    : This help.\n" <<
 			          "  -f    : Search for files.\n" <<
-					  "  -cf   : Contails file in folders." <<
+					  "  -cf   : Contails file in folders.\n" <<
 			          "  -r    : Search recursive.\n" <<
 			          "  -p    : Pattern for file search." << std::endl;
 			return 0;
