@@ -69,10 +69,6 @@
     <File Name="../../tools/TextureFontCreator/TrueTypeFont.cpp"/>
     <File Name="../../tools/TextureFontCreator/TrueTypeFont.h"/>
   </VirtualDirectory>
-  <Dependencies Name="Debug_Linux"/>
-  <Dependencies Name="Debug_MacOSX"/>
-  <Dependencies Name="Release_Linux"/>
-  <Dependencies Name="Release_MacOSX"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -260,4 +256,8 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Debug_MacOSX"/>
+  <Dependencies Name="Release_Linux"/>
+  <Dependencies Name="Release_MacOSX"/>
 </CodeLite_Project>
