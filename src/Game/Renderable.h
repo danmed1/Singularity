@@ -66,9 +66,9 @@ namespace soan {
 				void reset();
 
 			private:
-				std::shared_ptr<Model>		m_model;
-				xdl::xdl_bool							m_renderingEnabled;
-				xdl::xdl_bool							m_castShadow;
+				std::shared_ptr<Model>	m_model;
+				xdl::xdl_bool			m_renderingEnabled;
+				xdl::xdl_bool			m_castShadow;
 		};
 
 	}
