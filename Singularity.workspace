@@ -4,8 +4,11 @@
   <Project Name="TextureFontCreator" Path="tools/TextureFontCreator/TextureFontCreator.project" Active="No"/>
   <Project Name="SDFGenerator" Path="tools/SDFGenerator/SDFGenerator.project" Active="No"/>
   <Project Name="filo" Path="tools/filo/filo.project" Active="No"/>
+  <Environment>
+    <![CDATA[]]>
+  </Environment>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="yes">
+    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
       <Project Name="TextureFontCreator" ConfigName="Debug_MacOSX"/>
       <Project Name="Singularity" ConfigName="Debug_MacOSX"/>
       <Project Name="SDFGenerator" ConfigName="Debug_MacOSX"/>
@@ -17,7 +20,7 @@
       <Project Name="SDFGenerator" ConfigName="Release_MacOSX"/>
       <Project Name="filo" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="no">
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
       <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
       <Project Name="Singularity" ConfigName="Debug_Linux"/>
       <Project Name="SDFGenerator" ConfigName="Debug_Linux"/>
@@ -30,7 +33,4 @@
       <Project Name="filo" ConfigName="Release_Linux"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
-  <Environment>
-    <![CDATA[]]>
-  </Environment>
 </CodeLite_Workspace>

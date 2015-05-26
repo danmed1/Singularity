@@ -1012,8 +1012,12 @@ void Singularity::startDeferredLighting() {
 			//
 			// Forward vector -z
 			//
-			const btVector3& from = actorObject->getRigidBody()->getCenterOfMassPosition();
-			btQuaternion orientation = actorObject->getRigidBody()->getOrientation();
+			tmath::vec3 tmp = actorObject->getPosition();
+			btVector3 from(tmp.x, tmp.y, tmp.z);
+			
+			tmath::quat tmpQuat = actorObject->getOrientation();
+			btQuaternion orientation(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w);
+			
 			btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
 			forwardq *= 5.0f;
 			btVector3 forward(from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());
