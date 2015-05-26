@@ -57,26 +57,13 @@ namespace soan {
 					// remove all parts which is not in the forward direction of the ship and
 					// set it back to the actor. Now it gets easier to control.
 					//
-					btVector3 thrust(btVector3(0.0f, 0.0f, -1.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
+					
+					tmath::vec3 thrust = actor->getForwardDirection() * actor->getCurrentThrustImpulse();
+					actor->applyImpulse(thrust);
 
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getCurrentThrustImpulse()*thrust);
-
-					btVector3 side(btVector3(-1.0f, 0.0f, 0.0));
-					side = quatRotate(actor->getRigidBody()->getOrientation(), side);
-					side.normalize();
-
-					btScalar sideVel = actor->getRigidBody()->getLinearVelocity().dot(side);
-					actor->getRigidBody()->applyCentralImpulse(-side*sideVel);
-
-
-
-					//	btScalar lvforwardDirection = actor->getRigidBody()->getLinearVelocity().length();
-
-
-					//	actor->getRigidBody()->setLinearVelocity(lvforwardDirection*thrust);
+					tmath::vec3 side = -actor->getRightDirection();
+					float sideVel = actor->getLinearVelocity() * side;
+					actor->applyImpulse(-side*sideVel);
 
 				}
 				virtual void undo() override {}
@@ -87,13 +74,8 @@ namespace soan {
 				virtual ~ThrustBackwardCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-
-					btVector3 thrust(btVector3(0.0f, 0.0f, 1.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getCurrentThrustImpulse()*thrust);
-
+					tmath::vec3 thrust = -actor->getForwardDirection() * actor->getCurrentThrustImpulse();
+					actor->applyImpulse(thrust);
 				}
 				virtual void undo() override {}
 		};
@@ -103,9 +85,8 @@ namespace soan {
 				virtual ~RollLeftCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 roll(btVector3(0.0f, 0.0f, actor->getMaxRollImpulse()));
-					roll = quatRotate(actor->getRigidBody()->getOrientation(), roll);
-					actor->getRigidBody()->applyTorque(roll);
+					tmath::vec3 roll = -actor->getForwardDirection() * actor->getMaxRollImpulse();
+					actor->applyTorque(roll);
 				}
 				virtual void undo() override {}
 		};
@@ -115,9 +96,8 @@ namespace soan {
 				virtual ~RollRightCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 roll(btVector3(0.0f, 0.0f, -actor->getMaxRollImpulse()));
-					roll = quatRotate(actor->getRigidBody()->getOrientation(), roll);
-					actor->getRigidBody()->applyTorque(roll);
+					tmath::vec3 roll = actor->getForwardDirection() * actor->getMaxRollImpulse();
+					actor->applyTorque(roll);
 				}
 
 				virtual void undo() override {}
@@ -128,9 +108,8 @@ namespace soan {
 				virtual ~PitchCommand() {}
 
 				virtual void executeAxis(SpaceShip* actor, xdl::xdl_double value, xdl::xdl_double dT) override {
-					btVector3 pitch(btVector3(actor->getMaxPitchImpulse()*value*10, 0.0f, 0.0f));
-					pitch = quatRotate(actor->getRigidBody()->getOrientation(), pitch);
-					actor->getRigidBody()->applyTorque(pitch);
+					tmath::vec3 pitch = actor->getRightDirection() * actor->getMaxPitchImpulse() * value;
+					actor->applyTorque(pitch);
 				}
 
 				virtual void undo() override {}
@@ -141,9 +120,8 @@ namespace soan {
 				virtual ~PitchForwardCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 pitch(btVector3(actor->getMaxPitchImpulse(), 0.0f, 0.0f));
-					pitch = quatRotate(actor->getRigidBody()->getOrientation(), pitch);
-					actor->getRigidBody()->applyTorque(pitch);
+					tmath::vec3 pitch = actor->getRightDirection() * actor->getMaxPitchImpulse();
+					actor->applyTorque(pitch);
 				}
 
 				virtual void undo() override {}
@@ -154,9 +132,8 @@ namespace soan {
 				virtual ~PitchBackwardCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 pitch(btVector3(-actor->getMaxPitchImpulse(), 0.0f, 0.0f));
-					pitch = quatRotate(actor->getRigidBody()->getOrientation(), pitch);
-					actor->getRigidBody()->applyTorque(pitch);
+					tmath::vec3 pitch = -actor->getRightDirection() * actor->getMaxPitchImpulse();
+					actor->applyTorque(pitch);
 				}
 
 				virtual void undo() override {}
@@ -168,9 +145,8 @@ namespace soan {
 				
 
 				virtual void executeAxis(SpaceShip* actor, xdl::xdl_double value, xdl::xdl_double dT) override {
-					btVector3 heading(btVector3(0.0f, actor->getMaxTurnImpulse() * value * 10, 0.0f));
-					heading = quatRotate(actor->getRigidBody()->getOrientation(), heading);
-					actor->getRigidBody()->applyTorque(heading);
+					tmath::vec3 heading = actor->getUpDirection() * actor->getMaxTurnImpulse();
+					actor->applyTorque(heading);
 				}
 
 				virtual void undo() override {}
@@ -181,9 +157,8 @@ namespace soan {
 				virtual ~HeadLeftCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 heading(btVector3(0.0f, actor->getMaxTurnImpulse(), 0.0f));
-					heading = quatRotate(actor->getRigidBody()->getOrientation(), heading);
-					actor->getRigidBody()->applyTorque(heading);
+					tmath::vec3 heading = actor->getUpDirection() * actor->getMaxTurnImpulse();
+					actor->applyTorque(heading);
 				}
 
 				virtual void undo() override {}
@@ -194,9 +169,8 @@ namespace soan {
 				virtual ~HeadRightCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 heading(btVector3(0.0f, -actor->getMaxTurnImpulse(), 0.0f));
-					heading = quatRotate(actor->getRigidBody()->getOrientation(), heading);
-					actor->getRigidBody()->applyTorque(heading);
+					tmath::vec3 heading = -actor->getUpDirection() * actor->getMaxTurnImpulse();
+					actor->applyTorque(heading);
 				}
 
 				virtual void undo() override {}
@@ -207,13 +181,8 @@ namespace soan {
 				virtual ~ThrustUpCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 thrust(btVector3(0.0f, 1.0f, 0.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getMaxThrustImpulse()*thrust);
-
-
+					tmath::vec3 thrust = actor->getUpDirection() * actor->getMaxThrustImpulse();
+					actor->applyImpulse(thrust);
 				}
 
 				virtual void undo() override {}
@@ -224,12 +193,8 @@ namespace soan {
 				virtual ~ThrustDownCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 thrust(btVector3(0.0f, -1.0f, 0.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getMaxThrustImpulse()*thrust);
-
+					tmath::vec3 thrust = -actor->getUpDirection() * actor->getMaxThrustImpulse();
+					actor->applyImpulse(thrust);
 				}
 
 				virtual void undo() override {}
@@ -240,13 +205,8 @@ namespace soan {
 				virtual ~ThrustLeftCommand() {}
 
 				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 thrust(btVector3(-1.0f, 0.0f, 0.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getMaxThrustImpulse()*thrust);
-
-
+					tmath::vec3 thrust = -actor->getRightDirection() * actor->getMaxThrustImpulse();
+					actor->applyImpulse(thrust);
 				}
 
 				virtual void undo() override {}
@@ -256,14 +216,9 @@ namespace soan {
 			public:
 				virtual ~ThrustRightCommand() {}
 
-				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override {
-					btVector3 thrust(btVector3(1.0f, 0.0f, 0.0));
-					thrust = quatRotate(actor->getRigidBody()->getOrientation(), thrust);
-					thrust.normalize();
-
-					actor->getRigidBody()->applyCentralImpulse(actor->getMaxThrustImpulse()*thrust);
-
-
+				virtual void execute(SpaceShip* actor, xdl::xdl_double dT) override  {
+					tmath::vec3 thrust = actor->getRightDirection() * actor->getMaxThrustImpulse();
+					actor->applyImpulse(thrust);
 				}
 
 				virtual void undo() override {}

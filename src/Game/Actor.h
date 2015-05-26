@@ -84,8 +84,11 @@ namespace soan {
 			/// Apply impulse to the center.
 			void applyImpulse(const tmath::vec3& impulse);
 			
+			/// Apply torque.
+			void applyTorque(const tmath::vec3& torque);
 			
-			tmath::quat getOrientation();
+			/// Returns the center of mass velocity.
+			tmath::vec3 getLinearVelocity();
 			
 			/// Return the rigid body.
 			btRigidBody* getRigidBody();

@@ -42,7 +42,13 @@ namespace soan {
 			Transformable();
 
 			/// Returns the forward direction of the object.
-			tmath::vec3 getDirection();
+			tmath::vec3 getForwardDirection();
+			
+			/// Returns the up direction unit vector of the object.
+			tmath::vec3 getUpDirection();
+			
+			/// Returns the right direction unit vector of the object.
+			tmath::vec3 getRightDirection();
 
 			/// Return the position in world space.
 			tmath::vec3& getPosition();

@@ -31,10 +31,22 @@ namespace soan {
 		tmath::identity(m_orientation);
 	}
 
-	tmath::vec3 Transformable::getDirection() {
+	tmath::vec3 Transformable::getForwardDirection() {
 		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 0.0f, -1.0f);
 		tmath::normalize(tmp);
-		return tmp;
+		return std::move(tmp);
+	}
+	
+	tmath::vec3 Transformable::getUpDirection() {
+		tmath::vec3 tmp = m_orientation * tmath::vec3(0.0f, 1.0f, 0.0f);
+		tmath::normalize(tmp);
+		return std::move(tmp);	  
+	}
+
+	tmath::vec3 Transformable::getRightDirection() {
+		tmath::vec3 tmp = m_orientation * tmath::vec3(1.0f, 0.0f, 0.0f);
+		tmath::normalize(tmp);
+		return std::move(tmp);	  
 	}
 
 	tmath::vec3 Transformable::getForwardVector() {

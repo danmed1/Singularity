@@ -418,8 +418,8 @@ namespace soan {
 		m_stage2sp->setUniform3v(lightAmbient, 	1, 	m_lights[0]->getAmbient());
 		m_stage2sp->setUniform(lightIntensity,  		m_lights[0]->getIntensity());
 		m_stage2sp->setUniform3v(lightSpecular, 1, 	m_lights[0]->getSpecular());
-		m_stage2sp->setUniform3v(lightPos, 			1,	m_lights[0]->getPosition());
-		m_stage2sp->setUniform3v(lightDirection,1,	m_lights[0]->getDirection());
+		m_stage2sp->setUniform3v(lightPos, 		1,	m_lights[0]->getPosition());
+		m_stage2sp->setUniform3v(lightDirection,1,	m_lights[0]->getForwardDirection());
 
 		m_stage2sp->setUniform3v(cameraPos,1, m_camera->getPosition());
 

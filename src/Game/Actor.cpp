@@ -138,6 +138,8 @@ namespace soan {
 
 					m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
 					m_physics->addRigidBody(m_rigidBody);
+				} else {
+				  // TODO Physics system not set.
 				}
 			} else {
 				if(m_rigidBody != nullptr) {
@@ -145,6 +147,7 @@ namespace soan {
 					delete m_motionState;
 					delete m_rigidBody;
 					m_rigidBody = nullptr;
+
 				}
 			}
 		}
@@ -197,14 +200,21 @@ namespace soan {
 		  }
 		}
 		
-		tmath::quat Actor::getOrientation() {
+		void Actor::applyTorque(const tmath::vec3& torque) {
 		  if(isPhysicsEnabled() == xdl::xdl_yes) {
-			  btQuaternion tmp = m_rigidBody->getOrientation();
-			  tmath::quat orent(tmp.getX(), tmp.getY(), tmp.getZ(), tmp.getW());
-			  return std::move(orent);
+			  btVector3 tmp(torque.x, torque.y, torque.z);
+			  m_rigidBody->applyTorque(tmp);
 		  }
 		}
-
+		
+		tmath::vec3 Actor::getLinearVelocity() {
+		  if(isPhysicsEnabled() == xdl::xdl_yes) {
+			  btVector3 tmp = m_rigidBody->getLinearVelocity();
+			  tmath::vec3 linearVelocity(tmp.x(), tmp.y(), tmp.z());
+			  return std::move(linearVelocity);
+		  }
+		  return tmath::vec3();
+		}
 
 	}
 
