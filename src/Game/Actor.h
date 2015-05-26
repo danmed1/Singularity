@@ -78,8 +78,17 @@ namespace soan {
 
 			void setPhysics(phys::Physics* physics, xdl::xdl_float mass);
 			
+			/// Apply force to the center.
+			void applyForce(const tmath::vec3& force);
+			
+			/// Apply impulse to the center.
+			void applyImpulse(const tmath::vec3& impulse);
+			
+			
+			tmath::quat getOrientation();
+			
 			/// Return the rigid body.
-			btRigidBody*	getRigidBody();
+			btRigidBody* getRigidBody();
 
 			/// Returns the collision shape.
 			btBoxShape* getCollisionShape();
@@ -103,7 +112,7 @@ namespace soan {
 			xdl::xdl_uint64			m_livedTime;
 
 			phys::Physics*			m_physics;
-			btRigidBody* 			m_body;
+			btRigidBody* 			m_rigidBody;
 			btDefaultMotionState* 	m_motionState;
 			btBoxShape*				m_colShape;
 			xdl::xdl_float			m_mass;

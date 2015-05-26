@@ -34,7 +34,8 @@ namespace soan {
 			m_maxRollImpulse(5000.0f),
 			m_maxPitchImpulse(5000.0f),
 			m_currentThrustLevel(1.0f) {
-
+			
+			enablePhysics(xdl::xdl_yes);
 		}
 
 		SpaceShip::~SpaceShip() {

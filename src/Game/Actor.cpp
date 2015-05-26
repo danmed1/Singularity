@@ -34,7 +34,7 @@ namespace soan {
 			m_lifeTime(0),
 			m_livedTime(0),
 			m_physics(nullptr),
-			m_body(nullptr),
+			m_rigidBody(nullptr),
 			m_motionState(nullptr),
 			m_colShape(nullptr),
 			m_mass(1.0f),
@@ -92,8 +92,8 @@ namespace soan {
 			}
 
 			if(m_physics != nullptr) {
-				if(m_body != nullptr) {
-					btMotionState* ms = m_body->getMotionState();
+				if(m_rigidBody != nullptr) {
+					btMotionState* ms = m_rigidBody->getMotionState();
 					btTransform ts;
 					ms->getWorldTransform(ts);
 					btQuaternion 	qr 	= ts.getRotation();
@@ -114,6 +114,7 @@ namespace soan {
 		void Actor::enablePhysics(xdl::xdl_bool enableIt) {
 			m_physicsEnabled = enableIt;
 			
+			// TODO Do we want do to this here?
 			if(m_physicsEnabled == xdl::xdl_yes) {
 				if(m_physics != nullptr) {
 
@@ -133,17 +134,17 @@ namespace soan {
 					//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
 					m_motionState = new btDefaultMotionState(startTransform);
 					btRigidBody::btRigidBodyConstructionInfo rbInfo(m_mass, m_motionState, m_colShape, localInertia);
-					m_body = new btRigidBody(rbInfo);
+					m_rigidBody = new btRigidBody(rbInfo);
 
-					m_body->setActivationState(DISABLE_DEACTIVATION);
-					m_physics->addRigidBody(m_body);
+					m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
+					m_physics->addRigidBody(m_rigidBody);
 				}
 			} else {
-				if(m_body != nullptr) {
-					m_physics->removeRigidBody(m_body);
+				if(m_rigidBody != nullptr) {
+					m_physics->removeRigidBody(m_rigidBody);
 					delete m_motionState;
-					delete m_body;
-					m_body = nullptr;
+					delete m_rigidBody;
+					m_rigidBody = nullptr;
 				}
 			}
 		}
@@ -162,7 +163,7 @@ namespace soan {
 		}
 
 		btRigidBody* Actor::getRigidBody() {
-			return m_body;
+			return m_rigidBody;
 		}
 
 		btBoxShape* Actor::getCollisionShape() {
@@ -170,16 +171,38 @@ namespace soan {
 		}
 
 		void Actor::reset() {
-			if(m_body == nullptr) {
+			if(m_rigidBody == nullptr) {
 				return;
 			}
 
 			// TODO This part can be optimized. :D I was just to lazy to do, later I will.
-			btMotionState* ms = m_body->getMotionState();
+			btMotionState* ms = m_rigidBody->getMotionState();
 			btTransform tf;
 			tf.setOrigin(btVector3(getPosition().x, getPosition().y, getPosition().z));
 			tf.setRotation(btQuaternion(getOrientation().x, getOrientation().y,getOrientation().z,getOrientation().w));
 			ms->setWorldTransform(tf);
+		}
+		
+		void Actor::applyForce(const tmath::vec3& force) {
+		  if(isPhysicsEnabled() == xdl::xdl_yes) {
+			  btVector3 tmp(force.x, force.y, force.z);
+			  m_rigidBody->applyCentralForce(tmp);
+		  }
+		}
+		
+		void Actor::applyImpulse(const tmath::vec3& impulse) {
+		  if(isPhysicsEnabled() == xdl::xdl_yes) {
+			  btVector3 tmp(impulse.x, impulse.y, impulse.z);
+			  m_rigidBody->applyCentralImpulse(tmp);
+		  }
+		}
+		
+		tmath::quat Actor::getOrientation() {
+		  if(isPhysicsEnabled() == xdl::xdl_yes) {
+			  btQuaternion tmp = m_rigidBody->getOrientation();
+			  tmath::quat orent(tmp.getX(), tmp.getY(), tmp.getZ(), tmp.getW());
+			  return std::move(orent);
+		  }
 		}
 
 

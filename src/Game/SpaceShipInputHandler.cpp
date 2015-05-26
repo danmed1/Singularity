@@ -152,7 +152,13 @@ namespace soan {
 			if(actor == nullptr) {
 				return;
 			}
-
+			
+			// This input hander needs the pysics system. If the physics system is not
+			// activated stop here.
+			if(actor->isPhysicsEnabled() == xdl::xdl_no) {
+			  return;
+			}
+			
 			btVector3 av = actor->getRigidBody()->getAngularVelocity();
 			btVector3 sum = av;
 
