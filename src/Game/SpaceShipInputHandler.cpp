@@ -80,13 +80,13 @@ namespace soan {
 			m_kd->getButton(xdl::KEY_E,		&m_thrustRight);
 
 
-			m_jd->getAxis(xdl::JOY_AXIS_3,	&m_thrustAxis);
+			m_jd->getAxis(xdl::AXIS_3,	&m_thrustAxis);
 			m_thrustAxis->setMinMax(0.0f, 1.0f);
 
-			m_md->getAxis(xdl::MOUSE_AXIS_X, &m_headingAxis);
+			m_md->getAxis(xdl::AXIS_X, &m_headingAxis);
 			m_headingAxis->setMinMax(-1.0f, 1.0f);
 
-			m_md->getAxis(xdl::MOUSE_AXIS_Y, &m_pitchAxis);
+			m_md->getAxis(xdl::AXIS_Y, &m_pitchAxis);
 			m_pitchAxis->setMinMax(-1.0f, 1.0f);
 
 

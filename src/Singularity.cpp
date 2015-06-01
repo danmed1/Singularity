@@ -155,7 +155,6 @@ void Singularity::main(const Arguments& argv) throw() {
 	
 
 	getWindow()->show();
-
 	
 	//
 	// Start main loop.
@@ -696,10 +695,10 @@ xdl::xdl_int Singularity::initializeInputConnections() {
 	// Get all mouse references.
 	//
 
-	getMouse()->getButton(xdl::MOUSE_BUTTON_LEFT, &left_mouse_button);
-	getMouse()->getButton(xdl::MOUSE_BUTTON_RIGHT, &right_mouse_button);
-	getMouse()->getAxis(xdl::MOUSE_AXIS_X, &mouse_x);
-	getMouse()->getAxis(xdl::MOUSE_AXIS_Y, &mouse_y);
+	getMouse()->getButton(xdl::BUTTON_LEFT, &left_mouse_button);
+	getMouse()->getButton(xdl::BUTTON_RIGHT, &right_mouse_button);
+	getMouse()->getAxis(xdl::AXIS_X, &mouse_x);
+	getMouse()->getAxis(xdl::AXIS_Y, &mouse_y);
 
 	//
 	// Get a valid button objects.
