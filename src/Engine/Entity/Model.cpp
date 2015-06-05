@@ -46,7 +46,6 @@ namespace soan {
 	
 		for(auto& mesh : m_meshes) {
 			std::shared_ptr<Material> material(mesh->getMaterial()->refCopy());
-			std::cout << "Material: " << material.get() << std::endl;
 
 			mesh->setMaterial(material);
 			m->m_meshes.push_back(mesh);

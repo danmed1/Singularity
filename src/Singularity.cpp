@@ -651,7 +651,6 @@ xdl::xdl_int Singularity::initializeAssets() {
 			soan::game::Planet* planet = new soan::game::Planet();
 			planet->setName("Earth");
 			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
-			std::cout << "Material: " << planet->getModel().get()->getMesh(0)<< std::endl;
 			planet->setLifeTime(0);
 			planet->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(true);
 			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
