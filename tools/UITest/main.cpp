@@ -11,7 +11,8 @@ class Widget {
 			y1(y),
 			x2(x + width),
 			y2(y + height),
-			backgroundColor(soan::Color(1.0f, 1.0f, 1.0f, 1.0f)) {}
+			backgroundColor(soan::Color(0.9f, 0.9f, 0.9f, 1.0f)),
+			hoverColor(soan::Color(1.0f, 1.0f, 1.0f, 1.0f)) {}
 
 		void draw(Widget* widget);
 		
@@ -19,6 +20,7 @@ private:
 	
 		xdl::xdl_int x1, y1, x2, y2;
 		soan::Color backgroundColor;
+		soan::Color hoverColor;
 
 };
 
@@ -28,8 +30,6 @@ void Widget::draw(Widget* widget) {
 		return;
 	}
 
-	glLineWidth(4.0);
-	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_TRIANGLE_STRIP);
 				
 	glColor4f(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
@@ -83,6 +83,7 @@ struct XdevLQuadTreeNode {
 
 	private:
 
+
 		/// Child nodes.
 
 		XdevLQuadTreeNode* top_left;
@@ -123,6 +124,28 @@ class XdevLQuadTree {
 			delete_recursive(root);
 			root = nullptr;
 		}
+		
+
+		XdevLQuadTreeNode<T, OBJ>* find(XdevLQuadTreeNode<T, OBJ>* item) {
+			return insert_recursive(root, item);
+		}
+		
+		
+		XdevLQuadTreeNode<T, OBJ>* insert_recursive(XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
+
+			
+			// Completely inside.
+			if( (item->x1 > root->x1) && 
+				(item->x2 < root->x2) && 
+				(item->y1 > root->y1) && 
+				(item->y2 < root->y2)) {
+				return root;
+			}
+
+			
+			return root;
+		}
+		
 
 		XdevLQuadTreeNode<T, OBJ>* find(xdl::xdl_int x, xdl::xdl_int y) {
 			return find_recursive(root, x, y);
@@ -300,11 +323,11 @@ class UITest : public xdl::XdevLApplication {
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 
-				glLineWidth(1.0);
-				glColor3f(1.0, 1.0, 1.0);
-				glBegin(GL_LINES);
-				m_quadtree->render();
-				glEnd();
+//				glLineWidth(1.0);
+//				glColor3f(1.0, 1.0, 1.0);
+//				glBegin(GL_LINES);
+//				m_quadtree->render();
+//				glEnd();
 
 				glLineWidth(4.0);
 				glColor3f(1.0, 0.0, 0.0);
