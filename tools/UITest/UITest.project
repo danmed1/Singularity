@@ -48,13 +48,6 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
-    <File Name="../../src/Engine/GUI/CheckBox.cpp"/>
-    <File Name="../../src/Engine/GUI/CheckBox.h"/>
-    <File Name="../../src/Engine/GUI/UIBase.cpp"/>
-    <File Name="../../src/Engine/GUI/UIBase.h"/>
-    <File Name="../../src/Engine/GUI/UIRenderer.h"/>
-    <File Name="../../src/Engine/GUI/UIRendererImpl.cpp"/>
-    <File Name="../../src/Engine/GUI/UIRendererImpl.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

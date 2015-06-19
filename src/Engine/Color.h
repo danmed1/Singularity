@@ -35,6 +35,7 @@ namespace soan {
 	class Color {
 		public:
 			Color() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
+			Color(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha) {}
 			union {
 
 				struct {

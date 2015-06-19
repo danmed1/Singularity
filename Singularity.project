@@ -194,15 +194,7 @@
         <File Name="src/Engine/Fonts/lodepng.cpp"/>
         <File Name="src/Engine/Fonts/lodepng.h"/>
       </VirtualDirectory>
-      <VirtualDirectory Name="GUI">
-        <File Name="src/Engine/GUI/CheckBox.h"/>
-        <File Name="src/Engine/GUI/CheckBox.cpp"/>
-        <File Name="src/Engine/GUI/UIBase.h"/>
-        <File Name="src/Engine/GUI/UIBase.cpp"/>
-        <File Name="src/Engine/GUI/UIRenderer.h"/>
-        <File Name="src/Engine/GUI/UIRendererImpl.cpp"/>
-        <File Name="src/Engine/GUI/UIRendererImpl.h"/>
-      </VirtualDirectory>
+      <VirtualDirectory Name="GUI"/>
       <VirtualDirectory Name="Entity">
         <File Name="src/Engine/Entity/Material.cpp"/>
         <File Name="src/Engine/Entity/Material.h"/>

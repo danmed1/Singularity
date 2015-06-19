@@ -2,59 +2,115 @@
 #include <XdevL.h>
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
+#include <Engine/Color.h>
 
-#include <Engine/GUI/CheckBox.h>
+class Widget {
+	public:
+		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
+			x1(x),
+			y1(y),
+			x2(x + width),
+			y2(y + height),
+			backgroundColor(soan::Color(1.0f, 1.0f, 1.0f, 1.0f)) {}
 
-template<typename T>
-struct XdevLQuadTreeNode {
-	XdevLQuadTreeNode() :
-		top_left(nullptr),
-		top_right(nullptr),
-		bottom_left(nullptr),
-		bottom_right(nullptr),
-		x1(0), y1(0), x2(0), y2(0) {}
+		void draw(Widget* widget);
+		
+private:
+	
+		xdl::xdl_int x1, y1, x2, y2;
+		soan::Color backgroundColor;
 
-	XdevLQuadTreeNode<T>* topLeft() {
-		return top_left;
-	}
-
-	XdevLQuadTreeNode<T>* topRight() {
-		return top_right;
-	}
-
-	XdevLQuadTreeNode<T>* bottomLeft() {
-		return bottom_left;
-	}
-
-	XdevLQuadTreeNode<T>* bottomRight() {
-		return bottom_right;
-	}
-
-
-	XdevLQuadTreeNode* top_left;
-	XdevLQuadTreeNode* top_right;
-	XdevLQuadTreeNode* bottom_left;
-	XdevLQuadTreeNode* bottom_right;
-
-	T x1, y1, x2, y2;
 };
 
-template<typename T>
-class XdevLQuadTree {
-		XdevLQuadTreeNode<T>* root;
-		xdl::xdl_uint depth;
-		T top_left_x;
-		T top_left_y;
-		xdl::xdl_uint width;
-		xdl::xdl_uint height;
+void Widget::draw(Widget* widget) {
+
+	if(widget == nullptr) {
+		return;
+	}
+
+	glLineWidth(4.0);
+	glColor3f(1.0, 0.0, 0.0);
+	glBegin(GL_TRIANGLE_STRIP);
+				
+	glColor4f(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+	glVertex2i(widget->x1, widget->y1);
+	glVertex2i(widget->x1, widget->y2);
+	glVertex2i(widget->x2, widget->y1);
+	glVertex2i(widget->x2, widget->y2);
+
+	glEnd();
+}
+
+class Button : public Widget {
 	public:
+		Button(const xdl::XdevLString& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
+			Widget(x, y, width, height),
+			text(title) {}
+
+		const xdl::XdevLString& title() const {
+			return text;
+		}
+
+	private:
+		xdl::XdevLString text;
+};
+
+
+
+template<typename T, typename OBJ>
+class XdevLQuadTree;
+
+template<typename T, typename OBJ>
+struct XdevLQuadTreeNode {
+		friend class XdevLQuadTree<T, OBJ>;
+
+		XdevLQuadTreeNode() :
+			top_left(nullptr),
+			top_right(nullptr),
+			bottom_left(nullptr),
+			bottom_right(nullptr),
+			x1(0), y1(0), x2(0), y2(0) {}
+
+		/// Returns the stored user item of this node.
+		const OBJ& getItem() const {
+			return item;
+		}
+
+		/// Sets the user item for this node.
+		void setItem(const OBJ& itm) {
+			item = itm;
+		}
+
+	private:
+
+		/// Child nodes.
+
+		XdevLQuadTreeNode* top_left;
+		XdevLQuadTreeNode* top_right;
+		XdevLQuadTreeNode* bottom_left;
+		XdevLQuadTreeNode* bottom_right;
+
+		// Holds the (left, top) and (bottom, right) values for the rectangle area.
+		T x1, y1, x2, y2;
+
+
+
+		// Holds an user defined object.
+		OBJ item;
+};
+
+template<typename T, typename OBJ>
+class XdevLQuadTree {
+	public:
+		typedef XdevLQuadTreeNode<T, OBJ> NodeType;
+
 		XdevLQuadTree(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_uint width, xdl::xdl_uint height, xdl::xdl_uint depth) :
 			root(nullptr),
+			width(width),
+			height(height),
 			depth(depth),
 			top_left_x(x),
-			top_left_y(y),
-			width(width),
-			height(height) {}
+			top_left_y(y) {}
 		~XdevLQuadTree() {
 
 		}
@@ -68,11 +124,11 @@ class XdevLQuadTree {
 			root = nullptr;
 		}
 
-		XdevLQuadTreeNode<T>* find(xdl::xdl_int x, xdl::xdl_int y) {
+		XdevLQuadTreeNode<T, OBJ>* find(xdl::xdl_int x, xdl::xdl_int y) {
 			return find_recursive(root, x, y);
 		}
 
-		XdevLQuadTreeNode<T>* find_recursive(XdevLQuadTreeNode<T>* root, xdl::xdl_int x, xdl::xdl_int y) {
+		XdevLQuadTreeNode<T, OBJ>* find_recursive(XdevLQuadTreeNode<T, OBJ>* root, xdl::xdl_int x, xdl::xdl_int y) {
 
 			if(y < (root->y1 + (root->y2-root->y1)/2)) {
 				// Pointer is in the upper part.
@@ -114,12 +170,12 @@ class XdevLQuadTree {
 		}
 
 
-		void create_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T>** root, xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
+		void create_recursive(xdl::xdl_uint level, NodeType** root, xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 			if(level == depth) {
 				return;
 			}
 
-			XdevLQuadTreeNode<T>* node = new XdevLQuadTreeNode<T>();
+			NodeType* node = new NodeType();
 			node->x1 = x1;
 			node->y1 = y1;
 			node->x2 = x2;
@@ -132,7 +188,7 @@ class XdevLQuadTree {
 			create_recursive(level + 1, &node->bottom_right, x1 + (x2-x1)/2, y1 + (y2-y1)/2, x2, y2);
 		}
 
-		void delete_recursive(XdevLQuadTreeNode<T>* root) {
+		void delete_recursive(NodeType* root) {
 			if(root == nullptr) {
 				return;
 			}
@@ -145,7 +201,7 @@ class XdevLQuadTree {
 			delete(root);
 		}
 
-		void draw_recursive(XdevLQuadTreeNode<T>* node) {
+		void draw_recursive(NodeType* node) {
 			if(node == nullptr) {
 				return;
 			}
@@ -159,7 +215,12 @@ class XdevLQuadTree {
 		}
 
 
-		void drawNode(XdevLQuadTreeNode<T>* node) {
+		void drawNode(NodeType* node) {
+
+			if(node == nullptr) {
+				return;
+			}
+
 			glVertex2i(node->x1, node->y1);
 			glVertex2i(node->x2, node->y1);
 
@@ -173,8 +234,15 @@ class XdevLQuadTree {
 			glVertex2i(node->x1, node->y1);
 		}
 
-};
+	private:
 
+		NodeType* root;
+		xdl::xdl_uint width;
+		xdl::xdl_uint height;
+		xdl::xdl_uint depth;
+		T top_left_x;
+		T top_left_y;
+};
 
 
 class UITest : public xdl::XdevLApplication {
@@ -194,7 +262,7 @@ class UITest : public xdl::XdevLApplication {
 		virtual void main(const Arguments& argv) throw() override {
 
 
-			m_quadtree = new XdevLQuadTree<int>(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 4);
+			m_quadtree = new XdevLQuadTree<int, soan::Color>(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 4);
 			m_quadtree->init();
 
 
@@ -220,6 +288,9 @@ class UITest : public xdl::XdevLApplication {
 			glLoadIdentity();
 			glEnable(GL_DEPTH_TEST);
 
+			Button button(xdl::XdevLString("Press me"), 100, 100, 100, 50);
+
+
 			while(m_appRun) {
 				getCore()->update();
 
@@ -240,6 +311,9 @@ class UITest : public xdl::XdevLApplication {
 				glBegin(GL_LINES);
 				m_quadtree->drawNode(m_currentPointerNode);
 				glEnd();
+
+
+				button.draw(&button);
 
 				get3DProcessor()->swapBuffers();
 			}
@@ -295,10 +369,10 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonIdDelegateType 	m_buttonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
-		XdevLQuadTree<int>* 			m_quadtree;
+		XdevLQuadTree<int, soan::Color>* 		m_quadtree;
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
-		XdevLQuadTreeNode<int>*			m_currentPointerNode;
+		XdevLQuadTreeNode<int, soan::Color>*	m_currentPointerNode;
 
 };
 
