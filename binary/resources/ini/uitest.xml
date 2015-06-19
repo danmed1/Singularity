@@ -6,16 +6,16 @@
   <!-- Plug external plugins to the core system. -->
   <XdevLPlugins>
 		<XdevLPlugin name="XdevLWindowSDL" 	version="1.0.0"/>
-		<XdevLPlugin name="XdevLMouse"			version="1.0.0"/>
-		<XdevLPlugin name="XdevLKeyboard"		version="1.0.0"/>
-		<XdevLPlugin name="XdevLJoystick"		version="1.0.0"/>		
+		<XdevLPlugin name="XdevLMouse"		version="1.0.0"/>
+		<XdevLPlugin name="XdevLKeyboard"	version="1.0.0"/>
+		<XdevLPlugin name="XdevLJoystick"	version="1.0.0"/>
     <XdevLPlugin name="XdevLOpenGL"			version="1.0.0"/>
   </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<XdevLModules>
     <XdevLModule id="MyWindow"		name="XdevLWindow"/>
-    <XdevLModule id="MyMouse" 		name="XdevLMouse"/>		
+    <XdevLModule id="MyMouse" 		name="XdevLMouse"/>
     <XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
     <XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
     <XdevLModule id="MyOpenGL"		name="XdevLOpenGL"/>
@@ -31,7 +31,7 @@
     <Height> 600 </Height>
     <HidePointer>0</HidePointer>
 		<Borderless>0</Borderless>
-		<BackgroundColor>0 0 0 0 </BackgroundColor>		
+		<BackgroundColor>0 0 0 0 </BackgroundColor>
   </XdevLWindow>
 
 
@@ -50,8 +50,10 @@
 
 
 
-	<XdevLMouseDevice id="MyMouse">
-	</XdevLMouseDevice>
+	<XdevLMouse id="MyMouse" >
+		<Range axis="AXIS_0" min="0" max="800"/>
+		<Range axis="AXIS_1" min="0" max="600"/>
+	</XdevLMouse>
 
 </XdevLCoreProperties>
 
