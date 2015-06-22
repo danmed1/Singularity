@@ -126,24 +126,66 @@ class XdevLQuadTree {
 		}
 		
 
-		XdevLQuadTreeNode<T, OBJ>* find(XdevLQuadTreeNode<T, OBJ>* item) {
-			return insert_recursive(root, item);
+		void insert(XdevLQuadTreeNode<T, OBJ>* item) {
+			insert_recursive(0, root, item);
 		}
 		
 		
-		XdevLQuadTreeNode<T, OBJ>* insert_recursive(XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
-
+		void insert_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
 			
-			// Completely inside.
-			if( (item->x1 > root->x1) && 
-				(item->x2 < root->x2) && 
-				(item->y1 > root->y1) && 
-				(item->y2 < root->y2)) {
-				return root;
+			// No splitting if we reached the maximum depth. Set the item into this node.
+			if( level == depth){
+				root = item;
+				return;
 			}
 
+			T mid_h = root->y1 + (root->y2 - root->y1)/2;
+			T mid_v = root->x1 + (root->x2 - root->x1)/2;
+
+			bool upper_quad = (item->y1 < mid_h) && (item->y2 < mid_h);
+			bool lower_quad = (item->y1 > mid_h);
+			bool left_quad = (item->x1 < mid_v) && (item->x2 < mid_v);
+			bool right_quad = (item->x1 > mid_v);
 			
-			return root;
+			if(upper_quad) {
+				if(left_quad) {
+//					root->top_left = new NodeType();
+					root->top_left = item;
+					return;
+				} else if(right_quad) {
+//					root->top_right = new NodeType();
+					root->top_right = item;
+					return;
+				}
+				// It seems that the items borders intersect with the mid vertical line of the root broders.
+				
+			} else if(lower_quad) {
+				if(left_quad) {
+//					root->bottom_left = new NodeType();
+					root->bottom_left = item;
+					return;
+				} else if(right_quad) {
+//					root->bottom_right = new NodeType();
+					root->bottom_right = item;
+					return;
+				}
+				// It seems that the items borders intersect with the mid vertical line of the root broders.
+			}
+			
+			NodeType* lqi = new NodeType();
+			NodeType* rqi = new NodeType();
+			lqi->x1 = item->x1;
+			lqi->x2 = mid_v;
+			lqi->y1 = item->y1;
+			lqi->y2 = item->y2;
+			
+			rqi->x1 = mid_v;
+			rqi->x2 = item->x2;
+			rqi->y1 = item->y1;
+			rqi->y2 = item->y2;
+			
+			insert_recursive(level + 1, root, lqi);
+			insert_recursive(level + 1, root, rqi);
 		}
 		
 
@@ -153,9 +195,12 @@ class XdevLQuadTree {
 
 		XdevLQuadTreeNode<T, OBJ>* find_recursive(XdevLQuadTreeNode<T, OBJ>* root, xdl::xdl_int x, xdl::xdl_int y) {
 
-			if(y < (root->y1 + (root->y2-root->y1)/2)) {
+			bool upper_quad = (y < root->y1 + (root->y2 - root->y1)/2);
+			bool left_quad = (x < (root->x1 + (root->x2-root->x1)/2));
+			
+			if(upper_quad) {
 				// Pointer is in the upper part.
-				if(x < (root->x1 + (root->x2-root->x1)/2)) {
+				if(left_quad) {
 					if(root->top_left == nullptr) {
 						return root;
 					} else {
@@ -171,7 +216,7 @@ class XdevLQuadTree {
 
 			} else {
 				// Pointer is in bottom part.
-				if(x < (root->x1 + (root->x2-root->x1)/2)) {
+				if(left_quad) {
 					if(root->bottom_left == nullptr) {
 						return root;
 					} else {
@@ -287,6 +332,7 @@ class UITest : public xdl::XdevLApplication {
 
 			m_quadtree = new XdevLQuadTree<int, soan::Color>(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 4);
 			m_quadtree->init();
+			
 
 
 			initializeRenderSystem();
@@ -312,7 +358,11 @@ class UITest : public xdl::XdevLApplication {
 			glEnable(GL_DEPTH_TEST);
 
 			Button button(xdl::XdevLString("Press me"), 100, 100, 100, 50);
-
+			
+			soan::Color color;
+			XdevLQuadTree<int, soan::Color>::NodeType* node = new XdevLQuadTree<int, soan::Color>::NodeType();
+			node->setItem(color);
+			m_quadtree->insert(node);
 
 			while(m_appRun) {
 				getCore()->update();
