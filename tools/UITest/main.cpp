@@ -13,26 +13,19 @@ class AABB {
 			x2(0),
 			y2(0) {}
 
-		AABB(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
-			x1(x),
-			y1(y),
-			x2(x + width),
-			y2(y + height) {}
-
-		void setBorders(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
-			x1 = x1;
-			y1 = y1;
-			x2 = x2;
-			y2 = y2;
-		}
-
+		AABB(xdl::xdl_int _x1, xdl::xdl_int _y1, xdl::xdl_int _x2, xdl::xdl_int _y2) :
+			x1(_x1),
+			y1(_y1),
+			x2(_x2),
+			y2(_y2) {}
+			
 		xdl::xdl_int x1, y1, x2, y2;
 };
 
 class Widget {
 	public:
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
-			aabb(x, y, width, height),
+			aabb(x, y, x + width, y + height),
 			backgroundColor(soan::Color(0.9f, 0.9f, 0.9f, 1.0f)),
 			hoverColor(soan::Color(1.0f, 1.0f, 1.0f, 1.0f)) {}
 
@@ -89,6 +82,8 @@ template<typename T, typename OBJ>
 struct XdevLQuadTreeNode {
 		friend class XdevLQuadTree<T, OBJ>;
 
+		XdevLQuadTreeNode(const AABB& _aabb) : aabb(_aabb) {} 
+
 		XdevLQuadTreeNode() :
 			top_left(nullptr),
 			top_right(nullptr),
@@ -116,6 +111,15 @@ struct XdevLQuadTreeNode {
 		void setAABB(const AABB& _aabb) {
 			aabb = _aabb;
 		}
+
+
+		void split() {
+			top_left		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1, aabb.y1, aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y1 +(aabb.y2-aabb.y1)/2));
+			top_right		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1 + (aabb.x2-aabb.x1)/2 , aabb.y1, aabb.x2, aabb.y1 + (aabb.y2-aabb.y1)/2));
+			bottom_left		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1, aabb.y1 + (aabb.y2-aabb.y1)/2, aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y2));
+			bottom_right	= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y1 + (aabb.y2-aabb.y1)/2, aabb.x2, aabb.y2));
+		}
+
 
 	private:
 		AABB aabb;
@@ -162,14 +166,14 @@ class XdevLQuadTree {
 		}
 
 		void insert_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
-
+			
 			T mid_h = root->aabb.y1 + (root->aabb.y2 - root->aabb.y1)/2;
 			T mid_v = root->aabb.x1 + (root->aabb.x2 - root->aabb.x1)/2;
 
-			bool upper_quad = (item->aabb.y1 < mid_h) && (item->aabb.y2 < mid_h);
-			bool lower_quad = (item->aabb.y1 > mid_h);
-			bool left_quad = (item->aabb.x1 < mid_v) && (item->aabb.x2 < mid_v);
-			bool right_quad = (item->aabb.x1 > mid_v);
+			bool upper_quad	= (item->aabb.y1 < mid_h) && (item->aabb.y2 < mid_h);
+			bool lower_quad	= (item->aabb.y1 > mid_h);
+			bool left_quad 	= (item->aabb.x1 < mid_v) && (item->aabb.x2 < mid_v);
+			bool right_quad	= (item->aabb.x1 > mid_v);
 
 			if(upper_quad) {
 				if(left_quad) {
@@ -439,8 +443,8 @@ class UITest : public xdl::XdevLApplication {
 			
 			node2->setAABB(button2->getAABB());
 			node2->addItem(button2);
-			m_quadtree->insert(node1);
-			m_quadtree->insert(node2);
+//			m_quadtree->insert(node1);
+		//	m_quadtree->insert(node2);
 
 			while(m_appRun) {
 				getCore()->update();
@@ -457,11 +461,12 @@ class UITest : public xdl::XdevLApplication {
 				m_quadtree->render();
 				glEnd();
 
-				glLineWidth(4.0);
-				glColor3f(1.0, 0.0, 0.0);
-				glBegin(GL_LINES);
-				m_quadtree->drawNode(m_currentPointerNode);
-				glEnd();
+				
+					glLineWidth(4.0);
+					glColor3f(1.0, 0.0, 0.0);
+					glBegin(GL_LINES);
+					m_quadtree->drawNode(m_currentPointerNode);
+					glEnd();
 
 
 				button1->draw();
