@@ -19,6 +19,10 @@ class AABB {
 			x2(_x2),
 			y2(_y2) {}
 
+		xdl::xdl_bool isPointInside(xdl::xdl_int x, xdl::xdl_int y) {
+			return ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2));
+		}
+
 		xdl::xdl_int x1, y1, x2, y2;
 };
 
@@ -26,20 +30,55 @@ class Widget {
 	public:
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
 			aabb(x, y, x + width, y + height),
-			backgroundColor(soan::Color(0.9f, 0.9f, 0.9f, 1.0f)),
-			hoverColor(soan::Color(1.0f, 1.0f, 1.0f, 1.0f)) {}
+			currentColorLevel(0) {
+
+			color[0] = soan::Color(0.5f, 0.5f, 0.5f, 1.0f);
+			color[1] = soan::Color(1.0f, 1.0f, 1.0f, 1.0f);
+			color[2] = soan::Color(1.0f, 0.0f, 0.0f, 1.0f);
+		}
 
 		void draw();
 
 		const AABB& getAABB() const {
 			return aabb;
 		}
+
+		void useColor(xdl::xdl_int idx) {
+			currentColorLevel = idx;
+		}
+
+		const soan::Color& getColor() {
+			return color[currentColorLevel];
+		}
+
+		void onMouseMove(xdl::xdl_int x, xdl::xdl_int y) {
+			if(aabb.isPointInside(x, y)) {
+				useColor(1);
+			} else {
+				useColor(0);
+			}
+		}
+		
+		void onButtonPress(xdl::xdl_int x, xdl::xdl_int y) {
+			// Call here some delegates?
+			if(aabb.isPointInside(x, y)) {
+				useColor(2);
+			} else {
+				useColor(0);
+			}
+		}
+		
+		void onButtonRelease() {
+			// Call here some delegates?
+			useColor(0);
+		}
+
 	private:
 
 		AABB aabb;
 
-		soan::Color backgroundColor;
-		soan::Color hoverColor;
+		xdl::xdl_uint currentColorLevel;
+		soan::Color color[4];
 
 };
 
@@ -49,7 +88,9 @@ void Widget::draw() {
 
 	glBegin(GL_TRIANGLE_STRIP);
 
-	glColor4f(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+	const soan::Color& color = widget->getColor();
+
+	glColor4f(color.r, color.g, color.b, color.a);
 
 	glVertex2i(widget->aabb.x1, widget->aabb.y1);
 	glVertex2i(widget->aabb.x1, widget->aabb.y2);
@@ -81,21 +122,22 @@ class XdevLQuadTree;
 template<typename T, typename OBJ>
 struct XdevLQuadTreeNode {
 		friend class XdevLQuadTree<T, OBJ>;
-
+		typedef std::vector<OBJ> NodeItemVectorType;
 		XdevLQuadTreeNode(const AABB& _aabb) : aabb(_aabb) {}
 
 		XdevLQuadTreeNode() :
 			top_left(nullptr),
 			top_right(nullptr),
 			bottom_left(nullptr),
-			bottom_right(nullptr) {}
+			bottom_right(nullptr),
+			hasItems(false) {}
 
 		/// Returns the stored user item of this node.
 		const OBJ& getItem(xdl::xdl_int idx) const {
 			return items[idx];
 		}
 
-		const std::vector<OBJ>& getItems() const {
+		const NodeItemVectorType& getItems() const {
 			return items;
 		}
 
@@ -112,6 +154,13 @@ struct XdevLQuadTreeNode {
 			aabb = _aabb;
 		}
 
+		const bool& anyItems() const {
+			return hasItems;
+		}
+
+		void anyItems(bool state) {
+			hasItems = state;
+		}
 
 		void split() {
 			top_left		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1, aabb.y1, aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y1 +(aabb.y2-aabb.y1)/2));
@@ -132,7 +181,9 @@ struct XdevLQuadTreeNode {
 		XdevLQuadTreeNode* bottom_right;
 
 		// Holds an user defined object.
-		std::vector<OBJ> items;
+		NodeItemVectorType items;
+
+		bool hasItems;
 };
 
 template<typename T, typename OBJ>
@@ -168,21 +219,30 @@ class XdevLQuadTree {
 
 
 		void insert(XdevLQuadTreeNode<T, OBJ>* item) {
-			insert_recursive(0 + 1, root, item);
+			insert_recursive(0, root, item);
 		}
 
 		void insert_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
+
+
+			// Check if the item fits into this node?
+			if((root->aabb.x1 < item->aabb.x1) &&
+			        (root->aabb.x2 > item->aabb.x2) &&
+			        (root->aabb.y1 < item->aabb.y1) &&
+			        (root->aabb.y2 > item->aabb.y2)) {
+				//// Yes, add it
+				//	root->addItem(item->getItem(0));
+				root->anyItems(true);
+			}
+
+			// We reached the leaf node, so add it definitely.
 			if(level == depth) {
+				root->addItem(item->getItem(0));
+				root->anyItems(true);
 				return;
 			}
-			
-			if(	(root->aabb.x1 < item->aabb.x1) &&
-				(root->aabb.x2 > item->aabb.x2) &&
-				(root->aabb.y1 < item->aabb.y1) &&
-				(root->aabb.y2 > item->aabb.y2)) {
-				root->addItem(item->getItem(0));
-			}
-			
+
+
 			T mid_h = root->aabb.y1 + (root->aabb.y2 - root->aabb.y1)/2;
 			T mid_v = root->aabb.x1 + (root->aabb.x2 - root->aabb.x1)/2;
 
@@ -191,115 +251,42 @@ class XdevLQuadTree {
 			bool left_quad 	= (item->aabb.x1 < mid_v) && (item->aabb.x2 < mid_v);
 			bool right_quad	= (item->aabb.x1 > mid_v);
 
+			// TODO Shorten this part here.
 			if(upper_quad) {
 				if(left_quad) {
-					
+					insert_recursive(level + 1, root->top_left, item);
 				} else if(right_quad) {
-					
+					insert_recursive(level + 1, root->top_right, item);
 				} else {
-					
+					insert_recursive(level + 1, root->top_left, item);
+					insert_recursive(level + 1, root->top_right, item);
 				}
+				root->anyItems(true);
 			} else if(lower_quad) {
 				if(left_quad) {
-					
+					insert_recursive(level + 1, root->bottom_left, item);
 				} else if(right_quad) {
-					
+					insert_recursive(level + 1, root->bottom_right, item);
 				} else {
-					
+					insert_recursive(level + 1, root->bottom_left, item);
+					insert_recursive(level + 1, root->bottom_right, item);
 				}
+				root->anyItems(true);
 			} else {
-				
+				if(left_quad) {
+					insert_recursive(level + 1, root->top_left, item);
+					insert_recursive(level + 1, root->bottom_left, item);
+				} else if(right_quad) {
+					insert_recursive(level + 1, root->top_right, item);
+					insert_recursive(level + 1, root->bottom_right, item);
+				} else {
+					insert_recursive(level + 1, root->top_left, item);
+					insert_recursive(level + 1, root->bottom_left, item);
+					insert_recursive(level + 1, root->top_right, item);
+					insert_recursive(level + 1, root->bottom_right, item);
+				}
+				root->anyItems(true);
 			}
-			insert_recursive(level + 1, root->top_left, item);
-			insert_recursive(level + 1, root->top_right, item);
-			insert_recursive(level + 1, root->bottom_left, item);
-			insert_recursive(level + 1, root->bottom_right, item);
-
-//			if(upper_quad) {
-//				if(left_quad) {
-//					if(level == depth - 1) {
-//						root->top_left->addItem(item->getItem(0));
-//					} else {
-//						insert_recursive(level + 1, root->top_left, item);
-//					}
-//					return;
-//				} else if(right_quad) {
-//					if(level == depth - 1) {
-//						root->top_right->addItem(item->getItem(0));
-//					} else {
-//						insert_recursive(level + 1, root->top_right, item);
-//					}
-//					return;
-//				}
-//				// It seems that the items borders intersect with the mid vertical line of the root broders.
-//
-//			} else if(lower_quad) {
-//				if(left_quad) {
-//					if(level == depth - 1) {
-//						root->bottom_left->addItem(item->getItem(0));
-//					} else {
-//						insert_recursive(level + 1, root->bottom_left, item);
-//					}
-//					return;
-//				} else if(right_quad) {
-//					if(level == depth - 1) {
-//						root->bottom_right->addItem(item->getItem(0));
-//						return;
-//					} else {
-//						item->aabb.x1 = mid_v;
-//						insert_recursive(level + 1, root->bottom_right, item);
-//						return;
-//					}
-//				}
-//				// It seems that the items borders intersect with the mid vertical line of the root broders.
-//			}
-//
-//			NodeType* item1 = new NodeType();
-//			NodeType* item2 = new NodeType();
-//
-//			AABB aabb1 = item->getAABB();
-//			aabb1.y2 = mid_h;
-//			aabb1.x2 = mid_v;
-//			item1->setAABB(aabb1);
-//			item1->addItem(item->getItem(0));
-//
-//			AABB aabb2 = item->getAABB();
-//			aabb2.x1 = mid_v + 1;
-//			item2->setAABB(aabb2);
-//			item2->addItem(item->getItem(0));
-//
-//			if(left_quad) {
-//				insert_recursive(level + 1, root->top_left, item1);
-//				insert_recursive(level + 1, root->bottom_left, item2);
-//				return;
-//			} else if(right_quad) {
-//				insert_recursive(level + 1, root->top_right, item1);
-//				insert_recursive(level + 1, root->bottom_right, item2);
-//				return;
-//			}
-//
-//
-//			NodeType* item3 = new NodeType();
-//			NodeType* item4 = new NodeType();
-//
-//			AABB aabb3 = item->getAABB();
-//			aabb3.y1 = mid_h;
-//			aabb3.x2 = mid_v;
-//			item3->setAABB(aabb3);
-//			item3->addItem(item->getItem(0));
-//
-//			AABB aabb4 = item->getAABB();
-//			aabb4.x1 = mid_v + 1;
-//			aabb4.y1 = mid_h;
-//			item4->setAABB(aabb4);
-//			item4->addItem(item->getItem(0));
-//
-//
-//			insert_recursive(level + 1, root->top_left, item1);
-//			insert_recursive(level + 1, root->bottom_left, item3);
-//			insert_recursive(level + 1, root->top_right, item2);
-//			insert_recursive(level + 1, root->bottom_right, item4);
-
 		}
 
 
@@ -308,7 +295,9 @@ class XdevLQuadTree {
 		}
 
 		XdevLQuadTreeNode<T, OBJ>* find_recursive(xdl::xdl_int level, XdevLQuadTreeNode<T, OBJ>* root, xdl::xdl_int x, xdl::xdl_int y) {
-			if(level == depth) {
+
+			// Do not search in a quadrant if there is nothing or if we reached the leaf node.
+			if((level == depth) || !root->anyItems()) {
 				return root;
 			}
 
@@ -356,8 +345,6 @@ class XdevLQuadTree {
 
 
 		void create_recursive(xdl::xdl_uint level, NodeType* root) {
-			AABB aabb = root->getAABB();
-			printf("%d %d %d %d\n", aabb.x1, aabb.y1, aabb.x2, aabb.y2);
 
 			root->split();
 
@@ -387,6 +374,7 @@ class XdevLQuadTree {
 		}
 
 		void draw_recursive(int level, NodeType* node) {
+
 			drawNode(node);
 
 			if(level == depth) {
@@ -457,6 +445,9 @@ class UITest : public xdl::XdevLApplication {
 
 			initializeRenderSystem();
 
+			m_mouseButtonDelegate = xdl::XdevLButtonDelegateType::Create<UITest, &UITest::mouse_button_handle>(this);
+			getMouse()->registerDelegate(m_mouseButtonDelegate);
+			
 			m_mouseAxisDelegate = xdl::XdevLAxisDelegateType::Create<UITest, &UITest::mouse_axis_handle>(this);
 			getMouse()->registerDelegate(m_mouseAxisDelegate);
 
@@ -478,7 +469,7 @@ class UITest : public xdl::XdevLApplication {
 			glEnable(GL_DEPTH_TEST);
 
 			Button* button1 = new Button(xdl::XdevLString("Press me"), 100, 100, 100, 50);
-			Button* button2 = new Button(xdl::XdevLString("Press me too"), 100, 300, 100, 50);
+			Button* button2 = new Button(xdl::XdevLString("Press me too"), 100, 160, 100, 50);
 
 			QuadTreeType::NodeType* node1 = new QuadTreeType::NodeType();
 			QuadTreeType::NodeType* node2 = new QuadTreeType::NodeType();
@@ -488,7 +479,7 @@ class UITest : public xdl::XdevLApplication {
 			node2->setAABB(button2->getAABB());
 			node2->addItem(button2);
 			m_quadtree->insert(node1);
-			//	m_quadtree->insert(node2);
+			m_quadtree->insert(node2);
 
 			while(m_appRun) {
 				getCore()->update();
@@ -548,7 +539,30 @@ class UITest : public xdl::XdevLApplication {
 				m_appRun = false;
 			}
 		}
+		
+		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
+			const QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = m_currentPointerNode->getItems();
 
+			switch(id) {
+				case xdl::BUTTON_LEFT: {
+					for(auto& i : listOfWidgets) {
+						if(state == xdl::BUTTON_PRESSED) {
+							i->onButtonPress(m_xaxis, m_yaxis);
+						} else {
+							i->onButtonRelease();
+						}
+					}
+				}
+				break;
+				case xdl::BUTTON_RIGHT: {
+					
+				}
+				break;
+				default:
+					break;
+			}
+		}
+		
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
 			switch(id) {
 				case xdl::AXIS_X: {
@@ -563,23 +577,24 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = m_quadtree->find(m_xaxis, m_yaxis);
-			for(auto& i : m_currentPointerNode->getItems()) {
-				const AABB& widget = i->getAABB();
-				std::cout << "Title: [" << widget.x1 << ", " << widget.y1 << "]" << std::endl;
+			const QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
+			for(auto& i : listOfWidgets) {
+				i->onMouseMove(m_xaxis, m_yaxis);
 			}
+
 		}
 
 	private:
 
 		xdl::xdl_bool m_appRun;
 		xdl::XdevLButtonIdDelegateType 	m_buttonDelegate;
+		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
 		QuadTreeType* 					m_quadtree;
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
 		QuadTreeType::NodeType*			m_currentPointerNode;
-
 };
 
 XdevLStartMain(UITest, "resources/ini/uitest.xml")
