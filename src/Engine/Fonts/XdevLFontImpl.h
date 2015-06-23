@@ -58,16 +58,16 @@ namespace soan {
 			XdevLGlyphMetric& readLine(std::ifstream& os, XdevLGlyphMetric& gp);
 			void calculateGlyphInformation(std::ifstream& os);
 		private:
-			xdl::XdevLWindow*	m_window;
-			xdl::XdevLOpenGL330*		m_openGL;
-			XdevLTextureArray				m_textureList;
-			xdl::xdl_uint						m_numberOfTextures;
-			xdl::xdl_float 					m_fontSize;
-			xdl::xdl_float					m_newLine;
-			xdl::xdl_float 					m_unitX;
-			xdl::xdl_float 					m_unitY;
-			XdevLGlyphMetricMap			m_glyphMap;
-			XdevLGlyphMetric				m_dummyGlyph;
+			xdl::IPXdevLWindow		m_window;
+			xdl::IPXdevLOpenGL330	m_openGL;
+			XdevLTextureArray		m_textureList;
+			xdl::xdl_uint			m_numberOfTextures;
+			xdl::xdl_float 			m_fontSize;
+			xdl::xdl_float			m_newLine;
+			xdl::xdl_float 			m_unitX;
+			xdl::xdl_float 			m_unitY;
+			XdevLGlyphMetricMap		m_glyphMap;
+			XdevLGlyphMetric		m_dummyGlyph;
 			createTextureFromFileCallbackFunction createTextureFromFile;
 	};
 
