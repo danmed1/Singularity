@@ -28,9 +28,17 @@ class AABB {
 
 class Widget {
 	public:
+		enum ColorReagions {
+			STANDARD,
+			POINTER_HOVER,
+			BUTTON_PRESSED
+		};
+		
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
 			aabb(x, y, x + width, y + height),
-			currentColorLevel(0) {
+			currentColorLevel(0),
+			mouseHovers(xdl::xdl_false),
+			buttonPressed(xdl::xdl_false) {
 
 			color[0] = soan::Color(0.5f, 0.5f, 0.5f, 1.0f);
 			color[1] = soan::Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -52,25 +60,33 @@ class Widget {
 		}
 
 		void onMouseMove(xdl::xdl_int x, xdl::xdl_int y) {
-			if(aabb.isPointInside(x, y)) {
-				useColor(1);
+			mouseHovers = aabb.isPointInside(x, y);
+			
+			if(mouseHovers && !buttonPressed) {
+				useColor(POINTER_HOVER);
+			} else if(mouseHovers && buttonPressed) {
+				useColor(BUTTON_PRESSED);
 			} else {
-				useColor(0);
+				useColor(STANDARD);
 			}
 		}
 		
 		void onButtonPress(xdl::xdl_int x, xdl::xdl_int y) {
+			buttonPressed = aabb.isPointInside(x, y);
+			
 			// Call here some delegates?
-			if(aabb.isPointInside(x, y)) {
-				useColor(2);
-			} else {
-				useColor(0);
+			if(buttonPressed) {
+				useColor(BUTTON_PRESSED);
 			}
 		}
 		
 		void onButtonRelease() {
-			// Call here some delegates?
-			useColor(0);
+			buttonPressed = xdl::xdl_false;
+			if(mouseHovers) {
+				useColor(POINTER_HOVER);
+			} else {
+				useColor(STANDARD);
+			}
 		}
 
 	private:
@@ -79,6 +95,9 @@ class Widget {
 
 		xdl::xdl_uint currentColorLevel;
 		soan::Color color[4];
+		
+		xdl::xdl_bool mouseHovers;
+		xdl::xdl_bool buttonPressed;
 
 };
 
@@ -130,7 +149,7 @@ struct XdevLQuadTreeNode {
 			top_right(nullptr),
 			bottom_left(nullptr),
 			bottom_right(nullptr),
-			hasItems(false) {}
+			hasItems(xdl::xdl_false) {}
 
 		/// Returns the stored user item of this node.
 		const OBJ& getItem(xdl::xdl_int idx) const {
@@ -183,7 +202,7 @@ struct XdevLQuadTreeNode {
 		// Holds an user defined object.
 		NodeItemVectorType items;
 
-		bool hasItems;
+		xdl::xdl_bool hasItems;
 };
 
 template<typename T, typename OBJ>
@@ -204,8 +223,9 @@ class XdevLQuadTree {
 			root->aabb.x2 = x + width;
 			root->aabb.y2 = y + height;
 		}
+		
 		~XdevLQuadTree() {
-
+			
 		}
 
 		void init() {
@@ -223,19 +243,16 @@ class XdevLQuadTree {
 		}
 
 		void insert_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
-
-
+			
 			// Check if the item fits into this node?
-			if((root->aabb.x1 < item->aabb.x1) &&
-			        (root->aabb.x2 > item->aabb.x2) &&
-			        (root->aabb.y1 < item->aabb.y1) &&
-			        (root->aabb.y2 > item->aabb.y2)) {
-				//// Yes, add it
-				//	root->addItem(item->getItem(0));
+			if(	(root->aabb.x1 < item->aabb.x1) &&
+				(root->aabb.x2 > item->aabb.x2) &&
+				(root->aabb.y1 < item->aabb.y1) &&
+				(root->aabb.y2 > item->aabb.y2)) {
 				root->anyItems(true);
 			}
 
-			// We reached the leaf node, so add it definitely.
+			// We reached the maximum allowed depth which is the leaf node, so add it definitely.
 			if(level == depth) {
 				root->addItem(item->getItem(0));
 				root->anyItems(true);
@@ -261,7 +278,6 @@ class XdevLQuadTree {
 					insert_recursive(level + 1, root->top_left, item);
 					insert_recursive(level + 1, root->top_right, item);
 				}
-				root->anyItems(true);
 			} else if(lower_quad) {
 				if(left_quad) {
 					insert_recursive(level + 1, root->bottom_left, item);
@@ -271,7 +287,7 @@ class XdevLQuadTree {
 					insert_recursive(level + 1, root->bottom_left, item);
 					insert_recursive(level + 1, root->bottom_right, item);
 				}
-				root->anyItems(true);
+
 			} else {
 				if(left_quad) {
 					insert_recursive(level + 1, root->top_left, item);
@@ -285,8 +301,8 @@ class XdevLQuadTree {
 					insert_recursive(level + 1, root->top_right, item);
 					insert_recursive(level + 1, root->bottom_right, item);
 				}
-				root->anyItems(true);
 			}
+			root->anyItems(true);
 		}
 
 
@@ -438,7 +454,7 @@ class UITest : public xdl::XdevLApplication {
 		virtual void main(const Arguments& argv) throw() override {
 
 
-			m_quadtree = new QuadTreeType(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 4);
+			m_quadtree = new QuadTreeType(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 3);
 			m_quadtree->init();
 
 
@@ -469,17 +485,26 @@ class UITest : public xdl::XdevLApplication {
 			glEnable(GL_DEPTH_TEST);
 
 			Button* button1 = new Button(xdl::XdevLString("Press me"), 100, 100, 100, 50);
-			Button* button2 = new Button(xdl::XdevLString("Press me too"), 100, 160, 100, 50);
+			Button* button2 = new Button(xdl::XdevLString("Press me too"), 100, 160, 60, 50);
+			Button* button3 = new Button(xdl::XdevLString("Press me too"), 300, 360, 160, 50);
 
 			QuadTreeType::NodeType* node1 = new QuadTreeType::NodeType();
 			QuadTreeType::NodeType* node2 = new QuadTreeType::NodeType();
+			QuadTreeType::NodeType* node3 = new QuadTreeType::NodeType();
+			
 			node1->setAABB(button1->getAABB());
 			node1->addItem(button1);
 
 			node2->setAABB(button2->getAABB());
 			node2->addItem(button2);
+
+			node3->setAABB(button3->getAABB());
+			node3->addItem(button3);
+
 			m_quadtree->insert(node1);
 			m_quadtree->insert(node2);
+			m_quadtree->insert(node3);
+			
 
 			while(m_appRun) {
 				getCore()->update();
@@ -506,6 +531,7 @@ class UITest : public xdl::XdevLApplication {
 
 				button1->draw();
 				button2->draw();
+				button3->draw();
 
 				get3DProcessor()->swapBuffers();
 			}
