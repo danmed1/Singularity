@@ -18,7 +18,7 @@ class AABB {
 			y1(_y1),
 			x2(_x2),
 			y2(_y2) {}
-			
+
 		xdl::xdl_int x1, y1, x2, y2;
 };
 
@@ -82,7 +82,7 @@ template<typename T, typename OBJ>
 struct XdevLQuadTreeNode {
 		friend class XdevLQuadTree<T, OBJ>;
 
-		XdevLQuadTreeNode(const AABB& _aabb) : aabb(_aabb) {} 
+		XdevLQuadTreeNode(const AABB& _aabb) : aabb(_aabb) {}
 
 		XdevLQuadTreeNode() :
 			top_left(nullptr),
@@ -107,7 +107,7 @@ struct XdevLQuadTreeNode {
 		const AABB& getAABB() const {
 			return aabb;
 		}
-		
+
 		void setAABB(const AABB& _aabb) {
 			aabb = _aabb;
 		}
@@ -146,17 +146,23 @@ class XdevLQuadTree {
 			height(height),
 			depth(depth),
 			top_left_x(x),
-			top_left_y(y) {}
+			top_left_y(y) {
+			root = new NodeType();
+			root->aabb.x1 = x;
+			root->aabb.y1 = y;
+			root->aabb.x2 = x + width;
+			root->aabb.y2 = y + height;
+		}
 		~XdevLQuadTree() {
 
 		}
 
 		void init() {
-			create_recursive(0, &root, top_left_x, top_left_y, width, height);
+			create_recursive(0, root);
 		}
 
 		void shutdown() {
-			delete_recursive(root);
+			delete_recursive(0, root);
 			root = nullptr;
 		}
 
@@ -166,6 +172,16 @@ class XdevLQuadTree {
 		}
 
 		void insert_recursive(xdl::xdl_uint level, XdevLQuadTreeNode<T, OBJ>* root, XdevLQuadTreeNode<T, OBJ>* item) {
+			if(level == depth) {
+				return;
+			}
+			
+			if(	(root->aabb.x1 < item->aabb.x1) &&
+				(root->aabb.x2 > item->aabb.x2) &&
+				(root->aabb.y1 < item->aabb.y1) &&
+				(root->aabb.y2 > item->aabb.y2)) {
+				root->addItem(item->getItem(0));
+			}
 			
 			T mid_h = root->aabb.y1 + (root->aabb.y2 - root->aabb.y1)/2;
 			T mid_v = root->aabb.x1 + (root->aabb.x2 - root->aabb.x1)/2;
@@ -177,97 +193,124 @@ class XdevLQuadTree {
 
 			if(upper_quad) {
 				if(left_quad) {
-					if(level == depth - 1) {
-						root->top_left->addItem(item->getItem(0));
-					} else {
-						insert_recursive(level + 1, root->top_left, item);
-					}
-					return;
+					
 				} else if(right_quad) {
-					if(level == depth - 1) {
-						root->top_right->addItem(item->getItem(0));
-					} else {
-						insert_recursive(level + 1, root->top_right, item);
-					}
-					return;
+					
+				} else {
+					
 				}
-				// It seems that the items borders intersect with the mid vertical line of the root broders.
-
 			} else if(lower_quad) {
 				if(left_quad) {
-					if(level == depth - 1) {
-						root->bottom_left->addItem(item->getItem(0));
-					} else {
-						insert_recursive(level + 1, root->bottom_left, item);
-					}
-					return;
+					
 				} else if(right_quad) {
-					if(level == depth - 1) {
-						root->bottom_right->addItem(item->getItem(0));
-						return;
-					} else {
-						item->aabb.x1 = mid_v;
-						insert_recursive(level + 1, root->bottom_right, item);
-						return;
-					}
+					
+				} else {
+					
 				}
-				// It seems that the items borders intersect with the mid vertical line of the root broders.
+			} else {
+				
 			}
-			
-			NodeType* item1 = new NodeType();
-			NodeType* item2 = new NodeType();
-			
-			AABB aabb1 = item->getAABB();
-			aabb1.y2 = mid_h;
-			aabb1.x2 = mid_v;
-			item1->setAABB(aabb1);
-			item1->addItem(item->getItem(0));
-			
-			AABB aabb2 = item->getAABB();
-			aabb2.x1 = mid_v + 1;
-			item2->setAABB(aabb2);
-			item2->addItem(item->getItem(0));
-			
-			if(left_quad) {
-				insert_recursive(level + 1, root->top_left, item1);
-				insert_recursive(level + 1, root->bottom_left, item2);
-				return;
-			} else if(right_quad) {
-				insert_recursive(level + 1, root->top_right, item1);
-				insert_recursive(level + 1, root->bottom_right, item2);
-				return;
-			} 
-			
+			insert_recursive(level + 1, root->top_left, item);
+			insert_recursive(level + 1, root->top_right, item);
+			insert_recursive(level + 1, root->bottom_left, item);
+			insert_recursive(level + 1, root->bottom_right, item);
 
-			NodeType* item3 = new NodeType();
-			NodeType* item4 = new NodeType();
-			
-			AABB aabb3 = item->getAABB();
-			aabb3.y1 = mid_h;
-			aabb3.x2 = mid_v;
-			item3->setAABB(aabb3);
-			item3->addItem(item->getItem(0));
-			
-			AABB aabb4 = item->getAABB();
-			aabb4.x1 = mid_v + 1;
-			aabb4.y1 = mid_h;
-			item4->setAABB(aabb4);
-			item4->addItem(item->getItem(0));
-
-
-			insert_recursive(level + 1, root->top_left, item1);
-			insert_recursive(level + 1, root->bottom_left, item3);
-			insert_recursive(level + 1, root->top_right, item2);
-			insert_recursive(level + 1, root->bottom_right, item4);
+//			if(upper_quad) {
+//				if(left_quad) {
+//					if(level == depth - 1) {
+//						root->top_left->addItem(item->getItem(0));
+//					} else {
+//						insert_recursive(level + 1, root->top_left, item);
+//					}
+//					return;
+//				} else if(right_quad) {
+//					if(level == depth - 1) {
+//						root->top_right->addItem(item->getItem(0));
+//					} else {
+//						insert_recursive(level + 1, root->top_right, item);
+//					}
+//					return;
+//				}
+//				// It seems that the items borders intersect with the mid vertical line of the root broders.
+//
+//			} else if(lower_quad) {
+//				if(left_quad) {
+//					if(level == depth - 1) {
+//						root->bottom_left->addItem(item->getItem(0));
+//					} else {
+//						insert_recursive(level + 1, root->bottom_left, item);
+//					}
+//					return;
+//				} else if(right_quad) {
+//					if(level == depth - 1) {
+//						root->bottom_right->addItem(item->getItem(0));
+//						return;
+//					} else {
+//						item->aabb.x1 = mid_v;
+//						insert_recursive(level + 1, root->bottom_right, item);
+//						return;
+//					}
+//				}
+//				// It seems that the items borders intersect with the mid vertical line of the root broders.
+//			}
+//
+//			NodeType* item1 = new NodeType();
+//			NodeType* item2 = new NodeType();
+//
+//			AABB aabb1 = item->getAABB();
+//			aabb1.y2 = mid_h;
+//			aabb1.x2 = mid_v;
+//			item1->setAABB(aabb1);
+//			item1->addItem(item->getItem(0));
+//
+//			AABB aabb2 = item->getAABB();
+//			aabb2.x1 = mid_v + 1;
+//			item2->setAABB(aabb2);
+//			item2->addItem(item->getItem(0));
+//
+//			if(left_quad) {
+//				insert_recursive(level + 1, root->top_left, item1);
+//				insert_recursive(level + 1, root->bottom_left, item2);
+//				return;
+//			} else if(right_quad) {
+//				insert_recursive(level + 1, root->top_right, item1);
+//				insert_recursive(level + 1, root->bottom_right, item2);
+//				return;
+//			}
+//
+//
+//			NodeType* item3 = new NodeType();
+//			NodeType* item4 = new NodeType();
+//
+//			AABB aabb3 = item->getAABB();
+//			aabb3.y1 = mid_h;
+//			aabb3.x2 = mid_v;
+//			item3->setAABB(aabb3);
+//			item3->addItem(item->getItem(0));
+//
+//			AABB aabb4 = item->getAABB();
+//			aabb4.x1 = mid_v + 1;
+//			aabb4.y1 = mid_h;
+//			item4->setAABB(aabb4);
+//			item4->addItem(item->getItem(0));
+//
+//
+//			insert_recursive(level + 1, root->top_left, item1);
+//			insert_recursive(level + 1, root->bottom_left, item3);
+//			insert_recursive(level + 1, root->top_right, item2);
+//			insert_recursive(level + 1, root->bottom_right, item4);
 
 		}
 
 
 		XdevLQuadTreeNode<T, OBJ>* find(xdl::xdl_int x, xdl::xdl_int y) {
-			return find_recursive(root, x, y);
+			return find_recursive(0, root, x, y);
 		}
 
-		XdevLQuadTreeNode<T, OBJ>* find_recursive(XdevLQuadTreeNode<T, OBJ>* root, xdl::xdl_int x, xdl::xdl_int y) {
+		XdevLQuadTreeNode<T, OBJ>* find_recursive(xdl::xdl_int level, XdevLQuadTreeNode<T, OBJ>* root, xdl::xdl_int x, xdl::xdl_int y) {
+			if(level == depth) {
+				return root;
+			}
 
 			bool upper_quad = (y < root->aabb.y1 + (root->aabb.y2 - root->aabb.y1)/2);
 			bool left_quad = (x < (root->aabb.x1 + (root->aabb.x2 - root->aabb.x1)/2));
@@ -278,13 +321,13 @@ class XdevLQuadTree {
 					if(root->top_left == nullptr) {
 						return root;
 					} else {
-						return find_recursive(root->top_left, x, y);
+						return find_recursive(level + 1, root->top_left, x, y);
 					}
 				} else {
 					if(root->top_right == nullptr) {
 						return root;
 					} else {
-						return find_recursive(root->top_right, x, y);
+						return find_recursive(level + 1,root->top_right, x, y);
 					}
 				}
 
@@ -294,66 +337,67 @@ class XdevLQuadTree {
 					if(root->bottom_left == nullptr) {
 						return root;
 					} else {
-						return find_recursive(root->bottom_left, x, y);
+						return find_recursive(level + 1,root->bottom_left, x, y);
 					}
 				} else {
 					if(root->bottom_right == nullptr) {
 						return root;
 					} else {
-						return find_recursive(root->bottom_right, x, y);
+						return find_recursive(level + 1,root->bottom_right, x, y);
 					}
 				}
 			}
 			return root;
 		}
 
-		void render() {
-			draw_recursive(root);
+		void draw() {
+			draw_recursive(0, root);
 		}
 
 
-		void create_recursive(xdl::xdl_uint level, NodeType** root, xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
+		void create_recursive(xdl::xdl_uint level, NodeType* root) {
+			AABB aabb = root->getAABB();
+			printf("%d %d %d %d\n", aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+
+			root->split();
+
+
 			if(level == depth) {
 				return;
 			}
 
-			NodeType* node = new NodeType();
-			node->aabb.x1 = x1;
-			node->aabb.y1 = y1;
-			node->aabb.x2 = x2;
-			node->aabb.y2 = y2;
-			*root = node;
-
-			create_recursive(level + 1, &node->top_left,  x1, y1, x1 + (x2-x1)/2, y1 +(y2-y1)/2);
-			create_recursive(level + 1, &node->top_right, x1 + (x2-x1)/2 , y1, x2, y1 + (y2-y1)/2);
-			create_recursive(level + 1, &node->bottom_left, x1, y1 + (y2-y1)/2, x1 + (x2-x1)/2, y2);
-			create_recursive(level + 1, &node->bottom_right, x1 + (x2-x1)/2, y1 + (y2-y1)/2, x2, y2);
+			create_recursive(level + 1, root->top_left);
+			create_recursive(level + 1, root->top_right);
+			create_recursive(level + 1, root->bottom_left);
+			create_recursive(level + 1, root->bottom_right);
 		}
 
-		void delete_recursive(NodeType* root) {
-			if(root == nullptr) {
+		void delete_recursive(xdl::xdl_int level, NodeType* root) {
+
+			if(level == depth) {
 				return;
 			}
 
-			delete_recursive(root->top_left);
-			delete_recursive(root->top_right);
-			delete_recursive(root->bottom_left);
-			delete_recursive(root->bottom_right);
+			delete_recursive(level + 1, root->top_left);
+			delete_recursive(level + 1, root->top_right);
+			delete_recursive(level + 1, root->bottom_left);
+			delete_recursive(level + 1, root->bottom_right);
 
 			delete(root);
 		}
 
-		void draw_recursive(NodeType* node) {
-			if(node == nullptr) {
+		void draw_recursive(int level, NodeType* node) {
+			drawNode(node);
+
+			if(level == depth) {
 				return;
 			}
 
-			drawNode(node);
 
-			draw_recursive(node->top_left);
-			draw_recursive(node->top_right);
-			draw_recursive(node->bottom_left);
-			draw_recursive(node->bottom_right);
+			draw_recursive(level + 1, node->top_left);
+			draw_recursive(level + 1, node->top_right);
+			draw_recursive(level + 1, node->bottom_left);
+			draw_recursive(level + 1, node->bottom_right);
 		}
 
 
@@ -362,7 +406,7 @@ class XdevLQuadTree {
 			if(node == nullptr) {
 				return;
 			}
-			
+
 			glVertex2i(node->aabb.x1, node->aabb.y1);
 			glVertex2i(node->aabb.x2, node->aabb.y1);
 
@@ -440,11 +484,11 @@ class UITest : public xdl::XdevLApplication {
 			QuadTreeType::NodeType* node2 = new QuadTreeType::NodeType();
 			node1->setAABB(button1->getAABB());
 			node1->addItem(button1);
-			
+
 			node2->setAABB(button2->getAABB());
 			node2->addItem(button2);
-//			m_quadtree->insert(node1);
-		//	m_quadtree->insert(node2);
+			m_quadtree->insert(node1);
+			//	m_quadtree->insert(node2);
 
 			while(m_appRun) {
 				getCore()->update();
@@ -458,15 +502,15 @@ class UITest : public xdl::XdevLApplication {
 				glLineWidth(1.0);
 				glColor3f(1.0, 1.0, 1.0);
 				glBegin(GL_LINES);
-				m_quadtree->render();
+				m_quadtree->draw();
 				glEnd();
 
-				
-					glLineWidth(4.0);
-					glColor3f(1.0, 0.0, 0.0);
-					glBegin(GL_LINES);
-					m_quadtree->drawNode(m_currentPointerNode);
-					glEnd();
+
+				glLineWidth(4.0);
+				glColor3f(1.0, 0.0, 0.0);
+				glBegin(GL_LINES);
+				m_quadtree->drawNode(m_currentPointerNode);
+				glEnd();
 
 
 				button1->draw();
