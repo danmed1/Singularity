@@ -332,8 +332,8 @@ class UITest : public xdl::XdevLApplication {
 
 		}
 		~UITest() {
-			m_quadtree->shutdown();
-			delete m_quadtree;
+			UITest::m_quadtree->shutdown();
+			delete UITest::m_quadtree;
 		}
 
 		virtual void main(const Arguments& argv) throw() override {
@@ -367,13 +367,19 @@ class UITest : public xdl::XdevLApplication {
 			menuBar->addMenu(L"Edit");
 			m_quadtree->insertObjectAll(menuBar->getWidgets());
 
-						
+
 			Button* button1 = new Button(std::wstring(L"File"), 0, 100, 50, 24);
 			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
+			CheckBox* checkbox2 = new CheckBox(std::wstring(L"Nothing"), 0, 150);
+			
 			ComboBox* comboBox = new ComboBox(100,100, 100,24);
+			comboBox->addItem(L"ViewPort");
+			comboBox->addItem(L"LateLane");
+			comboBox->addItem(L"TourNome");
 			
 			m_quadtree->insertObject(button1);
 			m_quadtree->insertObject(checkbox1);
+			m_quadtree->insertObject(checkbox2);
 			m_quadtree->insertObject(comboBox);
 
 			while(m_appRun) {
@@ -408,6 +414,7 @@ class UITest : public xdl::XdevLApplication {
 				menuBar->draw();
 				button1->draw();
 				checkbox1->draw();
+				checkbox2->draw();
 				comboBox->draw();
 
 //				m_textEngine->setColor(1.0f, 1.0f, 1.0f);
@@ -517,7 +524,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
-		QuadTreeType* 					m_quadtree;
+		static QuadTreeType*			m_quadtree;
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
 		QuadTreeType::NodeType*			m_currentPointerNode;
@@ -525,5 +532,7 @@ class UITest : public xdl::XdevLApplication {
 		soan::XdevLFontImpl*			m_font2D;
 		soan::XdevLTextLayoutImpl*		m_textEngine;
 };
+
+QuadTreeType UITest::m_quadtree = nullptr;
 
 XdevLStartMain(UITest, "resources/ini/uitest.xml")
