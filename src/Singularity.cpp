@@ -335,7 +335,6 @@ get3DProcessor()->makeCurrent(getWindow());
 	m_textEngine->setScale(0.6f);
 	m_textEngine->addDynamicText(maxVertices.c_str(), -0.30, -0.92);
 
-
 	m_textEngine->render();
 
 	m_opengl->swapBuffers();

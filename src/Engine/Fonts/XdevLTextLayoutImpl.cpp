@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -46,12 +46,12 @@ namespace soan {
 		m_shadowOffset[0] = 0.0f;
 		m_shadowOffset[1] = 0.0f;
 	}
-	
+
 	void XdevLTextLayoutImpl::setShadowOffset(xdl::xdl_float xOffset, xdl::xdl_float yOffset) {
 		m_shadowOffset[0] = xOffset;
-		m_shadowOffset[1] = yOffset;		
+		m_shadowOffset[1] = yOffset;
 	}
-	
+
 	xdl::xdl_int XdevLTextLayoutImpl::init(XdevLFont* font) {
 		m_font = font;
 
@@ -82,7 +82,7 @@ namespace soan {
 		m_dftid								= m_shaderProgram->getUniformLocation("dft");
 		m_effectid						= m_shaderProgram->getUniformLocation("effect");
 		m_shadowOffsetid			= m_shaderProgram->getUniformLocation("shadowOffset");
-		
+
 		m_vd = new xdl::XdevLVertexDeclaration();
 		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		m_vd->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
@@ -105,7 +105,7 @@ namespace soan {
 		//
 		m_shadowOffset[0] = -3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getWidth());
 		m_shadowOffset[1] = 3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getHeight());
-		
+
 		return xdl::ERR_OK;
 	}
 
@@ -216,6 +216,7 @@ namespace soan {
 		//
 		m_textList.clear();
 		m_dynamicVertexMap.clear();
+		m_shaderProgram->deactivate();
 	}
 
 	void XdevLTextLayoutImpl::layoutVertexBuffer(std::vector<XdevLTextLayoutText>& textList, std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex> >& vertexList) {

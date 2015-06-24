@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -33,7 +33,7 @@
 namespace soan {
 
 
-	
+
 	class XdevLTextLayoutImpl : public XdevLTextLayout {
 		public:
 
@@ -64,12 +64,12 @@ namespace soan {
 
 			/// Draw everything.
 			virtual void render();
-			
-	private:
-			
+
+		private:
+
 			/// Creates a layout and vertex buffer for the GPU.
 			void layoutVertexBuffer(std::vector<XdevLTextLayoutText>& textList, std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex> >& vertexList);
-			
+
 		private:
 			xdl::XdevLWindow*				m_window;
 			xdl::XdevLOpenGL330*					m_openGL;
@@ -101,8 +101,8 @@ namespace soan {
 			xdl::xdl_int									m_dft;
 			xdl::xdl_int									m_effectid;
 			xdl::xdl_int									m_shadowOffsetid;
-			
-			xdl::xdl_float								m_dpi;			
+
+			xdl::xdl_float								m_dpi;
 			xdl::xdl_float								m_scale;
 			xdl::xdl_float								m_rescale;
 			xdl::xdl_float								m_currentColor[4];
@@ -112,7 +112,7 @@ namespace soan {
 			std::vector<XdevLTextLayoutText> 					m_staticTextList;
 			xdl::xdl_bool										m_staticVertexListUploaded;
 			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_staticVertexList;
-			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_dynamicVertexMap;			
+			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_dynamicVertexMap;
 	};
 
 }

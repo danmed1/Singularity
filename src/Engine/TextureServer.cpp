@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -44,8 +44,9 @@ namespace soan {
 		return m_inst;
 	}
 
-	TextureServer::TextureServer() : 	m_opengl(nullptr),
-																		m_defaultTexture(nullptr)  {
+	TextureServer::TextureServer() :
+		m_opengl(nullptr),
+		m_defaultTexture(nullptr)  {
 		// call this ONLY when linking with FreeImage as a static library
 #ifdef FREEIMAGE_LIB
 		FreeImage_Initialise();
@@ -91,10 +92,13 @@ namespace soan {
 	}
 
 	xdl::XdevLTexture* TextureServer::import(const char* filename,
-	    xdl::xdl_uint image_format,
-	    xdl::xdl_uint internal_format,
-	    unsigned int level,
-	    unsigned int border) {
+	        xdl::xdl_uint image_format,
+	        xdl::xdl_uint internal_format,
+	        unsigned int level,
+	        unsigned int border) {
+
+		assert(m_opengl && "TextureServer not initialized.");
+
 		xdl::XdevLTexture* tmp = nullptr;
 
 		// Here we try to figure out if a image with the same filename was already loaded.
@@ -188,10 +192,10 @@ namespace soan {
 	}
 
 	xdl::XdevLTextureCube* TextureServer::importCube(const char* filenames[],
-	    xdl::xdl_uint image_format,
-	    xdl::xdl_uint internal_format,
-	    unsigned int level,
-	    unsigned int border) {
+	        xdl::xdl_uint image_format,
+	        xdl::xdl_uint internal_format,
+	        unsigned int level,
+	        unsigned int border) {
 
 		xdl::XdevLTextureCube* tmp = nullptr;
 
@@ -287,12 +291,12 @@ namespace soan {
 		// Create the Texture object.
 		m_opengl->createTextureCube(&tmp);
 		xdl::XdevLCubemapPosition cubemapPositionList[] = {	xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_X,
-		                                        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-		                                        xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-		                                        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-		                                        xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-		                                        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-		                                      };
+		        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		        xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		        xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+		                                                  };
 		tmp->init(info.w, info.h, internal_format, image_format, cubemapPositionList, info.bits.data());
 
 		//store the texture ID mapping

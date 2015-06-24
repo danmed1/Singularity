@@ -2,7 +2,7 @@
 <CodeLite_Project Name="UITest" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00050001N0005Debug0000000000000001N0011Debug_Linux0000000000000001N0012Debug_MacOSX0000000000000001N0007Release0000000000000001N0013Release_Linux000000000000]]>
+      <![CDATA[00060001N0005Debug0000000000000001N0011Debug_Linux0000000000000001N0012Debug_MacOSX0000000000000001N0007Release0000000000000001N0013Release_Linux0000000000000001N0014Release_MacOSX000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
@@ -50,6 +50,15 @@
   "buildType": "",
   "arguments": [],
   "parentProject": ""
+ }, {
+  "name": "Release_MacOSX",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
  }]]]>
     </Plugin>
   </Plugins>
@@ -61,6 +70,7 @@
     <File Name="../../src/Engine/Fonts/XdevLFontImpl.cpp"/>
     <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
+    <File Name="../../src/Engine/GUI/Widgets.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -74,7 +84,6 @@
       <Linker Options="">
         <LibraryPath Value="."/>
         <LibraryPath Value="${XDEVL_HOME}/lib"/>
-        <LibraryPath Value="../../dependencies/freeimage/lib/macosx"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -83,6 +92,7 @@
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/linux"/>
         <Library Value="XdevLd"/>
         <Library Value="GL"/>
         <Library Value="dl"/>
@@ -127,7 +137,9 @@
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="-framework OpenGL" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/macosx"/>
         <Library Value="XdevLd"/>
+        <Library Value="freeimage"/>
         <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
@@ -169,10 +181,12 @@
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
       <Linker Options="" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/linux"/>
         <Library Value="XdevL"/>
         <Library Value="GL"/>
         <Library Value="dl"/>
         <Library Value="pthread"/>
+        <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../binary/$(ProjectName)d" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../../binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -212,7 +226,9 @@
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="" Required="yes"/>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/freeimage"/>
+      </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../binary/$(ProjectName)d" IntermediateDirectory="./Release" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../../binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
