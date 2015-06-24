@@ -2,7 +2,7 @@
 <CodeLite_Project Name="UITest" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00040001N0005Debug0000000000000001N0011Debug_Linux0000000000000001N0007Release0000000000000001N0013Release_Linux000000000000]]>
+      <![CDATA[00050001N0005Debug0000000000000001N0011Debug_Linux0000000000000001N0012Debug_MacOSX0000000000000001N0007Release0000000000000001N0013Release_Linux000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
@@ -16,6 +16,15 @@
   "parentProject": ""
  }, {
   "name": "Debug_Linux",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_MacOSX",
   "enabled": false,
   "buildDirectory": "build",
   "sourceDirectory": "$(ProjectPath)",
@@ -48,6 +57,10 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
+    <File Name="../../src/Engine/Fonts/lodepng.cpp"/>
+    <File Name="../../src/Engine/Fonts/XdevLFontImpl.cpp"/>
+    <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
+    <File Name="../../src/Engine/TextureServer.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -56,10 +69,12 @@
         <IncludePath Value="${XDEVL_HOME}/include"/>
         <IncludePath Value="${XDEVL_PLUGINS}"/>
         <IncludePath Value="../../src"/>
+        <IncludePath Value="../../dependencies/freeimage/include"/>
       </Compiler>
       <Linker Options="">
         <LibraryPath Value="."/>
         <LibraryPath Value="${XDEVL_HOME}/lib"/>
+        <LibraryPath Value="../../dependencies/freeimage/lib/macosx"/>
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
@@ -72,6 +87,7 @@
         <Library Value="GL"/>
         <Library Value="dl"/>
         <Library Value="pthread"/>
+        <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../binary/$(ProjectName)d" IntermediateDirectory="./Debug" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../../binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -112,6 +128,7 @@
       </Compiler>
       <Linker Options="-framework OpenGL" Required="yes">
         <Library Value="XdevLd"/>
+        <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../binary/$(ProjectName)d" IntermediateDirectory="./Debug" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../../binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

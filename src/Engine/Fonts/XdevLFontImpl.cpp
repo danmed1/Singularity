@@ -28,7 +28,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <tm/tm.h>
+#include <cmath>
 
 
 namespace soan {
@@ -281,7 +281,7 @@ namespace soan {
 
 	void XdevLFontImpl::calculateGlyphInformation(std::ifstream& os) {
 
-		xdl::xdl_float numCols 					= (xdl::xdl_float)m_textureList[0]->getWidth()/m_fontSize;
+		xdl::xdl_float numCols 				= (xdl::xdl_float)m_textureList[0]->getWidth()/m_fontSize;
 		xdl::xdl_uint numberOfSegments 	= pow(m_textureList[0]->getWidth()/(xdl::xdl_uint)m_fontSize,2);
 
 		xdl::xdl_uint	count = 0;

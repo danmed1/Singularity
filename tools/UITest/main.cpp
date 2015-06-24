@@ -3,21 +3,14 @@
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <Engine/Color.h>
-
+#include <Engine/TextureServer.h>
+#include <Engine/Fonts/XdevLFontImpl.h>
 
 class AABB {
 public:
-	AABB() :
-		x1(0),
-		y1(0),
-		x2(0),
-		y2(0) {}
+	AABB() : x1(0), y1(0), x2(0), y2(0) {}
 
-	AABB(xdl::xdl_int _x1, xdl::xdl_int _y1, xdl::xdl_int _x2, xdl::xdl_int _y2) :
-		x1(_x1),
-		y1(_y1),
-		x2(_x2),
-		y2(_y2) {}
+	AABB(xdl::xdl_int _x1, xdl::xdl_int _y1, xdl::xdl_int _x2, xdl::xdl_int _y2) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
 	xdl::xdl_bool isPointInside(xdl::xdl_int x, xdl::xdl_int y) {
 		return ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2));
@@ -48,7 +41,7 @@ public:
 		color[2] = soan::Color(1.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	void draw();
+	virtual void draw() = 0;
 
 	const AABB& getAABB() const {
 		return aabb;
@@ -118,24 +111,6 @@ private:
 	std::vector<WidgetButtonReleasedDelegate> buttonReleasedDelegates;
 };
 
-void Widget::draw() {
-
-	Widget* widget = this;
-
-	glBegin(GL_TRIANGLE_STRIP);
-
-	const soan::Color& color = widget->getColor();
-
-	glColor4f(color.r, color.g, color.b, color.a);
-
-	glVertex2i(widget->aabb.x1, widget->aabb.y1);
-	glVertex2i(widget->aabb.x1, widget->aabb.y2);
-	glVertex2i(widget->aabb.x2, widget->aabb.y1);
-	glVertex2i(widget->aabb.x2, widget->aabb.y2);
-
-	glEnd();
-}
-
 class Button : public Widget {
 public:
 	Button(const xdl::XdevLString& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -145,11 +120,30 @@ public:
 	const xdl::XdevLString& title() const {
 		return text;
 	}
+	
+	virtual void draw() override;
 
 private:
 	xdl::XdevLString text;
 };
 
+
+
+void Button::draw() {
+
+	glBegin(GL_TRIANGLE_STRIP);
+
+	const soan::Color& color = getColor();
+	const AABB& aabb = getAABB();
+	glColor4f(color.r, color.g, color.b, color.a);
+
+	glVertex2i(aabb.x1, aabb.y1);
+	glVertex2i(aabb.x1, aabb.y2);
+	glVertex2i(aabb.x2, aabb.y1);
+	glVertex2i(aabb.x2, aabb.y2);
+
+	glEnd();
+}
 
 
 template<typename T, typename OBJ>
@@ -441,6 +435,11 @@ private:
 };
 
 
+xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
+	return soan::TextureServer::Inst()->import(filename);
+}
+
+
 class UITest : public xdl::XdevLApplication {
 public:
 	typedef XdevLQuadTree<int, Widget*> QuadTreeType;
@@ -458,8 +457,14 @@ public:
 	}
 
 	virtual void main(const Arguments& argv) throw() override {
-
-
+		soan::TextureServer::Inst();
+		soan::TextureServer::Inst()->setResourcePathPrefix("./");
+		
+		m_font2D = new soan::XdevLFontImpl(getWindow(), get3DProcessor());
+		m_font2D->setCreateTextureCallback(createTextureFromFile);
+		m_font2D->importFromFontFile("resources/fonts/default_info.txt");
+		
+		
 		m_quadtree = new QuadTreeType(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 3);
 		m_quadtree->init();
 
@@ -509,7 +514,7 @@ public:
 
 		m_quadtree->insert(node1);
 		m_quadtree->insert(node2);
-		//	m_quadtree->insert(node3);
+		m_quadtree->insert(node3);
 
 
 		while(m_appRun) {
@@ -628,6 +633,9 @@ private:
 	xdl::xdl_float 					m_xaxis;
 	xdl::xdl_float					m_yaxis;
 	QuadTreeType::NodeType*			m_currentPointerNode;
+	
+	static soan::TextureServer       m_textureServer;
+	soan::XdevLFontImpl*				m_font2D;
 };
 
 XdevLStartMain(UITest, "resources/ini/uitest.xml")
