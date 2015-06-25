@@ -281,12 +281,18 @@ public:
 	virtual void onButtonPress(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
 		Widget::onButtonPress(buttonid, x, y);
 		
-		isActivated = !isActivated;
+		if(isButtonPressed()) {
+			isActivated = !isActivated;
+		}
 	}
 
 	void addItem(const std::wstring& title) {
 		barCursorY += getAABB().getHeight();
 		m_list.push_back(new Button(title, getAABB().x1, barCursorY, getAABB().getWidth(), getAABB().getHeight()));
+	}
+
+	std::vector<Widget*>& getWidgets() {
+		return m_list;
 	}
 
 private:
@@ -317,9 +323,9 @@ void ComboBox::draw() {
 
 	if(isActivated) {
 		if(m_list.size() > 0) {
-			glBegin(GL_TRIANGLE_STRIP);
 
 			for(auto& item : m_list) {
+			glBegin(GL_TRIANGLE_STRIP);
 				const soan::Color& color = item->getColor();
 				const AABB& aabb = item->getAABB();
 				glColor4f(color.r, color.g, color.b, color.a);
@@ -328,9 +334,9 @@ void ComboBox::draw() {
 				glVertex2i(aabb.x1, aabb.y2);
 				glVertex2i(aabb.x2, aabb.y1);
 				glVertex2i(aabb.x2, aabb.y2);
+			glEnd();
 			}
 
-			glEnd();
 		}
 	}
 }
