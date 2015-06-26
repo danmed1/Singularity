@@ -2,28 +2,8 @@
 #define GUI_WIDGETS_H
 
 #include "Engine/Color.h"
+#include "Engine/GUI/WidgetSceneSystem.h"
 
-/**
- * @class AABB
- * @brief Axis Aligned Bounding Box
- */
-class AABB {
-public:
-	AABB() : x1(0), y1(0), x2(0), y2(0) {}
-
-	AABB(xdl::xdl_int _x1, xdl::xdl_int _y1, xdl::xdl_int _x2, xdl::xdl_int _y2) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
-
-	xdl::xdl_bool isPointInside(xdl::xdl_int x, xdl::xdl_int y) {
-		return ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2));
-	}
-	xdl::xdl_int getWidth() const {
-		return (x2-x1);
-	}
-	xdl::xdl_int getHeight() const {
-		return (y2-y1);
-	}
-	xdl::xdl_int x1, y1, x2, y2;
-};
 
 /**
  * @class Widget
@@ -33,7 +13,7 @@ class Widget {
 public:
 	typedef xdl::XdevLDelegate<void, const xdl::XdevLButtonId&, const Widget&> WidgetButtonPressedDelegate;
 	typedef xdl::XdevLDelegate<void, const xdl::XdevLButtonId&, const Widget&> WidgetButtonReleasedDelegate;
-
+	
 	enum AnchorPosition {
 	    CENTER,
 	    TOP_LEFT,
@@ -147,6 +127,10 @@ public:
 	void setChangeColorOnButtonPress(xdl::xdl_bool state) {
 		changeOnButtonPress = state;
 	}
+	
+	void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
+		widgetSceneSystem = wss;
+	}
 private:
 
 	AABB aabb;
@@ -161,7 +145,8 @@ private:
 
 	std::vector<WidgetButtonPressedDelegate> buttonPressedDelegates;
 	std::vector<WidgetButtonReleasedDelegate> buttonReleasedDelegates;
-
+public:
+	XdevLQuadTree<int, Widget*>* widgetSceneSystem; 
 };
 
 class Button : public Widget {
@@ -283,6 +268,11 @@ public:
 		
 		if(isButtonPressed()) {
 			isActivated = !isActivated;
+			if(isActivated) {
+				widgetSceneSystem->insertObjectAll(m_list);
+			} else {
+				widgetSceneSystem->removeObjectAll(m_list);
+			}
 		}
 	}
 
@@ -323,7 +313,7 @@ void ComboBox::draw() {
 
 	if(isActivated) {
 		if(m_list.size() > 0) {
-
+			
 			for(auto& item : m_list) {
 			glBegin(GL_TRIANGLE_STRIP);
 				const soan::Color& color = item->getColor();

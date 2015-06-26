@@ -22,7 +22,7 @@ xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
 
 class UITest : public xdl::XdevLApplication {
 	public:
-
+		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
 
 		UITest(int argc, char** argv, const char* xml_filename) throw() :
 			xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
@@ -78,13 +78,16 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->addItem(L"ViewPort");
 			comboBox->addItem(L"LateLane");
 			comboBox->addItem(L"TourNome");
-			widgetSceneSystem->insertObjectAll(comboBox->getWidgets());
 			
 			
 			widgetSceneSystem->insertObject(button1);
 			widgetSceneSystem->insertObject(checkbox1);
 			widgetSceneSystem->insertObject(checkbox2);
 			widgetSceneSystem->insertObject(comboBox);
+
+			widgetSceneSystem->removeObject(button1);
+			widgetSceneSystem->insertObject(button1);
+			
 
 			while(m_appRun) {
 				getCore()->update();
@@ -214,7 +217,7 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-			std::cout << m_currentPointerNode->getNumberOfAssigedNodes() << std::endl;
+			std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
 			const QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				i->onMouseMove(m_xaxis, m_yaxis);
@@ -233,8 +236,10 @@ class UITest : public xdl::XdevLApplication {
 		xdl::xdl_float					m_yaxis;
 		QuadTreeType::NodeType*			m_currentPointerNode;
 
-		soan::XdevLFontImpl*			m_font2D;
+		soan::XdevLFontImpl*				m_font2D;
 		soan::XdevLTextLayoutImpl*		m_textEngine;
+		
+		QuadTreeType* widgetSceneSystem;
 };
 
 

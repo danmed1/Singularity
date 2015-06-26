@@ -4,6 +4,29 @@
 template<typename T, typename OBJ>
 class XdevLQuadTree;
 
+/**
+ * @class AABB
+ * @brief Axis Aligned Bounding Box
+ */
+class AABB {
+	public:
+		AABB() : x1(0), y1(0), x2(0), y2(0) {}
+
+		AABB(xdl::xdl_int _x1, xdl::xdl_int _y1, xdl::xdl_int _x2, xdl::xdl_int _y2) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+
+		xdl::xdl_bool isPointInside(xdl::xdl_int x, xdl::xdl_int y) {
+			return ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2));
+		}
+		xdl::xdl_int getWidth() const {
+			return (x2-x1);
+		}
+		xdl::xdl_int getHeight() const {
+			return (y2-y1);
+		}
+		xdl::xdl_int x1, y1, x2, y2;
+};
+
+
 template<typename T, typename OBJ>
 struct XdevLQuadTreeNode {
 		friend class XdevLQuadTree<T, OBJ>;
@@ -22,8 +45,12 @@ struct XdevLQuadTreeNode {
 			return items[idx];
 		}
 
-		const NodeItemVectorType& getItems() const {
+		NodeItemVectorType& getItems() {
 			return items;
+		}
+		
+		xdl::xdl_uint getNumberOfItems() {
+			return items.size();
 		}
 
 		/// Sets the user item for this node.
@@ -52,15 +79,6 @@ struct XdevLQuadTreeNode {
 			top_right		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1 + (aabb.x2-aabb.x1)/2 , aabb.y1, aabb.x2, aabb.y1 + (aabb.y2-aabb.y1)/2));
 			bottom_left		= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1, aabb.y1 + (aabb.y2-aabb.y1)/2, aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y2));
 			bottom_right	= new XdevLQuadTreeNode<T, OBJ>(AABB(aabb.x1 + (aabb.x2-aabb.x1)/2, aabb.y1 + (aabb.y2-aabb.y1)/2, aabb.x2, aabb.y2));
-		}
-
-
-		xdl::xdl_uint getNumberOfAssigedNodes() {
-			return assignedNodes.size();
-		}
-
-		void addNode(XdevLQuadTreeNode* node) {
-			assignedNodes.push_back(node);
 		}
 
 	private:
@@ -108,6 +126,7 @@ class XdevLQuadTree {
 
 		NodeType* insertObject(OBJ obj) {
 			NodeType* node = new NodeType();
+			obj->setWidgetSceneSystem(this);
 			node->setAABB(obj->getAABB());
 			node->addItem(obj);
 			insert(node);
@@ -138,8 +157,6 @@ class XdevLQuadTree {
 
 			// We reached the maximum allowed depth which is the leaf node, so add it definitely.
 			if(level == depth) {
-				item->addNode(root);
-				root->addNode(item);
 				root->addItem(item->getItem(0));
 				root->anyItems(true);
 				return;
@@ -189,6 +206,35 @@ class XdevLQuadTree {
 				}
 			}
 			root->anyItems(true);
+		}
+
+		void removeObjectAll(std::vector<OBJ>& objs) {
+			for(auto& obj : objs) {
+				removeObject(obj);
+			}
+		}
+
+		void removeObject(OBJ obj) {
+			remove_recursive(0, root, obj);
+		}
+
+		void remove_recursive(xdl::xdl_int level, NodeType* root, OBJ obj) {
+
+			if(!root->hasItems) {
+				return;
+			}
+
+			if(level != depth) {
+				remove_recursive(level + 1, root->top_left, obj);
+				remove_recursive(level + 1, root->top_right, obj);
+				remove_recursive(level + 1, root->bottom_left, obj);
+				remove_recursive(level + 1, root->bottom_right, obj);
+			}
+
+			auto it = std::find(root->getItems().begin(), root->getItems().end(), obj);
+			if(it != root->getItems().end()) {
+				root->getItems().erase(it);
+			}
 		}
 
 
@@ -315,10 +361,6 @@ class XdevLQuadTree {
 		xdl::xdl_uint height;
 		xdl::xdl_uint depth;
 };
-
-typedef XdevLQuadTree<int, Widget*> QuadTreeType;
-
-static QuadTreeType* widgetSceneSystem;
 
 
 #endif
