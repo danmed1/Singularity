@@ -4,14 +4,11 @@
 #include <XdevLOpenGL/XdevLOpenGL.h>
 
 
-#include <Engine/GUI/Widgets.h>
 #include <Engine/GUI/WidgetSceneSystem.h>
 
 #include <Engine/TextureServer.h>
 #include <Engine/Fonts/XdevLFontImpl.h>
 #include <Engine/Fonts/XdevLTextLayoutImpl.h>
-
-
 
 
 
@@ -22,7 +19,7 @@ xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
 
 class UITest : public xdl::XdevLApplication {
 	public:
-		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
+
 
 		UITest(int argc, char** argv, const char* xml_filename) throw() :
 			xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
@@ -40,10 +37,8 @@ class UITest : public xdl::XdevLApplication {
 
 		virtual void main(const Arguments& argv) throw() override {
 
-			widgetSceneSystem = new QuadTreeType(0, 0, getWindow()->getWidth(),getWindow()->getHeight(), 3);
-			widgetSceneSystem->init();
-
-
+			widgetSceneSystem = new WidgetSceneSystem();
+			widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
 
 			initializeRenderSystem();
 
@@ -65,29 +60,33 @@ class UITest : public xdl::XdevLApplication {
 
 
 			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 18);
-			menuBar->addMenu(L"File");
-			menuBar->addMenu(L"Edit");
-			widgetSceneSystem->insertObjectAll(menuBar->getWidgets());
+			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
+			ContextMenu* menu1 = menuBar->addMenu(L"File");
+			ContextMenu* menu2 = menuBar->addMenu(L"Help");
+			menu1->addItem(L"New File");
+			menu1->addItem(L"Open File");
+			menu1->addItem(L"Quit");
+			
+			menu2->addItem(L"About");
 
 
 			Button* button1 = new Button(std::wstring(L"File"), 0, 100, 50, 24);
-			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
-			CheckBox* checkbox2 = new CheckBox(std::wstring(L"Nothing"), 0, 150);
-			
-			ComboBox* comboBox = new ComboBox(100,100, 100,24);
-			comboBox->addItem(L"ViewPort");
-			comboBox->addItem(L"LateLane");
-			comboBox->addItem(L"TourNome");
-			
-			
-			widgetSceneSystem->insertObject(button1);
-			widgetSceneSystem->insertObject(checkbox1);
-			widgetSceneSystem->insertObject(checkbox2);
-			widgetSceneSystem->insertObject(comboBox);
+			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
+			button1->bindOnClicked(quitDelegate);
 
-			widgetSceneSystem->removeObject(button1);
-			widgetSceneSystem->insertObject(button1);
-			
+			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
+			ComboBox* comboBox = new ComboBox(100,100, 100,24);
+			ComboBox::OnItemSelectedDelegateType fileDelegate = ComboBox::OnItemSelectedDelegateType::Create<UITest, &UITest::onItemSelected>(this);
+			comboBox->bindOnItemSelected(fileDelegate);
+
+			comboBox->addItem(L"File");
+			comboBox->addItem(L"Edit");
+			comboBox->addItem(L"Help");
+
+			widgetSceneSystem->resgister(menuBar);
+			widgetSceneSystem->resgister(button1);
+			widgetSceneSystem->resgister(checkbox1);
+			widgetSceneSystem->resgister(comboBox);
 
 			while(m_appRun) {
 				getCore()->update();
@@ -105,11 +104,11 @@ class UITest : public xdl::XdevLApplication {
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 
-			glLineWidth(1.0);
-			glColor3f(1.0, 1.0, 1.0);
-			glBegin(GL_LINES);
-			widgetSceneSystem->draw();
-			glEnd();
+				glLineWidth(1.0);
+				glColor3f(1.0, 1.0, 1.0);
+				glBegin(GL_LINES);
+				widgetSceneSystem->drawGrid();
+				glEnd();
 
 
 				glLineWidth(4.0);
@@ -118,21 +117,15 @@ class UITest : public xdl::XdevLApplication {
 				widgetSceneSystem->drawNode(m_currentPointerNode);
 				glEnd();
 
-				menuBar->draw();
-				button1->draw();
-				checkbox1->draw();
-				checkbox2->draw();
-				comboBox->draw();
+				widgetSceneSystem->draw();
 
 //				m_textEngine->setColor(1.0f, 1.0f, 1.0f);
 //				m_textEngine->setScale(0.6f);
 //				m_textEngine->setEffect(0);
 //				xdl::xdl_float x, y;
 //				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
-//				m_textEngine->addDynamicText(button1->title(), x, y);
-
-;
-				
+//				m_textEngine->addDynamicText(button1->getTitle(), x, y);
+//
 //				m_textEngine->render();
 
 				get3DProcessor()->swapBuffers();
@@ -158,7 +151,7 @@ class UITest : public xdl::XdevLApplication {
 			if(m_opengl->createContext(getWindow()) != xdl::ERR_OK) {
 				return xdl::ERR_ERROR;
 			}
-
+			
 			soan::TextureServer::Inst();
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
@@ -172,6 +165,20 @@ class UITest : public xdl::XdevLApplication {
 			return xdl::ERR_OK;
 		}
 
+		void onFileItemSelected(Widget* widget) {
+			std::wcout << L"File item: " << widget->getTitle() << L" selected." << std::endl;
+		}
+
+
+		void onItemSelected(Widget* widget) {
+			std::wcout << L"ComboBox item: " << widget->getTitle() << L" selected." << std::endl;
+		}
+
+		void onQuitClicked(Widget* widget) {
+			std::cout << "You clicked the quit button" << std::endl;
+			//m_appRun = xdl::xdl_false;
+		}
+
 	private:
 		void escape_key_handle(const xdl::XdevLButtonState& eventType) {
 			if(eventType == xdl::BUTTON_RELEASED) {
@@ -180,7 +187,7 @@ class UITest : public xdl::XdevLApplication {
 		}
 
 		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
-			const QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = m_currentPointerNode->getItems();
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = m_currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				if(state == xdl::BUTTON_PRESSED) {
 					i->onButtonPress(id, m_xaxis, m_yaxis);
@@ -217,8 +224,8 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-			std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
-			const QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
+				std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
+			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				i->onMouseMove(m_xaxis, m_yaxis);
 			}
@@ -234,12 +241,12 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLOpenGL330* 			m_opengl;
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
-		QuadTreeType::NodeType*			m_currentPointerNode;
+		WidgetSceneSystem::QuadTreeType::NodeType*			m_currentPointerNode;
 
 		soan::XdevLFontImpl*				m_font2D;
 		soan::XdevLTextLayoutImpl*		m_textEngine;
-		
-		QuadTreeType* widgetSceneSystem;
+
+		WidgetSceneSystem* widgetSceneSystem;
 };
 
 

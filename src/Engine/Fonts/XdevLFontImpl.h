@@ -61,7 +61,7 @@ namespace soan {
 			xdl::IPXdevLWindow		m_window;
 			xdl::IPXdevLOpenGL330	m_openGL;
 			XdevLTextureArray		m_textureList;
-			xdl::xdl_uint			m_numberOfTextures;
+			xdl::xdl_int			m_numberOfTextures;
 			xdl::xdl_float 			m_fontSize;
 			xdl::xdl_float			m_newLine;
 			xdl::xdl_float 			m_unitX;

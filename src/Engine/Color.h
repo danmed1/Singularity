@@ -37,6 +37,12 @@ namespace soan {
 			Color() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
 			Color(float red, float green, float blue, float alpha) : r(red), g(green), b(blue), a(alpha) {}
 			union {
+				struct {
+					float c;
+					float m;
+					float y;
+					float k;
+				};
 
 				struct {
 					float r;
@@ -48,6 +54,23 @@ namespace soan {
 			};
 		bool operator == (const Color& color) const { return ( (color.r == r) && (color.g == g) && (color.b == b) && (color.a == a) );}
 		bool operator != (const Color& color) const { return !( (color.r == r) && (color.g == g) && (color.b == b) && (color.a == a) );}
+		
+		Color getCMYK() {
+			Color color(r, g, b, a);
+			color.covertToCMYK();
+			return std::move(color);
+		}
+		
+		void covertToCMYK() {
+			float K = 1.0f - std::max(std::max(r, g), b);
+			float C = (1.0f - r - K) / (1.0f - K);
+			float M = (1.0f - g - K) / (1.0f - K);
+			float Y = (1.0f - b - K) / (1.0f - K);
+			c = C;
+			y = Y;
+			m = M;
+			k = K;
+		}
 		
 	};
 

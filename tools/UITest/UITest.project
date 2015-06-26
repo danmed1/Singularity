@@ -71,6 +71,7 @@
     <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
     <File Name="../../src/Engine/GUI/Widgets.h"/>
+    <File Name="../../src/Engine/GUI/WidgetSceneSystemUtils.h"/>
     <File Name="../../src/Engine/GUI/WidgetSceneSystem.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
