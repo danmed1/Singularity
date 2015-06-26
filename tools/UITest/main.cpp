@@ -238,5 +238,4 @@ class UITest : public xdl::XdevLApplication {
 };
 
 
-
 XdevLStartMain(UITest, "resources/ini/uitest.xml")
