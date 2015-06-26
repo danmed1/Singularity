@@ -13,9 +13,11 @@ class Widget {
 	public:
 		typedef xdl::XdevLDelegate<void, const xdl::XdevLButtonId&, const Widget&> WidgetButtonPressedDelegate;
 		typedef xdl::XdevLDelegate<void, const xdl::XdevLButtonId&, const Widget&> WidgetButtonReleasedDelegate;
-
+		
+		typedef xdl::XdevLDelegate<void, xdl::xdl_int, xdl::xdl_int, Widget*> OnPointerMotionDelegate;
 		typedef xdl::XdevLDelegate<void, Widget*> OnClickedDelegate;
 		typedef xdl::XdevLDelegate<void, Widget*> OnPointerHoverDelegate;
+
 
 		enum AnchorPosition {
 		    CENTER,
@@ -88,6 +90,12 @@ class Widget {
 			} else {
 				useColor(STANDARD);
 			}
+			
+			// Call delegates if there a one.
+//			for(auto delegate : pointerMotionDelegates) {
+//				delegate(x, y, this);
+//			}
+			
 		}
 
 		/// A button got pressed.
@@ -147,6 +155,7 @@ class Widget {
 				}
 			}
 		}
+
 
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {
@@ -214,6 +223,18 @@ class Widget {
 				onPointerHoverDelegates.erase(it);
 			}
 		}
+		
+//		void bindOnPointerMotionDelegate(const OnPointerMotionDelegate& delegate) {
+//			onPointerMotionDelegates.push_back(delegate);
+//		}
+//
+//		void unbindOnPointerMotionDelegate(const OnClickedDelegate& delegate) {
+//			auto it = std::find(onPointerMotionDelegates.begin(), onPointerMotionDelegates.end(), delegate);
+//			if(it != onPointerMotionDelegates.end()) {
+//				onPointerMotionDelegates.erase(it);
+//			}
+//		}
+		
 	protected:
 
 		std::wstring text;
@@ -235,12 +256,14 @@ class Widget {
 
 		std::vector<WidgetButtonPressedDelegate> buttonPressedDelegates;
 		std::vector<WidgetButtonReleasedDelegate> buttonReleasedDelegates;
+		
 	public:
 		XdevLQuadTree<int, Widget*>* widgetSceneSystem;
 
 	private:
 		std::vector<OnClickedDelegate> onClickedDelegates;
 		std::vector<OnPointerHoverDelegate> onPointerHoverDelegates;
+		std::vector<OnPointerMotionDelegate> onPointerMotionDelegates;
 
 };
 
@@ -477,10 +500,10 @@ class ContextMenu : public Widget {
 
 		virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
 			widgetSceneSystem = wss;
-			
-//			for(auto& widget : combBoxItemWidgetList) {
-//				widgetSceneSystem->insertObject(widget);
-//			}
+		}
+
+		void deActivate() {
+			isActivated = xdl::xdl_false;
 		}
 
 	public:
@@ -670,9 +693,13 @@ class ComboBox : public Widget {
 		}
 
 		virtual void draw() override;
-		
+
 		virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
 			widgetSceneSystem = wss;
+		}
+
+		void deActivate() {
+			isActivated = xdl::xdl_false;
 		}
 
 	public:
@@ -766,7 +793,13 @@ class MenuBar : public Widget {
 		MenuBar(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
 			Widget(x, y, width, height),
 			barCursorX(x),
-			barCursorY(y) {}
+			barCursorY(y),
+			currentSelectedContextMenu(nullptr)
+		{
+			onClickDelegate = Widget::OnClickedDelegate::Create<MenuBar, &MenuBar::onSelectedClicked>(this);
+			onPointerMotionDelegate = Widget::OnPointerMotionDelegate::Create<MenuBar, &MenuBar::onPointerMotion>(this);
+			
+		}
 
 		virtual void draw() override;
 
@@ -774,7 +807,7 @@ class MenuBar : public Widget {
 			ContextMenu* contextMenu = new ContextMenu(barCursorX, barCursorY, width, getAABB().getHeight());
 			barWidgets.push_back(contextMenu);
 			barCursorX+= width;
-			
+			contextMenu->bindOnClicked(onClickDelegate);
 			return contextMenu;
 		}
 
@@ -793,19 +826,34 @@ class MenuBar : public Widget {
 		/// This is used by the widget scenen system.
 		virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
 			widgetSceneSystem = wss;
-			
+
 			for(auto contextMenu : barWidgets) {
 				contextMenu->setWidgetSceneSystem(wss);
 				widgetSceneSystem->insertObject(contextMenu);
 			}
-			
-		}
 
+		}
+		
+		// The user clicked one of the items in the context menu. We handle the stuff here.
+		void onSelectedClicked(Widget* widget) {
+			ContextMenu* contextMenu = static_cast<ContextMenu*>(widget);
+			if( (currentSelectedContextMenu != nullptr) && (currentSelectedContextMenu != contextMenu) ) {
+				currentSelectedContextMenu->deActivate();
+			}
+			currentSelectedContextMenu =contextMenu;
+		}
+		
+		void onPointerMotion(xdl::xdl_int x, xdl::xdl_int y, Widget* widget) {
+			std::cout << "Motion: " << x << ", " << y << std::endl;
+		}
 
 	private:
 		std::vector<ContextMenu*> barWidgets;
 		xdl::xdl_int barCursorX;
 		xdl::xdl_int barCursorY;
+		Widget::OnClickedDelegate onClickDelegate;
+		Widget::OnPointerMotionDelegate onPointerMotionDelegate;
+		ContextMenu* currentSelectedContextMenu;
 };
 
 

@@ -59,9 +59,10 @@ class UITest : public xdl::XdevLApplication {
 
 
 
-			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 18);
+			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
 			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
 			ContextMenu* menu1 = menuBar->addMenu(L"File");
+			menu1->bindOnItemSelected(fileMenuDelegate);
 			ContextMenu* menu2 = menuBar->addMenu(L"Help");
 			menu1->addItem(L"New File");
 			menu1->addItem(L"Open File");
@@ -224,7 +225,7 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-				std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
+		//		std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
 			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				i->onMouseMove(m_xaxis, m_yaxis);
