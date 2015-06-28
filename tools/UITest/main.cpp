@@ -87,8 +87,8 @@ class UITest : public xdl::XdevLApplication {
 
 //			widgetSceneSystem->resgister(menuBar);
 //			widgetSceneSystem->resgister(button1);
-			widgetSceneSystem->resgister(checkbox1);
-			widgetSceneSystem->resgister(comboBox);
+			widgetSceneSystem->registerWidget(checkbox1);
+			widgetSceneSystem->registerWidget(comboBox);
 
 			while(m_appRun) {
 				getCore()->update();
@@ -190,17 +190,21 @@ class UITest : public xdl::XdevLApplication {
 
 		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
 			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets1 = m_currentPointerNode->getItems();
-
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& activeList = widgetSceneSystem->getActiveWidgetList();
+			std::cout << activeList.size() << std::endl;
 			if(state == xdl::BUTTON_PRESSED) {
 				for(auto& i : listOfWidgets1) {
 					i->onButtonPress(id, m_xaxis, m_yaxis);
 				}
-			}
-
-			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets2 = m_currentPointerNode->getItems();
-			
+				for(auto& i : activeList) {
+					i->onButtonPress(id, m_xaxis, m_yaxis);
+				}
+			} else
 			if(state == xdl::BUTTON_RELEASED) {
-				for(auto& i : listOfWidgets2) {
+				for(auto& i : listOfWidgets1) {
+					i->onButtonRelease(id, m_xaxis, m_yaxis);
+				}
+				for(auto& i : activeList) {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
 			}
@@ -233,9 +237,13 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-			std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
+		//	std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
 			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& activeList = widgetSceneSystem->getActiveWidgetList();
 			for(auto& i : listOfWidgets) {
+				i->onMouseMove(m_xaxis, m_yaxis);
+			}
+			for(auto& i : activeList) {
 				i->onMouseMove(m_xaxis, m_yaxis);
 			}
 

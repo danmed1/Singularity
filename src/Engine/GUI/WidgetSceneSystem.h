@@ -1,25 +1,29 @@
 #ifndef WIDGET_SCENE_SYSTEM_H
 #define WIDGET_SCENE_SYSTEM_H
 
-#include "Engine/GUI/Widgets.h"
+#include "Engine/GUI/MenuBar.h"
 
 class WidgetSceneSystem {
 public:
 		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
-		
+
 		WidgetSceneSystem() {
-			
+			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
+			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
 		}
+		
 		~WidgetSceneSystem() {
 
 		}
 		
+		/// Initialize the GUI system.
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
 			eventGrid = new QuadTreeType(0, 0, width , height, 5);
 			eventGrid->init();
 			return xdl::ERR_OK;
 		}
 		
+		/// Shut down the GUI system.
 		void shutdown() {
 			eventGrid->shutdown();
 			delete eventGrid;
@@ -33,16 +37,22 @@ public:
 			}
 		}
 		
+		/// The current used grid.
 		void drawGrid() {
 			eventGrid->drawGrid();
 		}
 		
+		/// Draw just one node.
 		void drawNode(QuadTreeType::NodeType* node) {
 			eventGrid->drawNode(node);
 		}
 
-		void resgister(Widget* widget) {
+		/// Register one widget.
+		void registerWidget(Widget* widget) {
 			// TODO What about if the user specifies 2 times the same widget?
+			
+			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
+			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
 			
 			// Add to the event grid.
 			eventGrid->insertObject(widget);
@@ -51,10 +61,10 @@ public:
 		}
 		
 		void registerAll(const std::list<Widget*>& widgets) {
-			//eventGrid->in
+			
 		}
 		
-		void unregister(Widget* widget) {
+		void unregisterWidget(Widget* widget) {
 			auto it = std::find(widgets.begin(), widgets.end(), widget);
 			if(it != widgets.end()) {
 				widgets.erase(it);
@@ -65,9 +75,35 @@ public:
 			return eventGrid->find(x, y);
 		}
 		
-	private:
-		std::vector<Widget*> widgets;
+		void activateWidgets(std::list<Widget*>& widgets) {
+			for(auto& widget : widgets) {
+				activeWidgets.push_back(widget);
+			}
+		}
+		
+		void deactivateWidgets(std::list<Widget*>& widgets) {
+			for(auto& widget : widgets) {
+				std::list<Widget*>::iterator it = std::find(activeWidgets.begin(), activeWidgets.end(), widget);
+				if(it != activeWidgets.end()) {
+					activeWidgets.erase(it);
+				}
+			}
+		}
+		
+		void onButtonHandle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
+			
+		}
+		
+		std::list<Widget*>& getActiveWidgetList() {
+			return activeWidgets;
+		}
+		
+private:
+		std::list<Widget*> activeWidgets;
+		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;
+		Widget::ActivateWidgetsDelegateType activateWidgetsDelegate;
+		Widget::DeactivateWidgetsDelegateType deactivateWidgetDelegate;
 };
 
 

@@ -19,6 +19,8 @@ public:
 	typedef xdl::XdevLDelegate<void, Widget*> OnClickedDelegate;
 	typedef xdl::XdevLDelegate<void, Widget*> OnPointerHoverDelegate;
 
+	typedef xdl::XdevLDelegate<void, std::list<Widget*>&> ActivateWidgetsDelegateType;
+	typedef xdl::XdevLDelegate<void, std::list<Widget*>&> DeactivateWidgetsDelegateType;
 
 	enum AnchorPosition {
 	    CENTER,
@@ -180,6 +182,14 @@ public:
 
 	/// This is used by the widget scenen system.
 	virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) = 0;
+	
+	void setActiveWidgetListDelegate(ActivateWidgetsDelegateType& activateWidgetsDelegate) {
+		activateWidgets = activateWidgetsDelegate;
+	}
+	
+	void setDeactivateWidgetListDelegate(DeactivateWidgetsDelegateType& deactivateWidgetsDelegate) {
+		deactivateWidgets = deactivateWidgetsDelegate;
+	}
 
 	xdl::xdl_uint getBorderSize() const  {
 		return borderSize;
@@ -260,8 +270,8 @@ private:
 
 public:
 	XdevLQuadTree<int, Widget*>* widgetSceneSystem;
-	XdevLQuadTree<int, Widget*>* activatedGrid;
-
+	ActivateWidgetsDelegateType activateWidgets;
+	DeactivateWidgetsDelegateType deactivateWidgets;
 private:
 	std::vector<OnClickedDelegate> onClickedDelegates;
 	std::vector<OnPointerHoverDelegate> onPointerHoverDelegates;

@@ -51,7 +51,9 @@ public:
 				}
 
 				// Now activate all widgets on the event grid.
-				widgetSceneSystem->insertObjectAll(combBoxItemWidgetList);
+//				widgetSceneSystem->insertObjectAll(combBoxItemWidgetList);
+				activateWidgets(combBoxItemWidgetList);
+				
 			} else {
 
 				// No that means the ComboBox got deactivated. First we remove all delegates that handles
@@ -61,7 +63,8 @@ public:
 				}
 
 				// And then we deactivate all widgets from the event grid.
-				widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+//				widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+				deactivateWidgets(combBoxItemWidgetList);
 			}
 		}
 	}
@@ -80,7 +83,8 @@ public:
 		for(auto& widget : combBoxItemWidgetList) {
 			widget->unbindOnClicked(selectedDelegate);
 		}
-		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+//		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+		deactivateWidgets(combBoxItemWidgetList);
 
 	}
 
@@ -101,7 +105,7 @@ public:
 		combBoxItemWidgetList.push_back(button);
 	}
 
-	std::vector<Widget*>& getWidgets() {
+	std::list<Widget*>& getWidgets() {
 		return combBoxItemWidgetList;
 	}
 
@@ -138,7 +142,7 @@ public:
 	}
 
 private:
-	std::vector<Widget*> combBoxItemWidgetList;
+	std::list<Widget*> combBoxItemWidgetList;
 	xdl::xdl_int barCursorY;
 	xdl::xdl_bool isActivated;
 	xdl::xdl_int currentSelectedIndex;
