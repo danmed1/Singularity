@@ -73,6 +73,12 @@
     <File Name="../../src/Engine/GUI/Widgets.h"/>
     <File Name="../../src/Engine/GUI/WidgetSceneSystemUtils.h"/>
     <File Name="../../src/Engine/GUI/WidgetSceneSystem.h"/>
+    <File Name="../../src/Engine/GUI/Canvas.h"/>
+    <File Name="../../src/Engine/GUI/CheckBox.h"/>
+    <File Name="../../src/Engine/GUI/Widget.h"/>
+    <File Name="../../src/Engine/GUI/AABB.h"/>
+    <File Name="../../src/Engine/GUI/ComboBox.h"/>
+    <File Name="../../src/Engine/GUI/Button.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

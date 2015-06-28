@@ -194,7 +194,17 @@
         <File Name="src/Engine/Fonts/lodepng.cpp"/>
         <File Name="src/Engine/Fonts/lodepng.h"/>
       </VirtualDirectory>
-      <VirtualDirectory Name="GUI"/>
+      <VirtualDirectory Name="GUI">
+        <File Name="src/Engine/GUI/Canvas.h"/>
+        <File Name="src/Engine/GUI/CheckBox.h"/>
+        <File Name="src/Engine/GUI/Widget.h"/>
+        <File Name="src/Engine/GUI/Widgets.h"/>
+        <File Name="src/Engine/GUI/WidgetSceneSystem.h"/>
+        <File Name="src/Engine/GUI/WidgetSceneSystemUtils.h"/>
+        <File Name="src/Engine/GUI/AABB.h"/>
+        <File Name="src/Engine/GUI/Button.h"/>
+        <File Name="src/Engine/GUI/ComboBox.h"/>
+      </VirtualDirectory>
       <VirtualDirectory Name="Entity">
         <File Name="src/Engine/Entity/Material.cpp"/>
         <File Name="src/Engine/Entity/Material.h"/>

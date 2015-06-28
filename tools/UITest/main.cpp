@@ -3,7 +3,8 @@
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 
-
+#include <Engine/GUI/CheckBox.h>
+#include <Engine/GUI/ComboBox.h>
 #include <Engine/GUI/WidgetSceneSystem.h>
 
 #include <Engine/TextureServer.h>
