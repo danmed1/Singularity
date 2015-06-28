@@ -649,6 +649,10 @@ class ComboBox : public Widget {
 			// If this method is called the user selected an item in the ComboBox list. We have to deactivate the ComboBox
 			// remove all widgets from the event grid and unbind the delegates to handle selection events from the user.
 
+			for(auto& delegate : onItemSelectedDelegates) {
+				delegate(widget);
+			}
+
 			isActivated = xdl::xdl_false;
 			currentSelectedItem = widget;
 
@@ -657,9 +661,6 @@ class ComboBox : public Widget {
 			}
 			widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
 
-			for(auto& delegate : onItemSelectedDelegates) {
-				delegate(widget);
-			}
 		}
 
 		/// Add one item into the CheckBox with specific delegate.

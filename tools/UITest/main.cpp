@@ -84,8 +84,8 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->addItem(L"Edit");
 			comboBox->addItem(L"Help");
 
-			widgetSceneSystem->resgister(menuBar);
-			widgetSceneSystem->resgister(button1);
+//			widgetSceneSystem->resgister(menuBar);
+//			widgetSceneSystem->resgister(button1);
 			widgetSceneSystem->resgister(checkbox1);
 			widgetSceneSystem->resgister(comboBox);
 
@@ -188,11 +188,18 @@ class UITest : public xdl::XdevLApplication {
 		}
 
 		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
-			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = m_currentPointerNode->getItems();
-			for(auto& i : listOfWidgets) {
-				if(state == xdl::BUTTON_PRESSED) {
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets1 = m_currentPointerNode->getItems();
+
+			if(state == xdl::BUTTON_PRESSED) {
+				for(auto& i : listOfWidgets1) {
 					i->onButtonPress(id, m_xaxis, m_yaxis);
-				} else {
+				}
+			}
+
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets2 = m_currentPointerNode->getItems();
+			
+			if(state == xdl::BUTTON_RELEASED) {
+				for(auto& i : listOfWidgets2) {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
 			}
@@ -225,7 +232,7 @@ class UITest : public xdl::XdevLApplication {
 					break;
 			}
 			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-		//		std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
+			std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
 			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				i->onMouseMove(m_xaxis, m_yaxis);

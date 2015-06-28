@@ -15,7 +15,7 @@ public:
 		}
 		
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
-			eventGrid = new QuadTreeType(0, 0, width , height, 3);
+			eventGrid = new QuadTreeType(0, 0, width , height, 5);
 			eventGrid->init();
 			return xdl::ERR_OK;
 		}
@@ -48,6 +48,10 @@ public:
 			eventGrid->insertObject(widget);
 
 			widgets.push_back(widget);
+		}
+		
+		void registerAll(const std::list<Widget*>& widgets) {
+			//eventGrid->in
 		}
 		
 		void unregister(Widget* widget) {
