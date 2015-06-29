@@ -52,7 +52,7 @@ class ContextMenu : public Widget {
 					}
 
 					// Now activate all widgets on the event grid.
-					widgetSceneSystem->insertObjectAll(combBoxItemWidgetList);
+					eventGrid->insertObjectAll(combBoxItemWidgetList);
 				} else {
 
 					// No that means the ComboBox got deactivated. First we remove all delegates that handles
@@ -62,7 +62,7 @@ class ContextMenu : public Widget {
 					}
 
 					// And then we deactivate all widgets from the event grid.
-					widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+					eventGrid->removeObjectAll(combBoxItemWidgetList);
 				}
 			}
 		}
@@ -77,7 +77,7 @@ class ContextMenu : public Widget {
 			for(auto& widget : combBoxItemWidgetList) {
 				widget->unbindOnClicked(selectedDelegate);
 			}
-			widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
+			eventGrid->removeObjectAll(combBoxItemWidgetList);
 
 			for(auto& delegate : onItemSelectedDelegates) {
 				delegate(widget);
@@ -117,7 +117,7 @@ class ContextMenu : public Widget {
 		virtual void draw() override;
 
 		virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
-			widgetSceneSystem = wss;
+			eventGrid = wss;
 		}
 
 		void deActivate() {
@@ -237,11 +237,11 @@ class MenuBar : public Widget {
 
 		/// This is used by the widget scenen system.
 		virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
-			widgetSceneSystem = wss;
+			eventGrid = wss;
 
 			for(auto contextMenu : barWidgets) {
 				contextMenu->setWidgetSceneSystem(wss);
-				widgetSceneSystem->insertObject(contextMenu);
+				eventGrid->insertObject(contextMenu);
 			}
 
 		}

@@ -269,7 +269,7 @@ private:
 	std::vector<WidgetButtonReleasedDelegate> buttonReleasedDelegates;
 
 public:
-	XdevLQuadTree<int, Widget*>* widgetSceneSystem;
+	XdevLQuadTree<int, Widget*>* eventGrid;
 	ActivateWidgetsDelegateType activateWidgets;
 	DeactivateWidgetsDelegateType deactivateWidgets;
 private:

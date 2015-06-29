@@ -90,7 +90,6 @@ class UITest : public xdl::XdevLApplication {
 
 			while(m_appRun) {
 				getCore()->update();
-				widgetSceneSystem->update();
 
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();
@@ -115,7 +114,7 @@ class UITest : public xdl::XdevLApplication {
 				glLineWidth(4.0);
 				glColor3f(1.0, 0.0, 0.0);
 				glBegin(GL_LINES);
-				widgetSceneSystem->drawNode(m_currentPointerNode);
+				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
 				glEnd();
 
 				widgetSceneSystem->draw();
@@ -202,8 +201,6 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
-
-		WidgetSceneSystem::QuadTreeType::NodeType*			m_currentPointerNode;
 
 		soan::XdevLFontImpl*				m_font2D;
 		soan::XdevLTextLayoutImpl*		m_textEngine;

@@ -15,7 +15,7 @@ public:
 
 	/// This is used by the widget scenen system.
 	virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
-		widgetSceneSystem = wss;
+		eventGrid = wss;
 	}
 
 

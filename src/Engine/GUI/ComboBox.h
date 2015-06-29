@@ -69,11 +69,13 @@ public:
 			}
 		}
 	}
+
 	virtual void onButtonRelease(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
 		Widget::onButtonRelease(buttonid, x, y);
 		
 	
 		if(deactivateWidgetsFlag) {
+			//		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
 			deactivateWidgets(combBoxItemWidgetList);
 			deactivateWidgetsFlag = xdl::xdl_false;
 		}
@@ -93,8 +95,12 @@ public:
 		for(auto& widget : combBoxItemWidgetList) {
 			widget->unbindOnClicked(selectedDelegate);
 		}
-//		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
-
+		
+		// Why not deleting the widgets list here? The WidgetSystem will inform the widgets about
+		// events. It will use a list of widgets. Because it will use a for loop of widgets 
+		// it will expect all widgets in the list but because this ComboBox widget would remove the
+		// widgets from the active widget list. So the for loop in the WidgetSystem would get corrupt.
+		// What we do is, we deffer the delete event to the Button release event.
 		deactivateWidgetsFlag = xdl::xdl_true;
 
 	}
@@ -132,7 +138,7 @@ public:
 	virtual void draw() override;
 
 	virtual void setWidgetSceneSystem(XdevLQuadTree<int, Widget*>* wss) {
-		widgetSceneSystem = wss;
+		eventGrid = wss;
 	}
 
 	void deActivate() {
@@ -160,6 +166,7 @@ private:
 	Widget* currentSelectedItem;
 	Widget::OnClickedDelegate selectedDelegate;
 	std::vector<OnItemSelectedDelegateType> onItemSelectedDelegates;
+	
 	xdl::xdl_bool deactivateWidgetsFlag;
 };
 

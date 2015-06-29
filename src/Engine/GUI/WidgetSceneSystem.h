@@ -3,34 +3,14 @@
 
 #include "Engine/GUI/MenuBar.h"
 
-class WidgetPointerMotionType {
-public:
-	explicit WidgetPointerMotionType(xdl::XdevLAxisId _id, xdl::xdl_float _value) :
-		id(_id),
-		value(_value)
-	{}
-	xdl::XdevLAxisId id;
-	xdl::xdl_float value;
-};
-
-class WidgetButtonStateType {
-public:
-	explicit WidgetButtonStateType(xdl::XdevLButtonId _id, xdl::XdevLButtonState _state) :
-		id(_id),
-		state(_state)
-		{
-		}
-	xdl::XdevLButtonId id;
-	xdl::XdevLButtonState state;
-};
-
 class WidgetSceneSystem {
 public:
 		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
 
 		WidgetSceneSystem() :
 			m_xaxis(0.0f),
-			m_yaxis(0.0f) 
+			m_yaxis(0.0f),
+			currentPointerNode(nullptr)
 		{
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
@@ -115,80 +95,60 @@ public:
 		}
 		
 		void onButton(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
-			buttonStates.push_back(WidgetButtonStateType(id, state));
 
+			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
+			std::cout << activeWidgets.size() << std::endl;
+			if(state == xdl::BUTTON_PRESSED) {
+				for(auto& i : listOfWidgets) {
+					i->onButtonPress(id, m_xaxis, m_yaxis);
+				}
+				for(auto& i : activeWidgets) {
+					i->onButtonPress(id, m_xaxis, m_yaxis);
+				}
+			} else
+			if(state == xdl::BUTTON_RELEASED) {
+				for(auto& i : listOfWidgets) {
+					i->onButtonRelease(id, m_xaxis, m_yaxis);
+				}
+				for(auto& i : activeWidgets) {
+					i->onButtonRelease(id, m_xaxis, m_yaxis);
+				}
+			}
 		}
 		
 		void onPointerMotion(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
-			axisStates.push_back(WidgetPointerMotionType(id, value));
+			switch(id) {
+				case xdl::AXIS_X: {
+					m_xaxis = value;
+				}
+				break;
+				case xdl::AXIS_Y: {
+					m_yaxis = value;
+				}
+				break;
+				default:
+					break;
+			}
+			currentPointerNode = find(m_xaxis, m_yaxis);
+		//	std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
+			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
+			for(auto& i : listOfWidgets) {
+				i->onMouseMove(m_xaxis, m_yaxis);
+			}
+			for(auto& i : activeWidgets) {
+				i->onMouseMove(m_xaxis, m_yaxis);
+			}
 		}
 		
 		std::list<Widget*>& getActiveWidgetList() {
 			return activeWidgets;
 		}
 		
-		void update() {
-
-			WidgetSceneSystem::QuadTreeType::NodeType* currentPointerNode = find(m_xaxis, m_yaxis);
-			
-			//
-			// Handle pointer motion events
-			// 
-			for(auto& axis : axisStates) {
-			
-				switch(axis.id) {
-					case xdl::AXIS_X: {
-						m_xaxis = axis.value;
-					}
-					break;
-					case xdl::AXIS_Y: {
-						m_yaxis = axis.value;
-					}
-					break;
-					default:
-						break;
-				}
-
-				WidgetSceneSystem::QuadTreeType::NodeType* currentPointerNode = find(m_xaxis, m_yaxis);
-						const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
-				for(auto& i : listOfWidgets) {
-					i->onMouseMove(m_xaxis, m_yaxis);
-				}
-				for(auto& i : activeWidgets) {
-					i->onMouseMove(m_xaxis, m_yaxis);
-				}
-			}
-			axisStates.clear();
-			
-			//
-			// Handle button events
-			// 
-			for(auto& button : buttonStates) {
-				const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
-				std::cout << activeWidgets.size() << std::endl;
-				if(button.state == xdl::BUTTON_PRESSED) {
-					for(auto& i : listOfWidgets) {
-						i->onButtonPress(button.id, m_xaxis, m_yaxis);
-					}
-					for(auto& i : activeWidgets) {
-						i->onButtonPress(button.id, m_xaxis, m_yaxis);
-					}
-				} else
-				if(button.state == xdl::BUTTON_RELEASED) {
-					for(auto& i : listOfWidgets) {
-						i->onButtonRelease(button.id, m_xaxis, m_yaxis);
-					}
-					for(auto& i : activeWidgets) {
-						i->onButtonRelease(button.id, m_xaxis, m_yaxis);
-					}
-				}
-			}
-			buttonStates.clear();
+		QuadTreeType::NodeType* getCurrentPointerNode() const {
+			return currentPointerNode;
 		}
 		
 private:
-		std::list<WidgetPointerMotionType> axisStates;
-		std::list<WidgetButtonStateType> buttonStates;
 		std::list<Widget*> activeWidgets;
 		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;
@@ -197,6 +157,7 @@ private:
 		
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
+		QuadTreeType::NodeType* currentPointerNode;
 };
 
 
