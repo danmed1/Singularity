@@ -16,7 +16,8 @@ public:
 		barCursorY(y),
 		isActivated(xdl::xdl_false),
 		currentSelectedIndex(0),
-		currentSelectedItem(nullptr) {
+		currentSelectedItem(nullptr),
+		deactivateWidgetsFlag(xdl::xdl_false) {
 
 		// Change color when mouse hovers.
 		setHighLightOnMouseHover(xdl::xdl_true);
@@ -68,6 +69,15 @@ public:
 			}
 		}
 	}
+	virtual void onButtonRelease(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
+		Widget::onButtonRelease(buttonid, x, y);
+		
+	
+		if(deactivateWidgetsFlag) {
+			deactivateWidgets(combBoxItemWidgetList);
+			deactivateWidgetsFlag = xdl::xdl_false;
+		}
+	}
 
 	void onSelectedClicked(Widget* widget) {
 		// If this method is called the user selected an item in the ComboBox list. We have to deactivate the ComboBox
@@ -84,7 +94,8 @@ public:
 			widget->unbindOnClicked(selectedDelegate);
 		}
 //		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
-		deactivateWidgets(combBoxItemWidgetList);
+
+		deactivateWidgetsFlag = xdl::xdl_true;
 
 	}
 
@@ -149,6 +160,7 @@ private:
 	Widget* currentSelectedItem;
 	Widget::OnClickedDelegate selectedDelegate;
 	std::vector<OnItemSelectedDelegateType> onItemSelectedDelegates;
+	xdl::xdl_bool deactivateWidgetsFlag;
 };
 
 

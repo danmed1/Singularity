@@ -25,8 +25,6 @@ class UITest : public xdl::XdevLApplication {
 		UITest(int argc, char** argv, const char* xml_filename) throw() :
 			xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
 			m_appRun(xdl::xdl_true),
-			m_xaxis(0.0f),
-			m_yaxis(0.0f),
 			m_font2D(nullptr),
 			m_textEngine(nullptr) {
 
@@ -92,6 +90,7 @@ class UITest : public xdl::XdevLApplication {
 
 			while(m_appRun) {
 				getCore()->update();
+				widgetSceneSystem->update();
 
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();
@@ -189,64 +188,11 @@ class UITest : public xdl::XdevLApplication {
 		}
 
 		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
-			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets1 = m_currentPointerNode->getItems();
-			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& activeList = widgetSceneSystem->getActiveWidgetList();
-			std::cout << activeList.size() << std::endl;
-			if(state == xdl::BUTTON_PRESSED) {
-				for(auto& i : listOfWidgets1) {
-					i->onButtonPress(id, m_xaxis, m_yaxis);
-				}
-				for(auto& i : activeList) {
-					i->onButtonPress(id, m_xaxis, m_yaxis);
-				}
-			} else
-			if(state == xdl::BUTTON_RELEASED) {
-				for(auto& i : listOfWidgets1) {
-					i->onButtonRelease(id, m_xaxis, m_yaxis);
-				}
-				for(auto& i : activeList) {
-					i->onButtonRelease(id, m_xaxis, m_yaxis);
-				}
-			}
-
-			switch(id) {
-				case xdl::BUTTON_LEFT: {
-
-				}
-				break;
-				case xdl::BUTTON_RIGHT: {
-
-				}
-				break;
-				default:
-					break;
-			}
+			widgetSceneSystem->onButton(id, state);
 		}
 
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
-			switch(id) {
-				case xdl::AXIS_X: {
-					m_xaxis = value;
-				}
-				break;
-				case xdl::AXIS_Y: {
-					m_yaxis = value;
-				}
-				break;
-				default:
-					break;
-			}
-			m_currentPointerNode = widgetSceneSystem->find(m_xaxis, m_yaxis);
-		//	std::cout << m_currentPointerNode->getNumberOfItems() << std::endl;
-			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets =m_currentPointerNode->getItems();
-			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& activeList = widgetSceneSystem->getActiveWidgetList();
-			for(auto& i : listOfWidgets) {
-				i->onMouseMove(m_xaxis, m_yaxis);
-			}
-			for(auto& i : activeList) {
-				i->onMouseMove(m_xaxis, m_yaxis);
-			}
-
+			widgetSceneSystem->onPointerMotion(id, value);
 		}
 
 	private:
@@ -256,8 +202,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
-		xdl::xdl_float 					m_xaxis;
-		xdl::xdl_float					m_yaxis;
+
 		WidgetSceneSystem::QuadTreeType::NodeType*			m_currentPointerNode;
 
 		soan::XdevLFontImpl*				m_font2D;
