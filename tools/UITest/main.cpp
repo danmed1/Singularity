@@ -95,14 +95,14 @@ class UITest : public xdl::XdevLApplication {
 			ComboBox* comboBox = new ComboBox(100,100, 100,24);
 
 			// Add Items into the ComboBox.
-			comboBox->addItem(L"File");
-			comboBox->addItem(L"Edit");
-			comboBox->addItem(L"Help");
-			comboBox->addItem(L"Help");
-			comboBox->addItem(L"Help");
-			comboBox->addItem(L"Help");
-			comboBox->addItem(L"Help");
-			comboBox->addItem(L"Help");
+			comboBox->addItem(L"File", 0);
+			comboBox->addItem(L"Edit", 1);
+			comboBox->addItem(L"Help", 2);
+			comboBox->addItem(L"Help", 3);
+			comboBox->addItem(L"Help", 4);
+			comboBox->addItem(L"Help", 5);
+			comboBox->addItem(L"Help", 6);
+			comboBox->addItem(L"Help", 7);
 
 
 			// Create the delegate that will handle user selection in the ComboBox.
@@ -208,8 +208,8 @@ class UITest : public xdl::XdevLApplication {
 		}
 
 
-		void onItemSelected(Widget* widget) {
-			std::wcout << L"ComboBox item: " << widget->getTitle() << L" selected." << std::endl;
+		void onItemSelected(xdl::xdl_uint id, Widget* widget) {
+			std::wcout << L"ComboBox item: " << id << " title = " << widget->getTitle() << L" selected." << std::endl;
 		}
 
 		void onQuitClicked(Widget* widget) {

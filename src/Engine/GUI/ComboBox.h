@@ -26,7 +26,7 @@
 #define COMBO_BOX_H
 
 #include "Engine/GUI/Button.h"
-
+#include <map>
 /**
 	@class ComboBox
 	@brief A combobox class
@@ -41,7 +41,7 @@
 class ComboBox : public Widget {
 public:
 	typedef std::list<Widget*> ItemListType;
-	typedef xdl::XdevLDelegate<void, Widget*> OnItemSelectedDelegateType;
+	typedef xdl::XdevLDelegate<void, xdl::xdl_uint, Widget*> OnItemSelectedDelegateType;
 
 	ComboBox(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
 		Widget(x, y, width, height),
@@ -123,7 +123,8 @@ public:
 		// remove all widgets from the event grid and unbind the delegates to handle selection events from the user.
 
 		for(auto& delegate : onItemSelectedDelegates) {
-			delegate(widget);
+			// TODO Better use not a pointer as a key for the map?
+			delegate(comboBoxItemWidgetMap[widget], widget);
 		}
 
 		isActivated = xdl::xdl_false;
@@ -152,11 +153,12 @@ public:
 	}
 
 	/// Add one item into the CheckBox using the CheckBox delegate.
-	void addItem(const std::wstring& title) {
+	void addItem(const std::wstring& title, xdl::xdl_uint id) {
 		// TODO Yeah well this all is still hacky so make it better later cengiz :D
 		barCursorY += getAABB().getHeight();
 		Button* button = new Button(title, getAABB().x1, barCursorY, getAABB().getWidth(), getAABB().getHeight());
 		combBoxItemWidgetList.push_back(button);
+		comboBoxItemWidgetMap[button] = id;
 	}
 	
 	void removeItem(xdl::xdl_int index) {
@@ -194,13 +196,15 @@ public:
 		onItemSelectedDelegates.push_back(delegate);
 	}
 
-	void unbindOnItemSelected(const OnClickedDelegate& delegate) {
+	void unbindOnItemSelected(const OnItemSelectedDelegateType& delegate) {
 		onItemSelectedDelegates.remove(delegate);
 	}
 
 private:
 	// Holds all items in the ComboBox.
 	ItemListType combBoxItemWidgetList;
+	
+	std::map<Widget*, xdl::xdl_uint> comboBoxItemWidgetMap;
 	
 	// The current cursor position in the activated list.
 	xdl::xdl_int barCursorY;
