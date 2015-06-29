@@ -1,3 +1,27 @@
+/*
+	Copyright (c) 2015 Cengiz Terzibas
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
+	
+	cengiz@terzibas.de
+*/
+
 #ifndef COMBO_BOX_H
 #define COMBO_BOX_H
 
@@ -6,9 +30,17 @@
 /**
 	@class ComboBox
 	@brief A combobox class
+	
+	A ComboBox open a popup on activation and provides a list of items that can be selected.
+	Those items are internally represented by a Button. There are two different ways to get
+	informed if an item got selected.
+	- Items are using as a base class the Button class. Assign a OnClicked delegate to each item you add.
+	- Use the OnItemSelectedDelegate. The assigned delegate will be used to call the callee when an item
+	got selected.
 */
 class ComboBox : public Widget {
 public:
+	typedef std::list<Widget*> ItemListType;
 	typedef xdl::XdevLDelegate<void, Widget*> OnItemSelectedDelegateType;
 
 	ComboBox(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -25,10 +57,18 @@ public:
 		// Change color when mouse button is pressed.
 		setChangeColorOnButtonPress(xdl::xdl_true);
 
-		// Create a delegate that handles user selections. If the user clicks a combo box it will show
-		// the contents. Now we have to know which one of those contents will be clicked. We use
-		// this delegate to tell the items in the combo box that we are interested if they get clicked.
+		// Create a default delegate that handles user selections. We have to know which item will be clicked by the user. 
+		// We use this delegate to tell the items (which are derived from the Button class) in the combo box list that we are i
+		// nterested if they get clicked.
 		selectedDelegate = Widget::OnClickedDelegate::Create<ComboBox, &ComboBox::onSelectedClicked>(this);
+	}
+	
+	~ComboBox() {
+		
+		// Delete everything which is in the item list.
+		for(auto& item : combBoxItemWidgetList) {
+			delete item;
+		}
 	}
 
 	/// Handle button press events here.
@@ -52,7 +92,6 @@ public:
 				}
 
 				// Now activate all widgets on the event grid.
-//				widgetSceneSystem->insertObjectAll(combBoxItemWidgetList);
 				activateWidgets(combBoxItemWidgetList);
 				
 			} else {
@@ -64,7 +103,6 @@ public:
 				}
 
 				// And then we deactivate all widgets from the event grid.
-//				widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
 				deactivateWidgets(combBoxItemWidgetList);
 			}
 		}
@@ -73,9 +111,8 @@ public:
 	virtual void onButtonRelease(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
 		Widget::onButtonRelease(buttonid, x, y);
 		
-	
+		// Deactivate the active popup the CheckBox is opening.
 		if(deactivateWidgetsFlag) {
-			//		widgetSceneSystem->removeObjectAll(combBoxItemWidgetList);
 			deactivateWidgets(combBoxItemWidgetList);
 			deactivateWidgetsFlag = xdl::xdl_false;
 		}
@@ -121,6 +158,12 @@ public:
 		Button* button = new Button(title, getAABB().x1, barCursorY, getAABB().getWidth(), getAABB().getHeight());
 		combBoxItemWidgetList.push_back(button);
 	}
+	
+	void removeItem(xdl::xdl_int index) {
+		ItemListType::iterator it(combBoxItemWidgetList.begin());
+		std::advance(it, index);
+		combBoxItemWidgetList.erase(it);
+	}
 
 	std::list<Widget*>& getWidgets() {
 		return combBoxItemWidgetList;
@@ -152,20 +195,20 @@ public:
 	}
 
 	void unbindOnItemSelected(const OnClickedDelegate& delegate) {
-		auto it = std::find(onItemSelectedDelegates.begin(), onItemSelectedDelegates.end(), delegate);
-		if(it != onItemSelectedDelegates.end()) {
-			onItemSelectedDelegates.erase(it);
-		}
+		onItemSelectedDelegates.remove(delegate);
 	}
 
 private:
-	std::list<Widget*> combBoxItemWidgetList;
+	// Holds all items in the ComboBox.
+	ItemListType combBoxItemWidgetList;
+	
+	// The current cursor position in the activated list.
 	xdl::xdl_int barCursorY;
 	xdl::xdl_bool isActivated;
 	xdl::xdl_int currentSelectedIndex;
 	Widget* currentSelectedItem;
 	Widget::OnClickedDelegate selectedDelegate;
-	std::vector<OnItemSelectedDelegateType> onItemSelectedDelegates;
+	std::list<OnItemSelectedDelegateType> onItemSelectedDelegates;
 	
 	xdl::xdl_bool deactivateWidgetsFlag;
 };
@@ -174,6 +217,8 @@ private:
 
 void ComboBox::draw() {
 	const AABB& aabb = getAABB();
+	
+	// Draw the activate button.
 	{
 		glBegin(GL_TRIANGLE_STRIP);
 
@@ -187,6 +232,7 @@ void ComboBox::draw() {
 
 		glEnd();
 
+		// Draw the arrow for the activate button.
 		const soan::Color arrowColor(0.3, 0.3, 0.3, 1.0);
 		glBegin(GL_TRIANGLE_STRIP);
 		xdl::xdl_int x_off = aabb.x1 + aabb.getWidth() - (100.0/(xdl::xdl_float)aabb.getWidth())*20.0f;
@@ -202,6 +248,25 @@ void ComboBox::draw() {
 	if(isActivated) {
 		if(combBoxItemWidgetList.size() > 0) {
 
+			// Draw the background of the items list.
+			xdl::xdl_int height = 0;
+			for(auto& item : combBoxItemWidgetList) {
+				const AABB& itemaabb = item->getAABB();
+				height += itemaabb.getHeight();
+			}
+
+			glBegin(GL_TRIANGLE_STRIP);
+				const soan::Color& borderColor = getBorderColor();
+				glColor4f(borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+
+				glVertex2i(aabb.x1 - getBorderSize(), aabb.y2);
+				glVertex2i(aabb.x1 - getBorderSize(), aabb.y2 + height + getBorderSize());
+				glVertex2i(aabb.x2 + getBorderSize(), aabb.y2);
+				glVertex2i(aabb.x2 + getBorderSize(), aabb.y2 + height + getBorderSize());
+			glEnd();
+			
+			
+			
 			for(auto& item : combBoxItemWidgetList) {
 				glBegin(GL_TRIANGLE_STRIP);
 				const soan::Color& color = item->getColor();

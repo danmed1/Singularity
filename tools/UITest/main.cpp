@@ -70,23 +70,53 @@ class UITest : public xdl::XdevLApplication {
 			menu2->addItem(L"About");
 
 
+			// Create a Button.
 			Button* button1 = new Button(std::wstring(L"File"), 0, 100, 50, 24);
+			
+			// Create the delegate that will handle the users mouse button click on it.
 			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
 			button1->bindOnClicked(quitDelegate);
+			
+			// Register this Button to the system.
+			widgetSceneSystem->registerWidget(button1);
 
+
+			// Create a CheckBox.
 			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
-			ComboBox* comboBox = new ComboBox(100,100, 100,24);
-			ComboBox::OnItemSelectedDelegateType fileDelegate = ComboBox::OnItemSelectedDelegateType::Create<UITest, &UITest::onItemSelected>(this);
-			comboBox->bindOnItemSelected(fileDelegate);
+			
+			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
+			checkbox1->bindOnCheck(checkDelegate);
+			
+			// Register this CheckBox to the system.
+			widgetSceneSystem->registerWidget(checkbox1);
 
+
+			// Create a ComboBox.
+			ComboBox* comboBox = new ComboBox(100,100, 100,24);
+
+			// Add Items into the ComboBox.
 			comboBox->addItem(L"File");
 			comboBox->addItem(L"Edit");
 			comboBox->addItem(L"Help");
+			comboBox->addItem(L"Help");
+			comboBox->addItem(L"Help");
+			comboBox->addItem(L"Help");
+			comboBox->addItem(L"Help");
+			comboBox->addItem(L"Help");
 
-//			widgetSceneSystem->resgister(menuBar);
-//			widgetSceneSystem->resgister(button1);
-			widgetSceneSystem->registerWidget(checkbox1);
+
+			// Create the delegate that will handle user selection in the ComboBox.
+			ComboBox::OnItemSelectedDelegateType fileDelegate = ComboBox::OnItemSelectedDelegateType::Create<UITest, &UITest::onItemSelected>(this);
+			comboBox->bindOnItemSelected(fileDelegate);
+
+			// Register this ComboBox to the system.
 			widgetSceneSystem->registerWidget(comboBox);
+
+//			widgetSceneSystem->registerWidget(menuBar);
+
+
+
+
 
 			while(m_appRun) {
 				getCore()->update();
@@ -162,7 +192,15 @@ class UITest : public xdl::XdevLApplication {
 			m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
 			m_textEngine->init(m_font2D);
 
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
+
+
 			return xdl::ERR_OK;
+		}
+
+		void onCheckedBox(const CheckBox::State& state, Widget* widget) {
+			std::wcout << L"CheckBox got " << ((state == CheckBox::CHECKED) ? L"Checked" : L"Unchecked") << std::endl;
 		}
 
 		void onFileItemSelected(Widget* widget) {

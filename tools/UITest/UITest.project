@@ -272,4 +272,7 @@
       </Completion>
     </Configuration>
   </Settings>
+  <VirtualDirectory Name="resource">
+    <File Name="../../binary/resources/ini/uitest.xml"/>
+  </VirtualDirectory>
 </CodeLite_Project>
