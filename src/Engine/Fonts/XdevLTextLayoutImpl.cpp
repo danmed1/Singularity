@@ -37,7 +37,7 @@ namespace soan {
 		m_fragmentShaderFilename("resources/shaders/text_fs.glsl"),
 		m_gamma(0.2f),
 		m_buffer(0.4f),
-		m_dft(1),
+		m_dft(0),
 		m_dpi(42.0f),
 		m_scale(1.0f),
 		m_rescale(1.0f),

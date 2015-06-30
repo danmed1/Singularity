@@ -116,16 +116,44 @@ namespace soan {
 			FreeImage_FillBackground(imageData, &pixel, FI_COLOR_IS_RGBA_COLOR);
 
 
+			std::stringstream 	values;
+
 			unsigned int left = 0;
 			unsigned int top = 0;
-			for(FT_ULong charcode = 36; charcode < 96; charcode++) {
-				FT_UInt idx = FT_Get_Char_Index(face, charcode);
-				FT_Load_Char(face, idx, FT_LOAD_RENDER);
-				FT_GlyphSlot 		glyphSlot 	= face->glyph;
-				FT_Glyph_Metrics 	metrics 		= face->glyph->metrics;
-				FT_Bitmap&			bitmap 		= glyphSlot->bitmap;
+			for(FT_ULong charcode = 32; charcode < 1024; charcode++) {
 
+				// Check if the glyph exists, if not, for now just skip
+				FT_UInt glyph_index = FT_Get_Char_Index(face, charcode);
+				if( glyph_index == 0) {
+					continue;
+				}
 				
+				FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_HINTING );
+				FT_GlyphSlot slot = face->glyph;
+				FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL);
+				FT_Bitmap& bitmap = slot->bitmap;
+				FT_Glyph_Metrics metrics = face->glyph->metrics;
+
+				values << 0												// The texture id.
+				       << " " << charcode			 					// id
+				       << " " << (double)slot->bitmap_left/64.0			// left
+				       << " " << (double)slot->bitmap_top/64.0			// top
+				       << " " << (double)metrics.width/64.0				// width
+				       << " " << (double)metrics.height/64.0			// height
+				       << " " << (double)slot->advance.x/64.0			// Advance to next glyph for horizontal layout.
+				       << " " << (double)slot->advance.y/64.0			// Advance to next glyph for horizontal layout.
+				       << " " << (double)metrics.horiBearingX/64.0		// Horizontal layout bearing in x.
+				       << " " << (double)metrics.horiBearingY/64.0		// Horizontal layout bearing in y.
+				       << " " << (double)metrics.vertBearingX/64.0		// Vertical layout bearing in x.
+				       << " " << (double)metrics.vertBearingY/64.0;		// Vertical layout bearing in y.
+
+
+
+				if(left + bitmap.width > textureSize) {
+					left = 0;
+					top += fontSize;
+				}
+
 				for(int h = 0; h < bitmap.rows; ++h) {
 					for(int w = 0; w < bitmap.width; ++w) {
 
@@ -133,28 +161,70 @@ namespace soan {
 						// Set the position of the pixel.
 						//
 						int xpos = left + w;
-						int ypos = top - h - 1;
+						int ypos = top + h;
 
 						uint8_t intensitiy	= bitmap.buffer[w + bitmap.pitch * h];
 						pixel.rgbBlue 		= intensitiy;
 						pixel.rgbGreen 		= intensitiy;
 						pixel.rgbRed 		= intensitiy;
-						pixel.rgbReserved 	= intensitiy;
+						pixel.rgbReserved 	= 255;
 
-						FreeImage_SetPixelColor(m_imageData, xpos, ypos, &pixel);
+						FreeImage_SetPixelColor(imageData, xpos, ypos, &pixel);
 
 					}
 				}
-				left += bitmap.width + 1;
+				
+				//
+				// Save Texture coordinates.
+				//
+				values  << " " << left
+				        << " " << top
+				        << " " << (left + bitmap.width)
+				        << " " << (top - bitmap.rows);
+				
+				values << std::endl;
+				
+				left += bitmap.width;
 				if(left >= textureSize) {
 					left = 0;
 					top += fontSize;
 				}
 			}
 
-			FreeImage_Save(FIF_PNG, imageData, outputFilename, PNG_DEFAULT);
+			FreeImage_FlipVertical(imageData);
+			FreeImage_Save(FIF_PNG, imageData, outputFilename, PNG_Z_NO_COMPRESSION);
 			FreeImage_Unload(imageData);
 			FT_Done_Face(face);
+			
+			std::string outputFileNameString(outputFilename);
+			std::string glyphInfoFile(outputFileNameString);
+			std::string glyphInfoFileExtLess = glyphInfoFile.substr(0, glyphInfoFile.find_last_of("."));
+			glyphInfoFile = glyphInfoFileExtLess + "_info.txt";
+			std::string fileNames;
+			fileNames+= outputFileNameString + "\n";
+			std::ofstream 	fs(glyphInfoFile);
+			if(fs.is_open()) {
+
+				// Save something useless.
+				fs << "(left right width height horizontal_advance vertical_advance h_bearing_x h_bearing_y v_bearing_x v_bearing_y) \n";
+
+				// Save the version of the file.
+				fs << "version: 1\n";
+
+				// Save the font size.
+				fs << fontSize << std::endl;
+
+				fs << 1 << std::endl;
+
+				fs << fileNames;
+
+				fs << values.str();
+			}
+
+
+			if(fs.is_open()) {
+				fs.close();
+			}
 			return 0;
 
 		}
