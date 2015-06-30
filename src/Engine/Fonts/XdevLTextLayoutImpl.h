@@ -54,7 +54,10 @@ namespace soan {
 			virtual void setDPI(xdl::xdl_float);
 
 			/// Sets the current color.
-			virtual void setColor(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b);
+			virtual void setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a);
+
+			/// Use signed distance field fonts.
+			virtual void setDFT(xdl::xdl_bool enable);
 
 			/// Sets the font rendering effect.
 			virtual void setEffect(xdl::xdl_uint effectNumber);
@@ -105,7 +108,7 @@ namespace soan {
 			xdl::xdl_float					m_dpi;
 			xdl::xdl_float					m_scale;
 			xdl::xdl_float					m_rescale;
-			xdl::xdl_float					m_currentColor[4];
+			xdl::xdl_uint8					m_currentColor[4];
 			xdl::xdl_float					m_shadowOffset[2];
 			xdl::xdl_uint					m_effectNumber;
 

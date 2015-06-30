@@ -57,24 +57,18 @@ class FontTest : public xdl::XdevLApplication {
 			while(m_appRun) {
 				getCore()->update();
 
-				glMatrixMode(GL_PROJECTION);
-				glLoadIdentity();
-				glOrtho(0, getWindow()->getWidth(), getWindow()->getHeight(), 0, -1, 1);
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
-				glDisable(GL_DEPTH_TEST);
 
-				glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
+				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 
-				m_textEngine->setColor(1.0f, 1.0f, 1.0f);
-				m_textEngine->setScale(1.0f);
+				m_textEngine->setColor(0, 0, 0, 255);
+				m_textEngine->setScale(2.0f);
+				m_textEngine->setDFT(0);
 				m_textEngine->setEffect(0);
 
-				m_textEngine->addDynamicText(L"This is a test", -1, 0);
+				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0);
 
 				m_textEngine->render();
 

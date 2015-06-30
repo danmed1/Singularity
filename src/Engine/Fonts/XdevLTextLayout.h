@@ -40,7 +40,7 @@ namespace soan {
 		xdl::xdl_float y;
 		
 		/// The color of the whole text.
-		xdl::xdl_float color[4];
+		xdl::xdl_uint8 color[4];
 		
 		/// The scale factor of the whole text.
 		xdl::xdl_float scale;
@@ -71,7 +71,10 @@ namespace soan {
 			virtual void setDPI(xdl::xdl_float) = 0;
 
 			/// Sets the current color.
-			virtual void setColor(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b) = 0;
+			virtual void setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a) = 0;
+
+			/// Use signed distance field fonts.
+			virtual void setDFT(xdl::xdl_bool enable) = 0;
 
 			/// Sets the font rendering effect.
 			virtual void setEffect(xdl::xdl_uint effectNumber) = 0;

@@ -322,7 +322,7 @@ get3DProcessor()->makeCurrent(getWindow());
 	//
 	// Set the FPS onto the screen.
 	//
-	m_textEngine->setColor(1.0f, 1.0f, 1.0f);
+	m_textEngine->setColor(255, 255, 255, 255);
 	m_textEngine->setScale(1.0f);
 	std::wstring tmp = L"FPS: " + ss.str();
 	m_textEngine->addDynamicText(tmp.c_str(), -1.0, -0.98);

@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="FontTest" InternalType="Console">
   <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00030001N0005Debug0000000000000001N0011Debug_Linux0000000000000001N0013Release_Linux000000000000]]>
+    </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
   "name": "Debug",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_Linux",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Debug_MacOSX",
   "enabled": false,
   "buildDirectory": "build",
   "sourceDirectory": "$(ProjectPath)",
@@ -20,10 +41,25 @@
   "buildType": "",
   "arguments": [],
   "parentProject": ""
+ }, {
+  "name": "Release_Linux",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_MacOSX",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
  }]]]>
-    </Plugin>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
     </Plugin>
   </Plugins>
   <Description/>
@@ -32,8 +68,8 @@
     <File Name="fonttest.cpp"/>
     <File Name="../../src/Engine/Fonts/lodepng.cpp"/>
     <File Name="../../src/Engine/Fonts/XdevLFontImpl.cpp"/>
-    <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
+    <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="../../binary/resources/ini/fonttest.xml"/>
@@ -45,6 +81,7 @@
         <IncludePath Value="${XDEVL_HOME}/include"/>
         <IncludePath Value="${XDEVL_PLUGINS}"/>
         <IncludePath Value="../../src"/>
+        <IncludePath Value="../../dependencies/freetype/include"/>
         <IncludePath Value="../../dependencies/freeimage/include"/>
       </Compiler>
       <Linker Options="">
@@ -53,13 +90,16 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug_MacOSX" CompilerType="clang++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug_Linux" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
-      <Linker Options="-framework OpenGL" Required="yes">
-        <LibraryPath Value="../../dependencies/freeimage/lib/macosx"/>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/linux"/>
         <Library Value="XdevLd"/>
+        <Library Value="GL"/>
+        <Library Value="dl"/>
+        <Library Value="pthread"/>
         <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
@@ -95,14 +135,17 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release_MacOSX" CompilerType="clang++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release_Linux" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
-      <Linker Options="-framework OpenGL" Required="yes">
-        <LibraryPath Value="../../dependencies/freeimage/lib/macosx"/>
+      <Linker Options="" Required="yes">
+        <LibraryPath Value="../../dependencies/freeimage/lib/linux"/>
         <Library Value="XdevL"/>
+        <Library Value="GL"/>
+        <Library Value="dl"/>
+        <Library Value="pthread"/>
         <Library Value="freeimage"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>

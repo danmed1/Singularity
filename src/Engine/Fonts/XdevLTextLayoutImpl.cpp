@@ -164,6 +164,8 @@ namespace soan {
 		// TODO Replace this part using XdevL.
 		//
 		glEnable(GL_BLEND);
+
+//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
 
@@ -341,16 +343,21 @@ namespace soan {
 		m_rescale = scale;
 	}
 
-	void  XdevLTextLayoutImpl::setColor(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b) {
+	void  XdevLTextLayoutImpl::setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a) {
 		m_currentColor[0] = r;
 		m_currentColor[1] = g;
 		m_currentColor[2] = b;
+		m_currentColor[3] = a;
 	}
 
 	void XdevLTextLayoutImpl::setDPI(xdl::xdl_float dpi) {
 		m_dpi = dpi;
 
 		m_scale = m_dpi/(xdl::xdl_float)m_font->getFontSize();
+	}
+
+	void XdevLTextLayoutImpl::setDFT(xdl::xdl_bool enable) {
+		m_dft = enable ? 1 : 0;
 	}
 
 	void  XdevLTextLayoutImpl::setEffect(xdl::xdl_uint effectNumber) {

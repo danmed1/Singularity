@@ -146,4 +146,6 @@
       </Completion>
     </Configuration>
   </Settings>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Release_Linux"/>
 </CodeLite_Project>

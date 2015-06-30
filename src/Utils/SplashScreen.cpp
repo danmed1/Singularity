@@ -128,7 +128,7 @@ namespace soan {
 				
 				std::wstring maxVertices = L"Singularity";
 				textLayouter->setScale(1.0f);
-				textLayouter->setColor(1.0f, 1.0f, 1.0f);
+				textLayouter->setColor(255, 255, 255, 255);
 				textLayouter->addDynamicText(maxVertices.c_str(), -0.10, 0.0);
 
 				textLayouter->render();
