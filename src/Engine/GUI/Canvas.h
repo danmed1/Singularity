@@ -27,6 +27,7 @@
 
 class Canvas {
 public:
+	virtual void setCurrentColor(const soan::Color& color) = 0;
 	virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
 	virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
 }

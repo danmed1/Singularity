@@ -166,8 +166,8 @@ int main(int argc, char **argv) {
 	cout << "Number of letters : " << numberOfLetters << endl;
 	cout << "Rescale to        : " << rescaleWidth << "x" << rescaleHeight << std::endl;
 	soan::utils::TrueTypeFont ttf;
-	ttf.setGapBetweenGlyphBitmap(gapX, gapY);
-	ttf.create(inputFilename.c_str(),outputFilename.c_str(), startingLetter, numberOfLetters, fontSize, textureSize,rescaleWidth,rescaleHeight);
-
+//	ttf.setGapBetweenGlyphBitmap(gapX, gapY);
+//	ttf.create(inputFilename.c_str(),outputFilename.c_str(), startingLetter, numberOfLetters, fontSize, textureSize,rescaleWidth,rescaleHeight);
+	ttf.create(inputFilename.c_str(), outputFilename.c_str(), 16, 512);
 	return 0;
 }

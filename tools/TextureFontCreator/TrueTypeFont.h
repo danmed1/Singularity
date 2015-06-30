@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -31,6 +31,7 @@
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 #include FT_TRIGONOMETRY_H
+#include FT_LCD_FILTER_H
 
 #include <string>
 
@@ -90,6 +91,11 @@ namespace soan {
 
 				int create(const char* fontFilename,
 				           const char* outputFilename,
+				           unsigned int fonSize,
+				           unsigned int textureSize);
+
+				int create(const char* fontFilename,
+				           const char* outputFilename,
 				           unsigned int firstCharacter,
 				           unsigned int numberOfCharacters,
 				           unsigned int fontSize,
@@ -100,10 +106,10 @@ namespace soan {
 				int createDistanceImage();
 
 				virtual int saveImage(const char* filename);
-				
+
 				/// Sets the gap width and height of the glyph elements.
 				virtual void setGapBetweenGlyphBitmap(unsigned int width, unsigned int height);
-		protected:
+			protected:
 				void modifyFilename(const char* filename, const std::string& suffix, std::string& modifiedFilename);
 
 				void getPosition(unsigned int idx, unsigned int size, unsigned int& x, unsigned int& y);
@@ -130,7 +136,7 @@ namespace soan {
 
 				float 				m_counter;
 				unsigned int 	m_gapX;
-				unsigned int 	m_gapY;				
+				unsigned int 	m_gapY;
 
 
 		};

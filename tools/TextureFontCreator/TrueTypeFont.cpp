@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -76,18 +76,87 @@ namespace soan {
 			//
 			FT_Done_FreeType(library);
 		}
-		
+
 		void TrueTypeFont::setGapBetweenGlyphBitmap(unsigned int width, unsigned int height) {
 			m_gapX = width;
 			m_gapY = height;
 		}
-		
+
 		void TrueTypeFont::modifyFilename(const char* filename, const std::string& suffix, std::string& modifiedFilename) {
 			std::string tmp(filename);
 			std::string outputSDFFilename = tmp.substr(0, tmp.find_last_of("."));
 			std::string ext = tmp.substr(tmp.find_last_of(".") + 1, tmp.size());
 			outputSDFFilename += suffix + ext;
 			modifiedFilename = outputSDFFilename;
+		}
+
+		int TrueTypeFont::create(const char* fontFilename,
+		                         const char* outputFilename,
+		                         unsigned int fontSize,
+		                         unsigned int textureSize) {
+			//
+			// Initialize freetype and load a font.
+			//
+			FT_Face face;
+			if(FT_New_Face(library, fontFilename, 0, &face) != 0) {
+				std::cerr << "TrueTypeFont::create: Could not create new Freetype face." << std::endl;
+				return -1;
+			}
+
+			//
+			// Set the size of the font.
+			//
+			if(FT_Set_Pixel_Sizes(face, fontSize, fontSize) != 0) {
+				std::cerr << "TrueTypeFont::create: Could not set the pixel size of the Freetype face." << std::endl;
+				return -1;
+			}
+
+			FIBITMAP* imageData = FreeImage_Allocate(textureSize, textureSize, 32);
+			RGBQUAD pixel = {0xff, 0x00, 0x00, 0x00};
+			FreeImage_FillBackground(imageData, &pixel, FI_COLOR_IS_RGBA_COLOR);
+
+
+			unsigned int left = 0;
+			unsigned int top = 0;
+			for(FT_ULong charcode = 36; charcode < 96; charcode++) {
+				FT_UInt idx = FT_Get_Char_Index(face, charcode);
+				FT_Load_Char(face, idx, FT_LOAD_RENDER);
+				FT_GlyphSlot 		glyphSlot 	= face->glyph;
+				FT_Glyph_Metrics 	metrics 		= face->glyph->metrics;
+				FT_Bitmap&			bitmap 		= glyphSlot->bitmap;
+
+				
+				for(int h = 0; h < bitmap.rows; ++h) {
+					for(int w = 0; w < bitmap.width; ++w) {
+
+						//
+						// Set the position of the pixel.
+						//
+						int xpos = left + w;
+						int ypos = top - h - 1;
+
+						uint8_t intensitiy	= bitmap.buffer[w + bitmap.pitch * h];
+						pixel.rgbBlue 		= intensitiy;
+						pixel.rgbGreen 		= intensitiy;
+						pixel.rgbRed 		= intensitiy;
+						pixel.rgbReserved 	= intensitiy;
+
+						FreeImage_SetPixelColor(m_imageData, xpos, ypos, &pixel);
+
+					}
+				}
+				left += bitmap.width + 1;
+				if(left >= textureSize) {
+					left = 0;
+					top += fontSize;
+				}
+			}
+
+			FreeImage_Save(FIF_PNG, imageData, outputFilename, PNG_DEFAULT);
+			FreeImage_Unload(imageData);
+			FT_Done_Face(face);
+			return 0;
+
 		}
 
 		int TrueTypeFont::create(const char* fontFilename,
