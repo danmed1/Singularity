@@ -72,45 +72,47 @@ namespace soan {
 
 		private:
 			xdl::XdevLWindow*				m_window;
-			xdl::XdevLOpenGL330*					m_openGL;
-			XdevLFont*										m_font;
-			xdl::XdevLShaderProgram* 			m_shaderProgram;
-			xdl::XdevLVertexShader*				m_vertexShader;
-			xdl::XdevLFragmentShader*			m_fragmentShader;
+			xdl::XdevLOpenGL330*				m_openGL;
+			XdevLFont*						m_font;
+			xdl::XdevLShaderProgram* 		m_shaderProgram;
+			xdl::XdevLVertexShader*			m_vertexShader;
+			xdl::XdevLFragmentShader*		m_fragmentShader;
 
-			std::string										m_vertexShaderFilename;
-			std::string										m_fragmentShaderFilename;
+			std::string						m_vertexShaderFilename;
+			std::string						m_fragmentShaderFilename;
 
-			xdl::XdevLTexture* 						m_texture;
-			xdl::XdevLVertexArray*				m_vertexArray;
+			xdl::XdevLTexture* 				m_texture;
+			xdl::XdevLVertexArray*			m_vertexArray;
 			xdl::XdevLVertexDeclaration* 	m_vd;
 			xdl::XdevLVertexBuffer* 			m_vertexBuffer;
 
-			xdl::XdevLVertexArray*				m_staticVertexArray;
+			xdl::XdevLVertexArray*			m_staticVertexArray;
 			xdl::XdevLVertexBuffer* 			m_staticVertexBuffer;
 
-			xdl::xdl_int									m_projViewModelMatrix;
-			xdl::xdl_int									m_texture0;
-			xdl::xdl_int									m_color;
+			xdl::xdl_int					m_projViewModelMatrix;
+			xdl::xdl_int					m_texture0;
+			xdl::xdl_int					m_color;
 
-			xdl::xdl_int									m_gammaid;
-			xdl::xdl_int									m_bufferid;
-			xdl::xdl_int									m_dftid;
-			xdl::xdl_float								m_gamma;
-			xdl::xdl_float								m_buffer;
-			xdl::xdl_int									m_dft;
-			xdl::xdl_int									m_effectid;
-			xdl::xdl_int									m_shadowOffsetid;
+			xdl::xdl_int					m_gammaid;
+			xdl::xdl_int					m_bufferid;
+			xdl::xdl_int					m_dftid;
+			xdl::xdl_float					m_gamma;
+			xdl::xdl_float					m_buffer;
+			xdl::xdl_int					m_dft;
+			xdl::xdl_int					m_effectid;
+			xdl::xdl_int					m_shadowOffsetid;
 
-			xdl::xdl_float								m_dpi;
-			xdl::xdl_float								m_scale;
-			xdl::xdl_float								m_rescale;
-			xdl::xdl_float								m_currentColor[4];
-			xdl::xdl_float								m_shadowOffset[2];
-			xdl::xdl_uint									m_effectNumber;
-			std::vector<XdevLTextLayoutText> 					m_textList;
-			std::vector<XdevLTextLayoutText> 					m_staticTextList;
-			xdl::xdl_bool										m_staticVertexListUploaded;
+			xdl::xdl_float					m_dpi;
+			xdl::xdl_float					m_scale;
+			xdl::xdl_float					m_rescale;
+			xdl::xdl_float					m_currentColor[4];
+			xdl::xdl_float					m_shadowOffset[2];
+			xdl::xdl_uint					m_effectNumber;
+
+			std::vector<XdevLTextLayoutText> m_textList;
+			std::vector<XdevLTextLayoutText> m_staticTextList;
+			xdl::xdl_bool					m_staticVertexListUploaded;
+
 			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_staticVertexList;
 			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_dynamicVertexMap;
 	};

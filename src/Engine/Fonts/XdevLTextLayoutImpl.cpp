@@ -85,7 +85,7 @@ namespace soan {
 
 		m_vd = new xdl::XdevLVertexDeclaration();
 		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
-		m_vd->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
+		m_vd->add(4, xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, VERTEX_COLOR);
 		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_TEXTURE_COORD);
 
 

@@ -36,7 +36,7 @@ namespace soan {
 	*/
 	struct XdevLGlyphVertex {
 		xdl::xdl_float x,y;		/// Position data.
-		xdl::xdl_float r,g,b,a;	/// Color data.
+		xdl::xdl_uint8 r,g,b,a;	/// Color data.
 		xdl::xdl_float s, t;	/// Texture coordinate data.
 	};
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the starting element for all XdevL 0.x.y applications -->
+<XdevLCoreProperties>
+
+  <!-- Plug external plugins to the core system. -->
+  <XdevLPlugins>
+    <XdevLPlugin name="XdevLWindowSDL" 	version="1.0.0"/>
+    <XdevLPlugin name="XdevLMouse"		version="1.0.0"/>
+    <XdevLPlugin name="XdevLKeyboard"	version="1.0.0"/>
+    <XdevLPlugin name="XdevLJoystick"	version="1.0.0"/>
+    <XdevLPlugin name="XdevLOpenGL"		version="1.0.0"/>
+  </XdevLPlugins>
+
+  <!-- Create modules which are inside the plugins and give them identification codes. -->
+  <XdevLModules>
+    <XdevLModule id="MyWindow"		name="XdevLWindow"/>
+    <XdevLModule id="MyMouse" 		name="XdevLMouse"/>
+    <XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
+    <XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
+    <XdevLModule id="MyOpenGL"		name="XdevLOpenGL"/>
+  </XdevLModules>
+
+  <!-- Setting some properties of the XdevLWindowDevice module. -->
+  <XdevLWindow id="MyWindow">
+    <Title> Font Test </Title>
+    <Fullscreen> 0 </Fullscreen>
+    <X> 0 </X>
+    <Y> 0 </Y>
+    <Width>512 </Width>
+    <Height> 512 </Height>
+    <HidePointer>0</HidePointer>
+    <Borderless>0</Borderless>
+    <BackgroundColor>0 0 0 0 </BackgroundColor>
+  </XdevLWindow>
+
+
+
+  <!-- Setting some properties of the XdevLOpenGL module. -->
+  <XdevLOpenGL id="MyOpenGL"  profile="core"
+                              major="3"
+                              minor="2" 
+                              framebuffer_depth="32" 
+                              z_buffer_depth="24" 
+                              stencil_buffer_depth="8"  
+                              vsync="0" 
+                              fsaa="0"> 
+  </XdevLOpenGL>
+
+
+
+
+  <XdevLMouse id="MyMouse" >
+    <Range axis="AXIS_0" min="0" max="512"/>
+    <Range axis="AXIS_1" min="0" max="512"/>
+  </XdevLMouse>
+
+</XdevLCoreProperties>
+
