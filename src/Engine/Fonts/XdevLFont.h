@@ -43,6 +43,37 @@ namespace soan {
 	/**
 		@struct XdevLGlyphMetric
 		@brief A structure that describes the metric of a glyph.
+		
+          Glyph metrics:
+          --------------
+         
+                                xmin                     xmax
+                                 |                         |
+                                 |<-------- width -------->|
+                                 |                         |
+                       |         +-------------------------+----------------- ymax
+                       |         |    aaaaaaaaa   aaaaa    |     ^        ^
+                       |         |   a:::::::::aaa::::a    |     |        |
+                       |         |  a:::::::::::::::::a    |     |        |
+                       |         | a::::::aaaaa::::::aa    |     |        |
+                       |         | a:::::a     a:::::a     |     |        |
+             offset_x -|-------->| a:::::a     a:::::a     |  offset_y    |
+                       |         | a:::::a     a:::::a     |     |        |
+                       |         | a::::::a    a:::::a     |     |        |
+                       |         | a:::::::aaaaa:::::a     |     |        |
+                       |         |  a::::::::::::::::a     |     |      height
+                       |         |   aa::::::::::::::a     |     |        |
+           baseline ---*---------|---- aaaaaaaa::::::a-----*--------      |
+                     / |         |             a:::::a     |              |
+              origin   |         | aaaaaa      a:::::a     |              |
+                       |         | a:::::aa   aa:::::a     |              |
+                       |         |  a::::::aaa:::::::a     |              |
+                       |         |   aa:::::::::::::a      |              |
+                       |         |     aaa::::::aaa        |              |
+                       |         |         aaaaaa          |              v
+                       |         +-------------------------+----------------- ymin
+                       |                                   |
+                       |------------- advance_x ---------->|
 	*/
 	struct XdevLGlyphMetric {
 		XdevLGlyphMetric() :

@@ -116,26 +116,30 @@ namespace soan {
 			FreeImage_FillBackground(imageData, &pixel, FI_COLOR_IS_RGBA_COLOR);
 
 
-			std::stringstream 	values;
+			std::stringstream values;
 
 			unsigned int left = 0;
 			unsigned int top = 0;
 			for(FT_ULong charcode = 32; charcode < 1024; charcode++) {
 
-				// Check if the glyph exists, if not, for now just skip
+				// Retrieve glyph index from character code. If none exists skip.
 				FT_UInt glyph_index = FT_Get_Char_Index(face, charcode);
 				if( glyph_index == 0) {
 					continue;
 				}
 				
-				FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_HINTING );
-				FT_GlyphSlot slot = face->glyph;
-				FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL);
+                // Load glyph image into the slot (erase previous one) 
+				FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+                
+                // Convert to an anti-aliased bitmap
+				FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
+                
+                FT_GlyphSlot slot = face->glyph;
 				FT_Bitmap& bitmap = slot->bitmap;
 				FT_Glyph_Metrics metrics = face->glyph->metrics;
 
 				values << 0												// The texture id.
-				       << " " << charcode			 					// id
+				       << " " << charcode			 					// character code
 				       << " " << (double)slot->bitmap_left/64.0			// left
 				       << " " << (double)slot->bitmap_top/64.0			// top
 				       << " " << (double)metrics.width/64.0				// width
