@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -48,28 +48,23 @@ namespace soan {
 		// Create dummy glyph for unknown glyphs. This will be returned if the method getGlyphMetric()
 		// fails.
 		//
-		m_dummyGlyph.width 	= (xdl::xdl_float)window->getWidth()/20.0f;
-		m_dummyGlyph.height = (xdl::xdl_float)window->getHeight()/20.0f;
-		m_dummyGlyph.horizontalLayoutAdvance 	= m_dummyGlyph.width;
-		m_dummyGlyph.verticalLayoutAdvance		= m_dummyGlyph.height;
-
-		m_dummyGlyph.vertices[0].x = m_dummyGlyph.horizontalLayoutBearingX;
-		m_dummyGlyph.vertices[0].y = (m_dummyGlyph.height - m_dummyGlyph.horizontalLayoutBearingY);
+		m_dummyGlyph.vertices[0].x = 0;
+		m_dummyGlyph.vertices[0].y = 0;
 		m_dummyGlyph.vertices[0].s = 0.0f;
 		m_dummyGlyph.vertices[0].t = 0.0f;
 
-		m_dummyGlyph.vertices[1].x = m_dummyGlyph.horizontalLayoutBearingX;
-		m_dummyGlyph.vertices[1].y = m_dummyGlyph.horizontalLayoutBearingY;
+		m_dummyGlyph.vertices[1].x = 10;
+		m_dummyGlyph.vertices[1].y = 0;
 		m_dummyGlyph.vertices[1].s = 0.0f;
 		m_dummyGlyph.vertices[1].t = 1.0f;
 
-		m_dummyGlyph.vertices[2].x = m_dummyGlyph.horizontalLayoutBearingX + m_dummyGlyph.width;
-		m_dummyGlyph.vertices[2].y = m_dummyGlyph.horizontalLayoutBearingY;
+		m_dummyGlyph.vertices[2].x = 0;
+		m_dummyGlyph.vertices[2].y = 10;
 		m_dummyGlyph.vertices[2].s = 1.0f;
 		m_dummyGlyph.vertices[2].t = 1.0f;
 
-		m_dummyGlyph.vertices[3].x = m_dummyGlyph.horizontalLayoutBearingX + m_dummyGlyph.width;
-		m_dummyGlyph.vertices[3].y = (m_dummyGlyph.height - m_dummyGlyph.horizontalLayoutBearingY);
+		m_dummyGlyph.vertices[3].x = 10;
+		m_dummyGlyph.vertices[3].y = 10;
 		m_dummyGlyph.vertices[3].s = 1.0f;
 		m_dummyGlyph.vertices[3].t = 0.0f;
 
@@ -135,7 +130,7 @@ namespace soan {
 
 					m_openGL->createTexture(&texture);
 
-					texture->init(width, height, xdl::XDEVL_RGBA, xdl::XDEVL_RGBA, vflipedimage.data() );
+					texture->init(width, height, xdl::XDEVL_RGBA, xdl::XDEVL_RGBA, vflipedimage.data());
 					image.clear();
 				}
 				if(texture == nullptr) {
@@ -150,14 +145,14 @@ namespace soan {
 				texture->unlock();
 
 				m_textureList.push_back(texture);
-		
+
 			}
 
 			calculateGlyphInformation(infile);
-			
+
 			return xdl::ERR_OK;
 		}
-		
+
 		return xdl::ERR_ERROR;
 
 	}
@@ -194,7 +189,7 @@ namespace soan {
 			ss << tmp;
 			ss >> m_fontSize;
 
-			xdl::xdl_float numCols 	= (xdl::xdl_float)tx->getWidth()/(xdl::xdl_float)m_fontSize;
+//			xdl::xdl_float numCols 	= (xdl::xdl_float)tx->getWidth()/(xdl::xdl_float)m_fontSize;
 
 			// TODO Using maps to handle id of the glyphs? At the moment it is just a hack.
 			while(!infile.eof()) {
@@ -206,48 +201,23 @@ namespace soan {
 				// TODO This part to find the position of the glyph in the texture is some sort of hack.
 				// Make it so that all of the information is the the fontInfo.txt file.
 				//
-				xdl::xdl_uint idx = gp.id - 32;
 
-				xdl::xdl_float pos_x = idx % (xdl::xdl_int)numCols;
-				xdl::xdl_float pos_y = idx / (xdl::xdl_int)numCols;
+				gp.vertices[0].x = 0;
+				gp.vertices[0].y = 0;
 
-				xdl::xdl_float ds = 1.0/(xdl::xdl_float)tx->getWidth()*gp.width;
-				xdl::xdl_float dt = 1.0/(xdl::xdl_float)tx->getWidth()*gp.height;
+				gp.vertices[1].x = 0;
+				gp.vertices[1].y = gp.getHeight();
 
-				xdl::xdl_float s = 1.0/numCols*pos_x ;
-				xdl::xdl_float t = 1.0 - 1.0/numCols*pos_y - (1.0/(xdl::xdl_float)tx->getHeight())*((m_fontSize - gp.height - gp.top));
+				gp.vertices[2].x = gp.getWidth();
+				gp.vertices[2].y = 0;
 
-				//
-				// Add an offset of x,y pixel offset to the s,t coordinates.
-				//
-				xdl::xdl_float offset_x = 0.0/(xdl::xdl_float)tx->getWidth();
-				xdl::xdl_float offset_y = 0.0/(xdl::xdl_float)tx->getHeight();
-
-
-				gp.vertices[0].x = gp.horizontalLayoutBearingX;
-				gp.vertices[0].y = (gp.height - gp.horizontalLayoutBearingY);
-				gp.vertices[0].s = s - offset_x;
-				gp.vertices[0].t = t - dt - offset_y;
-
-				gp.vertices[1].x = gp.horizontalLayoutBearingX;
-				gp.vertices[1].y = gp.horizontalLayoutBearingY;
-				gp.vertices[1].s = s - offset_x;
-				gp.vertices[1].t = t + offset_y;
-
-				gp.vertices[2].x = gp.horizontalLayoutBearingX + gp.width;
-				gp.vertices[2].y = gp.horizontalLayoutBearingY;
-				gp.vertices[2].s = s + ds + offset_x;
-				gp.vertices[2].t = t + offset_y;
-
-				gp.vertices[3].x = gp.horizontalLayoutBearingX + gp.width;
-				gp.vertices[3].y = (gp.height - gp.horizontalLayoutBearingY);
-				gp.vertices[3].s = s + ds + offset_x;
-				gp.vertices[3].t = t - dt - offset_y;
+				gp.vertices[3].x = gp.getWidth();
+				gp.vertices[3].y = gp.getHeight();
 
 				//
 				// Find maximum value for the new line.
 				//
-				m_newLine = std::max(m_newLine, gp.height);
+				m_newLine = m_fontSize;
 
 				m_glyphMap[gp.id] = gp;
 
@@ -261,28 +231,22 @@ namespace soan {
 	XdevLGlyphMetric& XdevLFontImpl::readLine(std::ifstream& os, XdevLGlyphMetric& gp) {
 		os >> gp.tid
 		   >> gp.id
-		   >> gp.left
-		   >> gp.top
-		   >> gp.width
-		   >> gp.height
-		   >> gp.horizontalLayoutAdvance
-		   >> gp.verticalLayoutAdvance
-		   >> gp.horizontalLayoutBearingX
-		   >> gp.horizontalLayoutBearingY
-		   >> gp.verticalLayoutBearingX
-		   >> gp.verticalLayoutBearingY
-			 >> gp.x1
-			 >> gp.y1
-			 >> gp.x2
-			 >> gp.y2;
-			
-			return gp;
+		   >> gp.vertices[0].s
+		   >> gp.vertices[0].t
+		   >> gp.vertices[3].s
+		   >> gp.vertices[3].t;
+		
+		gp.vertices[1].s = gp.vertices[0].s;
+		gp.vertices[1].t = gp.vertices[3].t;
+		gp.vertices[3].s = gp.vertices[1].s;
+		gp.vertices[3].t = gp.vertices[3].t;
+		return gp;
 	}
 
 	void XdevLFontImpl::calculateGlyphInformation(std::ifstream& os) {
 
-		xdl::xdl_float numCols 				= (xdl::xdl_float)m_textureList[0]->getWidth()/m_fontSize;
-		xdl::xdl_uint numberOfSegments 	= pow(m_textureList[0]->getWidth()/(xdl::xdl_uint)m_fontSize,2);
+//		xdl::xdl_float numCols 			= (xdl::xdl_float)m_textureList[0]->getWidth()/m_fontSize;
+//		xdl::xdl_uint numberOfSegments 	= pow(m_textureList[0]->getWidth()/(xdl::xdl_uint)m_fontSize,2);
 
 		xdl::xdl_uint	count = 0;
 
@@ -296,54 +260,24 @@ namespace soan {
 			// Get the info for the glyph.
 			//
 
-			xdl::XdevLTexture* tx = m_textureList[gp.tid];
+//			xdl::XdevLTexture* tx = m_textureList[gp.tid];
 
-			//
-			// Add an offset of x,y pixel offset to the s,t coordinates.
-			// TODO This value is a hack. Is done because of the Shadow Effect.
-			xdl::xdl_float offset_x = 4.0/(xdl::xdl_float)tx->getWidth();
-			xdl::xdl_float offset_y = 4.0/(xdl::xdl_float)tx->getHeight();
+			gp.vertices[0].x = 0;
+			gp.vertices[0].y = 0;
 
-			//
-			// Add an offset of x,y pixel offset to the x,y coordinates.
-			// What this doesn is expanding the size of the quad in the same amound
-			//
-			xdl::xdl_float offset_sx = 0.0;
-			xdl::xdl_float offset_sy = 0.0;
+			gp.vertices[1].x = 0;
+			gp.vertices[1].y = gp.getHeight();
 
+			gp.vertices[2].x = gp.getWidth();
+			gp.vertices[2].y = 0;
 
-			xdl::xdl_float s1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.x1;
-			xdl::xdl_float t1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.y1;
-
-			xdl::xdl_float s2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.x2;
-			xdl::xdl_float t2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.y2;
-
-	
-			gp.vertices[0].x = gp.horizontalLayoutBearingX - offset_sx;
-			gp.vertices[0].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
-			gp.vertices[0].s = s1 - offset_x ;
-			gp.vertices[0].t = t2 - offset_y;
-
-			gp.vertices[1].x = gp.horizontalLayoutBearingX - offset_sx;
-			gp.vertices[1].y = gp.horizontalLayoutBearingY + offset_sy;
-			gp.vertices[1].s = s1 - offset_x;
-			gp.vertices[1].t = t1 + offset_y;
-
-			gp.vertices[2].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
-			gp.vertices[2].y = gp.horizontalLayoutBearingY + offset_sy;
-			gp.vertices[2].s = s2 + offset_x;
-			gp.vertices[2].t = t1 + offset_y;
-
-			gp.vertices[3].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
-			gp.vertices[3].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
-			gp.vertices[3].s = s2 + offset_x;
-			gp.vertices[3].t = t2 - offset_y;
-
+			gp.vertices[3].x = gp.getWidth();
+			gp.vertices[3].y = gp.getHeight();
 
 			//
 			// Find maximum value for the new line.
 			//
-			m_newLine = std::max(m_newLine, gp.height);
+			m_newLine = m_fontSize;
 
 			//
 			// Store that glyph in the map
@@ -375,7 +309,7 @@ namespace soan {
 	}
 
 	xdl::XdevLTexture* XdevLFontImpl::getTexture(xdl::xdl_uint idx) {
-		assert( (idx < m_textureList.size()) && "XdevLFontImpl::getTexture: Specified index out of range.");
+		assert((idx < m_textureList.size()) && "XdevLFontImpl::getTexture: Specified index out of range.");
 		return m_textureList[idx];
 	}
 

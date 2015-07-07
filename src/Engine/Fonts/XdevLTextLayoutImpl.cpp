@@ -86,7 +86,7 @@ namespace soan {
 		m_vd = new xdl::XdevLVertexDeclaration();
 		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		m_vd->add(4, xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, VERTEX_COLOR);
-		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_TEXTURE_COORD);
+		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_INT, VERTEX_TEXTURE_COORD);
 
 
 		m_openGL->createVertexBuffer(&m_vertexBuffer);
@@ -164,6 +164,7 @@ namespace soan {
 		// TODO Replace this part using XdevL.
 		//
 		glEnable(GL_BLEND);
+		glDisable(GL_BLEND);
 
 //		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -193,6 +194,8 @@ namespace soan {
 			m_vertexBuffer->lock();
 			m_vertexBuffer->upload((xdl::xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
 			m_vertexBuffer->unlock();
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			//
 			// Draw everything.
@@ -273,7 +276,7 @@ namespace soan {
 				// Or a white space?
 				//
 				else if(idx == ' ') {
-					pen_x += unit_x * (xdl::xdl_float)(glyphProperties.horizontalLayoutAdvance);
+					pen_x += unit_x ;//* (xdl::xdl_float)(glyphProperties.horizontalLayoutAdvance);
 					continue;
 				}
 
@@ -333,7 +336,7 @@ namespace soan {
 				currentTexture.push_back(top_right);
 				currentTexture.push_back(bottom_right);
 
-				pen_x += unit_x * (glyphProperties.horizontalLayoutAdvance);
+				pen_x += unit_x ;//* (glyphProperties.horizontalLayoutAdvance);
 			}
 
 		}

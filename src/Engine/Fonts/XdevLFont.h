@@ -78,39 +78,15 @@ namespace soan {
 	struct XdevLGlyphMetric {
 		XdevLGlyphMetric() :
 			tid(0),
-			id(0),
-			left(0.0f),
-			top(0.0f),
-			width(0.0f),
-			height(0.0f),
-			horizontalLayoutAdvance(0.0f),
-			verticalLayoutAdvance(0.0f),
-			horizontalLayoutBearingX(0.0f),
-			horizontalLayoutBearingY(0.0f),
-			verticalLayoutBearingX(0.0f),
-			verticalLayoutBearingY(0.0f),
-			x1(0.0f),
-			y1(0.0f),
-			x2(0.0f),
-			y2(0.0f) {
+			id(0)
+		{
 			memset(vertices, 0, sizeof(XdevLGlyphVertex)*4);
 		}
+		uint32_t getWidth() { return abs(vertices[2].x - vertices[0].x); }
+		uint32_t getHeight() { return abs(vertices[2].y - vertices[0].y); }
 		uint32_t			tid;
 		uint32_t 			id;
-		xdl::xdl_float 		left;
-		xdl::xdl_float 		top;
-		xdl::xdl_float 		width;
-		xdl::xdl_float 		height;
-		xdl::xdl_float 		horizontalLayoutAdvance;
-		xdl::xdl_float 		verticalLayoutAdvance;
-		xdl::xdl_float 		horizontalLayoutBearingX;
-		xdl::xdl_float 		horizontalLayoutBearingY;
-		xdl::xdl_float 		verticalLayoutBearingX;
-		xdl::xdl_float 		verticalLayoutBearingY;
-		xdl::xdl_float		x1;
-		xdl::xdl_float		y1;
-		xdl::xdl_float		x2;
-		xdl::xdl_float		y2;
+
 
 		XdevLGlyphVertex 	vertices[4];
 	};

@@ -33,9 +33,9 @@ using namespace std;
 int main(int argc, char **argv) {
 	vector<string> Arguments(argv, argv+argc);
 
-	std::string inputFilename = "resources/fonts/VeraMoBI.ttf";
+	std::string inputFilename = "resources/fonts/Roboto-Regular.ttf";
 	std::string outputFilename = "resources/fonts/default.png";
-//	unsigned int textureSize 			= 16384;
+/*//	unsigned int textureSize 			= 16384;
 //	unsigned int fontSize 				= 1600;
 	unsigned int textureSize 			= 8192;
 	unsigned int fontSize 				= 512;
@@ -46,7 +46,18 @@ int main(int argc, char **argv) {
 	unsigned int rescaleWidth 		= 512;
 	unsigned int rescaleHeight 		= 512;
 	unsigned int gapX							= 132;
-	unsigned int gapY							= 132;
+	unsigned int gapY							= 132;*/
+
+
+
+	unsigned int textureSize 		= 256;
+	unsigned int fontSize 			= 16;
+	unsigned int startingLetter		= 32;
+	unsigned int numberOfLetters 	= 1<<16;
+	unsigned int rescaleWidth 		= 512;
+	unsigned int rescaleHeight 		= 512;
+	unsigned int gapX				= 0;
+	unsigned int gapY				= 0;
 
 
 	auto argument(Arguments.begin());
@@ -168,6 +179,6 @@ int main(int argc, char **argv) {
 	soan::utils::TrueTypeFont ttf;
 //	ttf.setGapBetweenGlyphBitmap(gapX, gapY);
 //	ttf.create(inputFilename.c_str(),outputFilename.c_str(), startingLetter, numberOfLetters, fontSize, textureSize,rescaleWidth,rescaleHeight);
-	ttf.create(inputFilename.c_str(), outputFilename.c_str(), 16, 512);
+	ttf.create(inputFilename.c_str(), outputFilename.c_str(), fontSize, textureSize);
 	return 0;
 }

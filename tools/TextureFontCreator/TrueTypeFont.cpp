@@ -39,7 +39,8 @@ namespace soan {
 
 
 
-		TrueTypeFont::TrueTypeFont() throw()	: m_textureWidth(512),
+		TrueTypeFont::TrueTypeFont() throw() :
+			m_textureWidth(512),
 			m_fontSize(32),
 			m_centerHorizontal(true),
 			m_centerVertical(true),
@@ -124,39 +125,23 @@ namespace soan {
 
 				// Retrieve glyph index from character code. If none exists skip.
 				FT_UInt glyph_index = FT_Get_Char_Index(face, charcode);
-				if( glyph_index == 0) {
+				if(glyph_index == 0) {
 					continue;
 				}
-				
-                // Load glyph image into the slot (erase previous one) 
+
+				// Load glyph image into the slot (erase previous one)
 				FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
-                
-                // Convert to an anti-aliased bitmap
+
+				// Convert to an anti-aliased bitmap
 				FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
-                
-                FT_GlyphSlot slot = face->glyph;
+
+				FT_GlyphSlot slot = face->glyph;
 				FT_Bitmap& bitmap = slot->bitmap;
 				FT_Glyph_Metrics metrics = face->glyph->metrics;
 
 				values << 0												// The texture id.
-				       << " " << charcode			 					// character code
-				       << " " << (double)slot->bitmap_left/64.0			// left
-				       << " " << (double)slot->bitmap_top/64.0			// top
-				       << " " << (double)metrics.width/64.0				// width
-				       << " " << (double)metrics.height/64.0			// height
-				       << " " << (double)slot->advance.x/64.0			// Advance to next glyph for horizontal layout.
-				       << " " << (double)slot->advance.y/64.0			// Advance to next glyph for horizontal layout.
-				       << " " << (double)metrics.horiBearingX/64.0		// Horizontal layout bearing in x.
-				       << " " << (double)metrics.horiBearingY/64.0		// Horizontal layout bearing in y.
-				       << " " << (double)metrics.vertBearingX/64.0		// Vertical layout bearing in x.
-				       << " " << (double)metrics.vertBearingY/64.0;		// Vertical layout bearing in y.
+				       << " " << charcode;
 
-
-
-				if(left + bitmap.width > textureSize) {
-					left = 0;
-					top += fontSize;
-				}
 
 				for(int h = 0; h < bitmap.rows; ++h) {
 					for(int w = 0; w < bitmap.width; ++w) {
@@ -177,17 +162,17 @@ namespace soan {
 
 					}
 				}
-				
+
 				//
 				// Save Texture coordinates.
 				//
 				values  << " " << left
 				        << " " << top
 				        << " " << (left + bitmap.width)
-				        << " " << (top - bitmap.rows);
-				
+				        << " " << (top + bitmap.rows);
+
 				values << std::endl;
-				
+
 				left += bitmap.width;
 				if(left >= textureSize) {
 					left = 0;
@@ -199,7 +184,7 @@ namespace soan {
 			FreeImage_Save(FIF_PNG, imageData, outputFilename, PNG_Z_NO_COMPRESSION);
 			FreeImage_Unload(imageData);
 			FT_Done_Face(face);
-			
+
 			std::string outputFileNameString(outputFilename);
 			std::string glyphInfoFile(outputFileNameString);
 			std::string glyphInfoFileExtLess = glyphInfoFile.substr(0, glyphInfoFile.find_last_of("."));
