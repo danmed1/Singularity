@@ -61,6 +61,7 @@ class UITest : public xdl::XdevLApplication {
 			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
 			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
 			ContextMenu* menu1 = menuBar->addMenu(L"File");
+			
 			menu1->bindOnItemSelected(fileMenuDelegate);
 			ContextMenu* menu2 = menuBar->addMenu(L"Help");
 			menu1->addItem(L"New File");
@@ -71,7 +72,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a Button.
-			Button* button1 = new Button(std::wstring(L"File"), 0, 100, 50, 24);
+			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 100, 50, 24);
 			
 			// Create the delegate that will handle the users mouse button click on it.
 			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
@@ -149,9 +150,10 @@ class UITest : public xdl::XdevLApplication {
 
 				widgetSceneSystem->draw();
 
-//				m_textEngine->setColor(255, 255, 255, 255);
-//				m_textEngine->setScale(1.0f);
-//				m_textEngine->setEffect(0);
+				m_textEngine->setColor(255, 255, 255, 255);
+				m_textEngine->setScale(1.0f);
+				m_textEngine->setDFT(0);
+				m_textEngine->setEffect(0);
 				xdl::xdl_float x, y;
 				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
 //				m_textEngine->addDynamicText(button1->getTitle(), x, y);

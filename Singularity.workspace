@@ -7,8 +7,8 @@
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="UITest" Path="tools/UITest/UITest.project" Active="No"/>
-  <Project Name="FontTest" Path="tools/FontTest/FontTest.project" Active="Yes"/>
+  <Project Name="UITest" Path="tools/UITest/UITest.project" Active="Yes"/>
+  <Project Name="FontTest" Path="tools/FontTest/FontTest.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
       <Project Name="UITest" ConfigName="Debug_MacOSX"/>
