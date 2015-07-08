@@ -67,7 +67,7 @@ class FontTest : public xdl::XdevLApplication {
 				m_textEngine->setScale(1.0f);
 				m_textEngine->setDFT(0);
 				m_textEngine->setEffect(0);
-				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0.3);
+				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", m_xaxis, m_yaxis);
 				
 				m_textEngine->render();
 
@@ -109,8 +109,8 @@ class FontTest : public xdl::XdevLApplication {
 			m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
 			m_textEngine->init(m_font2D);
 
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
+//			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+//			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
 
 
 			return xdl::ERR_OK;
@@ -130,7 +130,12 @@ class FontTest : public xdl::XdevLApplication {
 		}
 
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
-
+            if(id == xdl::AXIS_0) {
+                m_xaxis = value;
+            } else if(id == xdl::AXIS_1) {
+                m_yaxis = -value;
+            }
+            std::cout << m_xaxis << ":" << m_yaxis << std::endl;
 		}
 
 	private:
@@ -141,8 +146,10 @@ class FontTest : public xdl::XdevLApplication {
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
 
-		soan::XdevLFontImpl*				m_font2D;
+		soan::XdevLFontImpl*			m_font2D;
 		soan::XdevLTextLayoutImpl*		m_textEngine;
+        xdl::xdl_float m_xaxis;
+        xdl::xdl_float m_yaxis;
 
 };
 

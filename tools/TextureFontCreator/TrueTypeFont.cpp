@@ -328,15 +328,17 @@ namespace soan {
 			//
 			while(i < numberOfCharacters) {
 
-				if(FT_Get_Char_Index(face, i + firstCharacter) == 0) {
+                FT_UInt glyph_index = FT_Get_Char_Index(face, i + firstCharacter);
+				if(glyph_index == 0) {
 					i++;
 					continue;
 				}
 
-				if(FT_Load_Char(face, i + firstCharacter, FT_LOAD_RENDER) != 0) {
-					i++;
-					continue;
-				}
+				// Load glyph image into the slot (erase previous one) 
+				FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
+                
+                // Convert to an anti-aliased bitmap
+				FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
 
 				FT_GlyphSlot 			glyphSlot = face->glyph;
 				FT_Glyph_Metrics 	metrics 	= face->glyph->metrics;
@@ -442,7 +444,8 @@ namespace soan {
 						m_imageData = rescaledImage;
 					}
 
-					FreeImage_Save(FIF_PNG, m_imageData, outputFileNameString.c_str(), PNG_DEFAULT);
+//					FreeImage_Save(FIF_PNG, m_imageData, outputFileNameString.c_str(), PNG_DEFAULT);
+					FreeImage_Save(FIF_PNG, m_imageData, outputFileNameString.c_str(), PNG_Z_NO_COMPRESSION);
 
 					//	RGBQUAD background = {0x00, 0x00, 0x00, 0x00};
 					//FreeImage_FillBackground(m_imageData, &background, FI_COLOR_IS_RGBA_COLOR);

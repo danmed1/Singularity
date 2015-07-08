@@ -80,6 +80,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="${XDEVL_HOME}/include"/>
         <IncludePath Value="${XDEVL_PLUGINS}"/>
+        <IncludePath Value="${XDEVL_PLUGINS}/XdevLOpenGL"/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../dependencies/freetype/include"/>
         <IncludePath Value="../../dependencies/freeimage/include"/>
