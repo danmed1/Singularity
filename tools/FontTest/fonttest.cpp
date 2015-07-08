@@ -67,11 +67,14 @@ class FontTest : public xdl::XdevLApplication {
 				m_textEngine->setScale(1.0f);
 				m_textEngine->setDFT(0);
 				m_textEngine->setEffect(0);
-
-				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0);
-//				m_textEngine->addDynamicText(L"000000000000", -1, 0);
-
+				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0.0);
+				m_textEngine->addDynamicText(L"Version 1.0.0", -1, 0.2);
+				
 				m_textEngine->render();
+
+
+
+				
 
 				get3DProcessor()->swapBuffers();
 				xdl::sleep(0.002);

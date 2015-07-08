@@ -33,20 +33,21 @@ using namespace std;
 int main(int argc, char **argv) {
 	vector<string> Arguments(argv, argv+argc);
 
-	std::string inputFilename = "resources/fonts/VeraMoBI.ttf";
+//	std::string inputFilename = "resources/fonts/Roboto-Regular.ttf";
+	std::string inputFilename = "resources/fonts/ProggyClean.ttf";
 	std::string outputFilename = "resources/fonts/default.png";
 //	unsigned int textureSize 			= 16384;
 //	unsigned int fontSize 				= 1600;
-	unsigned int textureSize 			= 8192;
-	unsigned int fontSize 				= 512;
+	unsigned int textureSize 			= 512;
+	unsigned int fontSize 				= 16;
 //	unsigned int textureSize 			= 512;
 //	unsigned int fontSize 				= 50;
 	unsigned int startingLetter		= 32;
 	unsigned int numberOfLetters 	= 1<<16;
 	unsigned int rescaleWidth 		= 512;
 	unsigned int rescaleHeight 		= 512;
-	unsigned int gapX							= 132;
-	unsigned int gapY							= 132;
+	unsigned int gapX							= 0;
+	unsigned int gapY							= 0;
 
 
 //	unsigned int textureSize 			= 512;

@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 		if(*argument == "-h") {
 			std::cout <<
 			          "Filo (c) 2015 Cengiz Terzibas\n\n" <<
-					  "Usage : [options] foldername\n" <<
+					  "Usage : [options] foldername/filename\n" <<
 					  "Options: \n" << 
 			          "  -h    : This help.\n" <<
 			          "  -f    : Search for files.\n" <<

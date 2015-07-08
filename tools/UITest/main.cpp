@@ -149,14 +149,16 @@ class UITest : public xdl::XdevLApplication {
 
 				widgetSceneSystem->draw();
 
-//				m_textEngine->setColor(1.0f, 1.0f, 1.0f);
-//				m_textEngine->setScale(0.6f);
+//				m_textEngine->setColor(255, 255, 255, 255);
+//				m_textEngine->setScale(1.0f);
 //				m_textEngine->setEffect(0);
-//				xdl::xdl_float x, y;
-//				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
+				xdl::xdl_float x, y;
+				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
 //				m_textEngine->addDynamicText(button1->getTitle(), x, y);
 //
 //				m_textEngine->render();
+				
+				m_textEngine->printText(button1->getTitle(), x, y);
 
 				get3DProcessor()->swapBuffers();
 				xdl::sleep(0.002);

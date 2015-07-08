@@ -316,14 +316,15 @@ get3DProcessor()->makeCurrent(getWindow());
 	// Set the version onto the screen.
 	//
 	std::wstring message = m_version;
-	m_textEngine->setScale(0.5f);
-	m_textEngine->addDynamicText(message, -1.0, 0.95);
+	m_textEngine->setColor(255, 255, 255, 255);
+	m_textEngine->setDFT(0);
+	m_textEngine->setEffect(0);
+	m_textEngine->setScale(1.0f);
+	m_textEngine->addDynamicText(message, -1.0, 0.96);
 
 	//
 	// Set the FPS onto the screen.
 	//
-	m_textEngine->setColor(255, 255, 255, 255);
-	m_textEngine->setScale(1.0f);
 	std::wstring tmp = L"FPS: " + ss.str();
 	m_textEngine->addDynamicText(tmp.c_str(), -1.0, -0.98);
 
@@ -332,7 +333,6 @@ get3DProcessor()->makeCurrent(getWindow());
 	nov << m_numberOfVertices;
 	nof << m_numberOfFaces;
 	std::wstring maxVertices = L"Max Vertices: " + nov.str() + L"\nMax Faces   : " + nof.str();
-	m_textEngine->setScale(0.6f);
 	m_textEngine->addDynamicText(maxVertices.c_str(), -0.30, -0.92);
 
 	m_textEngine->render();

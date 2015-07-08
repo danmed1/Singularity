@@ -19,7 +19,7 @@ void main(void) {
 	// Use normal texture fonts.
 	//
 	if(dft == 0) {
-		basecolor = vec4(1, 1, 1, texture(texture0, tcoord).r)*color;// color*texture(texture0, tcoord);
+		basecolor = vec4(color.r, color.g, color.b, texture(texture0, tcoord).a);
 		if(effect == 1) {
 			basecolor += glowColor*texture(texture0, tcoord + shadowOffset);
 		}

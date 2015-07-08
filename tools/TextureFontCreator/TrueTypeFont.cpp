@@ -343,8 +343,8 @@ namespace soan {
 				FT_Bitmap&				bitmap 		= glyphSlot->bitmap;
 
 
-				values << textureNumber																					// The texture id.
-				       << " " << firstCharacter + i 														// id
+				values << textureNumber	// The texture id.
+				       << " " << firstCharacter + i // UTF character
 				       << " " << (double)glyphSlot->bitmap_left/64.0*scaleWidth	// left
 				       << " " << (double)glyphSlot->bitmap_top/64.0*scaleHeight	// top
 				       << " " << (double)metrics.width/64.0*scaleWidth					// width
@@ -352,17 +352,16 @@ namespace soan {
 				       << " " << (double)glyphSlot->advance.x/64.0*scaleWidth		// Advance to next glyph for horizontal layout.
 				       << " " << (double)glyphSlot->advance.y/64.0*scaleHeight	// Advance to next glyph for horizontal layout.
 				       << " " << (double)metrics.horiBearingX/64.0*scaleWidth		// Horizontal layout bearing in x.
-				       << " " << (double)metrics.horiBearingY/64.0*scaleHeight	// Horizontal layout bearing in y.
-				       << " " << (double)metrics.vertBearingX/64.0*scaleWidth		// Vertical layout bearing in x.
-				       << " " << (double)metrics.vertBearingY/64.0*scaleHeight;	// Vertical layout bearing in y.
+				       << " " << (double)metrics.horiBearingY/64.0*scaleHeight;	// Horizontal layout bearing in y.
 
 
 
 				unsigned int currentLine = rows*m_fontSize;
 				unsigned int currentColumn = cols*m_fontSize;
 
-				unsigned int center_dx = (m_fontSize - bitmap.width)/2;
-				unsigned int center_dy = (m_fontSize - bitmap.rows)/2;
+				// TODO Somtimes the fontize is smaller then the bitmap with or rows. I think I am doing something wrong here.
+				int center_dx = (m_fontSize >= bitmap.width) ? (m_fontSize - bitmap.width)/2 : 0;
+				int center_dy = (m_fontSize >= bitmap.rows) ? (m_fontSize - bitmap.rows)/2 : 0;
 
 				if(m_centerHorizontal == false) {
 					center_dx = 0;

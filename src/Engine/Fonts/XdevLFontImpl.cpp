@@ -48,28 +48,28 @@ namespace soan {
 		// Create dummy glyph for unknown glyphs. This will be returned if the method getGlyphMetric()
 		// fails.
 		//
-		m_dummyGlyph.width 	= (xdl::xdl_float)window->getWidth()/20.0f;
-		m_dummyGlyph.height = (xdl::xdl_float)window->getHeight()/20.0f;
-		m_dummyGlyph.horizontalLayoutAdvance 	= m_dummyGlyph.width;
-		m_dummyGlyph.verticalLayoutAdvance		= m_dummyGlyph.height;
+		m_dummyGlyph.width		= (xdl::xdl_float)window->getWidth()/20.0f;
+		m_dummyGlyph.height		= (xdl::xdl_float)window->getHeight()/20.0f;
+		m_dummyGlyph.advance_h	= m_dummyGlyph.width;
+		m_dummyGlyph.advance_v	= m_dummyGlyph.height;
 
-		m_dummyGlyph.vertices[0].x = m_dummyGlyph.horizontalLayoutBearingX;
-		m_dummyGlyph.vertices[0].y = (m_dummyGlyph.height - m_dummyGlyph.horizontalLayoutBearingY);
+		m_dummyGlyph.vertices[0].x = m_dummyGlyph.brearing_x;
+		m_dummyGlyph.vertices[0].y = (m_dummyGlyph.height - m_dummyGlyph.brearing_y);
 		m_dummyGlyph.vertices[0].s = 0.0f;
 		m_dummyGlyph.vertices[0].t = 0.0f;
 
-		m_dummyGlyph.vertices[1].x = m_dummyGlyph.horizontalLayoutBearingX;
-		m_dummyGlyph.vertices[1].y = m_dummyGlyph.horizontalLayoutBearingY;
+		m_dummyGlyph.vertices[1].x = m_dummyGlyph.brearing_x;
+		m_dummyGlyph.vertices[1].y = m_dummyGlyph.brearing_y;
 		m_dummyGlyph.vertices[1].s = 0.0f;
 		m_dummyGlyph.vertices[1].t = 1.0f;
 
-		m_dummyGlyph.vertices[2].x = m_dummyGlyph.horizontalLayoutBearingX + m_dummyGlyph.width;
-		m_dummyGlyph.vertices[2].y = m_dummyGlyph.horizontalLayoutBearingY;
+		m_dummyGlyph.vertices[2].x = m_dummyGlyph.brearing_x + m_dummyGlyph.width;
+		m_dummyGlyph.vertices[2].y = m_dummyGlyph.brearing_y;
 		m_dummyGlyph.vertices[2].s = 1.0f;
 		m_dummyGlyph.vertices[2].t = 1.0f;
 
-		m_dummyGlyph.vertices[3].x = m_dummyGlyph.horizontalLayoutBearingX + m_dummyGlyph.width;
-		m_dummyGlyph.vertices[3].y = (m_dummyGlyph.height - m_dummyGlyph.horizontalLayoutBearingY);
+		m_dummyGlyph.vertices[3].x = m_dummyGlyph.brearing_x + m_dummyGlyph.width;
+		m_dummyGlyph.vertices[3].y = (m_dummyGlyph.height - m_dummyGlyph.brearing_y);
 		m_dummyGlyph.vertices[3].s = 1.0f;
 		m_dummyGlyph.vertices[3].t = 0.0f;
 
@@ -224,23 +224,23 @@ namespace soan {
 				xdl::xdl_float offset_y = 0.0/(xdl::xdl_float)tx->getHeight();
 
 
-				gp.vertices[0].x = gp.horizontalLayoutBearingX;
-				gp.vertices[0].y = (gp.height - gp.horizontalLayoutBearingY);
+				gp.vertices[0].x = gp.brearing_x;
+				gp.vertices[0].y = (gp.height - gp.brearing_y);
 				gp.vertices[0].s = s - offset_x;
 				gp.vertices[0].t = t - dt - offset_y;
 
-				gp.vertices[1].x = gp.horizontalLayoutBearingX;
-				gp.vertices[1].y = gp.horizontalLayoutBearingY;
+				gp.vertices[1].x = gp.brearing_x;
+				gp.vertices[1].y = gp.brearing_y;
 				gp.vertices[1].s = s - offset_x;
 				gp.vertices[1].t = t + offset_y;
 
-				gp.vertices[2].x = gp.horizontalLayoutBearingX + gp.width;
-				gp.vertices[2].y = gp.horizontalLayoutBearingY;
+				gp.vertices[2].x = gp.brearing_x + gp.width;
+				gp.vertices[2].y = gp.brearing_y;
 				gp.vertices[2].s = s + ds + offset_x;
 				gp.vertices[2].t = t + offset_y;
 
-				gp.vertices[3].x = gp.horizontalLayoutBearingX + gp.width;
-				gp.vertices[3].y = (gp.height - gp.horizontalLayoutBearingY);
+				gp.vertices[3].x = gp.brearing_x + gp.width;
+				gp.vertices[3].y = (gp.height - gp.brearing_y);
 				gp.vertices[3].s = s + ds + offset_x;
 				gp.vertices[3].t = t - dt - offset_y;
 
@@ -265,12 +265,10 @@ namespace soan {
 		   >> gp.top
 		   >> gp.width
 		   >> gp.height
-		   >> gp.horizontalLayoutAdvance
-		   >> gp.verticalLayoutAdvance
-		   >> gp.horizontalLayoutBearingX
-		   >> gp.horizontalLayoutBearingY
-		   >> gp.verticalLayoutBearingX
-		   >> gp.verticalLayoutBearingY
+		   >> gp.advance_h
+		   >> gp.advance_v
+		   >> gp.brearing_x
+		   >> gp.brearing_y
            >> gp.vertices[0].s
            >> gp.vertices[0].t
            >> gp.vertices[3].s
@@ -321,23 +319,23 @@ namespace soan {
 			xdl::xdl_float t2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[3].t;
 
 	
-			gp.vertices[0].x = gp.horizontalLayoutBearingX - offset_sx;
-			gp.vertices[0].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
+			gp.vertices[0].x = gp.brearing_x - offset_sx;
+			gp.vertices[0].y = (gp.height - gp.brearing_y) - offset_sy;
 			gp.vertices[0].s = s1;
 			gp.vertices[0].t = t2;
 
-			gp.vertices[1].x = gp.horizontalLayoutBearingX - offset_sx;
-			gp.vertices[1].y = gp.horizontalLayoutBearingY + offset_sy;
+			gp.vertices[1].x = gp.brearing_x - offset_sx;
+			gp.vertices[1].y = gp.brearing_y + offset_sy;
 			gp.vertices[1].s = s1;
 			gp.vertices[1].t = t1;
 
-			gp.vertices[2].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
-			gp.vertices[2].y = gp.horizontalLayoutBearingY + offset_sy;
+			gp.vertices[2].x = gp.brearing_x + gp.width + offset_sx;
+			gp.vertices[2].y = gp.brearing_y + offset_sy;
 			gp.vertices[2].s = s2;
 			gp.vertices[2].t = t1;
 
-			gp.vertices[3].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
-			gp.vertices[3].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
+			gp.vertices[3].x = gp.brearing_x + gp.width + offset_sx;
+			gp.vertices[3].y = (gp.height - gp.brearing_y) - offset_sy;
 			gp.vertices[3].s = s2;
 			gp.vertices[3].t = t2;
 

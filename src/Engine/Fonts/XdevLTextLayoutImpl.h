@@ -44,6 +44,9 @@ namespace soan {
 			/// Initialize the layout engine.
 			virtual xdl::xdl_int init(XdevLFont* font);
 
+			/// Print text without optimization.
+			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y);
+
 			/// Add dynamic text.
 			virtual void addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y);
 
@@ -116,7 +119,7 @@ namespace soan {
 			std::vector<XdevLTextLayoutText> m_staticTextList;
 			xdl::xdl_bool					m_staticVertexListUploaded;
 
-			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_staticVertexList;
+			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_simpleTextVertexMap;
 			std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex>> 	m_dynamicVertexMap;
 	};
 

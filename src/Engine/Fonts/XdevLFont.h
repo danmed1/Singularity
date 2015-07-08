@@ -57,7 +57,7 @@ namespace soan {
                        |         |  a:::::::::::::::::a    |     |        |
                        |         | a::::::aaaaa::::::aa    |     |        |
                        |         | a:::::a     a:::::a     |     |        |
-             offset_x -|-------->| a:::::a     a:::::a     |  offset_y    |
+           brearing_x -|-------->| a:::::a     a:::::a     |  brearing_y  |
                        |         | a:::::a     a:::::a     |     |        |
                        |         | a::::::a    a:::::a     |     |        |
                        |         | a:::::::aaaaa:::::a     |     |        |
@@ -83,12 +83,10 @@ namespace soan {
 			top(0.0f),
 			width(0.0f),
 			height(0.0f),
-			horizontalLayoutAdvance(0.0f),
-			verticalLayoutAdvance(0.0f),
-			horizontalLayoutBearingX(0.0f),
-			horizontalLayoutBearingY(0.0f),
-			verticalLayoutBearingX(0.0f),
-			verticalLayoutBearingY(0.0f)
+			advance_h(0.0f),
+			advance_v(0.0f),
+			brearing_x(0.0f),
+			brearing_y(0.0f)
         {
 			memset(vertices, 0, sizeof(XdevLGlyphVertex)*4);
 		}
@@ -98,13 +96,10 @@ namespace soan {
 		xdl::xdl_float 		top;
 		xdl::xdl_float 		width;
 		xdl::xdl_float 		height;
-		xdl::xdl_float 		horizontalLayoutAdvance;
-		xdl::xdl_float 		verticalLayoutAdvance;
-		xdl::xdl_float 		horizontalLayoutBearingX;
-		xdl::xdl_float 		horizontalLayoutBearingY;
-		xdl::xdl_float 		verticalLayoutBearingX;
-		xdl::xdl_float 		verticalLayoutBearingY;
-
+		xdl::xdl_float 		advance_h;
+		xdl::xdl_float 		advance_v;
+		xdl::xdl_float 		brearing_x;
+		xdl::xdl_float 		brearing_y;
 		XdevLGlyphVertex 	vertices[4];
 	};
 

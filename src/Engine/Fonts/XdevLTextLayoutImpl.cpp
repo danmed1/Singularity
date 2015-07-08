@@ -118,7 +118,7 @@ namespace soan {
 		info.color[1] = m_currentColor[1];
 		info.color[2] = m_currentColor[2];
 		info.color[3] = m_currentColor[3];
-		info.scale 		= m_rescale;
+		info.scale    = m_rescale;
 		m_textList.push_back(info);
 
 	}
@@ -165,8 +165,8 @@ namespace soan {
 		//
 		glEnable(GL_BLEND);
 
-//		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
 
 
@@ -274,7 +274,7 @@ namespace soan {
 				// Or a white space?
 				//
 				else if(idx == ' ') {
-					pen_x += unit_x * (xdl::xdl_float)(glyphProperties.horizontalLayoutAdvance);
+					pen_x += unit_x * (xdl::xdl_float)(glyphProperties.advance_h);
 					continue;
 				}
 
@@ -334,10 +334,93 @@ namespace soan {
 				currentTexture.push_back(top_right);
 				currentTexture.push_back(bottom_right);
 
-				pen_x += unit_x * (glyphProperties.horizontalLayoutAdvance);
+				pen_x += unit_x * (glyphProperties.advance_h);
 			}
 
 		}
+	}
+	
+	void XdevLTextLayoutImpl::printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) {
+
+		std::vector<XdevLTextLayoutText> textList;
+
+		XdevLTextLayoutText info;
+		info.text = text;
+		info.x = x;
+		info.y = y;
+		info.color[0] = m_currentColor[0];
+		info.color[1] = m_currentColor[1];
+		info.color[2] = m_currentColor[2];
+		info.color[3] = m_currentColor[3];
+		info.scale    = m_rescale;
+		textList.push_back(info);
+
+
+		m_openGL->setActiveShaderProgram(m_shaderProgram);
+
+		//
+		// Set Signed Distance Field shader stuff.
+		//
+		m_shaderProgram->setUniform(m_bufferid, 	m_buffer);
+		m_shaderProgram->setUniform(m_gammaid,  	m_gamma);
+		m_shaderProgram->setUniformi(m_dftid, 		m_dft);
+		m_shaderProgram->setUniformi(m_effectid, 	m_effectNumber);
+		m_shaderProgram->setUniform2v(m_shadowOffsetid,1 , m_shadowOffset);
+
+
+		//
+		// Activate the neccessary texture.
+		//
+		m_shaderProgram->setUniformi(m_texture0, 0);
+
+
+		//
+		// TODO Replace this part using XdevL.
+		//
+		glEnable(GL_BLEND);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+
+
+		//
+		// Create the vertices for the dynamic text.
+		//
+		layoutVertexBuffer(textList, m_simpleTextVertexMap);
+
+		//
+		// Draw all glyphs.
+		//
+		for(auto& ib : m_simpleTextVertexMap) {
+
+			//
+			// Activate the corresponding texture.
+			//
+			m_font->getTexture(ib.first)->activate(0);
+
+
+			//
+			// Upload the vertex data to the GPU.
+			//
+			m_vertexBuffer->lock();
+			m_vertexBuffer->upload((xdl::xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
+			m_vertexBuffer->unlock();
+
+			//
+			// Draw everything.
+			//
+			m_openGL->setActiveVertexArray(m_vertexArray);
+			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
+		}
+
+		glDisable(GL_BLEND);
+
+		//
+		// Clear the dynamic text list.
+		//
+		m_textList.clear();
+		m_simpleTextVertexMap.clear();
+		m_shaderProgram->deactivate();
 	}
 
 	void XdevLTextLayoutImpl::setScale(xdl::xdl_float scale) {
