@@ -64,11 +64,12 @@ class FontTest : public xdl::XdevLApplication {
 
 
 				m_textEngine->setColor(0, 0, 0, 255);
-				m_textEngine->setScale(2.0f);
+				m_textEngine->setScale(1.0f);
 				m_textEngine->setDFT(0);
 				m_textEngine->setEffect(0);
 
 				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0);
+//				m_textEngine->addDynamicText(L"000000000000", -1, 0);
 
 				m_textEngine->render();
 

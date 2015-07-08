@@ -49,6 +49,16 @@ int main(int argc, char **argv) {
 	unsigned int gapY							= 132;
 
 
+//	unsigned int textureSize 			= 512;
+//	unsigned int fontSize 				= 16;
+//	unsigned int startingLetter		= 32;
+//	unsigned int numberOfLetters 	= 1<<16;
+//	unsigned int rescaleWidth 		= 512;
+//	unsigned int rescaleHeight 		= 512;
+//	unsigned int gapX							= 0;
+//	unsigned int gapY							= 0;
+
+
 	auto argument(Arguments.begin());
 
 	while(argument != Arguments.end()) {
@@ -166,8 +176,8 @@ int main(int argc, char **argv) {
 	cout << "Number of letters : " << numberOfLetters << endl;
 	cout << "Rescale to        : " << rescaleWidth << "x" << rescaleHeight << std::endl;
 	soan::utils::TrueTypeFont ttf;
-//	ttf.setGapBetweenGlyphBitmap(gapX, gapY);
-//	ttf.create(inputFilename.c_str(),outputFilename.c_str(), startingLetter, numberOfLetters, fontSize, textureSize,rescaleWidth,rescaleHeight);
-	ttf.create(inputFilename.c_str(), outputFilename.c_str(), 16, 512);
+	ttf.setGapBetweenGlyphBitmap(gapX, gapY);
+	ttf.create(inputFilename.c_str(),outputFilename.c_str(), startingLetter, numberOfLetters, fontSize, textureSize,rescaleWidth,rescaleHeight);
+//	ttf.create(inputFilename.c_str(), outputFilename.c_str(), 16, 512);
 	return 0;
 }

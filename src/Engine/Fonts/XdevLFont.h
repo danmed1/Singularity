@@ -88,11 +88,8 @@ namespace soan {
 			horizontalLayoutBearingX(0.0f),
 			horizontalLayoutBearingY(0.0f),
 			verticalLayoutBearingX(0.0f),
-			verticalLayoutBearingY(0.0f),
-			x1(0.0f),
-			y1(0.0f),
-			x2(0.0f),
-			y2(0.0f) {
+			verticalLayoutBearingY(0.0f)
+        {
 			memset(vertices, 0, sizeof(XdevLGlyphVertex)*4);
 		}
 		uint32_t			tid;
@@ -107,10 +104,6 @@ namespace soan {
 		xdl::xdl_float 		horizontalLayoutBearingY;
 		xdl::xdl_float 		verticalLayoutBearingX;
 		xdl::xdl_float 		verticalLayoutBearingY;
-		xdl::xdl_float		x1;
-		xdl::xdl_float		y1;
-		xdl::xdl_float		x2;
-		xdl::xdl_float		y2;
 
 		XdevLGlyphVertex 	vertices[4];
 	};

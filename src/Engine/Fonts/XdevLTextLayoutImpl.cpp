@@ -197,6 +197,7 @@ namespace soan {
 			//
 			// Draw everything.
 			//
+//            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			m_openGL->setActiveVertexArray(m_vertexArray);
 			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
 

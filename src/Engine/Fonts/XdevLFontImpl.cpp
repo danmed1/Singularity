@@ -271,10 +271,10 @@ namespace soan {
 		   >> gp.horizontalLayoutBearingY
 		   >> gp.verticalLayoutBearingX
 		   >> gp.verticalLayoutBearingY
-			 >> gp.x1
-			 >> gp.y1
-			 >> gp.x2
-			 >> gp.y2;
+           >> gp.vertices[0].s
+           >> gp.vertices[0].t
+           >> gp.vertices[3].s
+           >> gp.vertices[3].t;
 			
 			return gp;
 	}
@@ -311,33 +311,35 @@ namespace soan {
 			xdl::xdl_float offset_sx = 0.0;
 			xdl::xdl_float offset_sy = 0.0;
 
+            //
+            // Convert the pixel units into texture coordinate units
+            // 
+			xdl::xdl_float s1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[0].s;
+			xdl::xdl_float t1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[0].t;
 
-			xdl::xdl_float s1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.x1;
-			xdl::xdl_float t1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.y1;
-
-			xdl::xdl_float s2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.x2;
-			xdl::xdl_float t2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.y2;
+			xdl::xdl_float s2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[3].s;
+			xdl::xdl_float t2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[3].t;
 
 	
 			gp.vertices[0].x = gp.horizontalLayoutBearingX - offset_sx;
 			gp.vertices[0].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
-			gp.vertices[0].s = s1 - offset_x ;
-			gp.vertices[0].t = t2 - offset_y;
+			gp.vertices[0].s = s1;
+			gp.vertices[0].t = t2;
 
 			gp.vertices[1].x = gp.horizontalLayoutBearingX - offset_sx;
 			gp.vertices[1].y = gp.horizontalLayoutBearingY + offset_sy;
-			gp.vertices[1].s = s1 - offset_x;
-			gp.vertices[1].t = t1 + offset_y;
+			gp.vertices[1].s = s1;
+			gp.vertices[1].t = t1;
 
 			gp.vertices[2].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
 			gp.vertices[2].y = gp.horizontalLayoutBearingY + offset_sy;
-			gp.vertices[2].s = s2 + offset_x;
-			gp.vertices[2].t = t1 + offset_y;
+			gp.vertices[2].s = s2;
+			gp.vertices[2].t = t1;
 
 			gp.vertices[3].x = gp.horizontalLayoutBearingX + gp.width + offset_sx;
 			gp.vertices[3].y = (gp.height - gp.horizontalLayoutBearingY) - offset_sy;
-			gp.vertices[3].s = s2 + offset_x;
-			gp.vertices[3].t = t2 - offset_y;
+			gp.vertices[3].s = s2;
+			gp.vertices[3].t = t2;
 
 
 			//
