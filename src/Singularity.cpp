@@ -408,7 +408,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_physics = new soan::phys::Physics();
 	m_physics->init(m_debugRenderer);
 
-	m_font2D = new soan::XdevLFontImpl(getWindow(), get3DProcessor());
+	m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 	soan::TextureServer::Inst()->setResourcePathPrefix("./");
 
 	m_font2D->setCreateTextureCallback(createTextureFromFile);

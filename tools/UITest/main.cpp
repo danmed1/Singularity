@@ -186,8 +186,9 @@ class UITest : public xdl::XdevLApplication {
 			
 			soan::TextureServer::Inst();
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
-
-			m_font2D = new soan::XdevLFontImpl(getWindow(), get3DProcessor());
+			
+			// TODO Actually we have to pass the screen resolution.
+			m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 			m_font2D->setCreateTextureCallback(createTextureFromFile);
 			m_font2D->importFromFontFile("resources/fonts/default_info.txt");
 

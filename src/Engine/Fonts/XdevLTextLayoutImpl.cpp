@@ -138,11 +138,11 @@ namespace soan {
 		//
 		// Set Signed Distance Field shader stuff.
 		//
-		m_shaderProgram->setUniform(m_bufferid, 	m_buffer);
-		m_shaderProgram->setUniform(m_gammaid,  	m_gamma);
-		m_shaderProgram->setUniformi(m_dftid, 		m_dft);
-		m_shaderProgram->setUniformi(m_effectid, 	m_effectNumber);
-		m_shaderProgram->setUniform2v(m_shadowOffsetid,1 , m_shadowOffset);
+		m_shaderProgram->setUniform(m_bufferid, 			m_buffer);
+		m_shaderProgram->setUniform(m_gammaid,  			m_gamma);
+		m_shaderProgram->setUniformi(m_dftid, 				m_dft);
+		m_shaderProgram->setUniformi(m_effectid, 			m_effectNumber);
+		m_shaderProgram->setUniform2v(m_shadowOffsetid, 1,	m_shadowOffset);
 
 		//
 		// Set transformation stuff.
@@ -166,7 +166,6 @@ namespace soan {
 		glEnable(GL_BLEND);
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
 
 
@@ -197,7 +196,6 @@ namespace soan {
 			//
 			// Draw everything.
 			//
-//            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			m_openGL->setActiveVertexArray(m_vertexArray);
 			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
 
@@ -208,9 +206,6 @@ namespace soan {
 //			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		}
-
-
-
 
 		glDisable(GL_BLEND);
 
@@ -339,7 +334,7 @@ namespace soan {
 
 		}
 	}
-	
+
 	void XdevLTextLayoutImpl::printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) {
 
 		std::vector<XdevLTextLayoutText> textList;

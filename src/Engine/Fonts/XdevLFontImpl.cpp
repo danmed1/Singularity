@@ -34,8 +34,9 @@
 namespace soan {
 
 
-	XdevLFontImpl::XdevLFontImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL) :
-		m_window(window),
+	XdevLFontImpl::XdevLFontImpl(xdl::xdl_uint screenWidth, xdl::xdl_uint screenHeight, xdl::XdevLOpenGL330* openGL) :
+		m_screenWidth(screenWidth),
+		m_screenHeight(screenHeight),
 		m_openGL(openGL),
 		m_numberOfTextures(0),
 		m_fontSize(0.0f),
@@ -48,8 +49,8 @@ namespace soan {
 		// Create dummy glyph for unknown glyphs. This will be returned if the method getGlyphMetric()
 		// fails.
 		//
-		m_dummyGlyph.width		= (xdl::xdl_float)window->getWidth()/20.0f;
-		m_dummyGlyph.height		= (xdl::xdl_float)window->getHeight()/20.0f;
+		m_dummyGlyph.width		= (xdl::xdl_float)m_screenWidth/20.0f;
+		m_dummyGlyph.height		= (xdl::xdl_float)m_screenHeight/20.0f;
 		m_dummyGlyph.advance_h	= m_dummyGlyph.width;
 		m_dummyGlyph.advance_v	= m_dummyGlyph.height;
 

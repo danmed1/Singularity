@@ -40,7 +40,7 @@ namespace soan {
 			typedef std::vector<xdl::XdevLTexture*> XdevLTextureArray;
 			typedef std::map<xdl::xdl_uint32, XdevLGlyphMetric> XdevLGlyphMetricMap;
 			
-			XdevLFontImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL);
+			XdevLFontImpl(xdl::xdl_uint screenWidth, xdl::xdl_uint screenHeight, xdl::XdevLOpenGL330* openGL);
 
 			virtual ~XdevLFontImpl();
 
@@ -57,7 +57,9 @@ namespace soan {
 			/// Reads one line.
 			XdevLGlyphMetric& readLine(std::ifstream& os, XdevLGlyphMetric& gp);
 			void calculateGlyphInformation(std::ifstream& os);
-		private:
+	private:
+			xdl::xdl_uint			m_screenWidth;
+			xdl::xdl_uint			m_screenHeight;
 			xdl::IPXdevLWindow		m_window;
 			xdl::IPXdevLOpenGL330	m_openGL;
 			XdevLTextureArray		m_textureList;

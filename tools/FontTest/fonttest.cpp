@@ -63,12 +63,11 @@ class FontTest : public xdl::XdevLApplication {
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 
-				m_textEngine->setColor(0, 0, 0, 255);
+				m_textEngine->setColor(200, 0, 0, 255);
 				m_textEngine->setScale(1.0f);
 				m_textEngine->setDFT(0);
 				m_textEngine->setEffect(0);
-				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0.0);
-				m_textEngine->addDynamicText(L"Version 1.0.0", -1, 0.2);
+				m_textEngine->addDynamicText(L"The quick brown fox jumps over the lazy dog", -1, 0.3);
 				
 				m_textEngine->render();
 
@@ -103,7 +102,7 @@ class FontTest : public xdl::XdevLApplication {
 			soan::TextureServer::Inst();
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
-			m_font2D = new soan::XdevLFontImpl(getWindow(), get3DProcessor());
+			m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 			m_font2D->setCreateTextureCallback(createTextureFromFile);
 			m_font2D->importFromFontFile("resources/fonts/default_info.txt");
 

@@ -73,7 +73,7 @@ namespace soan {
                        |         |         aaaaaa          |              v
                        |         +-------------------------+----------------- ymin
                        |                                   |
-                       |------------- advance_x ---------->|
+                       |------------- advance_h ---------->|
 	*/
 	struct XdevLGlyphMetric {
 		XdevLGlyphMetric() :

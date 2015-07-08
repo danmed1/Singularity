@@ -55,7 +55,7 @@ namespace soan {
 			m_openGL->createContext(m_window);
 			m_openGL->makeCurrent(m_window);
 
-			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window, m_openGL);
+			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window->getWidth(), m_window->getHeight(), m_openGL);
 			soan::TextureServer::Inst()->setResourcePathPrefix("./");
 
 			fontEngine->setCreateTextureCallback(createTextureFromFile);
