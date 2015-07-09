@@ -2,8 +2,12 @@
 #define GL_DEBUG_DRAWER_H
 
 #include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLFont/XdevLFont.h>
+#include <XdevLFont/XdevLFontSystem.h>
+#include <XdevLFont/XdevLTextLayout.h>
+
+
 #include "LinearMath/btIDebugDraw.h"
-#include "Engine/Fonts/XdevLFontImpl.h"
 #include <tm/tm.h>
 #include <vector>
 
@@ -19,7 +23,7 @@ namespace soan {
 
 	class SingularityDebugDrawer : public btIDebugDraw {
 		xdl::XdevLOpenGL330*		m_openGL;
-		xdl::XdevLFontImpl*		m_fontEngine;
+		xdl::XdevLTextLayout*		m_textLayoutSystem;
 		xdl::XdevLShaderProgram*	m_shaderProgram;
 		xdl::XdevLVertexArray*		m_linesVertexArray;
 		xdl::XdevLVertexBuffer*		m_linesVertexBuffer;
@@ -42,7 +46,7 @@ namespace soan {
 
 	public:
 
-		SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLFontImpl* fontEngine = nullptr);
+		SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLTextLayout* textLayout = nullptr);
 
 		virtual ~SingularityDebugDrawer();
 

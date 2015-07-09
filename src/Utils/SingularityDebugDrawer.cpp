@@ -8,8 +8,8 @@
 
 namespace soan {
 
-	SingularityDebugDrawer::SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLFontImpl* fontEngine)
-		: m_openGL(openGL), m_fontEngine(fontEngine), m_debugMode(0) {
+	SingularityDebugDrawer::SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLTextLayout* textLayoutSystem)
+		: m_openGL(openGL), m_textLayoutSystem(textLayoutSystem), m_debugMode(0) {
 
 		vd = new xdl::XdevLVertexDeclaration();
 		vd->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
@@ -223,7 +223,7 @@ namespace soan {
 	}
 
 
-	void	SingularityDebugDrawer::draw3dText(const btVector3& location,const char* textString) {
+	void SingularityDebugDrawer::draw3dText(const btVector3& location,const char* textString) {
 		std::cout << textString << std::endl;
 	}
 

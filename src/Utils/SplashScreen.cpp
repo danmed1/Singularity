@@ -1,9 +1,6 @@
 #include "SplashScreen.h"
 
-
 #include "Engine/TextureServer.h"
-#include "Engine/Fonts/XdevLFontImpl.h"
-#include "Engine/Fonts/XdevLTextLayoutImpl.h"
 
 namespace soan {
 

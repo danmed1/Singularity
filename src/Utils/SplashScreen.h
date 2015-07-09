@@ -4,10 +4,13 @@
 #include <XdevL.h>
 #include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLFont/XdevLFont.h>
+#include <XdevLFont/XdevLFontSystem.h>
+#include <XdevLFont/XdevLTextLayout.h>
+
 #include <XdevLThread.h>
 #include <XdevLMutex.h>
 
-#include "Engine/Fonts/XdevLTextLayout.h"
 
 namespace soan {
 
