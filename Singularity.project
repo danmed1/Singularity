@@ -184,19 +184,6 @@
       <File Name="src/Engine/Types.h"/>
       <File Name="src/Engine/SkyBox.h"/>
       <File Name="src/Engine/SkyBox.cpp"/>
-      <VirtualDirectory Name="Fonts">
-        <File Name="src/Engine/Fonts/XdevLFont.h"/>
-        <File Name="src/Engine/Fonts/XdevLFontImpl.cpp"/>
-        <File Name="src/Engine/Fonts/XdevLFontImpl.h"/>
-        <File Name="src/Engine/Fonts/XdevLTextLayout.h"/>
-        <File Name="src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
-        <File Name="src/Engine/Fonts/XdevLTextLayoutImpl.h"/>
-        <File Name="src/Engine/Fonts/lodepng.cpp"/>
-        <File Name="src/Engine/Fonts/lodepng.h"/>
-        <File Name="src/Engine/Fonts/XdevLFontSystem.h"/>
-        <File Name="src/Engine/Fonts/XdevLFontSystemImpl.h"/>
-        <File Name="src/Engine/Fonts/XdevLFontSystemImpl.cpp"/>
-      </VirtualDirectory>
       <VirtualDirectory Name="GUI">
         <File Name="src/Engine/GUI/Canvas.h"/>
         <File Name="src/Engine/GUI/CheckBox.h"/>

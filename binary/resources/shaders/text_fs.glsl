@@ -23,7 +23,7 @@ void main(void) {
 		if(effect == 1) {
 			basecolor += glowColor*texture(texture0, tcoord + shadowOffset);
 		}
-	} else
+	} else {
 		//
 		// Use Signed Distance Field textures fonts.
 		//
@@ -49,6 +49,7 @@ void main(void) {
 				basecolor *= color*smoothstep(buffer - gamma, buffer + gamma, dist);
 			}
 		}
+	}
 
 	ocolor = basecolor;
 

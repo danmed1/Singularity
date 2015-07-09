@@ -66,9 +66,6 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
-    <File Name="../../src/Engine/Fonts/lodepng.cpp"/>
-    <File Name="../../src/Engine/Fonts/XdevLFontImpl.cpp"/>
-    <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
     <File Name="../../src/Engine/GUI/Widgets.h"/>
     <File Name="../../src/Engine/GUI/WidgetSceneSystemUtils.h"/>
@@ -80,7 +77,6 @@
     <File Name="../../src/Engine/GUI/ComboBox.h"/>
     <File Name="../../src/Engine/GUI/Button.h"/>
     <File Name="../../src/Engine/GUI/MenuBar.h"/>
-    <File Name="../../src/Engine/Fonts/XdevLFontSystemImpl.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

@@ -2,15 +2,16 @@
 #include <XdevL.h>
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLFont/XdevLFont.h>
+#include <XdevLFont/XdevLFontSystem.h>
+#include <XdevLFont/XdevLTextLayout.h>
 
 #include <Engine/GUI/CheckBox.h>
 #include <Engine/GUI/ComboBox.h>
 #include <Engine/GUI/WidgetSceneSystem.h>
 
 #include <Engine/TextureServer.h>
-#include <Engine/Fonts/XdevLFontSystemImpl.h>
-#include <Engine/Fonts/XdevLFontImpl.h>
-#include <Engine/Fonts/XdevLTextLayoutImpl.h>
+
 
 
 class UITest : public xdl::XdevLApplication {
@@ -188,14 +189,28 @@ class UITest : public xdl::XdevLApplication {
 			soan::TextureServer::Inst();
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
+
+			// Get the FontSystem
+			m_fontSystem = xdl::getModule<xdl::XdevLFontSystem*>(getCore(), xdl::XdevLID("MyFontSystem"));
+			if(!m_fontSystem) {
+				return xdl::ERR_ERROR;
+			}
+
+			// Get the Text Layout System.
+			m_textEngine = xdl::getModule<xdl::XdevLTextLayout*>(getCore(), xdl::XdevLID("MyTextLayout"));
+			if(!m_textEngine) {
+				return xdl::ERR_ERROR;
+			}
+
 			// Initialize font system.
-			m_fontSystem = new xdl::XdevLFontSystemImpl();
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
-			m_textEngine = new xdl::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-			m_textEngine->init();
+			m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+			m_textEngine->setScale(1.0f);
+			m_textEngine->setDFT(0);
+			m_textEngine->setEffect(0);
 			m_textEngine->useFont(m_font);
 
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
@@ -247,7 +262,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLOpenGL330* 			m_opengl;
 
 		xdl::XdevLFontSystem*			m_fontSystem;
-		xdl::XdevLFont*				m_font;
+		xdl::XdevLFont*					m_font;
 		xdl::XdevLTextLayout*			m_textEngine;
 
 		WidgetSceneSystem* widgetSceneSystem;

@@ -378,6 +378,19 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 		return xdl::ERR_ERROR;
 	}
 
+	// Get the FontSystem
+	m_fontSystem = xdl::getModule<xdl::XdevLFontSystem*>(getCore(), xdl::XdevLID("MyFontSystem"));
+	if(!m_fontSystem) {
+		return xdl::ERR_ERROR;
+	}
+
+	// Get the Text Layout System.
+	m_textEngine = xdl::getModule<xdl::XdevLTextLayout*>(getCore(), xdl::XdevLID("MyTextLayout"));
+	if(!m_textEngine) {
+		return xdl::ERR_ERROR;
+	}
+
+
 //	glewExperimental= GL_TRUE;
 //	GLenum err = glewInit();
 //	if(GLEW_OK != err) {
@@ -405,15 +418,16 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_physics->init(m_debugRenderer);
 
 
+
 	// Initialize font system.
-	m_fontSystem = new xdl::XdevLFontSystemImpl();
 	m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
-	soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
 	m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
-	m_textEngine = new xdl::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-	m_textEngine->init();
+	m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+	m_textEngine->setScale(1.0f);
+	m_textEngine->setDFT(0);
+	m_textEngine->setEffect(0);
 	m_textEngine->useFont(m_font);
 
 	unsigned int w = getWindow()->getWidth();

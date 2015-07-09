@@ -29,6 +29,10 @@
 #include <XdevLApplication.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLWindow/XdevLWindow.h>
+#include <XdevLFont/XdevLFont.h>
+#include <XdevLFont/XdevLFontSystem.h>
+#include <XdevLFont/XdevLTextLayout.h>
+
 #include <XdevLRingBuffer.h>
 #include <cmath>
 #include <vector>
@@ -59,9 +63,7 @@
 
 #include "Utils/SplashScreen.h"
 #include "Utils/FPSCounter.h"
-#include "Engine/Fonts/XdevLFontSystemImpl.h"
-#include "Engine/Fonts/XdevLFontImpl.h"
-#include "Engine/Fonts/XdevLTextLayoutImpl.h"
+
 
 
 const xdl::xdl_uint MAJOR = 0;
