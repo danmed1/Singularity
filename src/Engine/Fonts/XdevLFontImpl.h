@@ -53,6 +53,34 @@ namespace soan {
 			
 			virtual xdl::xdl_int importFromFontFile(const xdl::xdl_char* fontInfoFilename);
 			virtual void setCreateTextureCallback(createTextureFromFileCallbackFunction function);
+            
+            void addFontTexture(xdl::XdevLTexture* fontTexture) {
+                m_textureList.push_back(fontTexture);
+            }
+            
+            xdl::XdevLTexture* getFontTexture(const XdevLGlyphMetric& gp) {
+                return m_textureList[gp.tid];
+            }
+            
+            void setNewLineSize(xdl::xdl_float newLineSize) {
+                m_newLine = newLineSize;
+            }
+            
+            void setUnitX(xdl::xdl_float unitX) {
+                m_unitX = unitX;
+            }
+            
+            void setUnitY(xdl::xdl_float unitY) {
+                m_unitY = unitY;
+            }
+            
+            void setFontSize(xdl::xdl_uint fontSize) {
+                m_fontSize = fontSize;
+            }
+            
+            void addGlyph(const XdevLGlyphMetric& glyph) {
+                m_glyphMap[glyph.id] = glyph;
+            }
 		private:
 			/// Reads one line.
 			XdevLGlyphMetric& readLine(std::ifstream& os, XdevLGlyphMetric& gp);

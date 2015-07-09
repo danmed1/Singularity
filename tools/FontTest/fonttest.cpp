@@ -51,9 +51,6 @@ public:
 		getWindow()->grabPointer();
 
 
-
-
-
 		while(m_appRun) {
 			getCore()->update();
 

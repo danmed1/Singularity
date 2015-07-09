@@ -193,6 +193,9 @@
         <File Name="src/Engine/Fonts/XdevLTextLayoutImpl.h"/>
         <File Name="src/Engine/Fonts/lodepng.cpp"/>
         <File Name="src/Engine/Fonts/lodepng.h"/>
+        <File Name="src/Engine/Fonts/XdevLFontSystem.h"/>
+        <File Name="src/Engine/Fonts/XdevLFontSystemImp.cpp"/>
+        <File Name="src/Engine/Fonts/XdevLFontSystemImpl.h"/>
       </VirtualDirectory>
       <VirtualDirectory Name="GUI">
         <File Name="src/Engine/GUI/Canvas.h"/>
