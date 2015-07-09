@@ -418,7 +418,8 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 	m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-	m_textEngine->init(m_font);
+	m_textEngine->init();
+	m_textEngine->useFont(m_font);
 
 	unsigned int w = getWindow()->getWidth();
 	unsigned int h = getWindow()->getHeight();

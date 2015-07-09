@@ -41,35 +41,27 @@ namespace soan {
 
 			virtual ~XdevLTextLayoutImpl() {}
 
-			/// Initialize the layout engine.
-			virtual xdl::xdl_int init(XdevLFont* font);
+			virtual xdl::xdl_int init() override;
 
-			/// Print text without optimization.
+			virtual void useFont(XdevLFont* font) override;
+
 			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) override;
 
-			/// Add dynamic text.
-			virtual void addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y);
+			virtual void addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y) override;
 
-			/// Sets the scale factor.
-			virtual void setScale(xdl::xdl_float scale);
+			virtual void setScale(xdl::xdl_float scale) override;
 
-			/// Sets the DPI.
-			virtual void setDPI(xdl::xdl_float);
+			virtual void setDPI(xdl::xdl_float) override;
 
-			/// Sets the current color.
-			virtual void setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a);
+			virtual void setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a) override;
 
-			/// Use signed distance field fonts.
-			virtual void setDFT(xdl::xdl_bool enable);
+			virtual void setDFT(xdl::xdl_bool enable) override;
 
-			/// Sets the font rendering effect.
-			virtual void setEffect(xdl::xdl_uint effectNumber);
+			virtual void setEffect(xdl::xdl_uint effectNumber) override;
 
-			/// Sets the shadow offset parameter.
-			virtual void setShadowOffset(xdl::xdl_float xOffset, xdl::xdl_float yOffset);
+			virtual void setShadowOffset(xdl::xdl_float xOffset, xdl::xdl_float yOffset) override;
 
-			/// Draw everything.
-			virtual void render();
+			virtual void render() override;
 
 		private:
 

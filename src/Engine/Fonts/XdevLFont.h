@@ -29,7 +29,6 @@
 
 namespace soan {
 
-
 	/**
 		@struct XdevLFontVertex
 		@brief The structure of the vertex for a font triangle.

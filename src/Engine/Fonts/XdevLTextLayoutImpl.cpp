@@ -52,8 +52,7 @@ namespace soan {
 		m_shadowOffset[1] = yOffset;
 	}
 
-	xdl::xdl_int XdevLTextLayoutImpl::init(XdevLFont* font) {
-		m_font = font;
+	xdl::xdl_int XdevLTextLayoutImpl::init() {
 
 		m_openGL->createShaderProgram(&m_shaderProgram);
 		m_openGL->createVertexShader(&m_vertexShader);
@@ -75,13 +74,13 @@ namespace soan {
 
 
 		m_projViewModelMatrix	= m_shaderProgram->getUniformLocation("projViewModelMatrix");
-		m_texture0 						= m_shaderProgram->getUniformLocation("texture0");
-		m_color								= m_shaderProgram->getUniformLocation("color0");
-		m_gammaid							= m_shaderProgram->getUniformLocation("gamma");
-		m_bufferid						= m_shaderProgram->getUniformLocation("buffer");
-		m_dftid								= m_shaderProgram->getUniformLocation("dft");
-		m_effectid						= m_shaderProgram->getUniformLocation("effect");
-		m_shadowOffsetid			= m_shaderProgram->getUniformLocation("shadowOffset");
+		m_texture0 				= m_shaderProgram->getUniformLocation("texture0");
+		m_color					= m_shaderProgram->getUniformLocation("color0");
+		m_gammaid				= m_shaderProgram->getUniformLocation("gamma");
+		m_bufferid				= m_shaderProgram->getUniformLocation("buffer");
+		m_dftid					= m_shaderProgram->getUniformLocation("dft");
+		m_effectid				= m_shaderProgram->getUniformLocation("effect");
+		m_shadowOffsetid		= m_shaderProgram->getUniformLocation("shadowOffset");
 
 		m_vd = new xdl::XdevLVertexDeclaration();
 		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
@@ -100,13 +99,16 @@ namespace soan {
 		m_openGL->createVertexArray(&m_staticVertexArray);
 		m_staticVertexArray->init(m_staticVertexBuffer, m_vd);
 
+		return xdl::ERR_OK;
+	}
+	
+	void XdevLTextLayoutImpl::useFont(XdevLFont* font) {
+		m_font = font;
 		//
 		// Set two pixel shadow offset.
 		//
 		m_shadowOffset[0] = -3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getWidth());
 		m_shadowOffset[1] = 3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getHeight());
-
-		return xdl::ERR_OK;
 	}
 
 	void  XdevLTextLayoutImpl::addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y) {
@@ -125,6 +127,7 @@ namespace soan {
 
 
 	void XdevLTextLayoutImpl::render() {
+		assert(m_font && "XdevLTextLayoutImpl::render: Font not set. Use 'useFont' before calling the draw method.");
 		//
 		// Do we have anything to draw?
 		//

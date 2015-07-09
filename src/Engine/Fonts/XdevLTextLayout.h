@@ -55,7 +55,10 @@ namespace soan {
 			virtual ~XdevLTextLayout() {}
 
 			/// Initialize the layout engine.
-			virtual xdl::xdl_int init(XdevLFont* font) = 0;
+			virtual xdl::xdl_int init() = 0;
+
+			/// Sets the current font to use for rendering text.
+			virtual void useFont(XdevLFont* font) = 0;
 
 			/// Print text without optimization.
 			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;

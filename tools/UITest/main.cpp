@@ -202,7 +202,8 @@ class UITest : public xdl::XdevLApplication {
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 			m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-			m_textEngine->init(m_font);
+			m_textEngine->init();
+			m_textEngine->useFont(m_font);
 
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
