@@ -10,17 +10,22 @@
 #include <cassert>
 
 
-namespace soan {
+namespace xdl {
 
-	XdevLFontSystemImpl::XdevLFontSystemImpl() {
+	XdevLFontSystemImpl::XdevLFontSystemImpl() :
+		screenWidth(0),
+		screenHeight(0),
+		openGL(nullptr),
+		createTextureFromFile(nullptr) 
+	{
 	}
 
 	XdevLFontSystemImpl::~XdevLFontSystemImpl() {
 	}
 
-	xdl::xdl_int XdevLFontSystemImpl::init(xdl::xdl_uint screenWidth, xdl::xdl_uint screenHeight, xdl::XdevLOpenGL330* opengl) {
+	xdl_int XdevLFontSystemImpl::init(xdl_uint screenWidth, xdl_uint screenHeight, XdevLOpenGL330* opengl) {
 		openGL = opengl;
-		return xdl::ERR_OK;
+		return ERR_OK;
 	}
 
 	void XdevLFontSystemImpl::setCreateTextureCallback(XdevLFontSystem::createTextureFromFileCallbackFunction function) {
@@ -28,15 +33,14 @@ namespace soan {
 		createTextureFromFile = function;
 	}
 
-	XdevLFont* XdevLFontSystemImpl::createFromFontFile(const xdl::xdl_char* fontInfoFilename) {
+	XdevLFont* XdevLFontSystemImpl::createFromFontFile(const xdl_char* fontInfoFilename) {
 		assert(openGL && " XdevLFontImpl::createFromFontFile: XdevLFontSystem not initialized.");
 
 		XdevLFontImpl* font = new XdevLFontImpl();
 
 		std::vector<std::string> fileNames;
-		xdl::xdl_uint numberOfTextures = 1;
-		xdl::xdl_uint fontSize = 0;
-		xdl::xdl_uint newLineSize = 0;
+		xdl_int numberOfTextures = 1;
+		xdl_uint fontSize = 0;
 
 		std::ifstream infile(fontInfoFilename);
 		if(infile.is_open()) {
@@ -57,7 +61,7 @@ namespace soan {
 			ss << tmp;
 			ss >> numberOfTextures;
 
-			xdl::XdevLTexture* texture = nullptr;
+			XdevLTexture* texture = nullptr;
 
 			for(auto id = 0; id < numberOfTextures; id++) {
 				std::string filename;
@@ -68,8 +72,8 @@ namespace soan {
 				} else {
 
 					std::vector<unsigned char> image;
-					unsigned width, height;
-					unsigned error = lodepng::decode(image, width, height, filename.c_str());
+					xdl_uint width, height;
+					xdl_int error = lodepng::decode(image, width, height, filename.c_str());
 
 					// TODO This flipping is neccessary because the library flips the picture up side down.
 					std::vector<unsigned char> vflipedimage;
@@ -84,7 +88,7 @@ namespace soan {
 
 					openGL->createTexture(&texture);
 
-					texture->init(width, height, xdl::XDEVL_RGBA, xdl::XDEVL_RGBA, vflipedimage.data());
+					texture->init(width, height, XDEVL_RGBA, XDEVL_RGBA, vflipedimage.data());
 					image.clear();
 				}
 				if(texture == nullptr) {
@@ -92,10 +96,10 @@ namespace soan {
 					assert(texture && "FontTexture not created.");
 				}
 				texture->lock();
-				texture->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
-				texture->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
-				texture->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
-				texture->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
+				texture->setTextureFilter(XDEVL_TEXTURE_MIN_FILTER, XDEVL_NEAREST);
+				texture->setTextureFilter(XDEVL_TEXTURE_MAG_FILTER, XDEVL_NEAREST);
+				texture->setTextureWrap(XDEVL_TEXTURE_WRAP_S, XDEVL_CLAMP_TO_EDGE);
+				texture->setTextureWrap(XDEVL_TEXTURE_WRAP_T, XDEVL_CLAMP_TO_EDGE);
 				texture->unlock();
 
 				font->addFontTexture(texture);
@@ -112,29 +116,28 @@ namespace soan {
 	}
 
 
-	XdevLFont* XdevLFontSystemImpl::createFontFromTexture(const xdl::xdl_char* fontInfoFilename, xdl::XdevLTexture* texture) {
+	XdevLFont* XdevLFontSystemImpl::createFontFromTexture(const xdl_char* fontInfoFilename, XdevLTexture* texture) {
 		assert(openGL && " XdevLFontImpl::createFontFromTexture: XdevLFontSystem not initialized.");
 		
 		XdevLFontImpl* font = new XdevLFontImpl();
 
-		xdl::XdevLTexture* tx = texture;
+		XdevLTexture* tx = texture;
 		font->addFontTexture(texture);
 
 		tx->lock();
-		tx->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_NEAREST);
-		tx->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_NEAREST);
-		tx->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_EDGE);
-		tx->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_EDGE);
+		tx->setTextureFilter(XDEVL_TEXTURE_MIN_FILTER, XDEVL_NEAREST);
+		tx->setTextureFilter(XDEVL_TEXTURE_MAG_FILTER, XDEVL_NEAREST);
+		tx->setTextureWrap(XDEVL_TEXTURE_WRAP_S, XDEVL_CLAMP_TO_EDGE);
+		tx->setTextureWrap(XDEVL_TEXTURE_WRAP_T, XDEVL_CLAMP_TO_EDGE);
 		tx->unlock();
 
 
 		// One unit on the screen for x,y [-1 , 1]
-		font->setUnitX(2.0f/(xdl::xdl_float)screenWidth);
-		font->setUnitY(2.0f/(xdl::xdl_float)screenHeight);
+		font->setUnitX(2.0f/(xdl_float)screenWidth);
+		font->setUnitY(2.0f/(xdl_float)screenHeight);
 
-		xdl::xdl_uint numberOfTextures = 1;
-		xdl::xdl_uint fontSize = 0;
-		xdl::xdl_uint newLineSize = 0;
+		xdl_uint numberOfTextures = 1;
+		xdl_uint fontSize = 0;
 
 		std::ifstream infile(fontInfoFilename);
 		if(infile.is_open()) {
@@ -155,7 +158,7 @@ namespace soan {
 
 			font->setFontSize(fontSize);
 
-			xdl::xdl_float numCols 	= (xdl::xdl_float)tx->getWidth()/(xdl::xdl_float)fontSize;
+			xdl_float numCols 	= (xdl_float)tx->getWidth()/(xdl_float)fontSize;
 
 			// TODO Using maps to handle id of the glyphs? At the moment it is just a hack.
 			while(!infile.eof()) {
@@ -167,22 +170,22 @@ namespace soan {
 				// TODO This part to find the position of the glyph in the texture is some sort of hack.
 				// Make it so that all of the information is the the fontInfo.txt file.
 				//
-				xdl::xdl_uint idx = gp.character_code - 32;
+				xdl_uint idx = gp.character_code - 32;
 
-				xdl::xdl_float pos_x = idx % (xdl::xdl_int)numCols;
-				xdl::xdl_float pos_y = idx / (xdl::xdl_int)numCols;
+				xdl_float pos_x = idx % (xdl_int)numCols;
+				xdl_float pos_y = idx / (xdl_int)numCols;
 
-				xdl::xdl_float ds = 1.0/(xdl::xdl_float)tx->getWidth()*gp.width;
-				xdl::xdl_float dt = 1.0/(xdl::xdl_float)tx->getWidth()*gp.height;
+				xdl_float ds = 1.0/(xdl_float)tx->getWidth()*gp.width;
+				xdl_float dt = 1.0/(xdl_float)tx->getWidth()*gp.height;
 
-				xdl::xdl_float s = 1.0/numCols*pos_x ;
-				xdl::xdl_float t = 1.0 - 1.0/numCols*pos_y - (1.0/(xdl::xdl_float)tx->getHeight())*((fontSize - gp.height - gp.top));
+				xdl_float s = 1.0/numCols*pos_x ;
+				xdl_float t = 1.0 - 1.0/numCols*pos_y - (1.0/(xdl_float)tx->getHeight())*((fontSize - gp.height - gp.top));
 
 				//
 				// Add an offset of x,y pixel offset to the s,t coordinates.
 				//
-				xdl::xdl_float offset_x = 0.0/(xdl::xdl_float)tx->getWidth();
-				xdl::xdl_float offset_y = 0.0/(xdl::xdl_float)tx->getHeight();
+				xdl_float offset_x = 0.0/(xdl_float)tx->getWidth();
+				xdl_float offset_y = 0.0/(xdl_float)tx->getHeight();
 
 
 				gp.vertices[0].x = gp.brearing_x;
@@ -220,7 +223,7 @@ namespace soan {
 	}
 
 	XdevLGlyphMetric& XdevLFontSystemImpl::readLine(std::ifstream& os, XdevLGlyphMetric& gp) {
-		os >> gp.tid
+		os >> gp.texture_id
 		   >> gp.character_code
 		   >> gp.left
 		   >> gp.top
@@ -240,7 +243,7 @@ namespace soan {
 
 	void XdevLFontSystemImpl::calculateGlyphInformation(XdevLFontImpl* font, std::ifstream& os) {
 
-		xdl::xdl_uint	count = 0;
+		xdl_uint	count = 0;
 
 		// TODO Using maps to handle id of the glyphs? At the moment it is just a hack.
 		while(!os.eof()) {
@@ -252,23 +255,23 @@ namespace soan {
 			// Get the info for the glyph.
 			//
 
-			xdl::XdevLTexture* tx = font->getFontTexture(gp);
+			XdevLTexture* tx = font->getFontTexture(gp);
 
 			//
 			// Add an offset of x,y pixel offset to the x,y coordinates.
 			// What this doesn is expanding the size of the quad in the same amound
 			//
-			xdl::xdl_float offset_sx = 0.0;
-			xdl::xdl_float offset_sy = 0.0;
+			xdl_float offset_sx = 0.0;
+			xdl_float offset_sy = 0.0;
 
 			//
 			// Convert the pixel units into texture coordinate units
 			//
-			xdl::xdl_float s1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[0].s;
-			xdl::xdl_float t1 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[0].t;
+			xdl_float s1 = (1.0f/(xdl_float)tx->getWidth())*gp.vertices[0].s;
+			xdl_float t1 = (1.0f/(xdl_float)tx->getWidth())*gp.vertices[0].t;
 
-			xdl::xdl_float s2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[3].s;
-			xdl::xdl_float t2 = (1.0f/(xdl::xdl_float)tx->getWidth())*gp.vertices[3].t;
+			xdl_float s2 = (1.0f/(xdl_float)tx->getWidth())*gp.vertices[3].s;
+			xdl_float t2 = (1.0f/(xdl_float)tx->getWidth())*gp.vertices[3].t;
 
 
 			gp.vertices[0].x = gp.brearing_x - offset_sx;

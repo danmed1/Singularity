@@ -32,47 +32,51 @@
 
 // TODO Add alignment stuff, like LEFT_TOP, TOP, RIGHT_TOP etc.
 
-namespace soan {
+namespace xdl {
 
 
 	class XdevLFontImpl : public XdevLFont {
 		public:
-			typedef std::vector<xdl::XdevLTexture*> XdevLTextureArray;
-			typedef std::map<xdl::xdl_uint32, XdevLGlyphMetric> XdevLGlyphMetricMap;
+			typedef std::vector<XdevLTexture*> XdevLTextureArray;
+			typedef std::map<xdl_uint32, XdevLGlyphMetric> XdevLGlyphMetricMap;
 
 			XdevLFontImpl();
 
 			virtual ~XdevLFontImpl();
 
-			virtual XdevLGlyphMetric& getGlyphMetric(xdl::xdl_uint32 unicode);
-			virtual xdl::xdl_float getFontSize();
-			virtual xdl::xdl_float getNewLineSize();
-			virtual xdl::xdl_uint getNumberOfTextures();
-			virtual xdl::XdevLTexture* getTexture(xdl::xdl_uint idx);
+			virtual XdevLGlyphMetric& getGlyphMetric(xdl_uint32 unicode);
+
+			virtual xdl_float getFontSize() const;
+
+			virtual xdl_float getNewLineSize() const;
+
+			virtual xdl_uint getNumberOfTextures() const;
+
+			virtual XdevLTexture* getTexture(xdl_uint idx);
 
 		public:
 
-			void addFontTexture(xdl::XdevLTexture* fontTexture) {
+			void addFontTexture(XdevLTexture* fontTexture) {
 				m_textureList.push_back(fontTexture);
 			}
 
-			xdl::XdevLTexture* getFontTexture(const XdevLGlyphMetric& gp) {
-				return m_textureList[gp.tid];
+			XdevLTexture* getFontTexture(const XdevLGlyphMetric& gp) {
+				return m_textureList[gp.texture_id];
 			}
 
-			void setNewLineSize(xdl::xdl_float newLineSize) {
+			void setNewLineSize(xdl_float newLineSize) {
 				m_newLine = newLineSize;
 			}
 
-			void setUnitX(xdl::xdl_float unitX) {
+			void setUnitX(xdl_float unitX) {
 				m_unitX = unitX;
 			}
 
-			void setUnitY(xdl::xdl_float unitY) {
+			void setUnitY(xdl_float unitY) {
 				m_unitY = unitY;
 			}
 
-			void setFontSize(xdl::xdl_uint fontSize) {
+			void setFontSize(xdl_uint fontSize) {
 				m_fontSize = fontSize;
 			}
 
@@ -82,13 +86,13 @@ namespace soan {
 
 		private:
 
-			xdl::xdl_float 			m_fontSize;
-			xdl::xdl_float			m_newLine;
-			xdl::xdl_float 			m_unitX;
-			xdl::xdl_float 			m_unitY;
-			XdevLGlyphMetric		m_dummyGlyph;
-			XdevLGlyphMetricMap		m_glyphMap;
-			XdevLTextureArray		m_textureList;
+			xdl_float 			m_fontSize;
+			xdl_float			m_newLine;
+			xdl_float 			m_unitX;
+			xdl_float 			m_unitY;
+			XdevLGlyphMetric	m_dummyGlyph;
+			XdevLGlyphMetricMap	m_glyphMap;
+			XdevLTextureArray	m_textureList;
 	};
 
 }

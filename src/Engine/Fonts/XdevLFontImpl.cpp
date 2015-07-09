@@ -31,7 +31,7 @@
 #include <cmath>
 
 
-namespace soan {
+namespace xdl {
 
 
 	XdevLFontImpl::XdevLFontImpl() :
@@ -77,7 +77,7 @@ namespace soan {
 
 	}
 
-	XdevLGlyphMetric& XdevLFontImpl::getGlyphMetric(xdl::xdl_uint32 unicode) {
+	XdevLGlyphMetric& XdevLFontImpl::getGlyphMetric(xdl_uint32 unicode) {
 
 		auto ib = m_glyphMap.find(unicode);
 		if(ib == m_glyphMap.end()) {
@@ -87,20 +87,20 @@ namespace soan {
 		return ib->second;
 	}
 
-	xdl::xdl_float  XdevLFontImpl::getFontSize() {
+	xdl_float  XdevLFontImpl::getFontSize() const {
 		return m_fontSize;
 	}
 
-	xdl::xdl_float XdevLFontImpl::getNewLineSize() {
+	xdl_float XdevLFontImpl::getNewLineSize() const {
 		return m_newLine;
 	}
 
-	xdl::XdevLTexture* XdevLFontImpl::getTexture(xdl::xdl_uint idx) {
+	XdevLTexture* XdevLFontImpl::getTexture(xdl_uint idx) {
 		assert( (idx < m_textureList.size()) && "XdevLFontImpl::getTexture: Specified index out of range.");
 		return m_textureList[idx];
 	}
 
-	xdl::xdl_uint XdevLFontImpl::getNumberOfTextures() {
+	xdl_uint XdevLFontImpl::getNumberOfTextures() const {
 		return m_textureList.size();
 	}
 

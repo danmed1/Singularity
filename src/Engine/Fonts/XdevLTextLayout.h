@@ -23,7 +23,7 @@
 #include <Engine/Fonts/XdevLFont.h>
 #include <string>
 
-namespace soan {
+namespace xdl {
 
 	/**
 		@struct XdevLTextLayoutText
@@ -34,16 +34,16 @@ namespace soan {
 		std::wstring text;
 		
 		/// The start position in x direction.
-		xdl::xdl_float x;
+		xdl_float x;
 		
 		/// The start position in y direction.
-		xdl::xdl_float y;
+		xdl_float y;
 		
 		/// The color of the whole text.
-		xdl::xdl_uint8 color[4];
+		xdl_uint8 color[4];
 		
 		/// The scale factor of the whole text.
-		xdl::xdl_float scale;
+		xdl_float scale;
 	};
 
 	/**
@@ -55,38 +55,38 @@ namespace soan {
 			virtual ~XdevLTextLayout() {}
 
 			/// Initialize the layout engine.
-			virtual xdl::xdl_int init() = 0;
+			virtual xdl_int init() = 0;
 
 			/// Sets the current font to use for rendering text.
 			virtual void useFont(XdevLFont* font) = 0;
 
 			/// Print text without optimization.
-			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
+			virtual void printText(const std::wstring& text, xdl_float x, xdl_float y) = 0;
 
 			/// Add dynamic text.
 			/**
 				A dyanmic text is a text which change the number of letters and/or letters itself. 
 				A vertex buffer is created and continuously updated.
 			*/
-			virtual void addDynamicText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
+			virtual void addDynamicText(const std::wstring& text, xdl_float x, xdl_float y) = 0;
 
 			/// Sets the scale factor.
-			virtual void setScale(xdl::xdl_float scale) = 0;
+			virtual void setScale(xdl_float scale) = 0;
 
 			/// Sets the DPI.
-			virtual void setDPI(xdl::xdl_float) = 0;
+			virtual void setDPI(xdl_float) = 0;
 
 			/// Sets the current color.
-			virtual void setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a) = 0;
+			virtual void setColor(xdl_uint32 r, xdl_uint32 g, xdl_uint32 b, xdl_uint32 a) = 0;
 
 			/// Use signed distance field fonts.
-			virtual void setDFT(xdl::xdl_bool enable) = 0;
+			virtual void setDFT(xdl_bool enable) = 0;
 
 			/// Sets the font rendering effect.
-			virtual void setEffect(xdl::xdl_uint effectNumber) = 0;
+			virtual void setEffect(xdl_uint effectNumber) = 0;
 
 			/// Sets the shadow offset parameter.
-			virtual void setShadowOffset(xdl::xdl_float xOffset, xdl::xdl_float yOffset) = 0;
+			virtual void setShadowOffset(xdl_float xOffset, xdl_float yOffset) = 0;
 
 			/// Draws everything.
 			virtual void render() = 0;

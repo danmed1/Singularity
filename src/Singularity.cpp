@@ -410,14 +410,14 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 
 	// Initialize font system.
-	m_fontSystem = new soan::XdevLFontSystemImpl();
+	m_fontSystem = new xdl::XdevLFontSystemImpl();
 	m_fontSystem->setCreateTextureCallback(createTextureFromFile);
 	m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 	soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
 	m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
-	m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
+	m_textEngine = new xdl::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
 	m_textEngine->init();
 	m_textEngine->useFont(m_font);
 

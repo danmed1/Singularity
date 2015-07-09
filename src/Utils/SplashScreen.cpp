@@ -13,7 +13,7 @@ namespace soan {
 			return soan::TextureServer::Inst()->import(filename);
 		}
 
-		SplashScreen::SplashScreen(xdl::IPXdevLCore core , soan::XdevLTextLayout* textLayoutSystem) :
+		SplashScreen::SplashScreen(xdl::IPXdevLCore core , xdl::XdevLTextLayout* textLayoutSystem) :
 			m_core(core),
 			m_window(nullptr),
 			m_running(xdl::xdl_true),

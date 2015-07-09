@@ -195,13 +195,13 @@ class UITest : public xdl::XdevLApplication {
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
 			// Initialize font system.
-			m_fontSystem = new soan::XdevLFontSystemImpl();
+			m_fontSystem = new xdl::XdevLFontSystemImpl();
 			m_fontSystem->setCreateTextureCallback(createTextureFromFile);
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
-			m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
+			m_textEngine = new xdl::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
 			m_textEngine->init();
 			m_textEngine->useFont(m_font);
 
@@ -253,9 +253,9 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
 
-		soan::XdevLFontSystem*			m_fontSystem;
-		soan::XdevLFont*				m_font;
-		soan::XdevLTextLayout*			m_textEngine;
+		xdl::XdevLFontSystem*			m_fontSystem;
+		xdl::XdevLFont*				m_font;
+		xdl::XdevLTextLayout*			m_textEngine;
 
 		WidgetSceneSystem* widgetSceneSystem;
 };

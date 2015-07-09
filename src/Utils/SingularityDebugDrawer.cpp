@@ -8,7 +8,7 @@
 
 namespace soan {
 
-	SingularityDebugDrawer::SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, soan::XdevLFontImpl* fontEngine)
+	SingularityDebugDrawer::SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLFontImpl* fontEngine)
 		: m_openGL(openGL), m_fontEngine(fontEngine), m_debugMode(0) {
 
 		vd = new xdl::XdevLVertexDeclaration();

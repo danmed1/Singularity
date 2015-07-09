@@ -19,7 +19,7 @@ namespace soan {
 
 	class SingularityDebugDrawer : public btIDebugDraw {
 		xdl::XdevLOpenGL330*		m_openGL;
-		soan::XdevLFontImpl*		m_fontEngine;
+		xdl::XdevLFontImpl*		m_fontEngine;
 		xdl::XdevLShaderProgram*	m_shaderProgram;
 		xdl::XdevLVertexArray*		m_linesVertexArray;
 		xdl::XdevLVertexBuffer*		m_linesVertexBuffer;
@@ -42,7 +42,7 @@ namespace soan {
 
 	public:
 
-		SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, soan::XdevLFontImpl* fontEngine = nullptr);
+		SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLFontImpl* fontEngine = nullptr);
 
 		virtual ~SingularityDebugDrawer();
 

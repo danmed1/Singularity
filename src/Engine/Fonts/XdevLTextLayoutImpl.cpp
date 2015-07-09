@@ -25,9 +25,9 @@
 #include "XdevLTextLayoutImpl.h"
 #include <Engine/Types.h>
 
-namespace soan {
+namespace xdl {
 
-	XdevLTextLayoutImpl::XdevLTextLayoutImpl(xdl::XdevLWindow* window, xdl::XdevLOpenGL330* openGL) :
+	XdevLTextLayoutImpl::XdevLTextLayoutImpl(XdevLWindow* window, XdevLOpenGL330* openGL) :
 		m_window(window),
 		m_openGL(openGL),
 		m_shaderProgram(nullptr),
@@ -42,30 +42,30 @@ namespace soan {
 		m_scale(1.0f),
 		m_rescale(1.0f),
 		m_effectNumber(1),
-		m_staticVertexListUploaded(xdl::xdl_false) {
+		m_staticVertexListUploaded(xdl_false) {
 		m_shadowOffset[0] = 0.0f;
 		m_shadowOffset[1] = 0.0f;
 	}
 
-	void XdevLTextLayoutImpl::setShadowOffset(xdl::xdl_float xOffset, xdl::xdl_float yOffset) {
+	void XdevLTextLayoutImpl::setShadowOffset(xdl_float xOffset, xdl_float yOffset) {
 		m_shadowOffset[0] = xOffset;
 		m_shadowOffset[1] = yOffset;
 	}
 
-	xdl::xdl_int XdevLTextLayoutImpl::init() {
+	xdl_int XdevLTextLayoutImpl::init() {
 
 		m_openGL->createShaderProgram(&m_shaderProgram);
 		m_openGL->createVertexShader(&m_vertexShader);
 		m_openGL->createFragmentShader(&m_fragmentShader);
 		m_openGL->createTexture(&m_texture);
 
-		if(m_vertexShader->compileFromFile(m_vertexShaderFilename.c_str()) != xdl::ERR_OK) {
+		if(m_vertexShader->compileFromFile(m_vertexShaderFilename.c_str()) != ERR_OK) {
 			std::cerr << "XdevLFont2D::init: Could not create vertex shader." << std::endl;
-			return xdl::ERR_ERROR;
+			return ERR_ERROR;
 		}
-		if(m_fragmentShader->compileFromFile(m_fragmentShaderFilename.c_str()) != xdl::ERR_OK) {
+		if(m_fragmentShader->compileFromFile(m_fragmentShaderFilename.c_str()) != ERR_OK) {
 			std::cerr << "XdevLFont2D::init: Could not create fragment shader." << std::endl;
-			return xdl::ERR_ERROR;
+			return ERR_ERROR;
 		}
 
 		m_shaderProgram->attach(m_vertexShader);
@@ -82,10 +82,10 @@ namespace soan {
 		m_effectid				= m_shaderProgram->getUniformLocation("effect");
 		m_shadowOffsetid		= m_shaderProgram->getUniformLocation("shadowOffset");
 
-		m_vd = new xdl::XdevLVertexDeclaration();
-		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
-		m_vd->add(4, xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, VERTEX_COLOR);
-		m_vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_TEXTURE_COORD);
+		m_vd = new XdevLVertexDeclaration();
+		m_vd->add(2, XDEVL_BUFFER_ELEMENT_FLOAT, XDEVL_VERTEX_POSITION);
+		m_vd->add(4, XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, XDEVL_VERTEX_COLOR);
+		m_vd->add(2, XDEVL_BUFFER_ELEMENT_FLOAT, XDEVL_VERTEX_TEXTURE_COORD);
 
 
 		m_openGL->createVertexBuffer(&m_vertexBuffer);
@@ -99,7 +99,7 @@ namespace soan {
 		m_openGL->createVertexArray(&m_staticVertexArray);
 		m_staticVertexArray->init(m_staticVertexBuffer, m_vd);
 
-		return xdl::ERR_OK;
+		return ERR_OK;
 	}
 	
 	void XdevLTextLayoutImpl::useFont(XdevLFont* font) {
@@ -107,11 +107,11 @@ namespace soan {
 		//
 		// Set two pixel shadow offset.
 		//
-		m_shadowOffset[0] = -3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getWidth());
-		m_shadowOffset[1] = 3.0f*(1.0f/(xdl::xdl_float)font->getTexture(0)->getHeight());
+		m_shadowOffset[0] = -3.0f*(1.0f/(xdl_float)font->getTexture(0)->getWidth());
+		m_shadowOffset[1] = 3.0f*(1.0f/(xdl_float)font->getTexture(0)->getHeight());
 	}
 
-	void  XdevLTextLayoutImpl::addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y) {
+	void  XdevLTextLayoutImpl::addDynamicText(const std::wstring&  text, xdl_float x, xdl_float y) {
 		XdevLTextLayoutText info;
 		info.text = text;
 		info.x = x;
@@ -193,19 +193,19 @@ namespace soan {
 			// Upload the vertex data to the GPU.
 			//
 			m_vertexBuffer->lock();
-			m_vertexBuffer->upload((xdl::xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
+			m_vertexBuffer->upload((xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
 			m_vertexBuffer->unlock();
 
 			//
 			// Draw everything.
 			//
 			m_openGL->setActiveVertexArray(m_vertexArray);
-			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
+			m_openGL->drawVertexArray(XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
 
 
 //			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //			m_font->getTexture(ib->first)->deactivate();
-//			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib->second.size());
+//			m_openGL->drawVertexArray(XDEVL_PRIMITIVE_TRIANGLES, ib->second.size());
 //			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		}
@@ -220,7 +220,7 @@ namespace soan {
 		m_shaderProgram->deactivate();
 	}
 
-	void XdevLTextLayoutImpl::layoutVertexBuffer(std::vector<XdevLTextLayoutText>& textList, std::map<xdl::xdl_uint, std::vector<XdevLGlyphVertex> >& vertexList) {
+	void XdevLTextLayoutImpl::layoutVertexBuffer(std::vector<XdevLTextLayoutText>& textList, std::map<xdl_uint, std::vector<XdevLGlyphVertex> >& vertexList) {
 
 		//
 		// Go through all text lines.
@@ -230,8 +230,8 @@ namespace soan {
 			//
 			// Set cursor position.
 			//
-			xdl::xdl_float pen_x = textLine.x;
-			xdl::xdl_float pen_y = textLine.y;
+			xdl_float pen_x = textLine.x;
+			xdl_float pen_y = textLine.y;
 
 			//
 			// Set the current scale for the whole line.
@@ -240,8 +240,8 @@ namespace soan {
 			m_rescale = textLine.scale;
 
 
-			xdl::xdl_float unit_x 	=  m_rescale * 2.0/(xdl::xdl_float)m_window->getWidth();
-			xdl::xdl_float unit_y 	=  m_rescale * 2.0/(xdl::xdl_float)m_window->getHeight();
+			xdl_float unit_x 	=  m_rescale * 2.0/(xdl_float)m_window->getWidth();
+			xdl_float unit_y 	=  m_rescale * 2.0/(xdl_float)m_window->getHeight();
 
 			//
 			// Go through all letters.
@@ -272,7 +272,7 @@ namespace soan {
 				// Or a white space?
 				//
 				else if(idx == ' ') {
-					pen_x += unit_x * (xdl::xdl_float)(glyphProperties.advance_h);
+					pen_x += unit_x * (xdl_float)(glyphProperties.advance_h);
 					continue;
 				}
 
@@ -323,7 +323,7 @@ namespace soan {
 				bottom_right.b = textLine.color[2];
 				bottom_right.a = textLine.color[3];
 
-				std::vector<XdevLGlyphVertex>& currentTexture = vertexList[glyphProperties.tid];
+				std::vector<XdevLGlyphVertex>& currentTexture = vertexList[glyphProperties.texture_id];
 
 				currentTexture.push_back(bottom_left);
 				currentTexture.push_back(top_left);
@@ -338,7 +338,7 @@ namespace soan {
 		}
 	}
 
-	void XdevLTextLayoutImpl::printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) {
+	void XdevLTextLayoutImpl::printText(const std::wstring& text, xdl_float x, xdl_float y) {
 
 		std::vector<XdevLTextLayoutText> textList;
 
@@ -401,14 +401,14 @@ namespace soan {
 			// Upload the vertex data to the GPU.
 			//
 			m_vertexBuffer->lock();
-			m_vertexBuffer->upload((xdl::xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
+			m_vertexBuffer->upload((xdl_uint8*)ib.second.data(), ib.second.size()* sizeof(XdevLGlyphVertex));
 			m_vertexBuffer->unlock();
 
 			//
 			// Draw everything.
 			//
 			m_openGL->setActiveVertexArray(m_vertexArray);
-			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
+			m_openGL->drawVertexArray(XDEVL_PRIMITIVE_TRIANGLES, ib.second.size());
 		}
 
 		glDisable(GL_BLEND);
@@ -421,28 +421,28 @@ namespace soan {
 		m_shaderProgram->deactivate();
 	}
 
-	void XdevLTextLayoutImpl::setScale(xdl::xdl_float scale) {
+	void XdevLTextLayoutImpl::setScale(xdl_float scale) {
 		m_rescale = scale;
 	}
 
-	void  XdevLTextLayoutImpl::setColor(xdl::xdl_uint32 r, xdl::xdl_uint32 g, xdl::xdl_uint32 b, xdl::xdl_uint32 a) {
+	void  XdevLTextLayoutImpl::setColor(xdl_uint32 r, xdl_uint32 g, xdl_uint32 b, xdl_uint32 a) {
 		m_currentColor[0] = r;
 		m_currentColor[1] = g;
 		m_currentColor[2] = b;
 		m_currentColor[3] = a;
 	}
 
-	void XdevLTextLayoutImpl::setDPI(xdl::xdl_float dpi) {
+	void XdevLTextLayoutImpl::setDPI(xdl_float dpi) {
 		m_dpi = dpi;
 
-		m_scale = m_dpi/(xdl::xdl_float)m_font->getFontSize();
+		m_scale = m_dpi/(xdl_float)m_font->getFontSize();
 	}
 
-	void XdevLTextLayoutImpl::setDFT(xdl::xdl_bool enable) {
+	void XdevLTextLayoutImpl::setDFT(xdl_bool enable) {
 		m_dft = enable ? 1 : 0;
 	}
 
-	void  XdevLTextLayoutImpl::setEffect(xdl::xdl_uint effectNumber) {
+	void  XdevLTextLayoutImpl::setEffect(xdl_uint effectNumber) {
 		m_effectNumber = effectNumber;
 	}
 

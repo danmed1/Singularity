@@ -15,7 +15,7 @@ namespace soan {
 		
 		class SplashScreen : public xdl::XdevLListener, public thread::Thread {
 			public:
-				SplashScreen(xdl::IPXdevLCore core, soan::XdevLTextLayout* textLayoutSystem);
+				SplashScreen(xdl::IPXdevLCore core, xdl::XdevLTextLayout* textLayoutSystem);
 				~SplashScreen();
 				xdl::XdevLID* getID();
 				xdl::xdl_int notify(xdl::XdevLEvent& event);
@@ -30,7 +30,7 @@ namespace soan {
 				xdl::XdevLOpenGL330*		m_openGL;
 				xdl::xdl_bool 				m_running;
 				thread::Mutex				m_mutex;
-				soan::XdevLTextLayout* 		m_textLayboutSystem;
+				xdl::XdevLTextLayout* 		m_textLayboutSystem;
 
 		};
 

@@ -27,27 +27,27 @@
 
 #include <XdevLOpenGL/XdevLTexture.h>
 
-namespace soan {
+namespace xdl {
 
 	/**
 		@struct XdevLFontVertex
 		@brief The structure of the vertex for a font triangle.
 	*/
 	struct XdevLGlyphVertex {
-		XdevLGlyphVertex() : 
-		x(0.0f),
-		y(0.0f),
-		r(0),
-		g(0),
-		b(0),
-		a(255),
-		s(0.0f),
-		t(0.0f)
+		XdevLGlyphVertex() :
+			x(0.0f),
+			y(0.0f),
+			r(0),
+			g(0),
+			b(0),
+			a(255),
+			s(0.0f),
+			t(0.0f)
 		{}
 
-		xdl::xdl_float x,y;		/// Position data.
-		xdl::xdl_uint8 r,g,b,a;	/// Color data.
-		xdl::xdl_float s, t;	/// Texture coordinate data.
+		xdl_float x,y;		/// Position data.
+		xdl_uint8 r,g,b,a;	/// Color data.
+		xdl_float s, t;		/// Texture coordinate data.
 	};
 
 	/**
@@ -87,7 +87,7 @@ namespace soan {
 	*/
 	struct XdevLGlyphMetric {
 		XdevLGlyphMetric() :
-			tid(0),
+			texture_id(0),
 			character_code(0),
 			left(0.0f),
 			top(0.0f),
@@ -98,17 +98,17 @@ namespace soan {
 			brearing_x(0.0f),
 			brearing_y(0.0f) {
 		}
-		uint32_t			tid;
+		uint32_t			texture_id;
 		uint32_t 			character_code;
-		xdl::xdl_float 		left;
-		xdl::xdl_float 		top;
-		xdl::xdl_float 		width;
-		xdl::xdl_float 		height;
-		xdl::xdl_float 		advance_h;
-		xdl::xdl_float 		advance_v;
-		xdl::xdl_float 		brearing_x;
-		xdl::xdl_float 		brearing_y;
-		XdevLGlyphVertex 	vertices[4];
+		xdl_float 			left;
+		xdl_float 			top;
+		xdl_float 			width;
+		xdl_float 			height;
+		xdl_float 			advance_h;
+		xdl_float 			advance_v;
+		xdl_float 			brearing_x;
+		xdl_float 			brearing_y;
+		XdevLGlyphVertex	vertices[4];
 	};
 
 	/**
@@ -120,22 +120,24 @@ namespace soan {
 			virtual ~XdevLFont() {}
 
 			/// Returns a glphy's metric information.
-			virtual XdevLGlyphMetric& getGlyphMetric(xdl::xdl_uint32 unicode) = 0;
+			virtual XdevLGlyphMetric& getGlyphMetric(xdl_uint32 unicode) = 0;
 
 			/// Returns the font size in pixels.
 			/**
-				This font size is the maximum with in horizontal direction. The glphys width might be different than this size.
+				This font size is the maximum witdh in horizontal direction.
+
+				@return Font size in pixel units.
 			*/
-			virtual xdl::xdl_float getFontSize() = 0;
+			virtual xdl_float getFontSize() const = 0;
 
 			/// Returns the new line size.
-			virtual xdl::xdl_float getNewLineSize() = 0;
+			virtual xdl_float getNewLineSize() const = 0;
 
 			/// Returns the number of textures used by this font.
-			virtual xdl::xdl_uint getNumberOfTextures() = 0;
+			virtual xdl_uint getNumberOfTextures() const = 0;
 
 			/// Returns a specific texture used for this font.
-			virtual xdl::XdevLTexture* getTexture(xdl::xdl_uint idx) = 0;
+			virtual XdevLTexture* getTexture(xdl_uint idx) = 0;
 
 	};
 
