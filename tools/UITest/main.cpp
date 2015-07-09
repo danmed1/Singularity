@@ -8,6 +8,7 @@
 #include <Engine/GUI/WidgetSceneSystem.h>
 
 #include <Engine/TextureServer.h>
+#include <Engine/Fonts/XdevLFontSystemImpl.h>
 #include <Engine/Fonts/XdevLFontImpl.h>
 #include <Engine/Fonts/XdevLTextLayoutImpl.h>
 
@@ -25,13 +26,17 @@ class UITest : public xdl::XdevLApplication {
 		UITest(int argc, char** argv, const char* xml_filename) throw() :
 			xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
 			m_appRun(xdl::xdl_true),
-			m_font2D(nullptr),
+			m_font(nullptr),
 			m_textEngine(nullptr) {
 
 		}
 		~UITest() {
 			widgetSceneSystem->shutdown();
 			delete widgetSceneSystem;
+			
+			delete m_font;
+			delete m_textEngine;
+			delete m_fontSystem;
 		}
 
 		virtual void main(const Arguments& argv) throw() override {
@@ -61,33 +66,33 @@ class UITest : public xdl::XdevLApplication {
 			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
 			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
 			ContextMenu* menu1 = menuBar->addMenu(L"File");
-			
+
 			menu1->bindOnItemSelected(fileMenuDelegate);
 			ContextMenu* menu2 = menuBar->addMenu(L"Help");
 			menu1->addItem(L"New File");
 			menu1->addItem(L"Open File");
 			menu1->addItem(L"Quit");
-			
+
 			menu2->addItem(L"About");
 
 
 			// Create a Button.
 			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 100, 50, 24);
-			
+
 			// Create the delegate that will handle the users mouse button click on it.
 			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
 			button1->bindOnClicked(quitDelegate);
-			
+
 			// Register this Button to the system.
 			widgetSceneSystem->registerWidget(button1);
 
 
 			// Create a CheckBox.
 			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
-			
+
 			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
 			checkbox1->bindOnCheck(checkDelegate);
-			
+
 			// Register this CheckBox to the system.
 			widgetSceneSystem->registerWidget(checkbox1);
 
@@ -159,7 +164,7 @@ class UITest : public xdl::XdevLApplication {
 //				m_textEngine->addDynamicText(button1->getTitle(), x, y);
 //
 //				m_textEngine->render();
-				
+
 				m_textEngine->printText(button1->getTitle(), x, y);
 
 				get3DProcessor()->swapBuffers();
@@ -185,17 +190,19 @@ class UITest : public xdl::XdevLApplication {
 			if(m_opengl->createContext(getWindow()) != xdl::ERR_OK) {
 				return xdl::ERR_ERROR;
 			}
-			
+
 			soan::TextureServer::Inst();
 			soan::TextureServer::Inst()->init(get3DProcessor(), "./");
-			
-			// TODO Actually we have to pass the screen resolution.
-			m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
-			m_font2D->setCreateTextureCallback(createTextureFromFile);
-			m_font2D->importFromFontFile("resources/fonts/default_info.txt");
+
+			// Initialize font system.
+			m_fontSystem = new soan::XdevLFontSystemImpl();
+			m_fontSystem->setCreateTextureCallback(createTextureFromFile);
+			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+
+			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 			m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-			m_textEngine->init(m_font2D);
+			m_textEngine->init(m_font);
 
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
@@ -245,8 +252,9 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGL330* 			m_opengl;
 
-		soan::XdevLFontImpl*				m_font2D;
-		soan::XdevLTextLayoutImpl*		m_textEngine;
+		soan::XdevLFontSystem*			m_fontSystem;
+		soan::XdevLFont*				m_font;
+		soan::XdevLTextLayout*			m_textEngine;
 
 		WidgetSceneSystem* widgetSceneSystem;
 };

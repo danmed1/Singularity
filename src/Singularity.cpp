@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -46,7 +46,7 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_shadowMap(nullptr),
 	m_gausBlur(nullptr),
 	m_depthOfField(nullptr),
-	m_font2D(nullptr),
+	m_font(nullptr),
 	m_textEngine(nullptr),
 	m_physics(nullptr),
 	m_light(nullptr),
@@ -58,7 +58,7 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_cameraMode(xdl::xdl_false),
 	m_numberOfVertices(0),
 	m_numberOfFaces(0),
-	m_splashScreen(nullptr){
+	m_splashScreen(nullptr) {
 
 	// Register Singularity as a listener to the event system.
 	getCore()->registerListener(this);
@@ -80,7 +80,7 @@ Singularity::~Singularity() {
 	delete m_camera;
 	delete m_frustum;
 	delete m_skybox;
-	delete m_font2D;
+	delete m_font;
 	delete m_textEngine;
 	delete m_physics;
 	delete m_light;
@@ -121,13 +121,13 @@ void Singularity::main(const Arguments& argv) throw() {
 	minor << MINOR;
 	patch << PATCH;
 
-	xdl::XdevLWindowTitle title{tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str()};
+	xdl::XdevLWindowTitle title {tmp2 + "Version: " + major.str() + "." + minor.str() + "." + patch.str()};
 
 	getWindow()->setTitle(title);
 
 	//m_splashScreen = new soan::utils::SplashScreen(getCore());
 	//m_splashScreen->show();
-	
+
 	//
 	// Initialize everything.
 	//
@@ -150,12 +150,12 @@ void Singularity::main(const Arguments& argv) throw() {
 	if(initializeAssets() != xdl::ERR_OK) {
 		return;
 	}
-	
+
 //	m_splashScreen->hide();
-	
+
 
 	getWindow()->show();
-	
+
 	//
 	// Start main loop.
 	//
@@ -227,8 +227,8 @@ void Singularity::main(const Arguments& argv) throw() {
 
 void  Singularity::handleGraphics(double dT) {
 //	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
-get3DProcessor()->makeCurrent(getWindow());
-	
+	get3DProcessor()->makeCurrent(getWindow());
+
 	calculateShadowMaps();
 
 
@@ -249,11 +249,11 @@ get3DProcessor()->makeCurrent(getWindow());
 	glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 	tmath::mat4 fbProjection;
 	tmath::ortho(0.0f,
-	                            (float)getWindow()->getWidth(),
-	                            0.0f,
-	                            (float)getWindow()->getHeight(),
-	                            -1.0f,
-	                            1.0f, fbProjection);
+	             (float)getWindow()->getWidth(),
+	             0.0f,
+	             (float)getWindow()->getHeight(),
+	             -1.0f,
+	             1.0f, fbProjection);
 	m_fbShaderProgram->activate();
 	m_fbShaderProgram->setUniformMatrix4(testProj, 1, fbProjection);
 	m_fbShaderProgram->setUniformi(testTex, 0);
@@ -384,8 +384,8 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 //		XDEVL_MODULE_ERROR(glewGetErrorString(err) << std::endl);
 //		return xdl::ERR_ERROR;
 //	}
-	
-	
+
+
 
 	std::cout << "--------------------------------------------------\n";
 	std::cout << "OpenGL Vendor : " << m_opengl->getVendor() << std::endl;
@@ -408,15 +408,17 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_physics = new soan::phys::Physics();
 	m_physics->init(m_debugRenderer);
 
-	m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
-	soan::TextureServer::Inst()->setResourcePathPrefix("./");
 
-	m_font2D->setCreateTextureCallback(createTextureFromFile);
-	m_font2D->importFromFontFile("resources/fonts/default_info.txt");
+	// Initialize font system.
+	m_fontSystem = new soan::XdevLFontSystemImpl();
+	m_fontSystem->setCreateTextureCallback(createTextureFromFile);
+	m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+	soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
+	m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 	m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-	m_textEngine->init(m_font2D);
+	m_textEngine->init(m_font);
 
 	unsigned int w = getWindow()->getWidth();
 	unsigned int h = getWindow()->getHeight();
@@ -438,10 +440,10 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	// Create one camera.
 	m_camera = new soan::Camera();
-	
+
 	// Create the frustum class.
 	m_frustum = new soan::Frustum();
-	
+
 	// Create the G-Buffer which does the deferred rendering.
 	m_gBuffer = new soan::GBuffer(get3DProcessor());
 	if(m_gBuffer->init(w,h) == xdl::ERR_ERROR) {
@@ -1011,10 +1013,10 @@ void Singularity::startDeferredLighting() {
 			//
 			tmath::vec3 tmp = actorObject->getPosition();
 			btVector3 from(tmp.x, tmp.y, tmp.z);
-			
+
 			tmath::quat tmpQuat = actorObject->getOrientation();
 			btQuaternion orientation(tmpQuat.x, tmpQuat.y, tmpQuat.z, tmpQuat.w);
-			
+
 			btQuaternion forwardq = orientation * btVector3(0.0f, 0.0f, 1.0f);
 			forwardq *= 5.0f;
 			btVector3 forward(from.x() + forwardq.x(), from.y() + forwardq.y(), from.z() + forwardq.z());

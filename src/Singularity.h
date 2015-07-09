@@ -59,6 +59,7 @@
 
 #include "Utils/SplashScreen.h"
 #include "Utils/FPSCounter.h"
+#include "Engine/Fonts/XdevLFontSystemImpl.h"
 #include "Engine/Fonts/XdevLFontImpl.h"
 #include "Engine/Fonts/XdevLTextLayoutImpl.h"
 
@@ -157,7 +158,8 @@ class Singularity : public xdl::XdevLApplication {
 		soan::ShadowMap*			m_shadowMap;
 		soan::GausBlur* 			m_gausBlur;
 		soan::DepthOfField* 		m_depthOfField;
-		soan::XdevLFontImpl*		m_font2D;
+		soan::XdevLFontSystem*		m_fontSystem;
+		soan::XdevLFont*			m_font;
 		soan::XdevLTextLayout*		m_textEngine;
 		soan::phys::Physics*		m_physics;
 		soan::Light*				m_light;

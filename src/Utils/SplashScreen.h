@@ -7,13 +7,15 @@
 #include <XdevLThread.h>
 #include <XdevLMutex.h>
 
+#include "Engine/Fonts/XdevLTextLayout.h"
+
 namespace soan {
 
 	namespace utils {
 		
 		class SplashScreen : public xdl::XdevLListener, public thread::Thread {
 			public:
-				SplashScreen(xdl::IPXdevLCore core);
+				SplashScreen(xdl::IPXdevLCore core, soan::XdevLTextLayout* textLayoutSystem);
 				~SplashScreen();
 				xdl::XdevLID* getID();
 				xdl::xdl_int notify(xdl::XdevLEvent& event);
@@ -23,11 +25,13 @@ namespace soan {
 				int RunThread(thread::ThreadArgument* p_arg) final;
 				xdl::xdl_bool getRunningState();
 		private:
-				xdl::IPXdevLCore 				m_core;
+				xdl::IPXdevLCore 			m_core;
 				xdl::IPXdevLWindow			m_window;
 				xdl::XdevLOpenGL330*		m_openGL;
-				xdl::xdl_bool 					m_running;
-				thread::Mutex						m_mutex;
+				xdl::xdl_bool 				m_running;
+				thread::Mutex				m_mutex;
+				soan::XdevLTextLayout* 		m_textLayboutSystem;
+
 		};
 
 	}

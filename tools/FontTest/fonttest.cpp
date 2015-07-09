@@ -5,6 +5,7 @@
 
 
 #include <Engine/TextureServer.h>
+#include <Engine/Fonts/XdevLFontSystemImpl.h>
 #include <Engine/Fonts/XdevLFontImpl.h>
 #include <Engine/Fonts/XdevLTextLayoutImpl.h>
 
@@ -22,12 +23,14 @@ public:
 	FontTest(int argc, char** argv, const char* xml_filename) throw() :
 		xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
 		m_appRun(xdl::xdl_true),
-		m_font2D(nullptr),
+		m_font(nullptr),
 		m_textEngine(nullptr) {
 
 	}
 	~FontTest() {
-
+		delete m_font;
+		delete m_textEngine;
+		delete m_fontSystem;
 	}
 
 	virtual void main(const Arguments& argv) throw() override {
@@ -99,12 +102,15 @@ public:
 		soan::TextureServer::Inst();
 		soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 
-		m_font2D = new soan::XdevLFontImpl(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
-		m_font2D->setCreateTextureCallback(createTextureFromFile);
-		m_font2D->importFromFontFile("resources/fonts/default_info.txt");
+		// Initialize font system.
+		m_fontSystem = new soan::XdevLFontSystemImpl();
+		m_fontSystem->setCreateTextureCallback(createTextureFromFile);
+		m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+
+		m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 		m_textEngine = new soan::XdevLTextLayoutImpl(getWindow(), get3DProcessor());
-		m_textEngine->init(m_font2D);
+		m_textEngine->init(m_font);
 
 //			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
 //			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
@@ -143,7 +149,8 @@ private:
 	xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 	xdl::XdevLOpenGL330* 			m_opengl;
 
-	soan::XdevLFontImpl*			m_font2D;
+	soan::XdevLFontSystem*			m_fontSystem;
+	soan::XdevLFont*				m_font;
 	soan::XdevLTextLayoutImpl*		m_textEngine;
 	xdl::xdl_float m_xaxis;
 	xdl::xdl_float m_yaxis;

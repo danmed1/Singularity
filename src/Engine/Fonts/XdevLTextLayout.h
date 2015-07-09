@@ -57,6 +57,9 @@ namespace soan {
 			/// Initialize the layout engine.
 			virtual xdl::xdl_int init(XdevLFont* font) = 0;
 
+			/// Print text without optimization.
+			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
+
 			/// Add dynamic text.
 			/**
 				A dyanmic text is a text which change the number of letters and/or letters itself. 

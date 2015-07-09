@@ -13,10 +13,12 @@ namespace soan {
 			return soan::TextureServer::Inst()->import(filename);
 		}
 
-		SplashScreen::SplashScreen(xdl::IPXdevLCore core) :
+		SplashScreen::SplashScreen(xdl::IPXdevLCore core , soan::XdevLTextLayout* textLayoutSystem) :
 			m_core(core),
 			m_window(nullptr),
-			m_running(xdl::xdl_true) {
+			m_running(xdl::xdl_true),
+			m_textLayboutSystem(textLayoutSystem) 
+		{
 		}
 
 		SplashScreen::~SplashScreen() {
@@ -55,14 +57,14 @@ namespace soan {
 			m_openGL->createContext(m_window);
 			m_openGL->makeCurrent(m_window);
 
-			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window->getWidth(), m_window->getHeight(), m_openGL);
-			soan::TextureServer::Inst()->setResourcePathPrefix("./");
-
-			fontEngine->setCreateTextureCallback(createTextureFromFile);
-			fontEngine->importFromFontFile("resources/fonts/default_info.txt");
-
-			soan::XdevLTextLayout* textLayouter = new soan::XdevLTextLayoutImpl(m_window, m_openGL);
-			textLayouter->init(fontEngine);
+//			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window->getWidth(), m_window->getHeight(), m_openGL);
+//			soan::TextureServer::Inst()->setResourcePathPrefix("./");
+//
+//			fontEngine->setCreateTextureCallback(createTextureFromFile);
+//			fontEngine->importFromFontFile("resources/fonts/default_info.txt");
+//
+//			soan::XdevLTextLayout* textLayouter = new soan::XdevLTextLayoutImpl(m_window, m_openGL);
+//			textLayouter->init(fontEngine);
 
 
 			xdl::XdevLVertexShader* vs;
@@ -127,17 +129,17 @@ namespace soan {
 
 				
 				std::wstring maxVertices = L"Singularity";
-				textLayouter->setScale(1.0f);
-				textLayouter->setColor(255, 255, 255, 255);
-				textLayouter->addDynamicText(maxVertices.c_str(), -0.10, 0.0);
+				m_textLayboutSystem->setScale(1.0f);
+				m_textLayboutSystem->setColor(255, 255, 255, 255);
+				m_textLayboutSystem->addDynamicText(maxVertices.c_str(), -0.10, 0.0);
 
-				textLayouter->render();
+				m_textLayboutSystem->render();
 
 				m_openGL->swapBuffers();
 
 				xdl::sleep(0.100);
 			}
-			std::cout << "************";
+
 			xdl::destroyModule(m_core, m_window);
 			return 0;
 		}

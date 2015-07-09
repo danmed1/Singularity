@@ -80,6 +80,7 @@
     <File Name="../../src/Engine/GUI/ComboBox.h"/>
     <File Name="../../src/Engine/GUI/Button.h"/>
     <File Name="../../src/Engine/GUI/MenuBar.h"/>
+    <File Name="../../src/Engine/Fonts/XdevLFontSystemImpl.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

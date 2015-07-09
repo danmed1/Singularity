@@ -45,7 +45,7 @@ namespace soan {
 			virtual xdl::xdl_int init(XdevLFont* font);
 
 			/// Print text without optimization.
-			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y);
+			virtual void printText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) override;
 
 			/// Add dynamic text.
 			virtual void addDynamicText(const std::wstring&  text, xdl::xdl_float x, xdl::xdl_float y);

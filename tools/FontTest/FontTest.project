@@ -70,6 +70,7 @@
     <File Name="../../src/Engine/Fonts/XdevLFontImpl.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
     <File Name="../../src/Engine/Fonts/XdevLTextLayoutImpl.cpp"/>
+    <File Name="../../src/Engine/Fonts/XdevLFontSystemImpl.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="../../binary/resources/ini/fonttest.xml"/>
