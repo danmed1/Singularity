@@ -395,10 +395,6 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 	return xdl::ERR_OK;
 }
 
-xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
-	return soan::TextureServer::Inst()->import(filename);
-}
-
 xdl::xdl_int Singularity::initializeEngine() {
 	Singularity::m_textureServer = soan::TextureServer::Inst();
 	soan::TextureServer::Inst()->init(get3DProcessor(), "resources/models/");
@@ -411,7 +407,6 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	// Initialize font system.
 	m_fontSystem = new xdl::XdevLFontSystemImpl();
-	m_fontSystem->setCreateTextureCallback(createTextureFromFile);
 	m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 	soan::TextureServer::Inst()->init(get3DProcessor(), "./");
 

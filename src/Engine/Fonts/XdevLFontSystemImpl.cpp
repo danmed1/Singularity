@@ -67,22 +67,29 @@ namespace xdl {
 				std::string filename;
 				std::getline(infile, filename);
 
+				// Did the user specify a external functions to create a texture out of an image file?
 				if(createTextureFromFile) {
+					// Yes, they use that to create the texture.
 					texture = createTextureFromFile(filename.c_str());
 				} else {
-
-					std::vector<unsigned char> image;
+					// No, let's use the lodepng project import PNG files. 
+					std::vector<xdl_uint8> image;
 					xdl_uint width, height;
+
 					xdl_int error = lodepng::decode(image, width, height, filename.c_str());
+					if(error) {
+						std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+						delete font;
+						return nullptr;
+					}
 
-					// TODO This flipping is neccessary because the library flips the picture up side down.
-					std::vector<unsigned char> vflipedimage;
-					vflipedimage.reserve(width*height*4);
-					vflipedimage.resize(width*height*4);
-
-					for(auto y = 0; y < height; y++) {
-						for(auto x = 0; x < width*4; x++) {
-							vflipedimage[x + y*width*4] = image[x + (height - y)*width*4];
+					// This flipping is neccessary because the library flips the picture up side down.
+					// Method is brute force and needs unessarly memory. It creates a vector the same size
+					// and starts copying which is not effective at all.
+					std::vector<xdl_uint8> vflipedimage(image);
+					for(xdl_uint y = 0; y != height; y++) {
+						for(xdl_uint x = 0; x != width*4; x++) {
+							vflipedimage[x + y*width*4] = image[x + (height - 1 - y)*width*4];
 						}
 					}
 
@@ -90,6 +97,7 @@ namespace xdl {
 
 					texture->init(width, height, XDEVL_RGBA, XDEVL_RGBA, vflipedimage.data());
 					image.clear();
+					vflipedimage.clear();
 				}
 				if(texture == nullptr) {
 					std::cout << "XdevLFontImpl::importFromFontFile: Could not create texture: " << filename << std::endl;

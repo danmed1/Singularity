@@ -13,12 +13,6 @@
 #include <Engine/Fonts/XdevLTextLayoutImpl.h>
 
 
-
-xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
-	return soan::TextureServer::Inst()->import(filename);
-}
-
-
 class UITest : public xdl::XdevLApplication {
 	public:
 
@@ -196,7 +190,6 @@ class UITest : public xdl::XdevLApplication {
 
 			// Initialize font system.
 			m_fontSystem = new xdl::XdevLFontSystemImpl();
-			m_fontSystem->setCreateTextureCallback(createTextureFromFile);
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");

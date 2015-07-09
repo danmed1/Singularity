@@ -64,9 +64,6 @@ class FontTest : public xdl::XdevLApplication {
 
 
 				m_textEngine->setColor(200, 0, 0, 255);
-
-				m_textEngine->setEffect(0);
-
 				m_textEngine->useFont(m_font);
 				m_textEngine->printText(L"The quick brown fox jumps over the lazy dog", m_xaxis, m_yaxis);
 
@@ -106,7 +103,7 @@ class FontTest : public xdl::XdevLApplication {
 
 			// Initialize font system.
 			m_fontSystem = new xdl::XdevLFontSystemImpl();
-			m_fontSystem->setCreateTextureCallback(createTextureFromFile);
+//			m_fontSystem->setCreateTextureCallback(createTextureFromFile);
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
@@ -116,6 +113,7 @@ class FontTest : public xdl::XdevLApplication {
 			m_textEngine->init();
 			m_textEngine->setScale(1.0f);
 			m_textEngine->setDFT(0);
+			m_textEngine->setEffect(0);
 
 //			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
 //			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
