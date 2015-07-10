@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -28,35 +28,42 @@
 #include "Engine/GUI/MenuBar.h"
 
 class WidgetSceneSystem {
-public:
+	public:
 		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
 
 		WidgetSceneSystem() :
 			m_xaxis(0.0f),
 			m_yaxis(0.0f),
-			currentPointerNode(nullptr)
-		{
+			currentPointerNode(nullptr),
+			m_canvas(nullptr) {
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
 		}
-		
+
 		~WidgetSceneSystem() {
 
 		}
-		
+
 		/// Initialize the GUI system.
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
 			eventGrid = new QuadTreeType(0, 0, width , height, 2);
 			eventGrid->init();
 			return xdl::ERR_OK;
 		}
-		
+
 		/// Shut down the GUI system.
 		void shutdown() {
 			eventGrid->shutdown();
 			delete eventGrid;
 		}
-		
+		void setCanvas(soan::Canvas* canvas) {
+			m_canvas = canvas;
+		}
+
+		void setDrawNodeCallbackType(QuadTreeType::DrawNodeDelegateType callback) {
+			eventGrid->setDrawNodeCallbackType(callback);
+		}
+
 		// Draw all widgets.
 		// TODO For later improvements only needed parts of the event grid should be drawn. For now just do everything.
 		void draw() {
@@ -64,51 +71,53 @@ public:
 				widget->draw();
 			}
 		}
-		
+
 		/// The current used grid.
 		void drawGrid() {
+			m_canvas->setCurrentColor(soan::Color(255, 255, 255, 255));
 			eventGrid->drawGrid();
 		}
-		
+
 		/// Draw just one node.
 		void drawNode(QuadTreeType::NodeType* node) {
+			m_canvas->setCurrentColor(soan::Color(255, 0, 0, 255));
 			eventGrid->drawNode(node);
 		}
 
 		/// Register one widget.
 		void registerWidget(Widget* widget) {
 			// TODO What about if the user specifies 2 times the same widget?
-			
+
 			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
 			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
-			
+
 			// Add to the event grid.
 			eventGrid->insertObject(widget);
 
 			widgets.push_back(widget);
 		}
-		
+
 		void registerAll(const std::list<Widget*>& widgets) {
-			
+
 		}
-		
+
 		void unregisterWidget(Widget* widget) {
 			auto it = std::find(widgets.begin(), widgets.end(), widget);
 			if(it != widgets.end()) {
 				widgets.erase(it);
 			}
 		}
-		
+
 		QuadTreeType::NodeType* find(xdl::xdl_int x, xdl::xdl_int y) {
 			return eventGrid->find(x, y);
 		}
-		
+
 		void activateWidgets(std::list<Widget*>& widgets) {
 			for(auto& widget : widgets) {
 				activeWidgets.push_back(widget);
 			}
 		}
-		
+
 		void deactivateWidgets(std::list<Widget*>& widgets) {
 			for(auto& widget : widgets) {
 				std::list<Widget*>::iterator it = std::find(activeWidgets.begin(), activeWidgets.end(), widget);
@@ -117,7 +126,7 @@ public:
 				}
 			}
 		}
-		
+
 		void onButton(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
 
 			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
@@ -128,8 +137,7 @@ public:
 				for(auto& i : activeWidgets) {
 					i->onButtonPress(id, m_xaxis, m_yaxis);
 				}
-			} else
-			if(state == xdl::BUTTON_RELEASED) {
+			} else if(state == xdl::BUTTON_RELEASED) {
 				for(auto& i : listOfWidgets) {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
@@ -138,7 +146,7 @@ public:
 				}
 			}
 		}
-		
+
 		void onPointerMotion(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
 			switch(id) {
 				case xdl::AXIS_X: {
@@ -153,6 +161,7 @@ public:
 					break;
 			}
 			currentPointerNode = find(m_xaxis, m_yaxis);
+
 			const  WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
 			for(auto& i : listOfWidgets) {
 				i->onMouseMove(m_xaxis, m_yaxis);
@@ -161,25 +170,26 @@ public:
 				i->onMouseMove(m_xaxis, m_yaxis);
 			}
 		}
-		
+
 		std::list<Widget*>& getActiveWidgetList() {
 			return activeWidgets;
 		}
-		
+
 		QuadTreeType::NodeType* getCurrentPointerNode() const {
 			return currentPointerNode;
 		}
-		
-private:
+
+	private:
 		std::list<Widget*> activeWidgets;
 		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;
 		Widget::ActivateWidgetsDelegateType activateWidgetsDelegate;
 		Widget::DeactivateWidgetsDelegateType deactivateWidgetDelegate;
-		
+
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;
 		QuadTreeType::NodeType* currentPointerNode;
+		soan::Canvas*					m_canvas;
 };
 
 

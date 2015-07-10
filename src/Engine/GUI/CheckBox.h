@@ -81,41 +81,41 @@ public:
 
 void CheckBox::draw() {
 
-	const soan::Color& color = getColor();
-	const AABB& aabb = getAABB();
-
-	glBegin(GL_TRIANGLE_STRIP);
-	glColor4f(color.r, color.g, color.b, color.a);
-	glVertex2i(aabb.x1, aabb.y1);
-	glVertex2i(aabb.x1, aabb.y2);
-	glVertex2i(aabb.x2, aabb.y1);
-	glVertex2i(aabb.x2, aabb.y2);
-	glEnd();
-
-	// Draw the check.
-	if(checked) {
-		glBegin(GL_TRIANGLE_STRIP);
-		glColor4f(0, 0, 0, 1.0);
-		glVertex2i(aabb.x1 + checkSize, aabb.y1 + checkSize);
-		glVertex2i(aabb.x1 + checkSize, aabb.y2 - checkSize);
-		glVertex2i(aabb.x2 - checkSize, aabb.y1 + checkSize);
-		glVertex2i(aabb.x2 - checkSize, aabb.y2 - checkSize);
-		glEnd();
-	}
-
-
-	if(getBorderSize() > 0) {
-		const soan::Color& borderColor = getBorderColor();
-		glLineWidth(getBorderSize());
-		glBegin(GL_LINE_STRIP);
-		glColor4f(borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-		glVertex2i(aabb.x1, aabb.y1);
-		glVertex2i(aabb.x2, aabb.y1);
-		glVertex2i(aabb.x2, aabb.y2);
-		glVertex2i(aabb.x1, aabb.y2);
-		glVertex2i(aabb.x1, aabb.y1);
-		glEnd();
-	}
+//	const soan::Color& color = getColor();
+//	const AABB& aabb = getAABB();
+//
+//	glBegin(GL_TRIANGLE_STRIP);
+//	glColor4f(color.r, color.g, color.b, color.a);
+//	glVertex2i(aabb.x1, aabb.y1);
+//	glVertex2i(aabb.x1, aabb.y2);
+//	glVertex2i(aabb.x2, aabb.y1);
+//	glVertex2i(aabb.x2, aabb.y2);
+//	glEnd();
+//
+//	// Draw the check.
+//	if(checked) {
+//		glBegin(GL_TRIANGLE_STRIP);
+//		glColor4f(0, 0, 0, 1.0);
+//		glVertex2i(aabb.x1 + checkSize, aabb.y1 + checkSize);
+//		glVertex2i(aabb.x1 + checkSize, aabb.y2 - checkSize);
+//		glVertex2i(aabb.x2 - checkSize, aabb.y1 + checkSize);
+//		glVertex2i(aabb.x2 - checkSize, aabb.y2 - checkSize);
+//		glEnd();
+//	}
+//
+//
+//	if(getBorderSize() > 0) {
+//		const soan::Color& borderColor = getBorderColor();
+//		glLineWidth(getBorderSize());
+//		glBegin(GL_LINE_STRIP);
+//		glColor4f(borderColor.r, borderColor.g, borderColor.b, borderColor.a);
+//		glVertex2i(aabb.x1, aabb.y1);
+//		glVertex2i(aabb.x2, aabb.y1);
+//		glVertex2i(aabb.x2, aabb.y2);
+//		glVertex2i(aabb.x1, aabb.y2);
+//		glVertex2i(aabb.x1, aabb.y1);
+//		glEnd();
+//	}
 }
 
 

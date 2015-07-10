@@ -54,14 +54,13 @@ class FontTest : public xdl::XdevLApplication {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
-
 				m_textEngine->setColor(200, 0, 0, 255);
 				m_textEngine->useFont(m_font);
 				m_textEngine->printText(L"The quick brown fox jumps over the lazy dog", m_xaxis, m_yaxis);
 
 				m_textEngine->setColor(0, 0, 0, 255);
 				m_textEngine->useFont(m_font2);
-				m_textEngine->printText(L"The quick brown fox jumps over the lazy dog", -1, 0);
+				m_textEngine->printText(L"The quick brown fox jumps over the lazy dog", 0, 0);
 
 
 
@@ -109,12 +108,13 @@ class FontTest : public xdl::XdevLApplication {
 			m_font2 =  m_fontSystem->createFromFontFile("resources/fonts/Roboto-Regular_info.txt");
 
 			m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+			m_textEngine->usePixelUnits(xdl::xdl_true);
 			m_textEngine->setScale(1.0f);
 			m_textEngine->setDFT(0);
 			m_textEngine->setEffect(0);
 
-//			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
-//			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
 
 
 			return xdl::ERR_OK;
@@ -137,9 +137,9 @@ class FontTest : public xdl::XdevLApplication {
 			if(id == xdl::AXIS_0) {
 				m_xaxis = value;
 			} else if(id == xdl::AXIS_1) {
-				m_yaxis = -value;
+				m_yaxis = value;
 			}
-
+			std::cout << m_xaxis << "x" << m_yaxis << std::endl;
 		}
 
 	private:

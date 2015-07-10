@@ -74,9 +74,9 @@ class Widget {
 			buttonReleaseTimeStamp(0),
 			canvas(nullptr) {
 
-			color[0] = soan::Color(0.53f, 0.52f, 0.50f, 1.0f);
-			color[1] = soan::Color(0.73f, 0.72f, 0.70f, 1.0f);
-			color[2] = soan::Color(1.0f, 0.0f, 0.0f, 1.0f);
+			color[STANDARD]			= soan::Color(30, 30, 30, 255);
+			color[POINTER_HOVER]	= soan::Color(200, 200, 200, 255);
+			color[BUTTON_PRESSED]	= soan::Color(255, 0, 0, 255);
 		}
 
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -85,6 +85,11 @@ class Widget {
 
 		virtual ~Widget() {
 
+		}
+
+		/// Return the canvas.
+		soan::Canvas* getCanvas() {
+			return canvas;
 		}
 
 		/// Method to draw the widget.
@@ -113,7 +118,7 @@ class Widget {
 
 			if(mouseHovers && !buttonPressed) {
 				if(highLightOnMouseHover) {
-					useColor(POINTER_HOVER);
+//					useColor(POINTER_HOVER);
 				}
 			} else if(mouseHovers && buttonPressed) {
 				if(changeOnButtonPress) {

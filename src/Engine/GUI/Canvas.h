@@ -32,11 +32,21 @@ namespace soan {
 	class Canvas {
 		public:
 			virtual ~Canvas() {}
-			
+
 			virtual void setCurrentColor(const soan::Color& color) = 0;
+
+			/// Draw a line using the last point as starting point.
+			/**
+				This method draws a line strip. The last used point is used as the starting point for the line.
+				One has to provide at least two points to draw a line.
+			*/
 			virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
+
+			/// Draw a rectangle.
 			virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
-			
+
+			virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
+
 			virtual void render() = 0;
 	};
 

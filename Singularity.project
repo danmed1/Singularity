@@ -298,6 +298,8 @@
         <File Name="binary/resources/shaders/splashscreen/splash_fs.glsl"/>
         <File Name="binary/resources/shaders/splashscreen/splash_vs.glsl"/>
       </VirtualDirectory>
+      <File Name="binary/resources/shaders/ui_vs.glsl"/>
+      <File Name="binary/resources/shaders/ui_fs.glsl"/>
     </VirtualDirectory>
     <VirtualDirectory Name="ini">
       <File Name="binary/resources/ini/singularity.xml"/>

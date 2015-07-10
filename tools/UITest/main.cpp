@@ -14,7 +14,6 @@
 #include <Engine/TextureServer.h>
 
 
-
 class UITest : public xdl::XdevLApplication {
 	public:
 
@@ -57,8 +56,10 @@ class UITest : public xdl::XdevLApplication {
 			getWindow()->grabPointer();
 
 
-			soan::Canvas* canvas = new soan::CanvasXdevLOpenGL(m_opengl);
-
+			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_opengl);
+			widgetSceneSystem->setCanvas(canvas);
+			WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType delegate = WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType::Create<UITest, &UITest::drawGrid>(this);
+			widgetSceneSystem->setDrawNodeCallbackType(delegate);
 
 
 			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
@@ -75,7 +76,8 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a Button.
-			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 100, 50, 24);
+			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 280, 70, 24);
+			button1->setCanvas(canvas);
 
 			// Create the delegate that will handle the users mouse button click on it.
 			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
@@ -87,26 +89,27 @@ class UITest : public xdl::XdevLApplication {
 
 			// Create a CheckBox.
 			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
+			checkbox1->setCanvas(canvas);
 
 			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
 			checkbox1->bindOnCheck(checkDelegate);
 
 			// Register this CheckBox to the system.
-			widgetSceneSystem->registerWidget(checkbox1);
+//			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
-			ComboBox* comboBox = new ComboBox(100,100, 100,24);
+			ComboBox* comboBox = new ComboBox(100,300, 100,24);
+			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
 			comboBox->addItem(L"File", 0);
 			comboBox->addItem(L"Edit", 1);
-			comboBox->addItem(L"Help", 2);
-			comboBox->addItem(L"Help", 3);
-			comboBox->addItem(L"Help", 4);
+			comboBox->addItem(L"View", 2);
+			comboBox->addItem(L"Search", 3);
+			comboBox->addItem(L"Workspace", 4);
 			comboBox->addItem(L"Help", 5);
-			comboBox->addItem(L"Help", 6);
-			comboBox->addItem(L"Help", 7);
+
 
 
 			// Create the delegate that will handle user selection in the ComboBox.
@@ -125,48 +128,28 @@ class UITest : public xdl::XdevLApplication {
 			while(m_appRun) {
 				getCore()->update();
 
-				glMatrixMode(GL_PROJECTION);
-				glLoadIdentity();
-				glOrtho(0, getWindow()->getWidth(), getWindow()->getHeight(), 0, -1, 1);
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
+				// Set the current OpenGL context to the window.
+				get3DProcessor()->makeCurrent(getWindow());
+
+//				glMatrixMode(GL_PROJECTION);
+//				glLoadIdentity();
+//				glOrtho(0, getWindow()->getWidth(), getWindow()->getHeight(), 0, -1, 1);
+//				glMatrixMode(GL_MODELVIEW);
+//				glLoadIdentity();
 				glDisable(GL_DEPTH_TEST);
 
 				glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
+				widgetSceneSystem->drawGrid();
+				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
 
-//				glLineWidth(1.0);
-//				glColor3f(1.0, 1.0, 1.0);
-//				glBegin(GL_LINES);
-//				widgetSceneSystem->drawGrid();
-//				glEnd();
-//
-//
-//				glLineWidth(4.0);
-//				glColor3f(1.0, 0.0, 0.0);
-//				glBegin(GL_LINES);
-//				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
-//				glEnd();
+				
+				widgetSceneSystem->draw();
 
-//				widgetSceneSystem->draw();
-
-//				m_textEngine->setColor(255, 255, 255, 255);
-//				m_textEngine->setScale(1.0f);
-//				m_textEngine->setDFT(0);
-//				m_textEngine->setEffect(0);
-//				xdl::xdl_float x, y;
-//				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
-////				m_textEngine->addDynamicText(button1->getTitle(), x, y);
-////
-////				m_textEngine->render();
-//
-//				m_textEngine->printText(button1->getTitle(), x, y);
-
-				canvas->drawLine(0,0, 1, 1);
 				canvas->render();
+
 
 				get3DProcessor()->swapBuffers();
 				xdl::sleep(0.002);
@@ -214,16 +197,26 @@ class UITest : public xdl::XdevLApplication {
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
 			m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+			m_textEngine->usePixelUnits(xdl::xdl_true);
 			m_textEngine->setScale(1.0f);
 			m_textEngine->setDFT(0);
 			m_textEngine->setEffect(0);
 			m_textEngine->useFont(m_font);
 
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
 
 
 			return xdl::ERR_OK;
+		}
+
+		void drawGrid(WidgetSceneSystem::QuadTreeType::NodeType* node) {
+			const AABB& aabb = node->getAABB();
+
+			canvas->drawLine(aabb.x1, aabb.y1, aabb.x1, aabb.y2);
+			canvas->drawLine(aabb.x1, aabb.y2, aabb.x2, aabb.y2);
+			canvas->drawLine(aabb.x2, aabb.y2, aabb.x2, aabb.y1);
+			canvas->drawLine(aabb.x2, aabb.y1, aabb.x1, aabb.y1);
 		}
 
 		void onCheckedBox(const CheckBox::State& state, Widget* widget) {
@@ -272,6 +265,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLTextLayout*			m_textEngine;
 
 		WidgetSceneSystem* widgetSceneSystem;
+		soan::Canvas* canvas;
 };
 
 
