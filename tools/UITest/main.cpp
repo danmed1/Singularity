@@ -30,8 +30,6 @@ class UITest : public xdl::XdevLApplication {
 			delete widgetSceneSystem;
 			
 			delete m_font;
-			delete m_textEngine;
-			delete m_fontSystem;
 		}
 
 		virtual void main(const Arguments& argv) throw() override {

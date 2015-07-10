@@ -20,10 +20,9 @@ class FontTest : public xdl::XdevLApplication {
 			m_textEngine(nullptr) {
 
 		}
+
 		~FontTest() {
 			delete m_font;
-			delete m_textEngine;
-			delete m_fontSystem;
 		}
 
 		virtual void main(const Arguments& argv) throw() override {

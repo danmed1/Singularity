@@ -81,7 +81,6 @@ Singularity::~Singularity() {
 	delete m_frustum;
 	delete m_skybox;
 	delete m_font;
-	delete m_textEngine;
 	delete m_physics;
 	delete m_light;
 	delete m_shadowMap;
