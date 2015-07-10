@@ -57,7 +57,8 @@ class Widget {
 		enum ColorRegions {
 		    STANDARD = 0,
 		    POINTER_HOVER,
-		    BUTTON_PRESSED
+		    BUTTON_PRESSED,
+			COLOR_REGIONS_MAX
 		};
 
 		Widget(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -75,9 +76,9 @@ class Widget {
 			buttonReleaseTimeStamp(0),
 			canvas(nullptr) {
 
-			color[STANDARD]			= soan::Color(80, 80, 80, 255);
-			color[POINTER_HOVER]	= soan::Color(200, 200, 200, 255);
-			color[BUTTON_PRESSED]	= soan::Color(255, 0, 0, 255);
+			colors.push_back(soan::Color(1, 0, 0, 255));
+			colors.push_back(soan::Color(255, 255, 0, 255));
+			colors.push_back(soan::Color(255, 0, 0, 255));
 		}
 
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -110,7 +111,7 @@ class Widget {
 		/// Returns the current overall color of the widget.
 		// TODO This is at the moment quite hacky and only for testing purpose. Will change later.
 		const soan::Color& getColor() {
-			return color[currentColorLevel];
+			return colors[currentColorLevel];
 		}
 		
 		const soan::Color& getFontColor() const {
@@ -300,7 +301,6 @@ class Widget {
 		AABB aabb;
 		xdl::XdevLTimer timer;
 		xdl::xdl_uint currentColorLevel;
-		soan::Color color[4];
 		soan::Color borderColor;
 		soan::Color fontFolor;
 		xdl::xdl_uint borderSize;
@@ -313,6 +313,9 @@ class Widget {
 		xdl::xdl_uint64 buttonReleaseTimeStamp;
 
 		soan::Canvas* canvas;
+
+
+		std::vector<soan::Color> colors;
 
 		std::vector<WidgetButtonPressedDelegate> buttonPressedDelegates;
 		std::vector<WidgetButtonReleasedDelegate> buttonReleasedDelegates;
