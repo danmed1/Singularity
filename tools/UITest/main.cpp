@@ -6,6 +6,7 @@
 #include <XdevLFont/XdevLFontSystem.h>
 #include <XdevLFont/XdevLTextLayout.h>
 
+#include <Engine/GUI/CanvasXdevLOpenGL.h>
 #include <Engine/GUI/CheckBox.h>
 #include <Engine/GUI/ComboBox.h>
 #include <Engine/GUI/WidgetSceneSystem.h>
@@ -25,10 +26,11 @@ class UITest : public xdl::XdevLApplication {
 			m_textEngine(nullptr) {
 
 		}
+
 		~UITest() {
 			widgetSceneSystem->shutdown();
 			delete widgetSceneSystem;
-			
+
 			delete m_font;
 		}
 
@@ -53,6 +55,9 @@ class UITest : public xdl::XdevLApplication {
 			getWindow()->show();
 			getWindow()->setInputFocus();
 			getWindow()->grabPointer();
+
+
+			soan::Canvas* canvas = new soan::CanvasXdevLOpenGL(m_opengl);
 
 
 
@@ -133,32 +138,35 @@ class UITest : public xdl::XdevLApplication {
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 
-				glLineWidth(1.0);
-				glColor3f(1.0, 1.0, 1.0);
-				glBegin(GL_LINES);
-				widgetSceneSystem->drawGrid();
-				glEnd();
-
-
-				glLineWidth(4.0);
-				glColor3f(1.0, 0.0, 0.0);
-				glBegin(GL_LINES);
-				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
-				glEnd();
-
-				widgetSceneSystem->draw();
-
-				m_textEngine->setColor(255, 255, 255, 255);
-				m_textEngine->setScale(1.0f);
-				m_textEngine->setDFT(0);
-				m_textEngine->setEffect(0);
-				xdl::xdl_float x, y;
-				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
-//				m_textEngine->addDynamicText(button1->getTitle(), x, y);
+//				glLineWidth(1.0);
+//				glColor3f(1.0, 1.0, 1.0);
+//				glBegin(GL_LINES);
+//				widgetSceneSystem->drawGrid();
+//				glEnd();
 //
-//				m_textEngine->render();
+//
+//				glLineWidth(4.0);
+//				glColor3f(1.0, 0.0, 0.0);
+//				glBegin(GL_LINES);
+//				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
+//				glEnd();
 
-				m_textEngine->printText(button1->getTitle(), x, y);
+//				widgetSceneSystem->draw();
+
+//				m_textEngine->setColor(255, 255, 255, 255);
+//				m_textEngine->setScale(1.0f);
+//				m_textEngine->setDFT(0);
+//				m_textEngine->setEffect(0);
+//				xdl::xdl_float x, y;
+//				convertWidgetAABBToRelative(Widget::BOTTOM_LEFT, button1->getAABB(), 512, 512, x,y);
+////				m_textEngine->addDynamicText(button1->getTitle(), x, y);
+////
+////				m_textEngine->render();
+//
+//				m_textEngine->printText(button1->getTitle(), x, y);
+
+				canvas->drawLine(0,0, 1, 1);
+				canvas->render();
 
 				get3DProcessor()->swapBuffers();
 				xdl::sleep(0.002);

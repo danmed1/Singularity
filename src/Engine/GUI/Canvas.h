@@ -18,18 +18,28 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
 #ifndef CANVAS_H
 #define CANVAS_H
 
-class Canvas {
-public:
-	virtual void setCurrentColor(const soan::Color& color) = 0;
-	virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
-	virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
+#include "Engine/Color.h"
+
+namespace soan {
+
+	class Canvas {
+		public:
+			virtual ~Canvas() {}
+			
+			virtual void setCurrentColor(const soan::Color& color) = 0;
+			virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
+			virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) = 0;
+			
+			virtual void render() = 0;
+	};
+
 }
 
 #endif

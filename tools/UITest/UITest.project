@@ -77,13 +77,23 @@
     <File Name="../../src/Engine/GUI/ComboBox.h"/>
     <File Name="../../src/Engine/GUI/Button.h"/>
     <File Name="../../src/Engine/GUI/MenuBar.h"/>
+    <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.cpp"/>
+    <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.h"/>
   </VirtualDirectory>
+  <VirtualDirectory Name="resource">
+    <File Name="../../binary/resources/ini/uitest.xml"/>
+  </VirtualDirectory>
+  <Dependencies Name="Debug_Linux"/>
+  <Dependencies Name="Debug_MacOSX"/>
+  <Dependencies Name="Release_Linux"/>
+  <Dependencies Name="Release_MacOSX"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="-std=c++11" C_Options="" Assembler="">
         <IncludePath Value="."/>
         <IncludePath Value="${XDEVL_HOME}/include"/>
         <IncludePath Value="${XDEVL_PLUGINS}"/>
+        <IncludePath Value="${XDEVL_PLUGINS}/XdevLOpenGL"/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../dependencies/freeimage/include"/>
       </Compiler>
@@ -138,7 +148,7 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Debug_MacOSX" CompilerType="GCC" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug_MacOSX" CompilerType="clang++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
       </Compiler>
@@ -227,7 +237,7 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release_MacOSX" CompilerType="GCC" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release_MacOSX" CompilerType="clang++" DebuggerType="LLDB Debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
@@ -269,11 +279,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="resource">
-    <File Name="../../binary/resources/ini/uitest.xml"/>
-  </VirtualDirectory>
-  <Dependencies Name="Debug_Linux"/>
-  <Dependencies Name="Debug_MacOSX"/>
-  <Dependencies Name="Release_Linux"/>
-  <Dependencies Name="Release_MacOSX"/>
 </CodeLite_Project>

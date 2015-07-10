@@ -49,7 +49,8 @@ public:
 
 
 void Button::draw() {
-
+	
+	
 	glBegin(GL_TRIANGLE_STRIP);
 
 	const soan::Color& color = getColor();
