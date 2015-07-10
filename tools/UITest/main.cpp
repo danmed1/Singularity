@@ -131,12 +131,8 @@ class UITest : public xdl::XdevLApplication {
 				// Set the current OpenGL context to the window.
 				get3DProcessor()->makeCurrent(getWindow());
 
-//				glMatrixMode(GL_PROJECTION);
-//				glLoadIdentity();
-//				glOrtho(0, getWindow()->getWidth(), getWindow()->getHeight(), 0, -1, 1);
-//				glMatrixMode(GL_MODELVIEW);
-//				glLoadIdentity();
-				glDisable(GL_DEPTH_TEST);
+
+//				glDisable(GL_DEPTH_TEST);
 
 				glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

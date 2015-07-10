@@ -55,7 +55,7 @@ class Widget {
 		};
 
 		enum ColorRegions {
-		    STANDARD,
+		    STANDARD = 0,
 		    POINTER_HOVER,
 		    BUTTON_PRESSED
 		};
@@ -64,7 +64,8 @@ class Widget {
 			text(title),
 			aabb(x, y, x + width, y + height),
 			currentColorLevel(0),
-			borderColor(0.2f, 0.2f, 0.2f, 1.0f),
+			borderColor(255, 80, 80, 255),
+			fontFolor(0, 0, 0, 255),
 			borderSize(1),
 			mouseHovers(xdl::xdl_false),
 			buttonPressed(xdl::xdl_false),
@@ -74,7 +75,7 @@ class Widget {
 			buttonReleaseTimeStamp(0),
 			canvas(nullptr) {
 
-			color[STANDARD]			= soan::Color(30, 30, 30, 255);
+			color[STANDARD]			= soan::Color(80, 80, 80, 255);
 			color[POINTER_HOVER]	= soan::Color(200, 200, 200, 255);
 			color[BUTTON_PRESSED]	= soan::Color(255, 0, 0, 255);
 		}
@@ -111,6 +112,10 @@ class Widget {
 		const soan::Color& getColor() {
 			return color[currentColorLevel];
 		}
+		
+		const soan::Color& getFontColor() const {
+			return fontFolor;
+		}
 
 		/// The mouse got moved, let's do what we have to do with this information.
 		virtual void onMouseMove(xdl::xdl_int x, xdl::xdl_int y) {
@@ -118,7 +123,8 @@ class Widget {
 
 			if(mouseHovers && !buttonPressed) {
 				if(highLightOnMouseHover) {
-//					useColor(POINTER_HOVER);
+					useColor(POINTER_HOVER);
+					std::cout << "POINTER_HOVER" << std::endl;
 				}
 			} else if(mouseHovers && buttonPressed) {
 				if(changeOnButtonPress) {
@@ -296,6 +302,7 @@ class Widget {
 		xdl::xdl_uint currentColorLevel;
 		soan::Color color[4];
 		soan::Color borderColor;
+		soan::Color fontFolor;
 		xdl::xdl_uint borderSize;
 		xdl::xdl_bool mouseHovers;
 		xdl::xdl_bool buttonPressed;

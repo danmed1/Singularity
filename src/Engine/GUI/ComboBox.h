@@ -255,6 +255,7 @@ void ComboBox::draw() {
 				const AABB& itemaabb = item->getAABB();
 				getCanvas()->setCurrentColor(color);
 				getCanvas()->drawRect(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
+				getCanvas()->setCurrentColor(getFontColor());
 				getCanvas()->drawText(item->getTitle(), itemaabb.x1, itemaabb.y1 + itemaabb.getHeight()/2);
 			}
 		}

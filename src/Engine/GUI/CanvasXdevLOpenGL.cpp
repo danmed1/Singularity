@@ -144,6 +144,7 @@ namespace soan {
 		textInfo.text = text;
 		textInfo.x = x;
 		textInfo.y = y;
+		textInfo.color = m_currentColor;
 		
 		m_textList.push_back(textInfo);
 	}
@@ -200,6 +201,7 @@ namespace soan {
 		//
 		if(m_textList.size() > 0) {
 			for(auto& text : m_textList) {
+				m_textLayoutSystem->setColor(text.color.r, text.color.g, text.color.b, text.color.a);
 				m_textLayoutSystem->printText(text.text, text.x, text.y);
 			}
 			m_textList.clear();

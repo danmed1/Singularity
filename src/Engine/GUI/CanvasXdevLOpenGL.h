@@ -17,7 +17,7 @@ namespace soan {
 			r(0.0f),
 			g(0.0f),
 			b(0.0f),
-			a(1.0f) {
+			a(255.0f) {
 
 		}
 		xdl::xdl_float x;
@@ -30,9 +30,15 @@ namespace soan {
 	};
 
 	struct CanvasTextInfo {
+		CanvasTextInfo() :
+			x(0),
+			y(0),
+			color(0, 0, 0, 255)
+		{}
 		std::wstring text;
 		xdl::xdl_float x;
 		xdl::xdl_float y;
+		soan::Color color;
 	};
 
 	class CanvasXdevLOpenGL : public Canvas {
@@ -45,7 +51,7 @@ namespace soan {
 			virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 			virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y);
 			virtual void render();
-	private:
+		private:
 			xdl::XdevLTextLayout*			m_textLayoutSystem;
 			xdl::XdevLOpenGL330*			m_opengl;
 			xdl::XdevLVertexArray*			m_linesStripVertexArray;

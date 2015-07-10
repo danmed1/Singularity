@@ -52,11 +52,11 @@ void Button::draw() {
 	const soan::Color& color = getColor();
 	const AABB& aabb = getAABB();
 
-	getCanvas()->setCurrentColor(color);
-	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+//	getCanvas()->setCurrentColor(color);
+//	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
 
 	if(getBorderSize() > 0) {
-		const soan::Color& borderColor = getBorderColor();
+		const soan::Color& borderColor = this->getBorderColor();
 		getCanvas()->setCurrentColor(borderColor);
 		getCanvas()->drawLine(aabb.x1, aabb.y1, aabb.x1, aabb.y2);
 		getCanvas()->drawLine(aabb.x1, aabb.y2, aabb.x2, aabb.y2);
@@ -64,6 +64,7 @@ void Button::draw() {
 		getCanvas()->drawLine(aabb.x2, aabb.y1, aabb.x1, aabb.y1);
 	}
 
+	getCanvas()->setCurrentColor(getFontColor());
 	getCanvas()->drawText(getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
 
 }
