@@ -52,8 +52,8 @@ void Button::draw() {
 	const soan::Color& color = getColor();
 	const AABB& aabb = getAABB();
 
-//	getCanvas()->setCurrentColor(color);
-//	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+	getCanvas()->setCurrentColor(color);
+	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
 
 	if(getBorderSize() > 0) {
 		const soan::Color& borderColor = this->getBorderColor();

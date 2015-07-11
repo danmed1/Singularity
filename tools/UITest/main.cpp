@@ -88,18 +88,18 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a CheckBox.
-			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Nothing"), 0, 130);
+			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
 			checkbox1->setCanvas(canvas);
 
 			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
 			checkbox1->bindOnCheck(checkDelegate);
 
 			// Register this CheckBox to the system.
-//			widgetSceneSystem->registerWidget(checkbox1);
+			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
-			ComboBox* comboBox = new ComboBox(100,300, 100,24);
+			ComboBox* comboBox = new ComboBox(0, getWindow()->getHeight() - 24, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.

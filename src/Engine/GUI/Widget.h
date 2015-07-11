@@ -65,8 +65,8 @@ class Widget {
 			text(title),
 			aabb(x, y, x + width, y + height),
 			currentColorLevel(0),
-			borderColor(255, 80, 80, 255),
-			fontFolor(0, 0, 0, 255),
+			borderColor(0.2, 0.2, 0.2, 1.0f),
+			fontFolor(1.0f, 1.0f, 1.0f,  1.0f),
 			borderSize(1),
 			mouseHovers(xdl::xdl_false),
 			buttonPressed(xdl::xdl_false),
@@ -76,9 +76,9 @@ class Widget {
 			buttonReleaseTimeStamp(0),
 			canvas(nullptr) {
 
-			colors.push_back(soan::Color(1, 0, 0, 255));
-			colors.push_back(soan::Color(255, 255, 0, 255));
-			colors.push_back(soan::Color(255, 0, 0, 255));
+			colors.push_back(soan::Color(0.4f, 0.4f, 0.4f,  1.0f));
+			colors.push_back(soan::Color(0.5f, 0.5f, 0.5f,  1.0f));
+			colors.push_back(soan::Color(0.7, 0.7f, 0.7f,  1.0f));
 		}
 
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -125,7 +125,6 @@ class Widget {
 			if(mouseHovers && !buttonPressed) {
 				if(highLightOnMouseHover) {
 					useColor(POINTER_HOVER);
-					std::cout << "POINTER_HOVER" << std::endl;
 				}
 			} else if(mouseHovers && buttonPressed) {
 				if(changeOnButtonPress) {

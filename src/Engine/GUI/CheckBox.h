@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -29,93 +29,82 @@
 
 class CheckBox : public Widget {
 public:
-		enum State {
-			CHECKED,
-			UNCHECKED
-		};
+	enum State {
+	    CHECKED,
+	    UNCHECKED
+	};
 
-		typedef xdl::XdevLDelegate<void, const State&, Widget*> OnCheckStateDelegateType;
-		
-		CheckBox(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width = 16, xdl::xdl_int height = 16) :
-			Widget(title, x, y, width, height),
-			checked(xdl::xdl_false),
-			checkSize(width/4) {}
+	typedef xdl::XdevLDelegate<void, const State&, Widget*> OnCheckStateDelegateType;
 
-		virtual void draw() override;
+	CheckBox(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width = 16, xdl::xdl_int height = 16) :
+		Widget(title, x, y, width, height),
+		checked(xdl::xdl_false),
+		checkSize(width/4) {}
 
-		virtual void onButtonPress(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
-			Widget::onButtonPress(buttonid, x, y);
-		}
-		
-		virtual void onButtonRelease(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
-			if(isButtonPressed()) {
-				checked = !checked;
+	virtual void draw() override;
 
-				// TODO Shall we call the delegates when the button got released?
-				for(auto& onCheckStateDelegate : onCheckStateDelegates) {
-					onCheckStateDelegate(checked ? CHECKED : UNCHECKED, this);
-				}
+	virtual void onButtonPress(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
+		Widget::onButtonPress(buttonid, x, y);
+	}
+
+	virtual void onButtonRelease(const xdl::XdevLButtonId& buttonid, xdl::xdl_int x, xdl::xdl_int y) override {
+		if(isButtonPressed()) {
+			checked = !checked;
+
+			// TODO Shall we call the delegates when the button got released?
+			for(auto& onCheckStateDelegate : onCheckStateDelegates) {
+				onCheckStateDelegate(checked ? CHECKED : UNCHECKED, this);
 			}
-			
-			Widget::onButtonRelease(buttonid, x, y);
 		}
+
+		Widget::onButtonRelease(buttonid, x, y);
+	}
 
 public:
-		/// Bind a delegate for the check event.
-		void bindOnCheck(const OnCheckStateDelegateType& delegate) {
-			onCheckStateDelegates.push_back(delegate);
-		}
-		
-		/// Unbind a delegate from the check event.
-		void unbindOnCheck(const OnCheckStateDelegateType& delegate) {
-			onCheckStateDelegates.remove(delegate);
-		}
+	/// Bind a delegate for the check event.
+	void bindOnCheck(const OnCheckStateDelegateType& delegate) {
+		onCheckStateDelegates.push_back(delegate);
+	}
 
-	private:
-		xdl::xdl_bool checked;
-		xdl::xdl_int checkSize;
-		std::list<OnCheckStateDelegateType> onCheckStateDelegates;
+	/// Unbind a delegate from the check event.
+	void unbindOnCheck(const OnCheckStateDelegateType& delegate) {
+		onCheckStateDelegates.remove(delegate);
+	}
+
+private:
+	xdl::xdl_bool checked;
+	xdl::xdl_int checkSize;
+	std::list<OnCheckStateDelegateType> onCheckStateDelegates;
 };
 
 
 
 void CheckBox::draw() {
 
-//	const soan::Color& color = getColor();
-//	const AABB& aabb = getAABB();
-//
-//	glBegin(GL_TRIANGLE_STRIP);
-//	glColor4f(color.r, color.g, color.b, color.a);
-//	glVertex2i(aabb.x1, aabb.y1);
-//	glVertex2i(aabb.x1, aabb.y2);
-//	glVertex2i(aabb.x2, aabb.y1);
-//	glVertex2i(aabb.x2, aabb.y2);
-//	glEnd();
-//
-//	// Draw the check.
-//	if(checked) {
-//		glBegin(GL_TRIANGLE_STRIP);
-//		glColor4f(0, 0, 0, 1.0);
-//		glVertex2i(aabb.x1 + checkSize, aabb.y1 + checkSize);
-//		glVertex2i(aabb.x1 + checkSize, aabb.y2 - checkSize);
-//		glVertex2i(aabb.x2 - checkSize, aabb.y1 + checkSize);
-//		glVertex2i(aabb.x2 - checkSize, aabb.y2 - checkSize);
-//		glEnd();
-//	}
-//
-//
-//	if(getBorderSize() > 0) {
-//		const soan::Color& borderColor = getBorderColor();
-//		glLineWidth(getBorderSize());
-//		glBegin(GL_LINE_STRIP);
-//		glColor4f(borderColor.r, borderColor.g, borderColor.b, borderColor.a);
-//		glVertex2i(aabb.x1, aabb.y1);
-//		glVertex2i(aabb.x2, aabb.y1);
-//		glVertex2i(aabb.x2, aabb.y2);
-//		glVertex2i(aabb.x1, aabb.y2);
-//		glVertex2i(aabb.x1, aabb.y1);
-//		glEnd();
-//	}
+	const soan::Color& color = getColor();
+	const AABB& aabb = getAABB();
+
+	getCanvas()->setCurrentColor(color);
+	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+
+	// Draw the check.
+	if(checked) {
+		const soan::Color& checkColor = soan::Color(0.0f, 0.0f, 0.0f, 1.0f);
+		getCanvas()->setCurrentColor(checkColor);
+		getCanvas()->drawRect(aabb.x1 + checkSize, aabb.y1 + checkSize, aabb.x2 - checkSize, aabb.y2 - checkSize);
+	}
+
+	if(getBorderSize() > 0) {
+		const soan::Color& borderColor = this->getBorderColor();
+		getCanvas()->setCurrentColor(borderColor);
+		getCanvas()->drawLine(aabb.x1, aabb.y1, aabb.x1, aabb.y2); 
+		getCanvas()->drawLine(aabb.x1, aabb.y2, aabb.x2, aabb.y2);
+		getCanvas()->drawLine(aabb.x2, aabb.y2, aabb.x2, aabb.y1);
+		getCanvas()->drawLine(aabb.x2, aabb.y1, aabb.x1, aabb.y1);
+	}
+
+	getCanvas()->setCurrentColor(getFontColor());
+	getCanvas()->drawText(getTitle(), aabb.x1 + aabb.getWidth() + 4, aabb.y1);
 }
 
 

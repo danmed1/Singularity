@@ -18,7 +18,7 @@ namespace soan {
 
 		m_linesStripVertexDeclaration = new xdl::XdevLVertexDeclaration();
 		m_linesStripVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
-		m_linesStripVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, VERTEX_COLOR);
+		m_linesStripVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
 		m_opengl->createVertexBuffer(&m_linesStripVertexBuffer);
 		m_linesStripVertexBuffer->init();
@@ -61,7 +61,7 @@ namespace soan {
 
 		m_rectangleVertexDeclaration = new xdl::XdevLVertexDeclaration();
 		m_rectangleVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
-		m_rectangleVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_BYTE, VERTEX_COLOR);
+		m_rectangleVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
 		m_opengl->createVertexBuffer(&m_rectangleVertexBuffer);
 		m_rectangleVertexBuffer->init();
@@ -81,17 +81,11 @@ namespace soan {
 		CanvasLineVertex v1, v2;
 		v1.x = x1;
 		v1.y = y1;
-		v1.r = m_currentColor.r;
-		v1.g = m_currentColor.g;
-		v1.b = m_currentColor.b;
-		v1.a = m_currentColor.a;
+		v1.color = m_currentColor;
 
 		v2.x = x2;
 		v2.y = y2;
-		v2.r = m_currentColor.r;
-		v2.g = m_currentColor.g;
-		v2.b = m_currentColor.b;
-		v2.a = m_currentColor.a;
+		v2.color = m_currentColor;
 
 		m_linesStripVertexList.push_back(v1);
 		m_linesStripVertexList.push_back(v2);
@@ -102,31 +96,19 @@ namespace soan {
 		CanvasLineVertex v1, v2, v3, v4;
 		v1.x = x1;
 		v1.y = y1;
-		v1.r = m_currentColor.r;
-		v1.g = m_currentColor.g;
-		v1.b = m_currentColor.b;
-		v1.a = m_currentColor.a;
+		v1.color = m_currentColor;
 
 		v2.x = x1;
 		v2.y = y2;
-		v2.r = m_currentColor.r;
-		v2.g = m_currentColor.g;
-		v2.b = m_currentColor.b;
-		v2.a = m_currentColor.a;
+		v2.color = m_currentColor;
 
 		v3.x = x2;
 		v3.y = y2;
-		v3.r = m_currentColor.r;
-		v3.g = m_currentColor.g;
-		v3.b = m_currentColor.b;
-		v3.a = m_currentColor.a;
+		v3.color = m_currentColor;
 
 		v4.x = x2;
 		v4.y = y1;
-		v4.r = m_currentColor.r;
-		v4.g = m_currentColor.g;
-		v4.b = m_currentColor.b;
-		v4.a = m_currentColor.a;
+		v4.color = m_currentColor;
 
 		m_rectangleVertexList.push_back(v1);
 		m_rectangleVertexList.push_back(v2);
@@ -165,22 +147,8 @@ namespace soan {
 		             -1.0f,
 		             1.0f, projectionMatrix);
 
-		//
-		// Draw all lines.
-		//
 		m_opengl->setActiveShaderProgram(m_linesStripShaderProgram);
 		m_linesStripShaderProgram->setUniformMatrix4(m_projMatrix, 1, projectionMatrix);
-
-		if(m_linesStripVertexList.size() > 0) {
-			m_linesStripVertexBuffer->lock();
-			m_linesStripVertexBuffer->upload((xdl::xdl_uint8*)m_linesStripVertexList.data(), m_linesStripVertexDeclaration->vertexSize() * m_linesStripVertexList.size());
-			m_linesStripVertexBuffer->unlock();
-
-			m_opengl->setActiveVertexArray(m_linesStripVertexArray);
-
-			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_LINES, m_linesStripVertexList.size());
-			m_linesStripVertexList.clear();
-		}
 
 		//
 		// Draw all rectangles.
@@ -195,6 +163,21 @@ namespace soan {
 			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, m_rectangleVertexList.size());
 			m_rectangleVertexList.clear();
 		}
+
+		//
+		// Draw all lines.
+		//
+		if(m_linesStripVertexList.size() > 0) {
+			m_linesStripVertexBuffer->lock();
+			m_linesStripVertexBuffer->upload((xdl::xdl_uint8*)m_linesStripVertexList.data(), m_linesStripVertexDeclaration->vertexSize() * m_linesStripVertexList.size());
+			m_linesStripVertexBuffer->unlock();
+
+			m_opengl->setActiveVertexArray(m_linesStripVertexArray);
+
+			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_LINES, m_linesStripVertexList.size());
+			m_linesStripVertexList.clear();
+		}
+
 		
 		//
 		// Draw all text
