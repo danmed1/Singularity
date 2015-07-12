@@ -54,11 +54,11 @@ class Widget {
 		    BOTTOM_RIGHT
 		};
 
-		enum ColorRegions {
+		enum DrawMode {
 		    STANDARD = 0,
-		    POINTER_HOVER,
-		    BUTTON_PRESSED,
-			COLOR_REGIONS_MAX
+		    HOVERED,
+		    PRESSED,
+			DISABLED
 		};
 
 		Widget(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
@@ -124,11 +124,11 @@ class Widget {
 
 			if(mouseHovers && !buttonPressed) {
 				if(highLightOnMouseHover) {
-					useColor(POINTER_HOVER);
+					useColor(HOVERED);
 				}
 			} else if(mouseHovers && buttonPressed) {
 				if(changeOnButtonPress) {
-					useColor(BUTTON_PRESSED);
+					useColor(PRESSED);
 				}
 			} else {
 				useColor(STANDARD);
@@ -149,7 +149,7 @@ class Widget {
 			if(buttonPressed) {
 				buttonPressedTimeStamp = timer.getTime64();
 				if(changeOnButtonPress) {
-					useColor(BUTTON_PRESSED);
+					useColor(PRESSED);
 				}
 			}
 
@@ -185,7 +185,7 @@ class Widget {
 					// OK it still hovers over this widget but do we have to do something about the
 					// hovering color behavior?
 					if(highLightOnMouseHover) {
-						useColor(POINTER_HOVER);
+						useColor(HOVERED);
 					}
 				} else {
 					// Definitely switch back the background color.

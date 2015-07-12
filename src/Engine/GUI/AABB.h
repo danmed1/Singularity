@@ -39,9 +39,13 @@ public:
 	xdl::xdl_bool isPointInside(xdl::xdl_int x, xdl::xdl_int y) {
 		return ((x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2));
 	}
+	
+	/// Returns the width (x axis) of this AABB.
 	xdl::xdl_int getWidth() const {
 		return (x2-x1);
 	}
+	
+	/// Returns the height (y axis) of this AABB.
 	xdl::xdl_int getHeight() const {
 		return (y2-y1);
 	}
