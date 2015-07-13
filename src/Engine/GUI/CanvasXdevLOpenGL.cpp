@@ -53,6 +53,20 @@ namespace soan {
 		m_projMatrix = m_linesStripShaderProgram->getUniformLocation("projMatrix");
 
 
+		//
+		// Rectangle Line stuff
+		//
+
+		m_rectangleLineVertexDeclaration = new xdl::XdevLVertexDeclaration();
+		m_rectangleLineVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
+		m_rectangleLineVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
+
+		m_opengl->createVertexBuffer(&m_rectangleLineVertexBuffer);
+		m_rectangleLineVertexBuffer->init();
+
+		m_opengl->createVertexArray(&m_rectangleLineVertexArray);
+		m_rectangleLineVertexArray->init(m_rectangleLineVertexBuffer, m_rectangleLineVertexDeclaration);
+
 
 
 		//
@@ -77,6 +91,11 @@ namespace soan {
 	}
 
 
+	void CanvasXdevLOpenGL::setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) {
+		m_width = width;
+		m_height = height;
+	}
+
 	void CanvasXdevLOpenGL::drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 		CanvasLineVertex v1, v2;
 		v1.x = x1;
@@ -91,6 +110,33 @@ namespace soan {
 		m_linesStripVertexList.push_back(v2);
 
 	}
+	
+	void CanvasXdevLOpenGL::drawRectLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
+		CanvasLineVertex v1, v2, v3, v4;
+		v1.x = x1;
+		v1.y = y1;
+		v1.color = m_currentColor;
+
+		v2.x = x1;
+		v2.y = y2;
+		v2.color = m_currentColor;
+
+		v3.x = x2;
+		v3.y = y2;
+		v3.color = m_currentColor;
+
+		v4.x = x2;
+		v4.y = y1;
+		v4.color = m_currentColor;
+
+		m_rectangleLineVertexList.push_back(v1);
+		m_rectangleLineVertexList.push_back(v2);
+		m_rectangleLineVertexList.push_back(v3);
+		m_rectangleLineVertexList.push_back(v4);
+		m_rectangleLineVertexList.push_back(v1);
+
+	}
+
 
 	void CanvasXdevLOpenGL::drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 		CanvasLineVertex v1, v2, v3, v4;
@@ -163,6 +209,21 @@ namespace soan {
 			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, m_rectangleVertexList.size());
 			m_rectangleVertexList.clear();
 		}
+
+		//
+		// Draw all rectangles.
+		//
+		if(m_rectangleLineVertexList.size() > 0) {
+			m_rectangleLineVertexBuffer->lock();
+			m_rectangleLineVertexBuffer->upload((xdl::xdl_uint8*)m_rectangleLineVertexList.data(), m_rectangleLineVertexDeclaration->vertexSize() * m_rectangleLineVertexList.size());
+			m_rectangleLineVertexBuffer->unlock();
+
+			m_opengl->setActiveVertexArray(m_rectangleLineVertexArray);
+
+			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_LINE_STRIP, m_rectangleLineVertexList.size());
+			m_rectangleLineVertexList.clear();
+		}
+
 
 		//
 		// Draw all lines.

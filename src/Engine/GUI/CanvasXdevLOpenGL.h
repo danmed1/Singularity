@@ -40,18 +40,25 @@ namespace soan {
 	public:
 		CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGL330* opengl);
 		virtual ~CanvasXdevLOpenGL();
-
+		virtual void setDimensions(xdl::xdl_uint width, xdl::xdl_uint height);
 		virtual void setCurrentColor(const soan::Color& color);
 		virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
+		virtual void drawRectLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 		virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 		virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y);
 		virtual void render();
 	private:
 		xdl::XdevLTextLayout*			m_textLayoutSystem;
 		xdl::XdevLOpenGL330*			m_opengl;
+		
 		xdl::XdevLVertexArray*			m_linesStripVertexArray;
 		xdl::XdevLVertexBuffer*			m_linesStripVertexBuffer;
 		xdl::XdevLVertexDeclaration*	m_linesStripVertexDeclaration;
+
+		xdl::XdevLVertexArray*			m_rectangleLineVertexArray;
+		xdl::XdevLVertexBuffer*			m_rectangleLineVertexBuffer;
+		xdl::XdevLVertexDeclaration*	m_rectangleLineVertexDeclaration;
+
 
 		xdl::XdevLVertexArray*			m_rectangleVertexArray;
 		xdl::XdevLVertexBuffer*			m_rectangleVertexBuffer;
@@ -63,6 +70,7 @@ namespace soan {
 		xdl::xdl_uint 					m_width;
 		xdl::xdl_uint					m_height;
 		std::vector<CanvasLineVertex> 	m_linesStripVertexList;
+		std::vector<CanvasLineVertex> 	m_rectangleLineVertexList;
 		std::vector<CanvasLineVertex> 	m_rectangleVertexList;
 		std::vector<CanvasTextInfo>		m_textList;
 		soan::Color						m_currentColor;

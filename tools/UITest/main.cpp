@@ -23,7 +23,9 @@ class UITest : public xdl::XdevLApplication {
 			m_appRun(xdl::xdl_true),
 			m_font(nullptr),
 			m_textEngine(nullptr) {
-
+			
+			getCore()->registerListener(this);	
+			
 		}
 
 		~UITest() {
@@ -48,7 +50,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 			m_buttonDelegate = xdl::XdevLButtonIdDelegateType::Create<UITest, &UITest::escape_key_handle>(this);
-			getKeyboard()->registerDelegate(STRING("KEY_ESCAPE"), m_buttonDelegate);
+			getKeyboard()->registerDelegate(STRING("KEY_Q"), m_buttonDelegate);
 
 
 			getWindow()->show();
@@ -103,8 +105,8 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
-			comboBox->addItem(L"File", 0);
-			comboBox->addItem(L"Edit", 1);
+			comboBox->addItem(L"Fullsreen", 0);
+			comboBox->addItem(L"Windowed", 1);
 			comboBox->addItem(L"View", 2);
 			comboBox->addItem(L"Search", 3);
 			comboBox->addItem(L"Workspace", 4);
@@ -122,18 +124,22 @@ class UITest : public xdl::XdevLApplication {
 //			widgetSceneSystem->registerWidget(menuBar);
 
 
-			xdl::IPXdevLWindow popup = xdl::createModule<xdl::IPXdevLWindow>(getCore(), xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("MyPopup"));
-			popup->setHeight(320);
-			popup->setWidth(320);
-			
-			
-			popup->show();
-			get3DProcessor()->makeCurrent(popup);
-			glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			widgetSceneSystem->drawGrid();
-			get3DProcessor()->swapBuffers();
-			get3DProcessor()->releaseCurrent();
+//			xdl::IPXdevLWindow popup = xdl::createModule<xdl::IPXdevLWindow>(getCore(), xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("MyPopup"));
+//			
+//			popup->setHeight(512);
+//			popup->setWidth(512);
+//			
+//			
+//			popup->show();
+//			get3DProcessor()->makeCurrent(popup);
+//			glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
+//			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//			glViewport(0, 0, popup->getWidth(), popup->getHeight());
+//			comboBox->draw();
+//			canvas->render();
+//			get3DProcessor()->swapBuffers();
+//			get3DProcessor()->releaseCurrent();
+//			
 
 			while(m_appRun) {
 				getCore()->update();
@@ -141,8 +147,6 @@ class UITest : public xdl::XdevLApplication {
 				// Set the current OpenGL context to the window.
 				get3DProcessor()->makeCurrent(getWindow());
 
-
-//				glDisable(GL_DEPTH_TEST);
 
 				glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,12 +240,38 @@ class UITest : public xdl::XdevLApplication {
 
 
 		void onItemSelected(xdl::xdl_uint id, Widget* widget) {
+			if(id == 0) {
+				getWindow()->setFullscreen(xdl::xdl_true);
+			} else if(id == 1) {
+				getWindow()->setFullscreen(xdl::xdl_false);
+			}
 			std::wcout << L"ComboBox item: " << id << " title = " << widget->getTitle() << L" selected." << std::endl;
 		}
 
 		void onQuitClicked(Widget* widget) {
 			std::cout << "You clicked the quit button" << std::endl;
 			//m_appRun = xdl::xdl_false;
+		}
+
+		virtual xdl::xdl_int notify(xdl::XdevLEvent& event) {
+			switch(event.type) {
+				case xdl::XDEVL_CORE_EVENT: {
+					if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
+						m_appRun = xdl::xdl_false;
+					}
+				}break;
+				case xdl::XDEVL_WINDOW_EVENT: {
+					switch(event.window.event) {
+						case xdl::XDEVL_WINDOW_RESIZED: {
+							//createScreenVertexArray(getWindow());
+//							canvas->setDimensions(getWindow()->getWidth(), getWindow()->getHeight());
+						}
+						break;
+					}
+				}
+				break;
+			}
+			return xdl::ERR_OK;
 		}
 
 	private:

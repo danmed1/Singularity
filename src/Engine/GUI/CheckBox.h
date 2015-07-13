@@ -97,10 +97,7 @@ void CheckBox::draw() {
 	if(getBorderSize() > 0) {
 		const soan::Color& borderColor = this->getBorderColor();
 		getCanvas()->setCurrentColor(borderColor);
-		getCanvas()->drawLine(aabb.x1, aabb.y1, aabb.x1, aabb.y2); 
-		getCanvas()->drawLine(aabb.x1, aabb.y2, aabb.x2, aabb.y2);
-		getCanvas()->drawLine(aabb.x2, aabb.y2, aabb.x2, aabb.y1);
-		getCanvas()->drawLine(aabb.x2, aabb.y1, aabb.x1, aabb.y1);
+		getCanvas()->drawRectLine(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
 	}
 
 	getCanvas()->setCurrentColor(getFontColor());
