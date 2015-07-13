@@ -122,8 +122,18 @@ class UITest : public xdl::XdevLApplication {
 //			widgetSceneSystem->registerWidget(menuBar);
 
 
-
-
+			xdl::IPXdevLWindow popup = xdl::createModule<xdl::IPXdevLWindow>(getCore(), xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("MyPopup"));
+			popup->setHeight(320);
+			popup->setWidth(320);
+			
+			
+			popup->show();
+			get3DProcessor()->makeCurrent(popup);
+			glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			widgetSceneSystem->drawGrid();
+			get3DProcessor()->swapBuffers();
+			get3DProcessor()->releaseCurrent();
 
 			while(m_appRun) {
 				getCore()->update();
@@ -148,6 +158,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 				get3DProcessor()->swapBuffers();
+				get3DProcessor()->releaseCurrent();
 				xdl::sleep(0.002);
 			}
 
