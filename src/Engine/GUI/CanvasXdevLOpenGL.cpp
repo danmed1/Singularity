@@ -90,11 +90,20 @@ namespace soan {
 		delete m_linesStripVertexDeclaration;
 	}
 
+	void CanvasXdevLOpenGL::setCurrentWindow(xdl::IPXdevLWindow window) {
+			m_opengl->makeCurrent(window);
+	}
 
 	void CanvasXdevLOpenGL::setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) {
 		m_width = width;
 		m_height = height;
 	}
+
+	 void CanvasXdevLOpenGL::clearColorBuffer() {
+		glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		m_opengl->swapBuffers();
+	 }
 
 	void CanvasXdevLOpenGL::drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 		CanvasLineVertex v1, v2;

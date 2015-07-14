@@ -1,6 +1,7 @@
 #ifndef CANVAS_XDEVL_OPENGL_h
 #define CANVAS_XDEVL_OPENGL_h
 
+#include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLFont/XdevLTextLayout.h>
 
@@ -40,8 +41,13 @@ namespace soan {
 	public:
 		CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGL330* opengl);
 		virtual ~CanvasXdevLOpenGL();
+		
+		virtual void setCurrentWindow(xdl::IPXdevLWindow window);
 		virtual void setDimensions(xdl::xdl_uint width, xdl::xdl_uint height);
 		virtual void setCurrentColor(const soan::Color& color);
+		
+		virtual void clearColorBuffer();
+		
 		virtual void drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 		virtual void drawRectLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 		virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);

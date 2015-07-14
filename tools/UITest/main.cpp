@@ -37,7 +37,7 @@ class UITest : public xdl::XdevLApplication {
 
 		virtual void main(const Arguments& argv) throw() override {
 
-			widgetSceneSystem = new WidgetSceneSystem();
+			widgetSceneSystem = new WidgetSceneSystem(getCore());
 			widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
 
 			initializeRenderSystem();
@@ -124,22 +124,16 @@ class UITest : public xdl::XdevLApplication {
 //			widgetSceneSystem->registerWidget(menuBar);
 
 
-//			xdl::IPXdevLWindow popup = xdl::createModule<xdl::IPXdevLWindow>(getCore(), xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("MyPopup"));
-//			
-//			popup->setHeight(512);
-//			popup->setWidth(512);
-//			
-//			
-//			popup->show();
+
+			
+			
 //			get3DProcessor()->makeCurrent(popup);
-//			glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
+//			glClearColor(0.03f, 0.32f, 0.30f, 0.0f);
 //			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//			glViewport(0, 0, popup->getWidth(), popup->getHeight());
-//			comboBox->draw();
-//			canvas->render();
+//
 //			get3DProcessor()->swapBuffers();
 //			get3DProcessor()->releaseCurrent();
-//			
+			
 
 			while(m_appRun) {
 				getCore()->update();

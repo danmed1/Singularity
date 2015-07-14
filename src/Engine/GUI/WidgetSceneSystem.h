@@ -25,19 +25,23 @@
 #ifndef WIDGET_SCENE_SYSTEM_H
 #define WIDGET_SCENE_SYSTEM_H
 
+#include <XdevLWindow/XdevLWindow.h>
+
 #include "Engine/GUI/MenuBar.h"
 
 class WidgetSceneSystem {
 	public:
 		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
 
-		WidgetSceneSystem() :
+		WidgetSceneSystem(xdl::IPXdevLCore core) :
 			m_xaxis(0.0f),
 			m_yaxis(0.0f),
 			currentPointerNode(nullptr),
 			m_canvas(nullptr) {
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
+			
+			 windowServer = xdl::createModule<xdl::IPXdevLWindowServer>(core, xdl::XdevLModuleName("XdevLWindowServer"), xdl::XdevLID("MyWindowServer"));
 		}
 
 		~WidgetSceneSystem() {
@@ -144,6 +148,10 @@ class WidgetSceneSystem {
 				for(auto& i : activeWidgets) {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
+				
+				if(id == xdl::BUTTON_2) {
+					createPopupWindow(xdl::XdevLWindowTitle("Context Menu"), xdl::XdevLWindowSize(80, 24));
+				}
 			}
 		}
 
@@ -179,7 +187,19 @@ class WidgetSceneSystem {
 			return currentPointerNode;
 		}
 
-	private:
+		xdl::IPXdevLWindow createPopupWindow(const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size) {
+			xdl::IPXdevLWindow window = nullptr;
+			windowServer->createWindow(&window, title, xdl::XdevLWindowPosition(m_xaxis,  m_yaxis), size);
+
+			window->show();
+			m_canvas->setCurrentWindow(window);
+			m_canvas->clearColorBuffer();
+			return window;
+		}
+
+private:
+		xdl::IPXdevLWindowServer windowServer;
+
 		std::list<Widget*> activeWidgets;
 		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;

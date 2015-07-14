@@ -28,14 +28,19 @@
 #include "Engine/Color.h"
 
 namespace soan {
-
+	class xdl::XdevLWindow;
+	
 	class Canvas {
 		public:
 			virtual ~Canvas() {}
 
+			virtual void setCurrentWindow(xdl::IPXdevLWindow window) = 0;
+
 			virtual void setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) = 0;
 
 			virtual void setCurrentColor(const soan::Color& color) = 0;
+
+			virtual void clearColorBuffer() = 0;
 
 			/// Draw a line using the last point as starting point.
 			/**
