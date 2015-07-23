@@ -27,14 +27,44 @@
 
 #include <Engine/GUI/Node.h>
 
-class VBox {
+class VBox : public Widget {
 	public:
+		VBox(const AnchorPosition& anchorPosition, const ResizePolicy& verticalResizePolicy, const ResizePolicy& horizontalResizePolicy ) :
+			Widget(nullptr, L"VBox", 0, 0, 0, 0) {
+		}
 
-	void addChild(WidgetSceneSystem::QuadTreeType::NodeType* node) {
-		children.push_back(node);
-	}
+		void addChild(Widget* node) {
+			node->setParent(this);
+			children.push_back(node);
+		}
+
+		void removeChild(Widget* node) {
+			std::list<Widget*>::iterator it = std::find(children.begin(), children.end(), node);
+			if(it != children.end()) {
+				(*it)->setParent(nullptr);
+				children.erase(it);
+			}
+		}
+
+		void update() {
+			int height = 0;
+			for(auto& widget : children) {
+				const AABB& aabb = widget->getAABB();
+				height += aabb.getHeight();
+			}
+			AABB newaabb = getAABB();
+			newaabb.y2 = newaabb.y1 + height;
+			setAABB(newaabb);
+		}
+
+		virtual void draw() override {
+			for(auto& widget : children) {
+				widget->draw();
+			}
+		}
+
 	private:
-	std::list<WidgetSceneSystem::QuadTreeType::NodeType*> children;
+		std::list<Widget*> children;
 };
 
 #endif

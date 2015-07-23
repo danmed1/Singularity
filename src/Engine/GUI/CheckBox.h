@@ -37,7 +37,7 @@ public:
 	typedef xdl::XdevLDelegate<void, const State&, Widget*> OnCheckStateDelegateType;
 
 	CheckBox(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width = 16, xdl::xdl_int height = 16) :
-		Widget(title, x, y, width, height),
+		Widget(this, title, x, y, width, height),
 		checked(xdl::xdl_false),
 		checkSize(width/4) {}
 

@@ -54,15 +54,21 @@ class Widget {
 		    BOTTOM_RIGHT
 		};
 
+		enum ResizePolicy {
+		    FILL_AUTO,
+		    FILL_PARENT
+		};
+
 		enum DrawMode {
 		    STANDARD = 0,
 		    HOVERED,
 		    PRESSED,
-			DISABLED
+		    DISABLED
 		};
 
-		Widget(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
+		Widget(Widget* parentWidget, const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
 			text(title),
+			parent(parentWidget),
 			aabb(x, y, x + width, y + height),
 			currentColorLevel(0),
 			borderColor(0.2, 0.2, 0.2, 1.0f),
@@ -82,7 +88,11 @@ class Widget {
 		}
 
 		Widget(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
-			Widget(L"Default", x, y, width, height) {
+			Widget(nullptr, L"Default", x, y, width, height) {
+		}
+
+		Widget(Widget* parentWidget) :
+			Widget(parentWidget, L"Default", 0, 0, 0, 0) {
 		}
 
 		virtual ~Widget() {
@@ -102,6 +112,19 @@ class Widget {
 			return aabb;
 		}
 
+		void setAABB(const AABB& newaabb) {
+			aabb = newaabb;
+		}
+
+		Widget* getParent() const  {
+			return parent;
+		}
+
+		void setParent(Widget* newParent) {
+			// TODO Do we have to inform the childs about this?
+			parent = newParent;
+		}
+
 		/// Sets the current overall color of the widget.
 		// TODO This is at the moment quite hacky and only for testing purpose. Will change later.
 		void useColor(xdl::xdl_int idx) {
@@ -113,7 +136,7 @@ class Widget {
 		const soan::Color& getColor() {
 			return colors[currentColorLevel];
 		}
-		
+
 		const soan::Color& getFontColor() const {
 			return fontFolor;
 		}
@@ -295,7 +318,7 @@ class Widget {
 	protected:
 
 		std::wstring text;
-
+		Widget* parent;
 	private:
 		AABB aabb;
 		xdl::XdevLTimer timer;

@@ -28,7 +28,7 @@
 class Button : public Widget {
 	public:
 		Button(const std::wstring& title, xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
-			Widget(title, x, y, width, height) {
+			Widget(this, title, x, y, width, height) {
 
 			// Change color when mouse hovers.
 			setHighLightOnMouseHover(xdl::xdl_true);
