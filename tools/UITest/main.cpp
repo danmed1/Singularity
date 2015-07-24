@@ -10,6 +10,7 @@
 #include <Engine/GUI/CheckBox.h>
 #include <Engine/GUI/ComboBox.h>
 #include <Engine/GUI/WidgetSceneSystem.h>
+#include <Engine/GUI/VBox.h>
 
 #include <Engine/TextureServer.h>
 
@@ -122,6 +123,11 @@ class UITest : public xdl::XdevLApplication {
 
 			// Register this ComboBox to the system.
 			widgetSceneSystem->registerWidget(comboBox);
+
+
+//			VBox* vbox = new VBox();
+//			vbox->addChild(comboBox);
+//			vbox->addChild(checkbox1);
 
 //			widgetSceneSystem->registerWidget(menuBar);
 
