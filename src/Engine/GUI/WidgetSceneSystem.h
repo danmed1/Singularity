@@ -34,14 +34,15 @@ class WidgetSceneSystem {
 		typedef XdevLQuadTree<int, Widget*> QuadTreeType;
 
 		WidgetSceneSystem(xdl::IPXdevLCore core) :
+			eventGrid(nullptr),
 			m_xaxis(0.0f),
 			m_yaxis(0.0f),
 			currentPointerNode(nullptr),
 			m_canvas(nullptr) {
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
-			
-			 windowServer = xdl::createModule<xdl::IPXdevLWindowServer>(core, xdl::XdevLModuleName("XdevLWindowServer"), xdl::XdevLID("MyWindowServer"));
+
+			windowServer = xdl::createModule<xdl::IPXdevLWindowServer>(core, xdl::XdevLModuleName("XdevLWindowServer"), xdl::XdevLID("MyWindowServer"));
 		}
 
 		~WidgetSceneSystem() {
@@ -50,16 +51,23 @@ class WidgetSceneSystem {
 
 		/// Initialize the GUI system.
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
+			if(eventGrid != nullptr) {
+				delete eventGrid;
+			}
+
 			eventGrid = new QuadTreeType(0, 0, width , height, 2);
 			eventGrid->init();
 			return xdl::ERR_OK;
 		}
 
+
 		/// Shut down the GUI system.
 		void shutdown() {
 			eventGrid->shutdown();
 			delete eventGrid;
+			eventGrid = nullptr;
 		}
+
 		void setCanvas(soan::Canvas* canvas) {
 			m_canvas = canvas;
 		}
@@ -148,7 +156,7 @@ class WidgetSceneSystem {
 				for(auto& i : activeWidgets) {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
-				
+
 				if(id == xdl::BUTTON_2) {
 					createPopupWindow(xdl::XdevLWindowTitle("Context Menu"), xdl::XdevLWindowSize(80, 24));
 				}
@@ -197,7 +205,7 @@ class WidgetSceneSystem {
 			return window;
 		}
 
-private:
+	private:
 		xdl::IPXdevLWindowServer windowServer;
 
 		std::list<Widget*> activeWidgets;

@@ -23,9 +23,9 @@ class UITest : public xdl::XdevLApplication {
 			m_appRun(xdl::xdl_true),
 			m_font(nullptr),
 			m_textEngine(nullptr) {
-			
-			getCore()->registerListener(this);	
-			
+
+			getCore()->registerListener(this);
+
 		}
 
 		~UITest() {
@@ -60,6 +60,7 @@ class UITest : public xdl::XdevLApplication {
 
 			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_opengl);
 			widgetSceneSystem->setCanvas(canvas);
+
 			WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType delegate = WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType::Create<UITest, &UITest::drawGrid>(this);
 			widgetSceneSystem->setDrawNodeCallbackType(delegate);
 
@@ -111,6 +112,7 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->addItem(L"Search", 3);
 			comboBox->addItem(L"Workspace", 4);
 			comboBox->addItem(L"Help", 5);
+			comboBox->addItem(L"Quit", 6);
 
 
 
@@ -125,38 +127,23 @@ class UITest : public xdl::XdevLApplication {
 
 
 
-			
-			
-//			get3DProcessor()->makeCurrent(popup);
-//			glClearColor(0.03f, 0.32f, 0.30f, 0.0f);
-//			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//
-//			get3DProcessor()->swapBuffers();
-//			get3DProcessor()->releaseCurrent();
-			
 
 			while(m_appRun) {
+				soan::CanvasScope cvs(canvas, getWindow());
+
 				getCore()->update();
 
-				// Set the current OpenGL context to the window.
-				get3DProcessor()->makeCurrent(getWindow());
-
-
-				glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				canvas->clearColorBuffer();
 				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 
 				widgetSceneSystem->drawGrid();
 				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
 
-				
+
 				widgetSceneSystem->draw();
 
 				canvas->render();
 
-
-				get3DProcessor()->swapBuffers();
-				get3DProcessor()->releaseCurrent();
 				xdl::sleep(0.002);
 			}
 
@@ -234,17 +221,25 @@ class UITest : public xdl::XdevLApplication {
 
 
 		void onItemSelected(xdl::xdl_uint id, Widget* widget) {
-			if(id == 0) {
-				getWindow()->setFullscreen(xdl::xdl_true);
-			} else if(id == 1) {
-				getWindow()->setFullscreen(xdl::xdl_false);
+			switch(id) {
+				case 0: {
+					getWindow()->setFullscreen(xdl::xdl_true);
+				}
+				break;
+				case 1: {
+					getWindow()->setFullscreen(xdl::xdl_false);
+				}
+				break;
+				case 6: {
+					m_appRun = xdl::xdl_false;
+				}
 			}
+
 			std::wcout << L"ComboBox item: " << id << " title = " << widget->getTitle() << L" selected." << std::endl;
 		}
 
 		void onQuitClicked(Widget* widget) {
 			std::cout << "You clicked the quit button" << std::endl;
-			//m_appRun = xdl::xdl_false;
 		}
 
 		virtual xdl::xdl_int notify(xdl::XdevLEvent& event) {
@@ -253,12 +248,16 @@ class UITest : public xdl::XdevLApplication {
 					if(event.core.type == xdl::XDEVL_CORE_SHUTDOWN) {
 						m_appRun = xdl::xdl_false;
 					}
-				}break;
+				}
+				break;
 				case xdl::XDEVL_WINDOW_EVENT: {
 					switch(event.window.event) {
 						case xdl::XDEVL_WINDOW_RESIZED: {
-							//createScreenVertexArray(getWindow());
-//							canvas->setDimensions(getWindow()->getWidth(), getWindow()->getHeight());
+//							widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
+							m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+							canvas->setDimensions(getWindow()->getWidth(), getWindow()->getHeight());
+							getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+							getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
 						}
 						break;
 					}

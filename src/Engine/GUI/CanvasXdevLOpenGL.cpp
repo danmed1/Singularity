@@ -7,6 +7,7 @@ namespace soan {
 
 	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGL330* opengl) :
 		m_textLayoutSystem(textLayoutSystem),
+		m_window(nullptr),
 		m_opengl(opengl),
 		m_linesStripVertexArray(nullptr),
 		m_linesStripVertexBuffer(nullptr),
@@ -91,7 +92,17 @@ namespace soan {
 	}
 
 	void CanvasXdevLOpenGL::setCurrentWindow(xdl::IPXdevLWindow window) {
-			m_opengl->makeCurrent(window);
+		m_window = window;
+		m_opengl->makeCurrent(window);
+	}
+
+	void CanvasXdevLOpenGL::makeCurrentWindow() {
+		assert(m_window && "Window not set for the canvas.");
+		m_opengl->makeCurrent(m_window);
+	}
+
+	void CanvasXdevLOpenGL::releaseCurrentWindow() {
+		m_opengl->releaseCurrent();
 	}
 
 	void CanvasXdevLOpenGL::setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) {
@@ -99,11 +110,10 @@ namespace soan {
 		m_height = height;
 	}
 
-	 void CanvasXdevLOpenGL::clearColorBuffer() {
-		glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		m_opengl->swapBuffers();
-	 }
+	void CanvasXdevLOpenGL::clearColorBuffer() {
+		glClearColor(0.33f, 0.32f, 0.30f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
 	void CanvasXdevLOpenGL::drawLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 		CanvasLineVertex v1, v2;
@@ -119,7 +129,7 @@ namespace soan {
 		m_linesStripVertexList.push_back(v2);
 
 	}
-	
+
 	void CanvasXdevLOpenGL::drawRectLine(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2) {
 		CanvasLineVertex v1, v2, v3, v4;
 		v1.x = x1;
@@ -175,14 +185,14 @@ namespace soan {
 
 	}
 
-	
+
 	void CanvasXdevLOpenGL::drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) {
 		CanvasTextInfo textInfo;
 		textInfo.text = text;
 		textInfo.x = x;
 		textInfo.y = y;
 		textInfo.color = m_currentColor;
-		
+
 		m_textList.push_back(textInfo);
 	}
 
@@ -248,7 +258,7 @@ namespace soan {
 			m_linesStripVertexList.clear();
 		}
 
-		
+
 		//
 		// Draw all text
 		//
@@ -259,6 +269,8 @@ namespace soan {
 			}
 			m_textList.clear();
 		}
+
+		m_opengl->swapBuffers();
 	}
 
 }

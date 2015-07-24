@@ -25,16 +25,21 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#include <XdevLWindow/XdevLWindow.h>
+
 #include "Engine/Color.h"
 
 namespace soan {
-	class xdl::XdevLWindow;
-	
+
 	class Canvas {
 		public:
 			virtual ~Canvas() {}
 
 			virtual void setCurrentWindow(xdl::IPXdevLWindow window) = 0;
+			
+			virtual void makeCurrentWindow() = 0;
+			
+			virtual void releaseCurrentWindow() = 0;
 
 			virtual void setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) = 0;
 
@@ -56,6 +61,17 @@ namespace soan {
 			virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
 
 			virtual void render() = 0;
+	};
+
+	class CanvasScope {
+		public:
+			CanvasScope(Canvas* canvas, xdl::IPXdevLWindow window) : _canvas(canvas) {
+				_canvas->setCurrentWindow(window);
+			}
+			~CanvasScope() {
+				_canvas->releaseCurrentWindow();
+			}
+			Canvas* _canvas;
 	};
 
 }
