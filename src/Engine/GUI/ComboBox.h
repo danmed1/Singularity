@@ -190,10 +190,11 @@ class ComboBox : public Widget {
 			isActivated = xdl::xdl_false;
 		}
 
-		void selectFirstItem() {
-			std::map<Widget*, xdl::xdl_uint>::iterator it = comboBoxItemWidgetMap.begin();
-			if(it->first != nullptr) {
-				onSelectedClicked(it->first);
+		void selectItem(xdl::xdl_uint id) {
+			for(auto& widget : comboBoxItemWidgetMap) {
+				if(widget.second == id) {
+					onSelectedClicked(widget.first);
+				}
 			}
 		}
 	public:

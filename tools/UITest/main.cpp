@@ -115,7 +115,7 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->addItem(L"Help", 5);
 			comboBox->addItem(L"Quit", 6);
 
-			comboBox->selectFirstItem();
+			comboBox->selectItem(4);
 
 
 			// Create the delegate that will handle user selection in the ComboBox.
