@@ -118,7 +118,10 @@ class ComboBox : public Widget {
 			}
 		}
 
-		void onSelectedClicked(Widget* widget) {
+
+		// Select a widget witout input interaction. That would be for example
+		// If the user used the selectItem method.
+		void preSelectItem(Widget* widget) {
 			// If this method is called the user selected an item in the ComboBox list. We have to deactivate the ComboBox
 			// remove all widgets from the event grid and unbind the delegates to handle selection events from the user.
 
@@ -129,6 +132,11 @@ class ComboBox : public Widget {
 
 			isActivated = xdl::xdl_false;
 			currentSelectedItem = widget;
+		}
+
+		void onSelectedClicked(Widget* widget) {
+			
+			preSelectItem(widget);
 
 			for(auto& widget : combBoxItemWidgetList) {
 				widget->unbindOnClicked(selectedDelegate);
@@ -142,6 +150,7 @@ class ComboBox : public Widget {
 			deactivateWidgetsFlag = xdl::xdl_true;
 
 		}
+
 
 		/// Add one item into the CheckBox with specific delegate.
 		void addItem(const std::wstring& title, const OnClickedDelegate& delegate) {
@@ -193,9 +202,10 @@ class ComboBox : public Widget {
 		void selectItem(xdl::xdl_uint id) {
 			for(auto& widget : comboBoxItemWidgetMap) {
 				if(widget.second == id) {
-					onSelectedClicked(widget.first);
+					preSelectItem(widget.first);
 				}
 			}
+			
 		}
 	public:
 

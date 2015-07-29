@@ -52,11 +52,19 @@ class WidgetSceneSystem {
 		/// Initialize the GUI system.
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
 			if(eventGrid != nullptr) {
+				eventGrid->shutdown();
 				delete eventGrid;
 			}
 
 			eventGrid = new QuadTreeType(0, 0, width , height, 2);
 			eventGrid->init();
+
+			if(widgets.size() > 0) {
+				for(auto& widget : widgets) {
+					eventGrid->insertObject(widget);
+				}
+			}
+
 			return xdl::ERR_OK;
 		}
 
@@ -109,8 +117,11 @@ class WidgetSceneSystem {
 			widgets.push_back(widget);
 		}
 
-		void registerAll(const std::list<Widget*>& widgets) {
-
+		void registerAll(const std::list<Widget*>& widgetList) {
+			for(auto& widget : widgetList) {
+				eventGrid->insertObject(widget);
+				widgets.push_back(widget);
+			}
 		}
 
 		void unregisterWidget(Widget* widget) {

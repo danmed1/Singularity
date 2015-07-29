@@ -230,11 +230,13 @@ class UITest : public xdl::XdevLApplication {
 		void onItemSelected(xdl::xdl_uint id, Widget* widget) {
 			switch(id) {
 				case 0: {
-					getWindow()->setFullscreen(xdl::xdl_true);
+					getWindow()->setSize(xdl::XdevLWindowSize(1024, 1024));
+					
+//					getWindow()->setFullscreen(xdl::xdl_true);
 				}
 				break;
 				case 1: {
-					getWindow()->setFullscreen(xdl::xdl_false);
+				//	getWindow()->setFullscreen(xdl::xdl_false);
 				}
 				break;
 				case 6: {
@@ -260,7 +262,7 @@ class UITest : public xdl::XdevLApplication {
 				case xdl::XDEVL_WINDOW_EVENT: {
 					switch(event.window.event) {
 						case xdl::XDEVL_WINDOW_RESIZED: {
-//							widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
+							widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
 							m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 							canvas->setDimensions(getWindow()->getWidth(), getWindow()->getHeight());
 							getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());

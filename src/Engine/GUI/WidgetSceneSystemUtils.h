@@ -41,10 +41,11 @@ class XdevLQuadTree {
 		}
 
 		~XdevLQuadTree() {
-
+			assert( (root == nullptr) && "XdevLQuadtTree:init: Quadtree wasn't shutdown before. Please shutdown before deleting this object.");
 		}
 
 		void init() {
+			assert( (root == nullptr) && "XdevLQuadtTree:init: Quadtree wasn't shutdown before. Please shutdown before calling this method again.");
 			root = new NodeType(aabb);
 			//create_recursive(0, root);
 		}
