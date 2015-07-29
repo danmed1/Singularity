@@ -49,7 +49,8 @@ class ComboBox : public Widget {
 			isActivated(xdl::xdl_false),
 			currentSelectedIndex(0),
 			currentSelectedItem(nullptr),
-			deactivateWidgetsFlag(xdl::xdl_false) {
+			deactivateWidgetsFlag(xdl::xdl_false),
+			popupWindow(nullptr) {
 
 			// Change color when mouse hovers.
 			setHighLightOnMouseHover(xdl::xdl_true);
@@ -82,10 +83,15 @@ class ComboBox : public Widget {
 
 				// Did the user activated the combo box pressing the mouse button?
 				if(isActivated) {
-
 					// Yes, so we have to add widgets that is used as items of the ComboBox into the event grid
 					// and we assigned a delegate that will inform us when the user selects an item.
 
+					const xdl::XdevLWindowTitle title("Test");
+					const xdl::XdevLWindowSize size(320, 104);
+					spawnPopupWindow(&popupWindow, title, size);
+					getCanvas()->setCurrentWindow(popupWindow);
+					popupWindow->show();
+					
 					// First assign the delegate that will handles selection events.
 					for(auto& widget : combBoxItemWidgetList) {
 						widget->bindOnClicked(selectedDelegate);
@@ -93,6 +99,7 @@ class ComboBox : public Widget {
 
 					// Now activate all widgets on the event grid.
 					activateWidgets(combBoxItemWidgetList);
+
 
 				} else {
 
@@ -104,6 +111,12 @@ class ComboBox : public Widget {
 
 					// And then we deactivate all widgets from the event grid.
 					deactivateWidgets(combBoxItemWidgetList);
+					
+					if(popupWindow) {
+						getCanvas()->releaseCurrentWindow();
+						destroyWindow(popupWindow);
+						popupWindow = nullptr;
+					}
 				}
 			}
 		}
@@ -232,6 +245,7 @@ class ComboBox : public Widget {
 		std::list<OnItemSelectedDelegateType> onItemSelectedDelegates;
 
 		xdl::xdl_bool deactivateWidgetsFlag;
+		xdl::XdevLWindow* popupWindow;
 };
 
 

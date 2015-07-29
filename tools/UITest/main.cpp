@@ -231,7 +231,7 @@ class UITest : public xdl::XdevLApplication {
 			switch(id) {
 				case 0: {
 					getWindow()->setSize(xdl::XdevLWindowSize(1024, 1024));
-					
+
 //					getWindow()->setFullscreen(xdl::xdl_true);
 				}
 				break;

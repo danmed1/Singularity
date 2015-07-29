@@ -43,6 +43,8 @@ class Widget {
 		typedef xdl::XdevLDelegate<void, Widget*> OnClickedDelegate;
 		typedef xdl::XdevLDelegate<void, Widget*> OnPointerHoverDelegate;
 
+		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow*> DestroyWindowDelegateType;
+		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow**, const xdl::XdevLWindowTitle&, const xdl::XdevLWindowSize&> SpawnPopupWindowDelegateType;
 		typedef xdl::XdevLDelegate<void, std::list<Widget*>&> ActivateWidgetsDelegateType;
 		typedef xdl::XdevLDelegate<void, std::list<Widget*>&> DeactivateWidgetsDelegateType;
 
@@ -248,6 +250,14 @@ class Widget {
 			eventGrid = ws;
 		}
 
+		void setSpawnPopupWindowDelegate(SpawnPopupWindowDelegateType& spawnPopupWindowDelegate) {
+			spawnPopupWindow = spawnPopupWindowDelegate;
+		}
+		
+		void setDestroyWindowDelegate(DestroyWindowDelegateType& destroyWindowDelegate) {
+			destroyWindow = destroyWindowDelegate;
+		}
+
 		void setActiveWidgetListDelegate(ActivateWidgetsDelegateType& activateWidgetsDelegate) {
 			activateWidgets = activateWidgetsDelegate;
 		}
@@ -344,6 +354,9 @@ class Widget {
 
 	public:
 		XdevLQuadTree<int, Widget*>* eventGrid;
+		
+		DestroyWindowDelegateType destroyWindow;
+		SpawnPopupWindowDelegateType spawnPopupWindow;
 		ActivateWidgetsDelegateType activateWidgets;
 		DeactivateWidgetsDelegateType deactivateWidgets;
 	private:

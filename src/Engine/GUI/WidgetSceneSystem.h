@@ -39,6 +39,8 @@ class WidgetSceneSystem {
 			m_yaxis(0.0f),
 			currentPointerNode(nullptr),
 			m_canvas(nullptr) {
+			spawnPopupWindowDelegate  = Widget::SpawnPopupWindowDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::spawnPopupWindow>(this);
+			destroyWindowDelegate = Widget::DestroyWindowDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::destroyWindow>(this);
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
 
@@ -110,6 +112,8 @@ class WidgetSceneSystem {
 
 			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
 			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
+			widget->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
+			widget->setDestroyWindowDelegate(destroyWindowDelegate);
 
 			// Add to the event grid.
 			eventGrid->insertObject(widget);
@@ -168,9 +172,6 @@ class WidgetSceneSystem {
 					i->onButtonRelease(id, m_xaxis, m_yaxis);
 				}
 
-				if(id == xdl::BUTTON_2) {
-					createPopupWindow(xdl::XdevLWindowTitle("Context Menu"), xdl::XdevLWindowSize(80, 24));
-				}
 			}
 		}
 
@@ -206,14 +207,12 @@ class WidgetSceneSystem {
 			return currentPointerNode;
 		}
 
-		xdl::IPXdevLWindow createPopupWindow(const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size) {
-			xdl::IPXdevLWindow window = nullptr;
-			windowServer->createWindow(&window, title, xdl::XdevLWindowPosition(m_xaxis,  m_yaxis), size);
-
-			window->show();
-			m_canvas->setCurrentWindow(window);
-			m_canvas->clearColorBuffer();
-			return window;
+		void spawnPopupWindow(xdl::XdevLWindow** window, const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size) {
+			windowServer->createWindow(window, title, xdl::XdevLWindowPosition(m_xaxis,  m_yaxis), size);
+		}
+		
+		void destroyWindow(xdl::XdevLWindow* window) {
+			windowServer->destroy(window);
 		}
 
 	private:
@@ -222,6 +221,8 @@ class WidgetSceneSystem {
 		std::list<Widget*> activeWidgets;
 		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;
+		Widget::SpawnPopupWindowDelegateType spawnPopupWindowDelegate;
+		Widget::DestroyWindowDelegateType destroyWindowDelegate;
 		Widget::ActivateWidgetsDelegateType activateWidgetsDelegate;
 		Widget::DeactivateWidgetsDelegateType deactivateWidgetDelegate;
 
