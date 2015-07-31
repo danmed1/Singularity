@@ -87,24 +87,22 @@ class ComboBox : public Widget {
 					// Yes, so we have to add widgets that is used as items of the ComboBox into the event grid
 					// and we assigned a delegate that will inform us when the user selects an item.
 
-					const xdl::XdevLWindowTitle title("Test");
-
-					calulateDimensions();
-
-					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
-
-
-					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
-					pos = getCanvas()->getWindow()->getPosition();
-					pos.x += 60 + getAABB().x1;
-					pos.y += 24 + getAABB().getHeight();
-
-					spawnPopupWindow(&popupWindow, title, size, pos);
-					getCanvas()->setCurrentWindow(popupWindow);
-
-//					draw();
-//					getCanvas()->render();
-					popupWindow->show();
+//					const xdl::XdevLWindowTitle title("Test");
+//
+//					calulateDimensions();
+//
+//					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
+//
+//
+//					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
+//					pos = getCanvas()->getWindow()->getPosition();
+//					pos.x += 60 + getAABB().x1;
+//					pos.y += 24 + getAABB().getHeight();
+//
+//					spawnPopupWindow(&popupWindow, title, size, pos);
+//					getCanvas()->setCurrentWindow(popupWindow);
+//
+//					popupWindow->show();
 
 					// First assign the delegate that will handles selection events.
 					for(auto& widget : combBoxItemWidgetList) {
@@ -247,6 +245,8 @@ class ComboBox : public Widget {
 	private:
 
 		void calulateDimensions();
+		void drawComboBoxButton();
+		void drawComboBoxItems();
 
 	private:
 		// Holds all items in the ComboBox.
@@ -277,10 +277,10 @@ void ComboBox::calulateDimensions() {
 }
 
 
-void ComboBox::draw() {
+void ComboBox::drawComboBoxButton() {
 	const AABB& aabb = getAABB();
 	const soan::Color& color = getColor();
-
+		
 	// Draw the activate button.
 	getCanvas()->setCurrentColor(color);
 	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
@@ -291,11 +291,11 @@ void ComboBox::draw() {
 	getCanvas()->setCurrentColor(arrowColor);
 	getCanvas()->drawRect(x_off, aabb.y1, aabb.x2, aabb.y2);
 
-	if(popupWindow) {
-		getCanvas()->setCurrentWindow(popupWindow);
-		getCanvas()->makeCurrentWindow();
-	}
+}
 
+void ComboBox::drawComboBoxItems() {
+	const AABB& aabb = getAABB();
+	
 	// Draw all items inside the ComboBox.
 	if(isActivated) {
 		if(combBoxItemWidgetList.size() > 0) {
@@ -323,23 +323,39 @@ void ComboBox::draw() {
 			}
 		}
 	}
+}
+
+void ComboBox::draw() {
+	const AABB& aabb = getAABB();
+
 
 	if(popupWindow) {
+		getCanvas()->setCurrentWindow(popupWindow);
+		getCanvas()->makeCurrentWindow();
+		
+		drawComboBoxItems();
+		
 		getCanvas()->releaseCurrentWindow();
 		getCanvas()->render();
 	}
-	// Draw the selected item text into the ComboBox Button.
-	if(currentSelectedItem != nullptr) {
-		getCanvas()->setCurrentColor(getFontColor());
-		getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
-	}
+	
+		drawComboBoxButton();
+		drawComboBoxItems();
 
-	// Draw the borders.
-	if(getBorderSize() > 0) {
-		const soan::Color& borderColor = this->getBorderColor();
-		getCanvas()->setCurrentColor(borderColor);
-		getCanvas()->drawRectLine(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
-	}
+
+		// Draw the selected item text into the ComboBox Button.
+		if(currentSelectedItem != nullptr) {
+			getCanvas()->setCurrentColor(getFontColor());
+			getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
+		}
+
+		// Draw the borders.
+		if(getBorderSize() > 0) {
+			const soan::Color& borderColor = this->getBorderColor();
+			getCanvas()->setCurrentColor(borderColor);
+			getCanvas()->drawRectLine(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+		}
+	
 }
 
 
