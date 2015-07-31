@@ -45,6 +45,10 @@ namespace soan {
 			virtual void makeCurrentWindow();
 			virtual void releaseCurrentWindow();
 
+			virtual xdl::IPXdevLWindow getWindow();
+			virtual const xdl::xdl_uint& getWidth() const;
+			virtual const xdl::xdl_uint& getHeight() const;
+
 			virtual void setDimensions(xdl::xdl_uint width, xdl::xdl_uint height);
 			virtual void setCurrentColor(const soan::Color& color);
 
@@ -58,6 +62,7 @@ namespace soan {
 		private:
 			xdl::XdevLTextLayout*			m_textLayoutSystem;
 			xdl::XdevLWindow* 				m_window;
+			xdl::XdevLWindow* 				m_previousWindow;
 			xdl::XdevLOpenGL330*			m_opengl;
 
 			xdl::XdevLVertexArray*			m_linesStripVertexArray;

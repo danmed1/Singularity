@@ -37,6 +37,12 @@ namespace soan {
 
 			virtual void setCurrentWindow(xdl::IPXdevLWindow window) = 0;
 			
+			virtual xdl::IPXdevLWindow getWindow() = 0;
+
+			virtual const xdl::xdl_uint& getWidth() const = 0;
+			
+			virtual const xdl::xdl_uint& getHeight() const = 0;
+			
 			virtual void makeCurrentWindow() = 0;
 			
 			virtual void releaseCurrentWindow() = 0;

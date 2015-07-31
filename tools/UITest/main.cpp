@@ -66,40 +66,40 @@ class UITest : public xdl::XdevLApplication {
 			widgetSceneSystem->setDrawNodeCallbackType(delegate);
 
 
-			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
-			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
-			ContextMenu* menu1 = menuBar->addMenu(L"File");
-
-			menu1->bindOnItemSelected(fileMenuDelegate);
-			ContextMenu* menu2 = menuBar->addMenu(L"Help");
-			menu1->addItem(L"New File");
-			menu1->addItem(L"Open File");
-			menu1->addItem(L"Quit");
-
-			menu2->addItem(L"About");
-
-
-			// Create a Button.
-			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 280, 70, 24);
-			button1->setCanvas(canvas);
-
-			// Create the delegate that will handle the users mouse button click on it.
-			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
-			button1->bindOnClicked(quitDelegate);
-
-			// Register this Button to the system.
-			widgetSceneSystem->registerWidget(button1);
+//			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
+//			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
+//			ContextMenu* menu1 = menuBar->addMenu(L"File");
+//
+//			menu1->bindOnItemSelected(fileMenuDelegate);
+//			ContextMenu* menu2 = menuBar->addMenu(L"Help");
+//			menu1->addItem(L"New File");
+//			menu1->addItem(L"Open File");
+//			menu1->addItem(L"Quit");
+//
+//			menu2->addItem(L"About");
 
 
-			// Create a CheckBox.
-			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
-			checkbox1->setCanvas(canvas);
+//			// Create a Button.
+//			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 280, 70, 24);
+//			button1->setCanvas(canvas);
+//
+//			// Create the delegate that will handle the users mouse button click on it.
+//			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
+//			button1->bindOnClicked(quitDelegate);
+//
+//			// Register this Button to the system.
+//			widgetSceneSystem->registerWidget(button1);
 
-			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
-			checkbox1->bindOnCheck(checkDelegate);
 
-			// Register this CheckBox to the system.
-			widgetSceneSystem->registerWidget(checkbox1);
+//			// Create a CheckBox.
+//			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
+//			checkbox1->setCanvas(canvas);
+//
+//			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
+//			checkbox1->bindOnCheck(checkDelegate);
+//
+//			// Register this CheckBox to the system.
+//			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
@@ -261,6 +261,9 @@ class UITest : public xdl::XdevLApplication {
 				break;
 				case xdl::XDEVL_WINDOW_EVENT: {
 					switch(event.window.event) {
+						case xdl::XDEVL_WINDOW_INPUT_FOCUS_GAINED: {
+							widgetSceneSystem->onFocusLost(event.window.windowid);
+						}break;
 						case xdl::XDEVL_WINDOW_RESIZED: {
 							widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
 							m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());

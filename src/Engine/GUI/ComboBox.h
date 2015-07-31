@@ -50,7 +50,8 @@ class ComboBox : public Widget {
 			currentSelectedIndex(0),
 			currentSelectedItem(nullptr),
 			deactivateWidgetsFlag(xdl::xdl_false),
-			popupWindow(nullptr) {
+			popupWindow(nullptr),
+			comboxBoxListHeight(0) {
 
 			// Change color when mouse hovers.
 			setHighLightOnMouseHover(xdl::xdl_true);
@@ -87,11 +88,24 @@ class ComboBox : public Widget {
 					// and we assigned a delegate that will inform us when the user selects an item.
 
 					const xdl::XdevLWindowTitle title("Test");
-					const xdl::XdevLWindowSize size(320, 104);
-					spawnPopupWindow(&popupWindow, title, size);
+
+					calulateDimensions();
+
+					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
+
+
+					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
+					pos = getCanvas()->getWindow()->getPosition();
+					pos.x += 60 + getAABB().x1;
+					pos.y += 24 + getAABB().getHeight();
+
+					spawnPopupWindow(&popupWindow, title, size, pos);
 					getCanvas()->setCurrentWindow(popupWindow);
+
+//					draw();
+//					getCanvas()->render();
 					popupWindow->show();
-					
+
 					// First assign the delegate that will handles selection events.
 					for(auto& widget : combBoxItemWidgetList) {
 						widget->bindOnClicked(selectedDelegate);
@@ -111,7 +125,7 @@ class ComboBox : public Widget {
 
 					// And then we deactivate all widgets from the event grid.
 					deactivateWidgets(combBoxItemWidgetList);
-					
+
 					if(popupWindow) {
 						getCanvas()->releaseCurrentWindow();
 						destroyWindow(popupWindow);
@@ -148,7 +162,7 @@ class ComboBox : public Widget {
 		}
 
 		void onSelectedClicked(Widget* widget) {
-			
+
 			preSelectItem(widget);
 
 			for(auto& widget : combBoxItemWidgetList) {
@@ -218,7 +232,7 @@ class ComboBox : public Widget {
 					preSelectItem(widget.first);
 				}
 			}
-			
+
 		}
 	public:
 
@@ -229,6 +243,10 @@ class ComboBox : public Widget {
 		void unbindOnItemSelected(const OnItemSelectedDelegateType& delegate) {
 			onItemSelectedDelegates.remove(delegate);
 		}
+
+	private:
+
+		void calulateDimensions();
 
 	private:
 		// Holds all items in the ComboBox.
@@ -246,8 +264,17 @@ class ComboBox : public Widget {
 
 		xdl::xdl_bool deactivateWidgetsFlag;
 		xdl::XdevLWindow* popupWindow;
+		xdl::xdl_int comboxBoxListHeight;
 };
 
+void ComboBox::calulateDimensions() {
+	// Draw the background of the items list.
+	comboxBoxListHeight = 0;
+	for(auto& item : combBoxItemWidgetList) {
+		const AABB& itemaabb = item->getAABB();
+		comboxBoxListHeight += itemaabb.getHeight();
+	}
+}
 
 
 void ComboBox::draw() {
@@ -264,16 +291,14 @@ void ComboBox::draw() {
 	getCanvas()->setCurrentColor(arrowColor);
 	getCanvas()->drawRect(x_off, aabb.y1, aabb.x2, aabb.y2);
 
+	if(popupWindow) {
+		getCanvas()->setCurrentWindow(popupWindow);
+		getCanvas()->makeCurrentWindow();
+	}
+
 	// Draw all items inside the ComboBox.
 	if(isActivated) {
 		if(combBoxItemWidgetList.size() > 0) {
-
-			// Draw the background of the items list.
-			xdl::xdl_int height = 0;
-			for(auto& item : combBoxItemWidgetList) {
-				const AABB& itemaabb = item->getAABB();
-				height += itemaabb.getHeight();
-			}
 
 			const soan::Color& borderColor = getBorderColor();
 			getCanvas()->setCurrentColor(borderColor);
@@ -299,6 +324,10 @@ void ComboBox::draw() {
 		}
 	}
 
+	if(popupWindow) {
+		getCanvas()->releaseCurrentWindow();
+		getCanvas()->render();
+	}
 	// Draw the selected item text into the ComboBox Button.
 	if(currentSelectedItem != nullptr) {
 		getCanvas()->setCurrentColor(getFontColor());

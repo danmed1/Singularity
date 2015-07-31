@@ -154,6 +154,12 @@ class WidgetSceneSystem {
 			}
 		}
 
+		void onFocusLost(xdl::xdl_uint windowID) {
+//			if(activeWidgets.size() > 0) {
+//				deactivateWidgets(activeWidgets);
+//			}
+		}
+
 		void onButton(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
 
 			const WidgetSceneSystem::QuadTreeType::NodeType::NodeItemVectorType& listOfWidgets = currentPointerNode->getItems();
@@ -207,8 +213,8 @@ class WidgetSceneSystem {
 			return currentPointerNode;
 		}
 
-		void spawnPopupWindow(xdl::XdevLWindow** window, const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size) {
-			windowServer->createWindow(window, title, xdl::XdevLWindowPosition(m_xaxis,  m_yaxis), size);
+		void spawnPopupWindow(xdl::XdevLWindow** window, const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size, const xdl::XdevLWindowPosition& pos) {
+			windowServer->createWindow(window, title, pos, size);
 		}
 		
 		void destroyWindow(xdl::XdevLWindow* window) {

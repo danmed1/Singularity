@@ -44,7 +44,7 @@ class Widget {
 		typedef xdl::XdevLDelegate<void, Widget*> OnPointerHoverDelegate;
 
 		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow*> DestroyWindowDelegateType;
-		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow**, const xdl::XdevLWindowTitle&, const xdl::XdevLWindowSize&> SpawnPopupWindowDelegateType;
+		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow**, const xdl::XdevLWindowTitle&, const xdl::XdevLWindowSize&, const xdl::XdevLWindowPosition&> SpawnPopupWindowDelegateType;
 		typedef xdl::XdevLDelegate<void, std::list<Widget*>&> ActivateWidgetsDelegateType;
 		typedef xdl::XdevLDelegate<void, std::list<Widget*>&> DeactivateWidgetsDelegateType;
 
@@ -224,7 +224,10 @@ class Widget {
 			}
 		}
 
-
+		virtual void onFocusLost() {
+			
+		}
+		
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {
 			return buttonPressed;

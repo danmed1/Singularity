@@ -8,6 +8,7 @@ namespace soan {
 	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGL330* opengl) :
 		m_textLayoutSystem(textLayoutSystem),
 		m_window(nullptr),
+		m_previousWindow(nullptr),
 		m_opengl(opengl),
 		m_linesStripVertexArray(nullptr),
 		m_linesStripVertexBuffer(nullptr),
@@ -92,17 +93,31 @@ namespace soan {
 	}
 
 	void CanvasXdevLOpenGL::setCurrentWindow(xdl::IPXdevLWindow window) {
+		m_previousWindow = m_window;
 		m_window = window;
-		m_opengl->makeCurrent(window);
 	}
 
 	void CanvasXdevLOpenGL::makeCurrentWindow() {
 		assert(m_window && "Window not set for the canvas.");
 		m_opengl->makeCurrent(m_window);
+		glViewport(0, 0, m_window->getWidth(), m_window->getHeight());
 	}
 
 	void CanvasXdevLOpenGL::releaseCurrentWindow() {
 		m_opengl->releaseCurrent();
+		m_window = m_previousWindow;
+	}
+
+	xdl::IPXdevLWindow CanvasXdevLOpenGL::getWindow() {
+		return m_window;
+	}
+
+	const xdl::xdl_uint& CanvasXdevLOpenGL::getWidth() const {
+		return m_width;
+	}
+
+	const xdl::xdl_uint& CanvasXdevLOpenGL::getHeight() const {
+		return m_height;
 	}
 
 	void CanvasXdevLOpenGL::setDimensions(xdl::xdl_uint width, xdl::xdl_uint height) {
@@ -202,6 +217,9 @@ namespace soan {
 	}
 
 	void CanvasXdevLOpenGL::render() {
+		makeCurrentWindow();
+
+		clearColorBuffer();
 
 		tmath::mat4 projectionMatrix;
 		tmath::identity(projectionMatrix);
@@ -271,6 +289,7 @@ namespace soan {
 		}
 
 		m_opengl->swapBuffers();
+		releaseCurrentWindow();
 	}
 
 }
