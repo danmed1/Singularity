@@ -30,11 +30,11 @@
 class VBox : public Widget {
 	public:
 		VBox(const AnchorPosition& anchorPosition, const ResizePolicy& verticalResizePolicy, const ResizePolicy& horizontalResizePolicy ) :
-			Widget(nullptr, L"VBox", 100, 200, 0, 0),
+			Widget(nullptr, L"VBox", 100, 400, 0, 0),
 			gotDirty(xdl::xdl_true) {
 		}
 
-		void update() {
+		virtual void update() override {
 			int height = 0;
 
 			AABB vboxaabb(getAABB());
@@ -51,6 +51,7 @@ class VBox : public Widget {
 				height -= widget->getAABB().getHeight();
 
 				widget->setAABB(tmp);
+				widget->update();
 				
 			}
 			gotDirty = xdl::xdl_false;

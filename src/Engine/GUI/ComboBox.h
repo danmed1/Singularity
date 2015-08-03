@@ -1,25 +1,25 @@
 /*
-	Copyright (c) 2015 Cengiz Terzibas
+        Copyright (c) 2015 Cengiz Terzibas
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
 
-	The above copyright notice and this permission notice shall be included in
-	all copies or substantial portions of the Software.
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	THE SOFTWARE.
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
 
-	cengiz@terzibas.de
+        cengiz@terzibas.de
 */
 
 #ifndef COMBO_BOX_H
@@ -28,30 +28,30 @@
 #include "Engine/GUI/Button.h"
 #include <map>
 /**
-	@class ComboBox
-	@brief A combobox class
+        @class ComboBox
+        @brief A combobox class
 
-	A ComboBox open a popup on activation and provides a list of items that can be selected.
-	Those items are internally represented by a Button. There are two different ways to get
-	informed if an item got selected.
-	- Items are using as a base class the Button class. Assign a OnClicked delegate to each item you add.
-	- Use the OnItemSelectedDelegate. The assigned delegate will be used to call the callee when an item
-	got selected.
+        A ComboBox open a popup on activation and provides a list of items that can be selected.
+        Those items are internally represented by a Button. There are two different ways to get
+        informed if an item got selected.
+        - Items are using as a base class the Button class. Assign a OnClicked delegate to each item you add.
+        - Use the OnItemSelectedDelegate. The assigned delegate will be used to call the callee when an item
+        got selected.
 */
 class ComboBox : public Widget {
 	public:
 		typedef std::list<Widget*> ItemListType;
 		typedef xdl::XdevLDelegate<void, xdl::xdl_uint, Widget*> OnItemSelectedDelegateType;
 
-		ComboBox(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height) :
-			Widget(x, y, width, height),
-			barCursorY(y),
-			isActivated(xdl::xdl_false),
-			currentSelectedIndex(0),
-			currentSelectedItem(nullptr),
-			deactivateWidgetsFlag(xdl::xdl_false),
-			popupWindow(nullptr),
-			comboxBoxListHeight(0) {
+		ComboBox(xdl::xdl_int x, xdl::xdl_int y, xdl::xdl_int width, xdl::xdl_int height)
+			: Widget(x, y, width, height)
+			, barCursorY(y)
+			, isActivated(xdl::xdl_false)
+			, currentSelectedIndex(0)
+			, currentSelectedItem(nullptr)
+			, deactivateWidgetsFlag(xdl::xdl_false)
+			, popupWindow(nullptr)
+			, comboxBoxListHeight(0) {
 
 			// Change color when mouse hovers.
 			setHighLightOnMouseHover(xdl::xdl_true);
@@ -59,8 +59,10 @@ class ComboBox : public Widget {
 			// Change color when mouse button is pressed.
 			setChangeColorOnButtonPress(xdl::xdl_true);
 
-			// Create a default delegate that handles user selections. We have to know which item will be clicked by the user.
-			// We use this delegate to tell the items (which are derived from the Button class) in the combo box list that we are i
+			// Create a default delegate that handles user selections. We have to know which item will be clicked by the
+			// user.
+			// We use this delegate to tell the items (which are derived from the Button class) in the combo box list that
+			// we are i
 			// nterested if they get clicked.
 			selectedDelegate = Widget::OnClickedDelegate::Create<ComboBox, &ComboBox::onSelectedClicked>(this);
 		}
@@ -87,22 +89,23 @@ class ComboBox : public Widget {
 					// Yes, so we have to add widgets that is used as items of the ComboBox into the event grid
 					// and we assigned a delegate that will inform us when the user selects an item.
 
-//					const xdl::XdevLWindowTitle title("Test");
-//
-//					calulateDimensions();
-//
-//					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
-//
-//
-//					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
-//					pos = getCanvas()->getWindow()->getPosition();
-//					pos.x += 60 + getAABB().x1;
-//					pos.y += 24 + getAABB().getHeight();
-//
-//					spawnPopupWindow(&popupWindow, title, size, pos);
-//					getCanvas()->setCurrentWindow(popupWindow);
-//
-//					popupWindow->show();
+					//					const xdl::XdevLWindowTitle title("Test");
+					//
+					//					calulateDimensions();
+					//
+					//					const xdl::XdevLWindowSize size(getAABB().getWidth(),
+					// comboxBoxListHeight);
+					//
+					//
+					//					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
+					//					pos = getCanvas()->getWindow()->getPosition();
+					//					pos.x += 60 + getAABB().x1;
+					//					pos.y += 24 + getAABB().getHeight();
+					//
+					//					spawnPopupWindow(&popupWindow, title, size, pos);
+					//					getCanvas()->setCurrentWindow(popupWindow);
+					//
+					//					popupWindow->show();
 
 					// First assign the delegate that will handles selection events.
 					for(auto& widget : combBoxItemWidgetList) {
@@ -111,7 +114,6 @@ class ComboBox : public Widget {
 
 					// Now activate all widgets on the event grid.
 					activateWidgets(combBoxItemWidgetList);
-
 
 				} else {
 
@@ -143,7 +145,6 @@ class ComboBox : public Widget {
 			}
 		}
 
-
 		// Select a widget witout input interaction. That would be for example
 		// If the user used the selectItem method.
 		void preSelectItem(Widget* widget) {
@@ -173,9 +174,7 @@ class ComboBox : public Widget {
 			// widgets from the active widget list. So the for loop in the WidgetSystem would get corrupt.
 			// What we do is, we deffer the delete event to the Button release event.
 			deactivateWidgetsFlag = xdl::xdl_true;
-
 		}
-
 
 		/// Add one item into the CheckBox with specific delegate.
 		void addItem(const std::wstring& title, const OnClickedDelegate& delegate) {
@@ -209,7 +208,6 @@ class ComboBox : public Widget {
 			return currentSelectedIndex;
 		}
 
-
 		Widget* getCurrentSelectedItem() const {
 			return currentSelectedItem;
 		}
@@ -230,10 +228,11 @@ class ComboBox : public Widget {
 					preSelectItem(widget.first);
 				}
 			}
-
 		}
-	public:
 
+		virtual void update() override;
+
+	public:
 		void bindOnItemSelected(const OnItemSelectedDelegateType& delegate) {
 			onItemSelectedDelegates.push_back(delegate);
 		}
@@ -243,7 +242,6 @@ class ComboBox : public Widget {
 		}
 
 	private:
-
 		void calulateDimensions();
 		void drawComboBoxButton();
 		void drawComboBoxItems();
@@ -267,6 +265,16 @@ class ComboBox : public Widget {
 		xdl::xdl_int comboxBoxListHeight;
 };
 
+void ComboBox::update() {
+	const AABB& aabb = getAABB();
+	for(auto& item : combBoxItemWidgetList) {
+		AABB itemaabb(item->getAABB());
+		itemaabb.x1 += aabb.x1;
+		itemaabb.x2 += aabb.x1;
+		item->setAABB(itemaabb);
+	}
+}
+
 void ComboBox::calulateDimensions() {
 	// Draw the background of the items list.
 	comboxBoxListHeight = 0;
@@ -275,7 +283,6 @@ void ComboBox::calulateDimensions() {
 		comboxBoxListHeight += itemaabb.getHeight();
 	}
 }
-
 
 void ComboBox::drawComboBoxButton() {
 	const AABB& aabb = getAABB();
@@ -287,10 +294,9 @@ void ComboBox::drawComboBoxButton() {
 
 	// Draw the arrow for the activate button.
 	const soan::Color arrowColor(0.3, 0.3, 0.3, 1.0);
-	xdl::xdl_int x_off = aabb.x1 + aabb.getWidth() - (100.0/(xdl::xdl_float)aabb.getWidth())*20.0f;
+	xdl::xdl_int x_off = aabb.x1 + aabb.getWidth() - (100.0 / (xdl::xdl_float)aabb.getWidth()) * 20.0f;
 	getCanvas()->setCurrentColor(arrowColor);
 	getCanvas()->drawRect(x_off, aabb.y1, aabb.x2, aabb.y2);
-
 }
 
 void ComboBox::drawComboBoxItems() {
@@ -300,7 +306,7 @@ void ComboBox::drawComboBoxItems() {
 	if(combBoxItemWidgetList.size() > 0) {
 		const soan::Color& borderColor = getBorderColor();
 		getCanvas()->setCurrentColor(borderColor);
-		getCanvas()->drawRect(aabb.x1 - getBorderSize(), aabb.y1 , aabb.x2 + getBorderSize(), aabb.y2);
+		getCanvas()->drawRect(aabb.x1 - getBorderSize(), aabb.y1, aabb.x2 + getBorderSize(), aabb.y2);
 
 		// Draw ComboList items.
 		for(auto& item : combBoxItemWidgetList) {
@@ -317,10 +323,9 @@ void ComboBox::drawComboBoxItems() {
 			getCanvas()->drawRectLine(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
 
 			getCanvas()->setCurrentColor(getFontColor());
-			getCanvas()->drawText(item->getTitle(), itemaabb.x1, itemaabb.y1 + itemaabb.getHeight()/2);
+			getCanvas()->drawText(item->getTitle(), itemaabb.x1, itemaabb.y1 + itemaabb.getHeight() / 2);
 		}
 	}
-
 }
 
 void ComboBox::draw() {
@@ -331,7 +336,7 @@ void ComboBox::draw() {
 	// Draw the selected item text into the ComboBox Button.
 	if(currentSelectedItem != nullptr) {
 		getCanvas()->setCurrentColor(getFontColor());
-		getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
+		getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight() / 2);
 	}
 
 	// Draw the borders.
@@ -345,13 +350,12 @@ void ComboBox::draw() {
 		soan::CanvasScope scope(getCanvas(), popupWindow);
 
 		drawComboBoxItems();
-		
+
 		getCanvas()->render();
 
 	} else if(isActivated) {
 		drawComboBoxItems();
 	}
 }
-
 
 #endif

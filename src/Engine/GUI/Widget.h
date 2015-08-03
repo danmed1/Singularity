@@ -257,6 +257,10 @@ class Widget {
 		virtual void onMoved(xdl::xdl_int x, xdl::xdl_int y) {
 			aabb.translate(x, y);
 		}
+		
+		virtual void update() {
+			
+		}
 
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {
