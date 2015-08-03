@@ -280,7 +280,7 @@ void ComboBox::calulateDimensions() {
 void ComboBox::drawComboBoxButton() {
 	const AABB& aabb = getAABB();
 	const soan::Color& color = getColor();
-		
+
 	// Draw the activate button.
 	getCanvas()->setCurrentColor(color);
 	getCanvas()->drawRect(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
@@ -295,67 +295,62 @@ void ComboBox::drawComboBoxButton() {
 
 void ComboBox::drawComboBoxItems() {
 	const AABB& aabb = getAABB();
-	
+
 	// Draw all items inside the ComboBox.
-	if(isActivated) {
-		if(combBoxItemWidgetList.size() > 0) {
+	if(combBoxItemWidgetList.size() > 0) {
+		const soan::Color& borderColor = getBorderColor();
+		getCanvas()->setCurrentColor(borderColor);
+		getCanvas()->drawRect(aabb.x1 - getBorderSize(), aabb.y1 , aabb.x2 + getBorderSize(), aabb.y2);
 
-			const soan::Color& borderColor = getBorderColor();
+		// Draw ComboList items.
+		for(auto& item : combBoxItemWidgetList) {
+			const soan::Color& color = item->getColor();
+			const AABB& itemaabb = item->getAABB();
+			getCanvas()->setCurrentColor(color);
+			getCanvas()->drawRect(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
+
+			//
+			// Draw borders of all items seperate.
+			//
+			const soan::Color& borderColor = this->getBorderColor();
 			getCanvas()->setCurrentColor(borderColor);
-			getCanvas()->drawRect(aabb.x1 - getBorderSize(), aabb.y1 , aabb.x2 + getBorderSize(), aabb.y2);
+			getCanvas()->drawRectLine(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
 
-			// Draw ComboList items.
-			for(auto& item : combBoxItemWidgetList) {
-				const soan::Color& color = item->getColor();
-				const AABB& itemaabb = item->getAABB();
-				getCanvas()->setCurrentColor(color);
-				getCanvas()->drawRect(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
-
-				//
-				// Draw borders of all items seperate.
-				//
-				const soan::Color& borderColor = this->getBorderColor();
-				getCanvas()->setCurrentColor(borderColor);
-				getCanvas()->drawRectLine(itemaabb.x1, itemaabb.y1, itemaabb.x2, itemaabb.y2);
-
-				getCanvas()->setCurrentColor(getFontColor());
-				getCanvas()->drawText(item->getTitle(), itemaabb.x1, itemaabb.y1 + itemaabb.getHeight()/2);
-			}
+			getCanvas()->setCurrentColor(getFontColor());
+			getCanvas()->drawText(item->getTitle(), itemaabb.x1, itemaabb.y1 + itemaabb.getHeight()/2);
 		}
 	}
+
 }
 
 void ComboBox::draw() {
 	const AABB& aabb = getAABB();
 
+	drawComboBoxButton();
 
-	if(popupWindow) {
-		getCanvas()->setCurrentWindow(popupWindow);
-		getCanvas()->makeCurrentWindow();
-		
-		drawComboBoxItems();
-		
-		getCanvas()->releaseCurrentWindow();
-		getCanvas()->render();
+	// Draw the selected item text into the ComboBox Button.
+	if(currentSelectedItem != nullptr) {
+		getCanvas()->setCurrentColor(getFontColor());
+		getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
 	}
-	
-		drawComboBoxButton();
+
+	// Draw the borders.
+	if(getBorderSize() > 0) {
+		const soan::Color& borderColor = this->getBorderColor();
+		getCanvas()->setCurrentColor(borderColor);
+		getCanvas()->drawRectLine(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
+	}
+
+	if(popupWindow && isActivated) {
+		soan::CanvasScope scope(getCanvas(), popupWindow);
+
 		drawComboBoxItems();
+		
+		getCanvas()->render();
 
-
-		// Draw the selected item text into the ComboBox Button.
-		if(currentSelectedItem != nullptr) {
-			getCanvas()->setCurrentColor(getFontColor());
-			getCanvas()->drawText(currentSelectedItem->getTitle(), aabb.x1, aabb.y1 + aabb.getHeight()/2);
-		}
-
-		// Draw the borders.
-		if(getBorderSize() > 0) {
-			const soan::Color& borderColor = this->getBorderColor();
-			getCanvas()->setCurrentColor(borderColor);
-			getCanvas()->drawRectLine(aabb.x1, aabb.y1, aabb.x2, aabb.y2);
-		}
-	
+	} else if(isActivated) {
+		drawComboBoxItems();
+	}
 }
 
 

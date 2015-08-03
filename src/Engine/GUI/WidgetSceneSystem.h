@@ -44,6 +44,8 @@ class WidgetSceneSystem {
 			activateWidgetsDelegate = Widget::ActivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::activateWidgets>(this);
 			deactivateWidgetDelegate = Widget::DeactivateWidgetsDelegateType::Create<WidgetSceneSystem, &WidgetSceneSystem::deactivateWidgets>(this);
 
+//			registerWidgetDelegate = Widget::RegisterWidgetDelegate::Create<WidgetSceneSystem, &WidgetSceneSystem::registerWidget>(this);
+
 			windowServer = xdl::createModule<xdl::IPXdevLWindowServer>(core, xdl::XdevLModuleName("XdevLWindowServer"), xdl::XdevLID("MyWindowServer"));
 		}
 
@@ -57,9 +59,9 @@ class WidgetSceneSystem {
 				eventGrid->shutdown();
 			}
 
-			eventGrid = new QuadTreeType(0, 0, width , height, 3);
+			eventGrid = new QuadTreeType(0, 0, width , height, 2);
 			eventGrid->init();
-			
+
 			// Reassign the draw node delegate.
 			if(drawNodeDelegate.isValid()) {
 				eventGrid->setDrawNodeCallbackType(drawNodeDelegate);
@@ -68,7 +70,7 @@ class WidgetSceneSystem {
 			if(widgets.size() > 0) {
 				std::list<Widget*> tmp(widgets);
 				widgets.clear();
-				
+
 				for(auto& widget : tmp) {
 					registerWidget(widget);
 				}
@@ -114,6 +116,7 @@ class WidgetSceneSystem {
 			eventGrid->drawNode(node);
 		}
 
+
 		/// Register one widget.
 		void registerWidget(Widget* widget) {
 			// TODO What about if the user specifies 2 times the same widget?
@@ -125,6 +128,29 @@ class WidgetSceneSystem {
 
 			// Add to the event grid.
 			eventGrid->insertObject(widget);
+
+			widgets.push_back(widget);
+		}
+
+		void registerContainer(Widget* widget) {
+			// TODO What about if the user specifies 2 times the same widget?
+
+			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
+			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
+			widget->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
+			widget->setDestroyWindowDelegate(destroyWindowDelegate);
+
+
+			// Add to the event grid.
+			for(auto& child : widget->getChildren()) {
+				child->setActiveWidgetListDelegate(activateWidgetsDelegate);
+				child->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
+				child->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
+				child->setDestroyWindowDelegate(destroyWindowDelegate);
+
+				eventGrid->insertObject(child);
+				widgets.push_back(child);
+			}
 
 			widgets.push_back(widget);
 		}
@@ -212,7 +238,7 @@ class WidgetSceneSystem {
 				i->onMouseMove(m_xaxis, m_yaxis);
 			}
 		}
-		
+
 		void onResized(const xdl::xdl_uint& w, const xdl::xdl_uint& h) {
 			m_canvas->onResized(w, h);
 			init(w, h);
@@ -229,7 +255,7 @@ class WidgetSceneSystem {
 		void spawnPopupWindow(xdl::XdevLWindow** window, const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size, const xdl::XdevLWindowPosition& pos) {
 			windowServer->createWindow(window, title, pos, size);
 		}
-		
+
 		void destroyWindow(xdl::XdevLWindow* window) {
 			windowServer->destroy(window);
 		}
@@ -246,6 +272,7 @@ class WidgetSceneSystem {
 		Widget::DestroyWindowDelegateType destroyWindowDelegate;
 		Widget::ActivateWidgetsDelegateType activateWidgetsDelegate;
 		Widget::DeactivateWidgetsDelegateType deactivateWidgetDelegate;
+//		Widget::RegisterWidgetDelegate registerWidgetDelegate;
 
 		xdl::xdl_float 					m_xaxis;
 		xdl::xdl_float					m_yaxis;

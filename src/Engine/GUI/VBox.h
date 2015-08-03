@@ -30,41 +30,44 @@
 class VBox : public Widget {
 	public:
 		VBox(const AnchorPosition& anchorPosition, const ResizePolicy& verticalResizePolicy, const ResizePolicy& horizontalResizePolicy ) :
-			Widget(nullptr, L"VBox", 0, 0, 0, 0) {
-		}
-
-		void addChild(Widget* node) {
-			node->setParent(this);
-			children.push_back(node);
-		}
-
-		void removeChild(Widget* node) {
-			std::list<Widget*>::iterator it = std::find(children.begin(), children.end(), node);
-			if(it != children.end()) {
-				(*it)->setParent(nullptr);
-				children.erase(it);
-			}
+			Widget(nullptr, L"VBox", 0, 500, 0, 0),
+			gotDirty(xdl::xdl_true) {
 		}
 
 		void update() {
 			int height = 0;
-			for(auto& widget : children) {
-				const AABB& aabb = widget->getAABB();
-				height += aabb.getHeight();
+
+			AABB aabb(getAABB());
+
+			for(auto& widget : getChildren()) {
+				
+				AABB tmp(widget->getAABB());
+				
+				tmp.x1 = aabb.x1;
+				tmp.y2 += aabb.y1;
+				tmp.y1 += aabb.y1;
+
+				
+				widget->setAABB(tmp);
+				
+				height += tmp.getHeight();
 			}
-			AABB newaabb = getAABB();
-			newaabb.y2 = newaabb.y1 + height;
-			setAABB(newaabb);
+			gotDirty = xdl::xdl_false;
+
 		}
 
 		virtual void draw() override {
-			for(auto& widget : children) {
+			if(gotDirty) {
+				update();
+			}
+
+			for(auto& widget : getChildren()) {
 				widget->draw();
 			}
 		}
 
 	private:
-		std::list<Widget*> children;
+	xdl::xdl_bool gotDirty;
 };
 
 #endif

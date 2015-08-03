@@ -99,7 +99,7 @@ class UITest : public xdl::XdevLApplication {
 			checkbox1->bindOnCheck(checkDelegate);
 
 			// Register this CheckBox to the system.
-			widgetSceneSystem->registerWidget(checkbox1);
+//			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
@@ -123,13 +123,17 @@ class UITest : public xdl::XdevLApplication {
 			ComboBox::OnItemSelectedDelegateType fileDelegate = ComboBox::OnItemSelectedDelegateType::Create<UITest, &UITest::onItemSelected>(this);
 			comboBox->bindOnItemSelected(fileDelegate);
 
-			// Register this ComboBox to the system.
-			widgetSceneSystem->registerWidget(comboBox);
+//			// Register this ComboBox to the system.
+//			widgetSceneSystem->registerWidget(comboBox);
 
 
-//			VBox* vbox = new VBox();
-//			vbox->addChild(comboBox);
-//			vbox->addChild(checkbox1);
+			VBox* vbox = new VBox(Widget::TOP_LEFT, Widget::FILL_PARENT, Widget::FILL_PARENT);
+			vbox->setCanvas(canvas);
+			vbox->addChild(comboBox);
+			vbox->addChild(checkbox1);
+
+
+			widgetSceneSystem->registerContainer(vbox);
 
 //			widgetSceneSystem->registerWidget(menuBar);
 
@@ -146,7 +150,6 @@ class UITest : public xdl::XdevLApplication {
 
 				widgetSceneSystem->drawGrid();
 				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
-
 
 				widgetSceneSystem->draw();
 

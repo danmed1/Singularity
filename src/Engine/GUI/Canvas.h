@@ -76,6 +76,7 @@ namespace soan {
 		public:
 			CanvasScope(Canvas* canvas, xdl::IPXdevLWindow window) : _canvas(canvas) {
 				_canvas->setCurrentWindow(window);
+				_canvas->makeCurrentWindow();
 			}
 			~CanvasScope() {
 				_canvas->releaseCurrentWindow();

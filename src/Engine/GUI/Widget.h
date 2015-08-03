@@ -43,6 +43,7 @@ class Widget {
 		typedef xdl::XdevLDelegate<void, Widget*> OnClickedDelegate;
 		typedef xdl::XdevLDelegate<void, Widget*> OnPointerHoverDelegate;
 
+//		typedef xdl::XdevLDelegate<void, Widget*> RegisterWidgetDelegate;
 		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow*> DestroyWindowDelegateType;
 		typedef xdl::XdevLDelegate<void, xdl::XdevLWindow**, const xdl::XdevLWindowTitle&, const xdl::XdevLWindowSize&, const xdl::XdevLWindowPosition&> SpawnPopupWindowDelegateType;
 		typedef xdl::XdevLDelegate<void, std::list<Widget*>&> ActivateWidgetsDelegateType;
@@ -99,6 +100,23 @@ class Widget {
 
 		virtual ~Widget() {
 
+		}
+
+		const std::list<Widget*>& getChildren() {
+			return children;
+		}
+
+		void addChild(Widget* node) {
+			node->setParent(this);
+			children.push_back(node);
+		}
+
+		void removeChild(Widget* node) {
+			std::list<Widget*>::iterator it = std::find(children.begin(), children.end(), node);
+			if(it != children.end()) {
+				(*it)->setParent(nullptr);
+				children.erase(it);
+			}
 		}
 
 		/// Return the canvas.
@@ -225,17 +243,17 @@ class Widget {
 		}
 
 		virtual void onFocusLost() {
-			
+
 		}
-		
+
 		virtual void onFocusGained() {
-			
+
 		}
-		
+
 		virtual void onResized(xdl::xdl_uint w, xdl::xdl_uint h) {
-			
+
 		}
-		
+
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {
 			return buttonPressed;
@@ -264,7 +282,7 @@ class Widget {
 		void setSpawnPopupWindowDelegate(SpawnPopupWindowDelegateType& spawnPopupWindowDelegate) {
 			spawnPopupWindow = spawnPopupWindowDelegate;
 		}
-		
+
 		void setDestroyWindowDelegate(DestroyWindowDelegateType& destroyWindowDelegate) {
 			destroyWindow = destroyWindowDelegate;
 		}
@@ -276,6 +294,10 @@ class Widget {
 		void setDeactivateWidgetListDelegate(DeactivateWidgetsDelegateType& deactivateWidgetsDelegate) {
 			deactivateWidgets = deactivateWidgetsDelegate;
 		}
+
+//		void setRegisterWidgetDelegate(RegisterWidgetDelegate& registerWidgetDelegate) {
+//			registerWidget = registerWidgetDelegate;
+//		}
 
 		xdl::xdl_uint getBorderSize() const  {
 			return borderSize;
@@ -365,16 +387,18 @@ class Widget {
 
 	public:
 		XdevLQuadTree<int, Widget*>* eventGrid;
-		
+
 		DestroyWindowDelegateType destroyWindow;
 		SpawnPopupWindowDelegateType spawnPopupWindow;
 		ActivateWidgetsDelegateType activateWidgets;
 		DeactivateWidgetsDelegateType deactivateWidgets;
+//		RegisterWidgetDelegate registerWidget;
 	private:
 		std::vector<OnClickedDelegate> onClickedDelegates;
 		std::vector<OnPointerHoverDelegate> onPointerHoverDelegates;
 		std::vector<OnPointerMotionDelegate> onPointerMotionDelegates;
 
+		std::list<Widget*> children;
 };
 
 
