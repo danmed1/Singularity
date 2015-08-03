@@ -67,6 +67,9 @@ namespace soan {
 			virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y) = 0;
 
 			virtual void render() = 0;
+			
+			
+			virtual void onResized(xdl::xdl_uint width, xdl::xdl_uint height) = 0;
 	};
 
 	class CanvasScope {

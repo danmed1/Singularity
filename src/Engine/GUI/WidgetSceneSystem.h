@@ -55,15 +55,22 @@ class WidgetSceneSystem {
 		xdl::xdl_int init(xdl::xdl_int width, xdl::xdl_int height) {
 			if(eventGrid != nullptr) {
 				eventGrid->shutdown();
-				delete eventGrid;
 			}
 
-			eventGrid = new QuadTreeType(0, 0, width , height, 2);
+			eventGrid = new QuadTreeType(0, 0, width , height, 3);
 			eventGrid->init();
+			
+			// Reassign the draw node delegate.
+			if(drawNodeDelegate.isValid()) {
+				eventGrid->setDrawNodeCallbackType(drawNodeDelegate);
+			}
 
 			if(widgets.size() > 0) {
-				for(auto& widget : widgets) {
-					eventGrid->insertObject(widget);
+				std::list<Widget*> tmp(widgets);
+				widgets.clear();
+				
+				for(auto& widget : tmp) {
+					registerWidget(widget);
 				}
 			}
 
@@ -83,7 +90,8 @@ class WidgetSceneSystem {
 		}
 
 		void setDrawNodeCallbackType(QuadTreeType::DrawNodeDelegateType callback) {
-			eventGrid->setDrawNodeCallbackType(callback);
+			drawNodeDelegate = callback;
+			eventGrid->setDrawNodeCallbackType(drawNodeDelegate);
 		}
 
 		// Draw all widgets.
@@ -204,6 +212,11 @@ class WidgetSceneSystem {
 				i->onMouseMove(m_xaxis, m_yaxis);
 			}
 		}
+		
+		void onResized(const xdl::xdl_uint& w, const xdl::xdl_uint& h) {
+			m_canvas->onResized(w, h);
+			init(w, h);
+		}
 
 		std::list<Widget*>& getActiveWidgetList() {
 			return activeWidgets;
@@ -227,6 +240,8 @@ class WidgetSceneSystem {
 		std::list<Widget*> activeWidgets;
 		std::list<Widget*> widgets;
 		QuadTreeType* eventGrid;
+		QuadTreeType::DrawNodeDelegateType drawNodeDelegate;
+
 		Widget::SpawnPopupWindowDelegateType spawnPopupWindowDelegate;
 		Widget::DestroyWindowDelegateType destroyWindowDelegate;
 		Widget::ActivateWidgetsDelegateType activateWidgetsDelegate;

@@ -30,8 +30,8 @@
     <Fullscreen> 0 </Fullscreen>
     <X> 0 </X>
     <Y> 0 </Y>
-    <Width>512 </Width>
-    <Height> 512 </Height>
+    <Width> 1280 </Width>
+    <Height> 800 </Height>
     <HidePointer>0</HidePointer>
     <Borderless>0</Borderless>
     <BackgroundColor>0 0 0 0 </BackgroundColor>
@@ -50,13 +50,6 @@
                               fsaa="0"> 
   </XdevLOpenGL>
 
-
-
-
-  <XdevLMouse id="MyMouse" >
-    <Range axis="AXIS_0" min="0" max="512"/>
-    <Range axis="AXIS_1" min="0" max="512"/>
-  </XdevLMouse>
 
 </XdevLCoreProperties>
 

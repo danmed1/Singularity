@@ -62,8 +62,8 @@ class UITest : public xdl::XdevLApplication {
 			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_opengl);
 			widgetSceneSystem->setCanvas(canvas);
 
-			WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType delegate = WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType::Create<UITest, &UITest::drawGrid>(this);
-			widgetSceneSystem->setDrawNodeCallbackType(delegate);
+			drawNodeDelegate = WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType::Create<UITest, &UITest::drawGrid>(this);
+			widgetSceneSystem->setDrawNodeCallbackType(drawNodeDelegate);
 
 
 //			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
@@ -91,19 +91,19 @@ class UITest : public xdl::XdevLApplication {
 //			widgetSceneSystem->registerWidget(button1);
 
 
-//			// Create a CheckBox.
-//			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
-//			checkbox1->setCanvas(canvas);
-//
-//			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
-//			checkbox1->bindOnCheck(checkDelegate);
-//
-//			// Register this CheckBox to the system.
-//			widgetSceneSystem->registerWidget(checkbox1);
+			// Create a CheckBox.
+			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
+			checkbox1->setCanvas(canvas);
+
+			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
+			checkbox1->bindOnCheck(checkDelegate);
+
+			// Register this CheckBox to the system.
+			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
-			ComboBox* comboBox = new ComboBox(0, getWindow()->getHeight() - 24, 100,24);
+			comboBox = new ComboBox(0, 200, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
@@ -116,6 +116,7 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->addItem(L"Quit", 6);
 
 			comboBox->selectItem(4);
+
 
 
 			// Create the delegate that will handle user selection in the ComboBox.
@@ -230,13 +231,21 @@ class UITest : public xdl::XdevLApplication {
 		void onItemSelected(xdl::xdl_uint id, Widget* widget) {
 			switch(id) {
 				case 0: {
-					getWindow()->setSize(xdl::XdevLWindowSize(1024, 1024));
-
-//					getWindow()->setFullscreen(xdl::xdl_true);
+					getWindow()->setFullscreen(xdl::xdl_true);
+					getWindow()->setSize(xdl::XdevLWindowSize(getWindow()->getWidth(), getWindow()->getHeight()));
+					widgetSceneSystem->onResized(getWindow()->getWidth(), getWindow()->getHeight());
+					getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+					getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
+					getMouse()->attach(getWindow());
 				}
 				break;
 				case 1: {
-				//	getWindow()->setFullscreen(xdl::xdl_false);
+					getWindow()->setFullscreen(xdl::xdl_false);
+					getWindow()->setSize(xdl::XdevLWindowSize(getWindow()->getWidth(), getWindow()->getHeight()));
+					widgetSceneSystem->onResized(getWindow()->getWidth(), getWindow()->getHeight());
+					getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
+					getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
+					getMouse()->attach(getWindow());
 				}
 				break;
 				case 6: {
@@ -263,13 +272,13 @@ class UITest : public xdl::XdevLApplication {
 					switch(event.window.event) {
 						case xdl::XDEVL_WINDOW_INPUT_FOCUS_GAINED: {
 							widgetSceneSystem->onFocusLost(event.window.windowid);
-						}break;
+						}
+						break;
 						case xdl::XDEVL_WINDOW_RESIZED: {
-							widgetSceneSystem->init(getWindow()->getWidth(), getWindow()->getHeight());
-							m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
-							canvas->setDimensions(getWindow()->getWidth(), getWindow()->getHeight());
+							widgetSceneSystem->onResized(getWindow()->getWidth(), getWindow()->getHeight());
 							getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
 							getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
+							getMouse()->attach(getWindow());
 						}
 						break;
 					}
@@ -308,6 +317,10 @@ class UITest : public xdl::XdevLApplication {
 
 		WidgetSceneSystem* widgetSceneSystem;
 		soan::Canvas* canvas;
+
+		ComboBox* comboBox;
+		
+		WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType drawNodeDelegate;
 };
 
 

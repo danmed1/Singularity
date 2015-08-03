@@ -59,6 +59,8 @@ namespace soan {
 			virtual void drawRect(xdl::xdl_int x1, xdl::xdl_int y1, xdl::xdl_int x2, xdl::xdl_int y2);
 			virtual void drawText(const std::wstring& text, xdl::xdl_float x, xdl::xdl_float y);
 			virtual void render();
+			
+			virtual void onResized(xdl::xdl_uint width, xdl::xdl_uint height);
 		private:
 			xdl::XdevLTextLayout*			m_textLayoutSystem;
 			xdl::XdevLWindow* 				m_window;

@@ -228,6 +228,14 @@ class Widget {
 			
 		}
 		
+		virtual void onFocusGained() {
+			
+		}
+		
+		virtual void onResized(xdl::xdl_uint w, xdl::xdl_uint h) {
+			
+		}
+		
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {
 			return buttonPressed;
