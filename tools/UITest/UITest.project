@@ -79,6 +79,7 @@
     <File Name="../../src/Engine/GUI/MenuBar.h"/>
     <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.cpp"/>
     <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.h"/>
+    <File Name="../../src/Engine/GUI/VBox.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resource">
     <File Name="../../binary/resources/ini/uitest.xml"/>

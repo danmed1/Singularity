@@ -30,27 +30,28 @@
 class VBox : public Widget {
 	public:
 		VBox(const AnchorPosition& anchorPosition, const ResizePolicy& verticalResizePolicy, const ResizePolicy& horizontalResizePolicy ) :
-			Widget(nullptr, L"VBox", 0, 500, 0, 0),
+			Widget(nullptr, L"VBox", 100, 200, 0, 0),
 			gotDirty(xdl::xdl_true) {
 		}
 
 		void update() {
 			int height = 0;
 
-			AABB aabb(getAABB());
+			AABB vboxaabb(getAABB());
 
 			for(auto& widget : getChildren()) {
 				
 				AABB tmp(widget->getAABB());
 				
-				tmp.x1 = aabb.x1;
-				tmp.y2 += aabb.y1;
-				tmp.y1 += aabb.y1;
+				tmp.x1 = vboxaabb.x1;
+				tmp.x2 = vboxaabb.x1 + widget->getAABB().getWidth();
+				tmp.y1 = vboxaabb.y1 + height;
+				tmp.y2 = vboxaabb.y1 + widget->getAABB().getHeight() + height;
 
-				
+				height -= widget->getAABB().getHeight();
+
 				widget->setAABB(tmp);
 				
-				height += tmp.getHeight();
 			}
 			gotDirty = xdl::xdl_false;
 

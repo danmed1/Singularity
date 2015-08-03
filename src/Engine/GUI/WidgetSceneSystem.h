@@ -59,7 +59,7 @@ class WidgetSceneSystem {
 				eventGrid->shutdown();
 			}
 
-			eventGrid = new QuadTreeType(0, 0, width , height, 2);
+			eventGrid = new QuadTreeType(0, 0, width , height, 3);
 			eventGrid->init();
 
 			// Reassign the draw node delegate.
@@ -135,6 +135,11 @@ class WidgetSceneSystem {
 		void registerContainer(Widget* widget) {
 			// TODO What about if the user specifies 2 times the same widget?
 
+			std::list<Widget*>::iterator it = std::find(widgets.begin(), widgets.end(), widget);
+			if(it != widgets.end()) {
+				widgets.erase(it);
+			}
+
 			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
 			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
 			widget->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
@@ -143,6 +148,12 @@ class WidgetSceneSystem {
 
 			// Add to the event grid.
 			for(auto& child : widget->getChildren()) {
+
+				std::list<Widget*>::iterator it = std::find(widgets.begin(), widgets.end(), child);
+				if(it != widgets.end()) {
+					widgets.erase(it);
+				}
+
 				child->setActiveWidgetListDelegate(activateWidgetsDelegate);
 				child->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
 				child->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);

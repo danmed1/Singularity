@@ -253,6 +253,10 @@ class Widget {
 		virtual void onResized(xdl::xdl_uint w, xdl::xdl_uint h) {
 
 		}
+		
+		virtual void onMoved(xdl::xdl_int x, xdl::xdl_int y) {
+			aabb.translate(x, y);
+		}
 
 		/// Is the left mouse button pressed?
 		xdl::xdl_bool isButtonPressed() {

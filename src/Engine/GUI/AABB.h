@@ -49,6 +49,15 @@ public:
 	xdl::xdl_int getHeight() const {
 		return (y2-y1);
 	}
+	
+	/// Translates the AABB.
+	void translate(xdl::xdl_int x, xdl::xdl_int y) {
+		x1 += x;
+		x2 += x;
+		y1 += y;
+		y2 += y;
+	}
+	
 	xdl::xdl_int x1, y1, x2, y2;
 };
 
