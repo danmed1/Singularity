@@ -43,9 +43,21 @@ class Button : public Widget {
 		}
 
 
+		virtual void update() override;
+
 		virtual void draw() override;
 };
 
+
+void Button::update() {
+	if(parent != nullptr) {
+		const AABB& parentsaabb = parent->getAABB();
+		AABB aabb(getAABB());
+
+		aabb.translate(parentsaabb.x1, parentsaabb.y1);
+		setAABB(aabb);
+	}
+}
 
 
 void Button::draw() {

@@ -92,18 +92,18 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a CheckBox.
-//			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 130);
-//			checkbox1->setCanvas(canvas);
-//
-//			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
-//			checkbox1->bindOnCheck(checkDelegate);
+			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 0);
+			checkbox1->setCanvas(canvas);
+
+			CheckBox::OnCheckStateDelegateType checkDelegate = CheckBox::OnCheckStateDelegateType::Create<UITest, &UITest::onCheckedBox>(this);
+			checkbox1->bindOnCheck(checkDelegate);
 
 			// Register this CheckBox to the system.
 //			widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
-			comboBox = new ComboBox(0, 200, 100,24);
+			comboBox = new ComboBox(0, 0, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
@@ -130,12 +130,9 @@ class UITest : public xdl::XdevLApplication {
 			VBox* vbox = new VBox(Widget::TOP_LEFT, Widget::FILL_PARENT, Widget::FILL_PARENT);
 			vbox->setCanvas(canvas);
 			vbox->addChild(comboBox);
-//			vbox->addChild(checkbox1);
-
-
+			vbox->addChild(checkbox1);
 			widgetSceneSystem->registerWidget(vbox);
 
-//			widgetSceneSystem->registerWidget(menuBar);
 
 
 
@@ -152,6 +149,21 @@ class UITest : public xdl::XdevLApplication {
 				widgetSceneSystem->drawNode(widgetSceneSystem->getCurrentPointerNode());
 
 				widgetSceneSystem->draw();
+
+
+
+
+
+
+				// Draw X axis.
+				canvas->setCurrentColor(soan::Color(1.0f, 0.0f, 0.0f, 1.0f));
+				canvas->drawLine(10,10, canvas->getWidth()/10, 10);
+				canvas->drawText(L"x", canvas->getWidth()/10 + 2, 10);
+				
+				// Draw y-axis.
+				canvas->setCurrentColor(soan::Color(0.0f, 1.0f, 0.0f, 1.0f));
+				canvas->drawText(L"y", 10, canvas->getHeight()/10 + 2);
+				canvas->drawLine(10,10, 10, canvas->getHeight()/10);
 
 				canvas->render();
 

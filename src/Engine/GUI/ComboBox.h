@@ -266,21 +266,35 @@ class ComboBox : public Widget {
 };
 
 void ComboBox::update() {
-//	Widget* previousWidget = this;
-//	
-//	for(auto& item : combBoxItemWidgetList) {
-//		const AABB& prevaabb = previousWidget->getAABB();
-//		AABB itemaabb(item->getAABB());
-//		itemaabb.x1 = prevaabb.x1;
-//		itemaabb.y1 = prevaabb.y2;
-//
-//		itemaabb.x2 = itemaabb.x1 + item->getAABB().getWidth();
-//		itemaabb.y2 = itemaabb.y1 - item->getAABB().getHeight();
-//
-//
-//		item->setAABB(itemaabb);
-//		previousWidget = item;
-//	}
+
+	// Update postion if parent available.
+	if(parent != nullptr) {
+		const AABB& parentsaabb = parent->getAABB();
+		AABB aabb(getAABB());
+
+		aabb.translate(parentsaabb.x1, parentsaabb.y1);
+		setAABB(aabb);
+	}
+
+
+	Widget* previousWidget = this;
+	AABB prevaabb(previousWidget->getAABB());
+	prevaabb.y1 -= getAABB().getHeight();
+	prevaabb.y2 -= getAABB().getHeight();
+
+	for(auto& item : combBoxItemWidgetList) {
+		AABB itemaabb(item->getAABB());
+		itemaabb.x1 = prevaabb.x1;
+		itemaabb.y1 = prevaabb.y2;
+
+		itemaabb.x2 = itemaabb.x1 + item->getAABB().getWidth();
+		itemaabb.y2 = itemaabb.y1 - item->getAABB().getHeight();
+
+
+		item->setAABB(itemaabb);
+		previousWidget = item;
+		prevaabb = itemaabb;
+	}
 }
 
 void ComboBox::calulateDimensions() {
