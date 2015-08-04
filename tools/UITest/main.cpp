@@ -133,7 +133,7 @@ class UITest : public xdl::XdevLApplication {
 			vbox->addChild(checkbox1);
 
 
-			widgetSceneSystem->registerContainer(vbox);
+			widgetSceneSystem->registerWidget(vbox);
 
 //			widgetSceneSystem->registerWidget(menuBar);
 

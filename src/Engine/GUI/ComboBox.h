@@ -271,6 +271,8 @@ void ComboBox::update() {
 		AABB itemaabb(item->getAABB());
 		itemaabb.x1 += aabb.x1;
 		itemaabb.x2 += aabb.x1;
+//		itemaabb.y1 += aabb.y1;
+//		itemaabb.y2 += aabb.y1;
 		item->setAABB(itemaabb);
 	}
 }
@@ -300,13 +302,10 @@ void ComboBox::drawComboBoxButton() {
 }
 
 void ComboBox::drawComboBoxItems() {
-	const AABB& aabb = getAABB();
 
 	// Draw all items inside the ComboBox.
 	if(combBoxItemWidgetList.size() > 0) {
 		const soan::Color& borderColor = getBorderColor();
-		getCanvas()->setCurrentColor(borderColor);
-		getCanvas()->drawRect(aabb.x1 - getBorderSize(), aabb.y1, aabb.x2 + getBorderSize(), aabb.y2);
 
 		// Draw ComboList items.
 		for(auto& item : combBoxItemWidgetList) {

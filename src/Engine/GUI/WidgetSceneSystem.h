@@ -121,14 +121,53 @@ class WidgetSceneSystem {
 		void registerWidget(Widget* widget) {
 			// TODO What about if the user specifies 2 times the same widget?
 
+//			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
+//			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
+//			widget->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
+//			widget->setDestroyWindowDelegate(destroyWindowDelegate);
+//
+//			// Add to the event grid.
+//			eventGrid->insertObject(widget);
+//
+//			widgets.push_back(widget);
+
+			std::list<Widget*>::iterator it = std::find(widgets.begin(), widgets.end(), widget);
+			if(it != widgets.end()) {
+				widgets.erase(it);
+			}
+
 			widget->setActiveWidgetListDelegate(activateWidgetsDelegate);
 			widget->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
 			widget->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
 			widget->setDestroyWindowDelegate(destroyWindowDelegate);
 
-			// Add to the event grid.
-			eventGrid->insertObject(widget);
+			// If it is a container add only the children to the grid.
+			if(widget->getChildren().size() > 0) {
+				widget->update();
+				
+				// Add to the event grid.
+				for(auto& child : widget->getChildren()) {
 
+					std::list<Widget*>::iterator it = std::find(widgets.begin(), widgets.end(), child);
+					if(it != widgets.end()) {
+						widgets.erase(it);
+					}
+
+					child->setActiveWidgetListDelegate(activateWidgetsDelegate);
+					child->setDeactivateWidgetListDelegate(deactivateWidgetDelegate);
+					child->setSpawnPopupWindowDelegate(spawnPopupWindowDelegate);
+					child->setDestroyWindowDelegate(destroyWindowDelegate);
+
+					eventGrid->insertObject(child);
+					widgets.push_back(child);
+				}
+			} else {
+				// TODO What we do here is a hack. We say if the widget has children (container ytpe) we
+				// do not register it in the grid. Only it's children are registered. Maybe this could
+				// lead to a poor design. We will see.
+				eventGrid->insertObject(widget);
+			}
+			
 			widgets.push_back(widget);
 		}
 
