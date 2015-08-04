@@ -171,7 +171,13 @@ namespace soan {
 
 		m_rectangleLineVertexList.push_back(v1);
 		m_rectangleLineVertexList.push_back(v2);
+		
+		m_rectangleLineVertexList.push_back(v2);
 		m_rectangleLineVertexList.push_back(v3);
+		
+		m_rectangleLineVertexList.push_back(v3);
+		m_rectangleLineVertexList.push_back(v4);
+
 		m_rectangleLineVertexList.push_back(v4);
 		m_rectangleLineVertexList.push_back(v1);
 
@@ -254,7 +260,7 @@ namespace soan {
 		}
 
 		//
-		// Draw all rectangles.
+		// Draw all lined rectangles.
 		//
 		if(m_rectangleLineVertexList.size() > 0) {
 			m_rectangleLineVertexBuffer->lock();
@@ -263,7 +269,7 @@ namespace soan {
 
 			m_opengl->setActiveVertexArray(m_rectangleLineVertexArray);
 
-			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_LINE_STRIP, m_rectangleLineVertexList.size());
+			m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_LINES, m_rectangleLineVertexList.size());
 			m_rectangleLineVertexList.clear();
 		}
 

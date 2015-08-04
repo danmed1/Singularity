@@ -266,15 +266,21 @@ class ComboBox : public Widget {
 };
 
 void ComboBox::update() {
-	const AABB& aabb = getAABB();
-	for(auto& item : combBoxItemWidgetList) {
-		AABB itemaabb(item->getAABB());
-		itemaabb.x1 += aabb.x1;
-		itemaabb.x2 += aabb.x1;
-//		itemaabb.y1 += aabb.y1;
-//		itemaabb.y2 += aabb.y1;
-		item->setAABB(itemaabb);
-	}
+//	Widget* previousWidget = this;
+//	
+//	for(auto& item : combBoxItemWidgetList) {
+//		const AABB& prevaabb = previousWidget->getAABB();
+//		AABB itemaabb(item->getAABB());
+//		itemaabb.x1 = prevaabb.x1;
+//		itemaabb.y1 = prevaabb.y2;
+//
+//		itemaabb.x2 = itemaabb.x1 + item->getAABB().getWidth();
+//		itemaabb.y2 = itemaabb.y1 - item->getAABB().getHeight();
+//
+//
+//		item->setAABB(itemaabb);
+//		previousWidget = item;
+//	}
 }
 
 void ComboBox::calulateDimensions() {
@@ -305,8 +311,6 @@ void ComboBox::drawComboBoxItems() {
 
 	// Draw all items inside the ComboBox.
 	if(combBoxItemWidgetList.size() > 0) {
-		const soan::Color& borderColor = getBorderColor();
-
 		// Draw ComboList items.
 		for(auto& item : combBoxItemWidgetList) {
 			const soan::Color& color = item->getColor();
