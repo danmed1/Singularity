@@ -739,7 +739,6 @@ xdl::xdl_int Singularity::initializeInputConnections() {
 	getKeyboard()->getButton(xdl::KEY_SLASH, 			&key_slash);
 
 	getKeyboard()->getButton(xdl::KEY_COMMA, 			&key_comma);
-	getKeyboard()->getButton(xdl::KEY_COLON, 			&key_colon);
 
 	getKeyboard()->getButton(xdl::KEY_KP_PLUS, 			&key_kp_plus);
 	getKeyboard()->getButton(xdl::KEY_KP_MINUS,			&key_kp_minus);
