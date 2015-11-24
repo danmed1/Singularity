@@ -1,6 +1,8 @@
 #include <iostream>
 #include <XdevL.h>
 #include <XdevLApplication.h>
+
+#include <XdevLOpenGLContext/XdevLOpenGLContext.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
@@ -59,7 +61,7 @@ class UITest : public xdl::XdevLApplication {
 			getWindow()->grabPointer();
 
 
-			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_opengl);
+			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_openglContext, m_opengl);
 			widgetSceneSystem->setCanvas(canvas);
 
 			drawNodeDelegate = WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType::Create<UITest, &UITest::drawGrid>(this);
@@ -159,7 +161,7 @@ class UITest : public xdl::XdevLApplication {
 				canvas->setCurrentColor(soan::Color(1.0f, 0.0f, 0.0f, 1.0f));
 				canvas->drawLine(10,10, canvas->getWidth()/10, 10);
 				canvas->drawText(L"x", canvas->getWidth()/10 + 2, 10);
-				
+
 				// Draw y-axis.
 				canvas->setCurrentColor(soan::Color(0.0f, 1.0f, 0.0f, 1.0f));
 				canvas->drawText(L"y", 10, canvas->getHeight()/10 + 2);
@@ -179,6 +181,17 @@ class UITest : public xdl::XdevLApplication {
 
 
 		xdl::xdl_int initializeRenderSystem() {
+
+			// Get the OpenGL context.
+			m_openglContext = xdl::getModule<xdl::XdevLOpenGLContext*>(getCore(), xdl::XdevLID("MyOpenGLContext"));
+			if(!m_openglContext) {
+				return xdl::ERR_ERROR;
+			}
+
+			if(m_openglContext->create(getWindow()) != xdl::ERR_OK) {
+				return xdl::ERR_ERROR;
+			}
+
 			// Get the OpenGL context.
 			m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
 			if(!m_opengl) {
@@ -186,7 +199,7 @@ class UITest : public xdl::XdevLApplication {
 			}
 
 			// We must attach the OpenGL context to a render m_window.
-			if(m_opengl->createContext(getWindow()) != xdl::ERR_OK) {
+			if(m_opengl->create(getWindow()) != xdl::ERR_OK) {
 				return xdl::ERR_ERROR;
 			}
 
@@ -324,6 +337,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonIdDelegateType 	m_buttonDelegate;
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
+		xdl::XdevLOpenGLContext*		m_openglContext;
 		xdl::XdevLOpenGL330* 			m_opengl;
 
 		xdl::XdevLFontSystem*			m_fontSystem;
@@ -334,7 +348,7 @@ class UITest : public xdl::XdevLApplication {
 		soan::Canvas* canvas;
 
 		ComboBox* comboBox;
-		
+
 		WidgetSceneSystem::QuadTreeType::DrawNodeDelegateType drawNodeDelegate;
 };
 

@@ -3,6 +3,7 @@
 
 #include <XdevL.h>
 #include <XdevLWindow/XdevLWindow.h>
+#include <XdevLOpenGLContext/XdevLOpenGLContext.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
@@ -18,7 +19,7 @@ namespace soan {
 		
 		class SplashScreen : public xdl::XdevLListener, public thread::Thread {
 			public:
-				SplashScreen(xdl::IPXdevLCore core, xdl::XdevLTextLayout* textLayoutSystem);
+				SplashScreen(xdl::IPXdevLCore core, xdl::XdevLOpenGLContext* openglContext, xdl::XdevLTextLayout* textLayoutSystem);
 				~SplashScreen();
 				xdl::XdevLID* getID();
 				xdl::xdl_int notify(xdl::XdevLEvent& event);
@@ -30,6 +31,7 @@ namespace soan {
 		private:
 				xdl::IPXdevLCore 			m_core;
 				xdl::IPXdevLWindow			m_window;
+				xdl::XdevLOpenGLContext*	m_openglContext;
 				xdl::XdevLOpenGL330*		m_openGL;
 				xdl::xdl_bool 				m_running;
 				thread::Mutex				m_mutex;

@@ -10,9 +10,10 @@ namespace soan {
 			return soan::TextureServer::Inst()->import(filename);
 		}
 
-		SplashScreen::SplashScreen(xdl::IPXdevLCore core , xdl::XdevLTextLayout* textLayoutSystem) :
+		SplashScreen::SplashScreen(xdl::IPXdevLCore core ,xdl::XdevLOpenGLContext* openglContext, xdl::XdevLTextLayout* textLayoutSystem) :
 			m_core(core),
 			m_window(nullptr),
+			m_openglContext(openglContext),
 			m_running(xdl::xdl_true),
 			m_textLayboutSystem(textLayoutSystem) 
 		{
@@ -50,9 +51,9 @@ namespace soan {
 		int SplashScreen::RunThread(thread::ThreadArgument* p_arg) {
 			m_window = xdl::createModule<xdl::IPXdevLWindow>(m_core, xdl::XdevLModuleName("XdevLWindow"), xdl::XdevLID("SplashWindow"));
 
-			xdl::XdevLOpenGL330* m_openGL = static_cast<xdl::XdevLOpenGL330*>(m_core->createModule(xdl::XdevLModuleName("XdevLOpenGL"), xdl::XdevLID("SplashScreenContext")));
-			m_openGL->createContext(m_window);
-			m_openGL->makeCurrent(m_window);
+			xdl::XdevLOpenGL330* m_openGL = static_cast<xdl::XdevLOpenGL330*>(m_core->createModule(xdl::XdevLModuleName("XdevLOpenGLContext"), xdl::XdevLID("SplashScreenContext")));
+			m_openglContext->create(m_window);
+			m_openglContext->makeCurrent(m_window);
 
 //			soan::XdevLFontImpl* fontEngine = new soan::XdevLFontImpl(m_window->getWidth(), m_window->getHeight(), m_openGL);
 //			soan::TextureServer::Inst()->setResourcePathPrefix("./");
@@ -108,7 +109,7 @@ namespace soan {
 			}
 
 			while(true) {
-				xdl::XdevLOpenGLContextScope scope(m_openGL, m_window);
+//				xdl::XdevLOpenGLContextScope scope(m_openGL, m_window);
 
 				
 				if(!getRunningState()) {
@@ -132,7 +133,7 @@ namespace soan {
 
 				m_textLayboutSystem->render();
 
-				m_openGL->swapBuffers();
+				m_openglContext->swapBuffers();
 
 				xdl::sleep(0.100);
 			}

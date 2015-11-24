@@ -2,6 +2,7 @@
 #define CANVAS_XDEVL_OPENGL_h
 
 #include <XdevLWindow/XdevLWindow.h>
+#include <XdevLOpenGLContext/XdevLOpenGLContext.h>
 #include <XdevLOpenGL/XdevLOpenGL.h>
 #include <XdevLFont/XdevLTextLayout.h>
 
@@ -38,7 +39,7 @@ namespace soan {
 
 	class CanvasXdevLOpenGL : public Canvas {
 		public:
-			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGL330* opengl);
+			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::XdevLOpenGL330* opengl);
 			virtual ~CanvasXdevLOpenGL();
 
 			virtual void setCurrentWindow(xdl::IPXdevLWindow window);
@@ -65,6 +66,7 @@ namespace soan {
 			xdl::XdevLTextLayout*			m_textLayoutSystem;
 			xdl::XdevLWindow* 				m_window;
 			xdl::XdevLWindow* 				m_previousWindow;
+			xdl::XdevLOpenGLContext*		m_openglContext;
 			xdl::XdevLOpenGL330*			m_opengl;
 
 			xdl::XdevLVertexArray*			m_linesStripVertexArray;
