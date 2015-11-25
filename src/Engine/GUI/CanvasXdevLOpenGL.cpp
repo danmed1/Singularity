@@ -128,7 +128,7 @@ namespace soan {
 	void CanvasXdevLOpenGL::onResized(xdl::xdl_uint width, xdl::xdl_uint height) {
 		m_width = width;
 		m_height = height;
-		m_textLayoutSystem->init(m_width, m_height, m_opengl);
+		m_textLayoutSystem->init(m_window, m_opengl);
 	}
 
 	void CanvasXdevLOpenGL::clearColorBuffer() {

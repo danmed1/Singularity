@@ -68,30 +68,6 @@ class UITest : public xdl::XdevLApplication {
 			widgetSceneSystem->setDrawNodeCallbackType(drawNodeDelegate);
 
 
-//			MenuBar* menuBar = new MenuBar(0, 0, getWindow()->getWidth(), 24);
-//			ContextMenu::OnItemSelectedDelegateType fileMenuDelegate = ContextMenu::OnItemSelectedDelegateType::Create<UITest, &UITest::onFileItemSelected>(this);
-//			ContextMenu* menu1 = menuBar->addMenu(L"File");
-//
-//			menu1->bindOnItemSelected(fileMenuDelegate);
-//			ContextMenu* menu2 = menuBar->addMenu(L"Help");
-//			menu1->addItem(L"New File");
-//			menu1->addItem(L"Open File");
-//			menu1->addItem(L"Quit");
-//
-//			menu2->addItem(L"About");
-
-
-//			// Create a Button.
-//			Button* button1 = new Button(std::wstring(L"Press Me"), 0, 280, 70, 24);
-//			button1->setCanvas(canvas);
-//
-//			// Create the delegate that will handle the users mouse button click on it.
-//			Widget::OnClickedDelegate quitDelegate = Widget::OnClickedDelegate::Create<UITest, &UITest::onQuitClicked>(this);
-//			button1->bindOnClicked(quitDelegate);
-//
-//			// Register this Button to the system.
-//			widgetSceneSystem->registerWidget(button1);
-
 
 			// Create a CheckBox.
 			CheckBox* checkbox1 = new CheckBox(std::wstring(L"Fullscreen"), 0, 0);
@@ -101,11 +77,11 @@ class UITest : public xdl::XdevLApplication {
 			checkbox1->bindOnCheck(checkDelegate);
 
 			// Register this CheckBox to the system.
-//			widgetSceneSystem->registerWidget(checkbox1);
+	//		widgetSceneSystem->registerWidget(checkbox1);
 
 
 			// Create a ComboBox.
-			comboBox = new ComboBox(0, 0, 100,24);
+			comboBox = new ComboBox(100, 100, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
@@ -126,14 +102,14 @@ class UITest : public xdl::XdevLApplication {
 			comboBox->bindOnItemSelected(fileDelegate);
 
 //			// Register this ComboBox to the system.
-//			widgetSceneSystem->registerWidget(comboBox);
+			widgetSceneSystem->registerWidget(comboBox);
 
 
 			VBox* vbox = new VBox(Widget::TOP_LEFT, Widget::FILL_PARENT, Widget::FILL_PARENT);
 			vbox->setCanvas(canvas);
 			vbox->addChild(comboBox);
 			vbox->addChild(checkbox1);
-			widgetSceneSystem->registerWidget(vbox);
+//			widgetSceneSystem->registerWidget(vbox);
 
 
 
@@ -224,7 +200,7 @@ class UITest : public xdl::XdevLApplication {
 
 			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
 
-			m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+			m_textEngine->init(getWindow(), get3DProcessor());
 			m_textEngine->usePixelUnits(xdl::xdl_true);
 			m_textEngine->setScale(1.0f);
 			m_textEngine->setDFT(0);
