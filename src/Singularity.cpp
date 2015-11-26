@@ -577,10 +577,10 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
 	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 100; as++) {
+		for(unsigned int as = 0; as < 10; as++) {
 			soan::game::Astroid* astroid 	= new soan::game::Astroid();
 			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
-			astroid->setPhysics(m_physics, 0.1f);
+			astroid->setPhysics(m_physics, 1.8);
 			astroid->setLifeTime(0);
 			m_renderable.push_back(astroid);
 
@@ -593,25 +593,25 @@ xdl::xdl_int Singularity::initializeAssets() {
 	}
 
 
-	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
-	if(assimpToModel.import("resources/models/HN48/FederationInterceptor1.obj", spaceModel) != xdl::ERR_OK) {
-//	if(assimpToModel.import("resources/models/HN21/space_ship.obj", spaceModel) != xdl::ERR_OK) {
-		return xdl::ERR_ERROR;
-	}
-
-	m_spaceShip = new soan::game::SpaceShip();
-	m_spaceShip->setName("SpaceShip");
-	m_spaceShip->setModel(spaceModel);
-	m_spaceShip->setLifeTime(0);
-	m_spaceShip->setPhysics(m_physics, 22.0f);
-
-	m_renderable.push_back(m_spaceShip);
-
-	m_numberOfVertices += spaceModel->getNumberOfVertices();
-	m_numberOfFaces += spaceModel->getNumberOfFaces();
-
-	m_selectedActor = m_spaceShip;
-	m_camera->startTrackObject(m_spaceShip);
+//	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
+//	if(assimpToModel.import("resources/models/HN48/FederationInterceptor1.obj", spaceModel) != xdl::ERR_OK) {
+////	if(assimpToModel.import("resources/models/HN21/space_ship.obj", spaceModel) != xdl::ERR_OK) {
+//		return xdl::ERR_ERROR;
+//	}
+//
+//	m_spaceShip = new soan::game::SpaceShip();
+//	m_spaceShip->setName("SpaceShip");
+//	m_spaceShip->setModel(spaceModel);
+//	m_spaceShip->setLifeTime(0);
+//	m_spaceShip->setPhysics(m_physics, 22.0f);
+//
+//	m_renderable.push_back(m_spaceShip);
+//
+//	m_numberOfVertices += spaceModel->getNumberOfVertices();
+//	m_numberOfFaces += spaceModel->getNumberOfFaces();
+//
+//	m_selectedActor = m_spaceShip;
+//	m_camera->startTrackObject(m_spaceShip);
 
 
 
@@ -654,7 +654,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
 	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 2; as++) {
+		for(unsigned int as = 0; as < 0; as++) {
 			soan::game::Planet* planet = new soan::game::Planet();
 			planet->setName("Earth");
 			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
@@ -669,8 +669,8 @@ xdl::xdl_int Singularity::initializeAssets() {
 			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
 			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
 
-			//		m_selectedActor = planet;
-			//	m_camera->startTrackObject(planet->getModel());
+		//	m_selectedActor = planet;
+		//	m_camera->startTrackObject(planet->getModel());
 		}
 	} else {
 		return xdl::ERR_ERROR;
@@ -733,7 +733,7 @@ xdl::xdl_int Singularity::initializeInputConnections() {
 	getKeyboard()->getButton(xdl::KEY_9, 					&key_9);
 	getKeyboard()->getButton(xdl::KEY_0, 					&key_0);
 	getKeyboard()->getButton(xdl::KEY_BACKSLASH, 	&key_backslash);
-	getKeyboard()->getButton(xdl::KEY_SLASH, 			&key_slash);
+	getKeyboard()->getButton(xdl::KEY_T, 			&key_slash);
 
 	getKeyboard()->getButton(xdl::KEY_COMMA, 			&key_comma);
 
@@ -800,6 +800,7 @@ void Singularity::handleInputEvents(double dT) {
 	if(key_slash->getClicked()) {
 		m_debugMode = !m_debugMode;
 	}
+	
 
 	if(left_mouse_button->getClicked()) {
 		m_mouse_captured = !m_mouse_captured;
@@ -817,14 +818,12 @@ void Singularity::handleInputEvents(double dT) {
 
 		static xdl::xdl_float dy = 0.0f;
 		static xdl::xdl_float dx = 0.0f;
-
-
-		dy = -mouse_y->getDeltaValue()*dT*0.2;
-		dx = -mouse_x->getDeltaValue()*dT*0.2;
+		
+		
+		dy = -mouse_y->getDeltaValue()*dT*300;
+		dx = -mouse_x->getDeltaValue()*dT*300;
 
 		m_camera->fpsView(dy, dx, dT);
-
-
 	}
 
 	if(right_mouse_button->getClicked()) {

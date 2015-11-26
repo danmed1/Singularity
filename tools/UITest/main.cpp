@@ -80,7 +80,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a ComboBox.
-			comboBox = new ComboBox(100, 100, 100,24);
+			comboBox = new ComboBox(100, 300, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
