@@ -31,7 +31,7 @@ namespace soan {
 
 	class ToneMapping : public PostProcessEffect {
 	public:
-			ToneMapping(xdl::XdevLOpenGL330* opengl);
+			ToneMapping(xdl::IPXdevLRAI opengl);
 			virtual ~ToneMapping();
 			virtual int init(unsigned int width, unsigned height);
 			virtual void calculate();

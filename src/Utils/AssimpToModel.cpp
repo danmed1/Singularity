@@ -16,7 +16,7 @@ namespace soan {
 #define aisgl_min(x,y) (x<y?x:y)
 #define aisgl_max(x,y) (y>x?y:x)
 
-		AssimpToModel::AssimpToModel(xdl::XdevLOpenGL330* openGL) : m_openGL(openGL) {
+		AssimpToModel::AssimpToModel(xdl::IPXdevLRAI openGL) : m_openGL(openGL) {
 
 		}
 

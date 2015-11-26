@@ -25,7 +25,7 @@
 #ifndef TEXTURE_SERVER_H
 #define TEXTURE_SERVER_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <map>
 
 namespace soan {
@@ -68,7 +68,7 @@ namespace soan {
 			void removeAll();
 
 			/// Initialize the server
-			xdl::xdl_int init(xdl::XdevLOpenGL330* opengl, const char* resourcePathPrefix);
+			xdl::xdl_int init(xdl::IPXdevLRAI opengl, const char* resourcePathPrefix);
 
 			/// Sets the resource path prefix.
 			void setResourcePathPrefix(const char* prefix);
@@ -84,7 +84,7 @@ namespace soan {
 			TextureServer(const TextureServer& tm);
 			TextureServer& operator=(const TextureServer& tm);
 
-			xdl::XdevLOpenGL330* m_opengl;
+			xdl::IPXdevLRAI m_opengl;
 			static TextureServer* m_inst;
 			
 			textureMapType 			m_texID;

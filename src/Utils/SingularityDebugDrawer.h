@@ -1,7 +1,7 @@
 #ifndef GL_DEBUG_DRAWER_H
 #define GL_DEBUG_DRAWER_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
 #include <XdevLFont/XdevLTextLayout.h>
@@ -22,7 +22,7 @@ namespace soan {
 
 
 	class SingularityDebugDrawer : public btIDebugDraw {
-		xdl::XdevLOpenGL330*		m_openGL;
+		xdl::IPXdevLRAI				m_openGL;
 		xdl::XdevLTextLayout*		m_textLayoutSystem;
 		xdl::XdevLShaderProgram*	m_shaderProgram;
 		xdl::XdevLVertexArray*		m_linesVertexArray;
@@ -46,7 +46,7 @@ namespace soan {
 
 	public:
 
-		SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLTextLayout* textLayout = nullptr);
+		SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::XdevLTextLayout* textLayout = nullptr);
 
 		virtual ~SingularityDebugDrawer();
 

@@ -22,6 +22,8 @@
 	cengiz@terzibas.de
 */
 
+#include <GL/glew.h>
+
 #include "DepthOfField.h"
 #include <tm/tm.h>
 
@@ -29,7 +31,7 @@
 namespace soan {
 
 
-	DepthOfField::DepthOfField(xdl::XdevLOpenGL330* opengl) : PostProcessEffect(opengl) {
+	DepthOfField::DepthOfField(xdl::IPXdevLRAI opengl) : PostProcessEffect(opengl) {
 
 	}
 

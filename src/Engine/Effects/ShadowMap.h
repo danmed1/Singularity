@@ -40,7 +40,7 @@ namespace soan {
 			  VSM
 			};
 
-			ShadowMap(xdl::XdevLOpenGL330* opengl, ShadowMapModes mode);
+			ShadowMap(xdl::IPXdevLRAI opengl, ShadowMapModes mode);
 
 			virtual ~ShadowMap();
 

@@ -22,6 +22,8 @@
 	cengiz@terzibas.de
 */
 
+#include <GL/glew.h>
+
 #include "ToneMapping.h"
 #include <tm/tm.h>
 
@@ -29,7 +31,7 @@
 namespace soan {
 
 	
-	ToneMapping::ToneMapping(xdl::XdevLOpenGL330* opengl) : PostProcessEffect(opengl) {
+	ToneMapping::ToneMapping(xdl::IPXdevLRAI opengl) : PostProcessEffect(opengl) {
 
 	}
 	

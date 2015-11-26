@@ -3,7 +3,7 @@
 
 #include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGLContext/XdevLOpenGLContext.h>
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLFont/XdevLTextLayout.h>
 
 #include "Engine/GUI/Canvas.h"
@@ -39,7 +39,7 @@ namespace soan {
 
 	class CanvasXdevLOpenGL : public Canvas {
 		public:
-			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::XdevLOpenGL330* opengl);
+			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::IPXdevLRAI opengl);
 			virtual ~CanvasXdevLOpenGL();
 
 			virtual void setCurrentWindow(xdl::IPXdevLWindow window);
@@ -67,7 +67,7 @@ namespace soan {
 			xdl::XdevLWindow* 				m_window;
 			xdl::XdevLWindow* 				m_previousWindow;
 			xdl::XdevLOpenGLContext*		m_openglContext;
-			xdl::XdevLOpenGL330*			m_opengl;
+			xdl::IPXdevLRAI					m_opengl;
 
 			xdl::XdevLVertexArray*			m_linesStripVertexArray;
 			xdl::XdevLVertexBuffer*			m_linesStripVertexBuffer;

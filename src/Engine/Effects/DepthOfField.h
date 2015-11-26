@@ -31,7 +31,7 @@ namespace soan {
 
 	class DepthOfField : public PostProcessEffect {
 	public:
-			DepthOfField(xdl::XdevLOpenGL330* opengl);
+			DepthOfField(xdl::IPXdevLRAI opengl);
 			virtual ~DepthOfField();
 			virtual int init(unsigned int width, unsigned height);
 			virtual void apply();

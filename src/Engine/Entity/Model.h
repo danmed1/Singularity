@@ -44,7 +44,7 @@ namespace soan {
 	public:
 		Model();
 		
-		Model(xdl::XdevLOpenGL330* openGL);
+		Model(xdl::IPXdevLRAI openGL);
 		
 		~Model();
 		
@@ -83,7 +83,7 @@ namespace soan {
 		
 	private:
 
-		xdl::XdevLOpenGL330* 								m_openGL;
+		xdl::IPXdevLRAI						m_openGL;
 		std::vector<std::shared_ptr<Mesh>>	m_meshes;
 		
 		tmath::vec3							m_boundingBoxMin;

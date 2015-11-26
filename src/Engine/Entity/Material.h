@@ -25,7 +25,7 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <map>
 
 namespace soan {

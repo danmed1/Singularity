@@ -25,7 +25,7 @@
 #ifndef POST_PROCESS_EFFECT_H
 #define POST_PROCESS_EFFECT_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <vector>
 
 namespace soan {
@@ -39,7 +39,7 @@ namespace soan {
 	*/
 	class PostProcessEffect {
 		public:
-			PostProcessEffect(xdl::XdevLOpenGL330* opengl);
+			PostProcessEffect(xdl::IPXdevLRAI opengl);
 
 			virtual ~PostProcessEffect();
 
@@ -69,7 +69,7 @@ namespace soan {
 			void setOutputTexture(unsigned int idx, xdl::XdevLTexture* texture);
 
 		protected:
-			xdl::XdevLOpenGL330* 						m_opengl;
+			xdl::IPXdevLRAI	 						m_opengl;
 			xdl::XdevLVertexArray* 					m_va;
 
 			std::vector<xdl::XdevLTexture*>	m_inputTexure;

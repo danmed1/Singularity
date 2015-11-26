@@ -94,7 +94,7 @@
         <IncludePath Value="."/>
         <IncludePath Value="${XDEVL_HOME}/include"/>
         <IncludePath Value="${XDEVL_PLUGINS}"/>
-        <IncludePath Value="${XDEVL_PLUGINS}/XdevLOpenGL"/>
+        <IncludePath Value="${XDEVL_PLUGINS}/XdevLRAI"/>
         <IncludePath Value="../../src"/>
         <IncludePath Value="../../dependencies/freeimage/include"/>
       </Compiler>

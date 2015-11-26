@@ -67,7 +67,7 @@ namespace soan {
 		m_inst = 0;
 	}
 
-	xdl::xdl_int TextureServer::init(xdl::XdevLOpenGL330* opengl, const char* resourcePathPrefix) {
+	xdl::xdl_int TextureServer::init(xdl::IPXdevLRAI opengl, const char* resourcePathPrefix) {
 		m_opengl = opengl;
 		m_resourcePathPrefix = resourcePathPrefix;
 

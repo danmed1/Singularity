@@ -1,3 +1,4 @@
+#include <XdevLRAI/GL/glew.h>
 #include "CanvasXdevLOpenGL.h"
 #include "Engine/Types.h"
 #include <tm/tm.h>
@@ -5,7 +6,7 @@
 class text;
 namespace soan {
 
-	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::XdevLOpenGL330* opengl) :
+	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::IPXdevLRAI opengl) :
 		m_textLayoutSystem(textLayoutSystem),
 		m_window(nullptr),
 		m_previousWindow(nullptr),

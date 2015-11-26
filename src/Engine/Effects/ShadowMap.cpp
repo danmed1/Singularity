@@ -22,6 +22,7 @@
 	cengiz@terzibas.de
 */
 
+#include <GL/glew.h>
 #include <tm/tm.h>
 #include "ShadowMap.h"
 
@@ -29,7 +30,7 @@
 namespace soan {
 
 
-	ShadowMap::ShadowMap(xdl::XdevLOpenGL330* opengl, ShadowMapModes mode) :
+	ShadowMap::ShadowMap(xdl::IPXdevLRAI opengl, ShadowMapModes mode) :
 		PostProcessEffect(opengl),
 		m_gausBlur(nullptr),
 		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.0f,

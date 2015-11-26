@@ -31,7 +31,7 @@ class setUniform;
 class setUniform;
 namespace soan {
 
-	GBuffer::GBuffer(xdl::XdevLOpenGL330* opengl) :
+	GBuffer::GBuffer(xdl::IPXdevLRAI opengl) :
 		m_opengl(opengl),
 		m_va(nullptr),
 		m_fb(nullptr),

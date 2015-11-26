@@ -22,7 +22,7 @@
 	cengiz@terzibas.de
 */
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include "Model.h"
 
 namespace soan {
@@ -31,7 +31,7 @@ namespace soan {
 
 	}
 
-	Model::Model(xdl::XdevLOpenGL330* openGL) : m_openGL(openGL) {
+	Model::Model(xdl::IPXdevLRAI openGL) : m_openGL(openGL) {
 
 	}
 

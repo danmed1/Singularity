@@ -27,7 +27,7 @@
 
 namespace soan {
 
-	PostProcessEffect::PostProcessEffect(xdl::XdevLOpenGL330* opengl) : m_opengl(opengl) {
+	PostProcessEffect::PostProcessEffect(xdl::IPXdevLRAI opengl) : m_opengl(opengl) {
 		m_outTexure.reserve(NUM_OUTPUT_TEXTURES);
 		m_outTexure.resize(NUM_OUTPUT_TEXTURES);
 		m_inputTexure.reserve(NUM_INPUT_TEXTURES);

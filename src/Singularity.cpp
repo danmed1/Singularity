@@ -96,7 +96,7 @@ xdl::XdevLOpenGLContext* Singularity::getOpenGLContext() {
 	return m_openglContext;
 }
 
-xdl::XdevLOpenGL330*	Singularity::get3DProcessor() {
+xdl::IPXdevLRAI	Singularity::get3DProcessor() {
 	return m_opengl;
 }
 
@@ -381,7 +381,7 @@ xdl::xdl_int Singularity::initializeRenderSystem() {
 	}
 
 	// Get the OpenGL Rendering System.
-	m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
+	m_opengl = xdl::getModule<xdl::IPXdevLRAI>(getCore(), xdl::XdevLID("MyOpenGL"));
 	if(!m_opengl) {
 		return xdl::ERR_ERROR;
 	}

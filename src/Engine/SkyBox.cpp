@@ -33,7 +33,7 @@ namespace soan {
 
 	namespace game {
 
-		SkyBox::SkyBox(xdl::XdevLOpenGL330* openGL) :
+		SkyBox::SkyBox(xdl::IPXdevLRAI openGL) :
 			m_openGL(openGL),
 			m_vertexArray(nullptr),
 			m_vertexBuffer(nullptr) {

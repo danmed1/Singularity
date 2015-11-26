@@ -25,8 +25,7 @@
 #ifndef GBUFFER_H
 #define GBUFFER_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
-#include <XdevLOpenGL/XdevLFrameBuffer.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include "Light.h"
 #include "Entity/Material.h"
 #include "Effects/ShadowMap.h"
@@ -41,7 +40,7 @@ namespace soan {
 	*/
 	class GBuffer {
 		public:
-			GBuffer(xdl::XdevLOpenGL330* opengl);
+			GBuffer(xdl::IPXdevLRAI opengl);
 			~GBuffer();
 
 			/**
@@ -138,7 +137,7 @@ namespace soan {
 			void setReflectionTextureCube(xdl::XdevLTextureCube* textureCube, xdl::xdl_int state);
 
 		private:
-			xdl::XdevLOpenGL330* 					m_opengl;
+			xdl::IPXdevLRAI 					m_opengl;
 			xdl::XdevLVertexArray*				m_va;
 			xdl::XdevLFrameBuffer*				m_fb;
 

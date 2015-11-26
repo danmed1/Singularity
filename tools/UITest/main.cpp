@@ -3,7 +3,7 @@
 #include <XdevLApplication.h>
 
 #include <XdevLOpenGLContext/XdevLOpenGLContext.h>
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
 #include <XdevLFont/XdevLTextLayout.h>
@@ -151,7 +151,7 @@ class UITest : public xdl::XdevLApplication {
 		}
 
 
-		xdl::XdevLOpenGL330* get3DProcessor() {
+		xdl::IPXdevLRAI get3DProcessor() {
 			return m_opengl;
 		}
 
@@ -169,7 +169,7 @@ class UITest : public xdl::XdevLApplication {
 			}
 
 			// Get the OpenGL context.
-			m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
+			m_opengl = xdl::getModule<xdl::IPXdevLRAI>(getCore(), xdl::XdevLID("MyOpenGL"));
 			if(!m_opengl) {
 				return xdl::ERR_ERROR;
 			}
@@ -314,7 +314,7 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::XdevLOpenGLContext*		m_openglContext;
-		xdl::XdevLOpenGL330* 			m_opengl;
+		xdl::IPXdevLRAI 				m_opengl;
 
 		xdl::XdevLFontSystem*			m_fontSystem;
 		xdl::XdevLFont*					m_font;

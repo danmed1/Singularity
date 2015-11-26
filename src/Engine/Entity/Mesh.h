@@ -25,7 +25,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <XdevLOpenGL/XdevLVertexArray.h>
+#include <XdevLRAI/XdevLVertexArray.h>
 #include "Engine/Entity/Material.h"
 #include "Engine/Transformable.h"
 #include "Engine/Types.h"

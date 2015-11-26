@@ -29,7 +29,7 @@
 namespace soan {
 
 
-	GausBlur::GausBlur(xdl::XdevLOpenGL330* opengl) : PostProcessEffect(opengl) {
+	GausBlur::GausBlur(xdl::IPXdevLRAI opengl) : PostProcessEffect(opengl) {
 
 	}
 

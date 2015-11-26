@@ -31,7 +31,7 @@ namespace soan {
 	
 	class GausBlur : public PostProcessEffect {
 	public:
-			GausBlur(xdl::XdevLOpenGL330* opengl);
+			GausBlur(xdl::IPXdevLRAI opengl);
 			virtual ~GausBlur();
 			virtual void setBlurSize(xdl::xdl_float xSize, xdl::xdl_float ySize);
 			virtual int init(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLFrameBufferColorFormat textureFormat);

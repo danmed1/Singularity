@@ -21,7 +21,7 @@ namespace soan {
 		class AssimpToModel {
 			public:
 
-				AssimpToModel(xdl::XdevLOpenGL330* openGL);
+				AssimpToModel(xdl::IPXdevLRAI openGL);
 
 				/// Import 3d model.
 				int import(const xdl::xdl_char* filename, const std::shared_ptr<Model>& model);
@@ -43,16 +43,16 @@ namespace soan {
 			private:
 
 				/// Holds the Assimp scene.
-				aiScene* 								m_aiScene;
+				aiScene* 						m_aiScene;
 
 				/// The renderer.
-				xdl::XdevLOpenGL330*		m_openGL;
+				xdl::IPXdevLRAI					m_openGL;
 
 				/// Bouding box min value.
-				tmath::vec3							m_boundingBoxMin;
+				tmath::vec3						m_boundingBoxMin;
 
 				/// Bounding box max value.
-				tmath::vec3							m_boundingBoxMax;
+				tmath::vec3						m_boundingBoxMax;
 		};
 
 	}

@@ -25,7 +25,7 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include <XdevLOpenGL/XdevLTextureCube.h>
+#include <XdevLRAI/XdevLTextureCube.h>
 #include <XdevLTypes.h>
 #include <Game/Actor.h>
 
@@ -40,7 +40,7 @@ namespace soan {
 		class SkyBox  {
 			public:
 
-				SkyBox(xdl::XdevLOpenGL330* openGL);
+				SkyBox(xdl::IPXdevLRAI openGL);
 
 				virtual ~SkyBox();
 
@@ -57,7 +57,7 @@ namespace soan {
 				void render();
 
 			private:
-				xdl::XdevLOpenGL330*		m_openGL;
+				xdl::IPXdevLRAI		m_openGL;
 				xdl::XdevLVertexArray*	m_vertexArray;
 				xdl::XdevLVertexBuffer* m_vertexBuffer;				
 				xdl::XdevLTextureCube*	m_textureCube;

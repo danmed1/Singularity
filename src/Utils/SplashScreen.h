@@ -4,7 +4,9 @@
 #include <XdevL.h>
 #include <XdevLWindow/XdevLWindow.h>
 #include <XdevLOpenGLContext/XdevLOpenGLContext.h>
-#include <XdevLOpenGL/XdevLOpenGL.h>
+
+#include <GL/glew.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
 #include <XdevLFont/XdevLTextLayout.h>
@@ -32,7 +34,7 @@ namespace soan {
 				xdl::IPXdevLCore 			m_core;
 				xdl::IPXdevLWindow			m_window;
 				xdl::XdevLOpenGLContext*	m_openglContext;
-				xdl::XdevLOpenGL330*		m_openGL;
+				xdl::IPXdevLRAI		m_openGL;
 				xdl::xdl_bool 				m_running;
 				thread::Mutex				m_mutex;
 				xdl::XdevLTextLayout* 		m_textLayboutSystem;

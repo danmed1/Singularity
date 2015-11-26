@@ -24,7 +24,7 @@
 
 #include "ParticleRendererImpl.h"
 
-ParticleRendererImpl::ParticleRendererImpl(xdl::XdevLOpenGL330* pRd) {
+ParticleRendererImpl::ParticleRendererImpl(xdl::IPXdevLRAI pRd) {
 	m_3DProcessor = pRd;
 }
 

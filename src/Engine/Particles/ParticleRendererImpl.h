@@ -25,7 +25,7 @@
 #ifndef PARTICLERENDERERXGWVBUFFER_H
 #define PARTICLERENDERERXGWVBUFFER_H
 
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include "ParticleRenderer.h"
 
 struct SParticleVertex
@@ -38,15 +38,15 @@ struct SParticleVertex
 class ParticleRendererImpl : public CParticleRenderer
 {
 public:
-	ParticleRendererImpl(xdl::XdevLOpenGL330* pRd);
+	ParticleRendererImpl(xdl::IPXdevLRAI pRd);
 	virtual ~ParticleRendererImpl();
 	virtual void Render(CParticleEmitter& pEmitter);
 	virtual int Create(CParticleEmitter& pEmitter);
 protected:
-	xdl::XdevLOpenGL330*						m_3DProcessor;
-	xdl::XdevLVertexArray*					m_vertexArray;
-	xdl::XdevLVertexBuffer*					m_vertexBuffer;
-	xdl::XdevLVertexDeclaration*		m_vertexDeclaration;	
+	xdl::IPXdevLRAI					m_3DProcessor;
+	xdl::XdevLVertexArray*			m_vertexArray;
+	xdl::XdevLVertexBuffer*			m_vertexBuffer;
+	xdl::XdevLVertexDeclaration*	m_vertexDeclaration;
 };
 
 #endif

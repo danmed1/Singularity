@@ -25,6 +25,8 @@
 #ifndef GUI_WIDGETS_H
 #define GUI_WIDGETS_H
 
+#include <GL/glew.h>
+
 #include "Engine/GUI/Widget.h"
 #include "Engine/GUI/WidgetSceneSystemUtils.h"
 

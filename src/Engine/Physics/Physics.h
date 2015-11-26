@@ -25,7 +25,7 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
-#include <XdevLOpenGL/XdevLShaderProgram.h>
+#include <XdevLRAI/XdevLShaderProgram.h>
 #include <btBulletDynamicsCommon.h>
 #include "Utils/SingularityDebugDrawer.h"
 

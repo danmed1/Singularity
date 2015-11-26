@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 
 #include "SingularityDebugDrawer.h"
 #include "Engine/Types.h"
@@ -7,7 +8,7 @@
 
 namespace soan {
 
-	SingularityDebugDrawer::SingularityDebugDrawer(xdl::XdevLOpenGL330* openGL, xdl::XdevLTextLayout* textLayoutSystem)
+	SingularityDebugDrawer::SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::XdevLTextLayout* textLayoutSystem)
 		: m_openGL(openGL), m_textLayoutSystem(textLayoutSystem), m_debugMode(0) {
 
 		vd = new xdl::XdevLVertexDeclaration();

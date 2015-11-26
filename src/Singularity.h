@@ -28,7 +28,9 @@
 #include <XdevL.h>
 #include <XdevLApplication.h>
 #include <XdevLOpenGLContext/XdevLOpenGLContext.h>
-#include <XdevLOpenGL/XdevLOpenGL.h>
+
+#include <GL/glew.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLWindow/XdevLWindow.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
@@ -122,7 +124,7 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLOpenGLContext* getOpenGLContext();
 		
 		/// Returns the 3D processor, which is at the moment OpenGL :D.
-		xdl::XdevLOpenGL330* get3DProcessor();
+		xdl::IPXdevLRAI get3DProcessor();
 
 		/// Calculates the shadow map for the scene.
 		void calculateShadowMaps();
@@ -133,7 +135,7 @@ class Singularity : public xdl::XdevLApplication {
 	private:
 		xdl::XdevLID				m_id;
 		xdl::XdevLOpenGLContext*	m_openglContext;
-		xdl::XdevLOpenGL330* 		m_opengl;
+		xdl::IPXdevLRAI 			m_opengl;
 		xdl::XdevLVertexArray* 		vb_framebufferArray;
 		xdl::XdevLVertexShader*		m_fbVertexShader;
 		xdl::XdevLFragmentShader*	m_fbFragmentShader;
