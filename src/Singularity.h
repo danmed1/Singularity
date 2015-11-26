@@ -27,7 +27,6 @@
 
 #include <XdevL.h>
 #include <XdevLApplication.h>
-#include <XdevLOpenGLContext/XdevLOpenGLContext.h>
 
 #include <GL/glew.h>
 #include <XdevLRAI/XdevLRAI.h>
@@ -121,7 +120,7 @@ class Singularity : public xdl::XdevLApplication {
 		virtual const xdl::XdevLID& getID() const final;
 
 	private:
-		xdl::XdevLOpenGLContext* getOpenGLContext();
+//		xdl::XdevLOpenGLContext* getOpenGLContext();
 		
 		/// Returns the 3D processor, which is at the moment OpenGL :D.
 		xdl::IPXdevLRAI get3DProcessor();
@@ -134,7 +133,6 @@ class Singularity : public xdl::XdevLApplication {
 
 	private:
 		xdl::XdevLID				m_id;
-		xdl::XdevLOpenGLContext*	m_openglContext;
 		xdl::IPXdevLRAI 			m_opengl;
 		xdl::XdevLVertexArray* 		vb_framebufferArray;
 		xdl::XdevLVertexShader*		m_fbVertexShader;

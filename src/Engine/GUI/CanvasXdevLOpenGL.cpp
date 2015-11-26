@@ -6,11 +6,10 @@
 class text;
 namespace soan {
 
-	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::IPXdevLRAI opengl) :
+	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::IPXdevLRAI opengl) :
 		m_textLayoutSystem(textLayoutSystem),
 		m_window(nullptr),
 		m_previousWindow(nullptr),
-		m_openglContext(openglContext),
 		m_opengl(opengl),
 		m_linesStripVertexArray(nullptr),
 		m_linesStripVertexBuffer(nullptr),
@@ -101,7 +100,7 @@ namespace soan {
 
 	void CanvasXdevLOpenGL::makeCurrentWindow() {
 		assert(m_window && "Window not set for the canvas.");
-		m_openglContext->makeCurrent(m_window);
+		m_opengl->setActiveRenderWindow(m_window);
 		glViewport(0, 0, m_window->getWidth(), m_window->getHeight());
 	}
 
@@ -301,7 +300,7 @@ namespace soan {
 			m_textList.clear();
 		}
 
-		m_openglContext->swapBuffers();
+		m_opengl->swapBuffers();
 		releaseCurrentWindow();
 	}
 

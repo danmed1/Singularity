@@ -39,7 +39,7 @@ namespace soan {
 
 	class CanvasXdevLOpenGL : public Canvas {
 		public:
-			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::XdevLOpenGLContext* openglContext, xdl::IPXdevLRAI opengl);
+			CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::IPXdevLRAI opengl);
 			virtual ~CanvasXdevLOpenGL();
 
 			virtual void setCurrentWindow(xdl::IPXdevLWindow window);
@@ -66,7 +66,6 @@ namespace soan {
 			xdl::XdevLTextLayout*			m_textLayoutSystem;
 			xdl::XdevLWindow* 				m_window;
 			xdl::XdevLWindow* 				m_previousWindow;
-			xdl::XdevLOpenGLContext*		m_openglContext;
 			xdl::IPXdevLRAI					m_opengl;
 
 			xdl::XdevLVertexArray*			m_linesStripVertexArray;

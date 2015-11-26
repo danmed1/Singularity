@@ -92,9 +92,9 @@ Singularity::~Singularity() {
 	delete vb_framebufferArray;
 }
 
-xdl::XdevLOpenGLContext* Singularity::getOpenGLContext() {
-	return m_openglContext;
-}
+//xdl::XdevLOpenGLContext* Singularity::getOpenGLContext() {
+//	return m_openglContext;
+//}
 
 xdl::IPXdevLRAI	Singularity::get3DProcessor() {
 	return m_opengl;
@@ -230,7 +230,7 @@ void Singularity::main(const Arguments& argv) throw() {
 
 void  Singularity::handleGraphics(double dT) {
 //	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
-	getOpenGLContext()->makeCurrent(getWindow());
+	get3DProcessor()->setActiveRenderWindow(getWindow());
 
 	calculateShadowMaps();
 
@@ -340,7 +340,7 @@ void  Singularity::handleGraphics(double dT) {
 
 	m_textEngine->render();
 
-	getOpenGLContext()->swapBuffers();
+	get3DProcessor()->swapBuffers();
 }
 
 
@@ -370,16 +370,6 @@ soan::TextureServer* Singularity::getTextureServer() {
 }
 
 xdl::xdl_int Singularity::initializeRenderSystem() {
-	// Get the OpenGL context.
-	m_openglContext = xdl::getModule<xdl::XdevLOpenGLContext*>(getCore(), xdl::XdevLID("MyOpenGLContext"));
-	if(!m_openglContext) {
-		return xdl::ERR_ERROR;
-	}
-	
-	if(m_openglContext->create(getWindow()) != xdl::ERR_OK) {
-		return xdl::ERR_ERROR;
-	}
-
 	// Get the OpenGL Rendering System.
 	m_opengl = xdl::getModule<xdl::IPXdevLRAI>(getCore(), xdl::XdevLID("MyOpenGL"));
 	if(!m_opengl) {
