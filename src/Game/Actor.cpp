@@ -153,15 +153,13 @@ namespace soan {
 		}
 
 		xdl::xdl_int Actor::init() {
-			if(isPhysicsEnabled()) {
-				enablePhysics(xdl::xdl_yes);
-			}
 			return xdl::ERR_OK;
 		}
 
 		void Actor::setPhysics(phys::Physics* physics, xdl::xdl_float mass) {
 			m_mass = mass;
 			m_physics = physics;
+			enablePhysics(xdl::xdl_yes);
 			init();
 		}
 

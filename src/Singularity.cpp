@@ -577,7 +577,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
 	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 10; as++) {
+		for(unsigned int as = 0; as < 2; as++) {
 			soan::game::Astroid* astroid 	= new soan::game::Astroid();
 			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
 			astroid->setPhysics(m_physics, 1.8);
@@ -654,7 +654,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
 	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 0; as++) {
+		for(unsigned int as = 0; as < 2; as++) {
 			soan::game::Planet* planet = new soan::game::Planet();
 			planet->setName("Earth");
 			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
@@ -663,7 +663,6 @@ xdl::xdl_int Singularity::initializeAssets() {
 			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
 			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
 			planet->setPhysics(m_physics, 10.0);
-			planet->setPosition(0.0f, 0.0f, -100.0f);
 			m_renderable.push_back(planet);
 
 			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
@@ -733,7 +732,7 @@ xdl::xdl_int Singularity::initializeInputConnections() {
 	getKeyboard()->getButton(xdl::KEY_9, 					&key_9);
 	getKeyboard()->getButton(xdl::KEY_0, 					&key_0);
 	getKeyboard()->getButton(xdl::KEY_BACKSLASH, 	&key_backslash);
-	getKeyboard()->getButton(xdl::KEY_T, 			&key_slash);
+	getKeyboard()->getButton(xdl::KEY_SLASH, 			&key_debugMode);
 
 	getKeyboard()->getButton(xdl::KEY_COMMA, 			&key_comma);
 
@@ -797,7 +796,7 @@ void Singularity::handleInputEvents(double dT) {
 	if(key_7->getClicked()) {
 		m_drawMode = 6;
 	}
-	if(key_slash->getClicked()) {
+	if(key_debugMode->getClicked()) {
 		m_debugMode = !m_debugMode;
 	}
 	
@@ -806,10 +805,20 @@ void Singularity::handleInputEvents(double dT) {
 		m_mouse_captured = !m_mouse_captured;
 
 		if(m_mouse_captured == xdl::xdl_true) {
-			getWindow()->hidePointer();
+			getCursor()->attach(getWindow());
+
+			getCursor()->hide();
+//			getCursor()->enableRelativeMotion();
+//			getCursor()->clip(getWindow()->getX(), getWindow()->getY(), getWindow()->getX() + getWindow()->getWidth(), getWindow()->getY() + getWindow()->getHeight());
+
+//			getWindow()->hidePointer();
 			getMouse()->setRelativeMode(xdl::xdl_true);
 		} else {
-			getWindow()->showPointer();
+			getCursor()->show();
+//			getCursor()->disableRelativeMotion();
+//			getCursor()->releaseClip();
+
+//			getWindow()->showPointer();
 			getMouse()->setRelativeMode(xdl::xdl_false);
 		}
 	}
@@ -818,10 +827,9 @@ void Singularity::handleInputEvents(double dT) {
 
 		static xdl::xdl_float dy = 0.0f;
 		static xdl::xdl_float dx = 0.0f;
-		
-		
-		dy = -mouse_y->getDeltaValue()*dT*300;
-		dx = -mouse_x->getDeltaValue()*dT*300;
+
+		dy = -mouse_y->getDeltaValue()*dT;
+		dx = -mouse_x->getDeltaValue()*dT;
 
 		m_camera->fpsView(dy, dx, dT);
 	}

@@ -222,7 +222,7 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::XdevLButton* key_0;
 
 		xdl::XdevLButton*	key_backslash;
-		xdl::XdevLButton*	key_slash;
+		xdl::XdevLButton*	key_debugMode;
 		xdl::XdevLButton*	key_comma;
 		xdl::XdevLButton*	key_kp_plus;
 		xdl::XdevLButton*	key_kp_minus;
