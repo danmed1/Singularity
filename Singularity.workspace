@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CodeLite_Workspace Name="Singularity" Database="/Users/coda/Public/Projects/Singularity/.codelite/Singularity.tags">
-  <Project Name="Singularity" Path="Singularity.project" Active="Yes"/>
+  <Project Name="Singularity" Path="Singularity.project" Active="No"/>
   <Project Name="TextureFontCreator" Path="tools/TextureFontCreator/TextureFontCreator.project" Active="No"/>
   <Project Name="SDFGenerator" Path="tools/SDFGenerator/SDFGenerator.project" Active="No"/>
   <Project Name="filo" Path="tools/filo/filo.project" Active="No"/>
   <Environment>
     <![CDATA[]]>
   </Environment>
-  <Project Name="UITest" Path="tools/UITest/UITest.project" Active="No"/>
+  <Project Name="UITest" Path="tools/UITest/UITest.project" Active="Yes"/>
   <Project Name="FontTest" Path="tools/FontTest/FontTest.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
@@ -26,7 +26,7 @@
       <Project Name="FontTest" ConfigName="Release_MacOSX"/>
       <Project Name="filo" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="no">
       <Project Name="UITest" ConfigName="Debug_Linux"/>
       <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
       <Project Name="Singularity" ConfigName="Debug_Linux"/>
@@ -41,6 +41,22 @@
       <Project Name="SDFGenerator" ConfigName="Release_Linux"/>
       <Project Name="FontTest" ConfigName="Release_Linux"/>
       <Project Name="filo" ConfigName="Release_Linux"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Debug_Windows" Selected="yes">
+      <Project Name="filo" ConfigName="Debug_Linux"/>
+      <Project Name="FontTest" ConfigName="Debug_Linux"/>
+      <Project Name="SDFGenerator" ConfigName="Debug_Linux"/>
+      <Project Name="Singularity" ConfigName="Debug_Windows"/>
+      <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
+      <Project Name="UITest" ConfigName="Debug_Windows"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release_Windows" Selected="no">
+      <Project Name="filo" ConfigName="Debug_Linux"/>
+      <Project Name="FontTest" ConfigName="Debug_Linux"/>
+      <Project Name="SDFGenerator" ConfigName="Debug_Linux"/>
+      <Project Name="Singularity" ConfigName="Release_Windows"/>
+      <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
+      <Project Name="UITest" ConfigName="Release_Windows"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

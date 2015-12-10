@@ -2,7 +2,7 @@
 <CodeLite_Project Name="Singularity" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00140001N0011Debug_Linux0000000000000001N0013Debug_Linux320000000000000001N0013Debug_Linux640000000000000001N0012Debug_MacOSX0000000000000001N0015Debug_MacOSX_640000000000000001N0011Debug_Win320000000000000001N0011Debug_Win640000000000000001N0013Release_Linux0000000000000001N0015Release_Linux320000000000000001N0015Release_Linux640000000000000001N0014Release_MacOSX0000000000000001N0017Release_MacOSX_640000000000000001N0013Release_Win320000000000000001N0013Release_Win64000000000000]]>
+      <![CDATA[00160001N0011Debug_Linux0000000000000001N0013Debug_Linux320000000000000001N0013Debug_Linux640000000000000001N0012Debug_MacOSX0000000000000001N0015Debug_MacOSX_640000000000000001N0011Debug_Win320000000000000001N0011Debug_Win640000000000000001N0013Debug_Windows0000000000000001N0013Release_Linux0000000000000001N0015Release_Linux320000000000000001N0015Release_Linux640000000000000001N0014Release_MacOSX0000000000000001N0017Release_MacOSX_640000000000000001N0013Release_Win320000000000000001N0013Release_Win640000000000000001N0015Release_Windows000000000000]]>
     </Plugin>
     <Plugin Name="CMakePlugin">
       <![CDATA[[{
@@ -69,6 +69,15 @@
   "arguments": [],
   "parentProject": ""
  }, {
+  "name": "Debug_Windows",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
   "name": "Release_Linux",
   "enabled": false,
   "buildDirectory": "build",
@@ -115,6 +124,15 @@
   "parentProject": ""
  }, {
   "name": "Release_Win32",
+  "enabled": false,
+  "buildDirectory": "build",
+  "sourceDirectory": "$(ProjectPath)",
+  "generator": "",
+  "buildType": "",
+  "arguments": [],
+  "parentProject": ""
+ }, {
+  "name": "Release_Windows",
   "enabled": false,
   "buildDirectory": "build",
   "sourceDirectory": "$(ProjectPath)",
@@ -441,6 +459,55 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
+    <Configuration Name="Debug_Windows" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-std=c++11" C_Options="-g;" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="src"/>
+        <IncludePath Value="src/opcode"/>
+      </Compiler>
+      <Linker Options="-Wl,-rpath,./" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/freeimage/lib/linux"/>
+        <LibraryPath Value="dependencies/assimp/lib/linux"/>
+        <LibraryPath Value="dependencies/bullet/lib/linux"/>
+        <LibraryPath Value="/usr/lib/nvidia-340"/>
+        <Library Value="XdevLd"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="binary/$(ProjectName)d" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes"/>
+        <Command Enabled="yes"/>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
     <Configuration Name="Release_Linux" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-std=c++11" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
       <Linker Options="-O2;-Wl,-rpath,./" Required="yes">
@@ -506,6 +573,53 @@
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="binary/" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild>
+        <Command Enabled="yes">cp glsl_demo.xml ../bin</Command>
+        <Command Enabled="yes">cp fs1.fs ../bin</Command>
+        <Command Enabled="yes">cp vs1.vs ../bin</Command>
+        <Command Enabled="yes">cp gs1.gs ../bin</Command>
+      </PostBuild>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release_Windows" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-std=c++11" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="-O2;-Wl,-rpath,./" Required="yes">
+        <LibraryPath Value="$(XDEVL_HOME)/lib"/>
+        <LibraryPath Value="dependencies/freeimage/lib/linux"/>
+        <LibraryPath Value="dependencies/assimp/lib/linux"/>
+        <LibraryPath Value="dependencies/bullet/lib/linux"/>
+        <Library Value="XdevL"/>
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="../bin/$(ProjectName)" IntermediateDirectory="$(ConfigurationName)" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
