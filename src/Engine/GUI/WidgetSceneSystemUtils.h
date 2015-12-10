@@ -188,7 +188,7 @@ class XdevLQuadTree {
 			remove_recursive(0, root, obj);
 		}
 
-		void remove_recursive(xdl::xdl_int level, NodeType* node, OBJ obj) {
+		void remove_recursive(xdl::xdl_uint level, NodeType* node, OBJ obj) {
 			// TODO How about deleting the node if the size gets 0?
 
 			if(level != depth) {
@@ -218,7 +218,7 @@ class XdevLQuadTree {
 			return find_recursive(0, root, x, y);
 		}
 
-		NodeType* find_recursive(xdl::xdl_int level, NodeType* node, xdl::xdl_int x, xdl::xdl_int y) {
+		NodeType* find_recursive(xdl::xdl_uint level, NodeType* node, xdl::xdl_int x, xdl::xdl_int y) {
 
 			// Do not search in a quadrant if there is nothing or if we reached the leaf node.
 			if((level == depth) || !node->anyItems()) {
@@ -282,7 +282,7 @@ class XdevLQuadTree {
 			create_recursive(level + 1, node->bottom_right);
 		}
 
-		void delete_recursive(xdl::xdl_int level, NodeType* node) {
+		void delete_recursive(xdl::xdl_uint level, NodeType* node) {
 
 			if(level == depth) {
 				return;
@@ -304,7 +304,7 @@ class XdevLQuadTree {
 			delete(node);
 		}
 
-		void draw_recursive(int level, NodeType* node) {
+		void draw_recursive(xdl::xdl_uint level, NodeType* node) {
 			if(node == nullptr) {
 				return;
 			}

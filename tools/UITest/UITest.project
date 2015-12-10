@@ -217,6 +217,7 @@
       <Linker Options="" Required="yes">
         <LibraryPath Value="../../dependencies/freeimage/lib/windows"/>
         <Library Value="XdevLd"/>
+        <Library Value="opengl32"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="../../binary/$(ProjectName)d" IntermediateDirectory="./Debug" Command="./$(ProjectName)d" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../../binary" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
