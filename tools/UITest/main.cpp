@@ -33,8 +33,6 @@ class UITest : public xdl::XdevLApplication {
 		~UITest() {
 			widgetSceneSystem->shutdown();
 			delete widgetSceneSystem;
-
-			delete m_font;
 		}
 
 		virtual void main(const Arguments& argv) throw() override {

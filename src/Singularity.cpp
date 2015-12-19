@@ -80,7 +80,6 @@ Singularity::~Singularity() {
 	delete m_camera;
 	delete m_frustum;
 	delete m_skybox;
-	delete m_font;
 	delete m_physics;
 	delete m_light;
 	delete m_shadowMap;
