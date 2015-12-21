@@ -30,6 +30,8 @@
 #include "Engine/GUI/AABB.h"
 #include "Engine/GUI/WidgetSceneSystemUtils.h"
 
+#include <algorithm>
+
 /**
  * @class Widget
  * @brief A Widget which is a base class for most widget types.
@@ -127,6 +129,22 @@ class Widget {
 		/// Method to draw the widget.
 		virtual void draw() = 0;
 
+		xdl::xdl_float getWidth() {
+			xdl::xdl_float width = aabb.getWidth();
+			for(auto child : children) {
+				width = std::max(width, child->getWidth());
+			}
+			return width;
+		}
+
+		xdl::xdl_float getHeight() {
+			xdl::xdl_float height = aabb.getHeight();
+			for(auto child : children) {
+				height = std::max(height, child->getHeight());
+			}
+			return height;
+		}
+
 		/// Returns the AABB of this widget.
 		const AABB& getAABB() const {
 			return aabb;
@@ -141,7 +159,7 @@ class Widget {
 		}
 
 		void setParent(Widget* newParent) {
-			// TODO Do we have to inform the childs about this?
+			// TODO Do we have to inform the child's about this?
 			parent = newParent;
 		}
 
@@ -253,13 +271,13 @@ class Widget {
 		virtual void onResized(xdl::xdl_uint w, xdl::xdl_uint h) {
 
 		}
-		
+
 		virtual void onMoved(xdl::xdl_int x, xdl::xdl_int y) {
 			aabb.translate(x, y);
 		}
-		
+
 		virtual void update() {
-			
+
 		}
 
 		/// Is the left mouse button pressed?
@@ -325,6 +343,14 @@ class Widget {
 
 		void setCanvas(soan::Canvas* cvs) {
 			canvas = cvs;
+		}
+
+		virtual void activateAllWidgets() {
+
+		}
+
+		virtual void deactivateAllWidgets() {
+
 		}
 
 	public:

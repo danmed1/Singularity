@@ -26,7 +26,7 @@
       <Project Name="FontTest" ConfigName="Release_MacOSX"/>
       <Project Name="filo" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="no">
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
       <Project Name="UITest" ConfigName="Debug_Linux"/>
       <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>
       <Project Name="Singularity" ConfigName="Debug_Linux"/>
@@ -42,7 +42,7 @@
       <Project Name="FontTest" ConfigName="Release_Linux"/>
       <Project Name="filo" ConfigName="Release_Linux"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Windows" Selected="yes">
+    <WorkspaceConfiguration Name="Debug_Windows" Selected="no">
       <Project Name="filo" ConfigName="Debug_Linux"/>
       <Project Name="FontTest" ConfigName="Debug_Linux"/>
       <Project Name="SDFGenerator" ConfigName="Debug_Linux"/>

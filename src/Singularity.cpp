@@ -823,7 +823,6 @@ void Singularity::handleInputEvents(double dT) {
 	}
 
 	if(m_mouse_captured) {
-
 		static xdl::xdl_float dy = 0.0f;
 		static xdl::xdl_float dx = 0.0f;
 

@@ -78,7 +78,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a ComboBox.
-			comboBox = new ComboBox(100, 300, 100,24);
+			comboBox = new ComboBox(100, 200, 100,24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
@@ -105,7 +105,7 @@ class UITest : public xdl::XdevLApplication {
 			VBox* vbox = new VBox(Widget::TOP_LEFT, Widget::FILL_PARENT, Widget::FILL_PARENT);
 			vbox->setCanvas(canvas);
 			vbox->addChild(comboBox);
-			vbox->addChild(checkbox1);
+//			vbox->addChild(checkbox1);
 //			widgetSceneSystem->registerWidget(vbox);
 
 
