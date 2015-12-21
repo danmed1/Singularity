@@ -303,7 +303,7 @@ class WidgetSceneSystem {
 		}
 
 		void spawnPopupWindow(xdl::XdevLWindow** window, const xdl::XdevLWindowTitle& title, const xdl::XdevLWindowSize& size, const xdl::XdevLWindowPosition& pos) {
-			windowServer->createWindow(window, title, pos, size, xdl::WINDOW_POPUP);
+			windowServer->createWindow(window, title, pos, size, xdl::XDEVL_WINDOW_TYPE_POPUP);
 		}
 
 		void destroyWindow(xdl::XdevLWindow* window) {
