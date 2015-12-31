@@ -292,6 +292,7 @@ class UITest : public xdl::XdevLApplication {
 
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
 			widgetSceneSystem->onPointerMotion(id, value);
+      std::cout << value << std::endl;
 		}
 
 	private:

@@ -5,46 +5,47 @@
 
   <!-- Plug external plugins to the core system. -->
   <XdevLPlugins>
-    <XdevLPlugin name="XdevLWindowX11" 		version="1.0.0" platform="Linux"/>
-    <XdevLPlugin name="XdevLWindowCocoa" 	version="1.0.0" platform="Apple"/>
-    <XdevLPlugin name="XdevLWindowWindow" 	version="1.0.0" platform="Windows"/>
-	<XdevLPlugin name="XdevLMouse"			version="1.0.0"/>
-	<XdevLPlugin name="XdevLKeyboard"		version="1.0.0"/>
-	<XdevLPlugin name="XdevLJoystick"		version="1.0.0"/>
-    <XdevLPlugin name="XdevLOpenGLContextGLX" version="0.1.0" platform="Linux"/>
-    <XdevLPlugin name="XdevLOpenGLContextCGL" version="0.1.0" platform="Apple"/>
-    <XdevLPlugin name="XdevLOpenGLContextWGL" version="0.1.0" platform="Windows"/>
-	<XdevLPlugin name="XdevLRAIGL"			version="0.1.0"/>
-	<XdevLPlugin name="XdevLFont"       version="1.0.0"/>
+		<XdevLPlugin name="XdevLWindowX11" 		version="1.0.0" platform="Linux"/>
+		<XdevLPlugin name="XdevLWindowCocoa" 	version="1.0.0" platform="Apple"/>
+		<XdevLPlugin name="XdevLWindowWindow" 	version="1.0.0" platform="Windows"/>
+		<XdevLPlugin name="XdevLMouse"			version="1.0.0"/>
+		<XdevLPlugin name="XdevLKeyboard"		version="1.0.0"/>
+		<XdevLPlugin name="XdevLJoystickServerLinux"		version="0.1.0" platform="Linux"/>
+		<XdevLPlugin name="XdevLJoystick"		version="1.0.0"/>
+		<XdevLPlugin name="XdevLOpenGLContextGLX" version="0.1.0" platform="Linux"/>
+		<XdevLPlugin name="XdevLOpenGLContextCGL" version="0.1.0" platform="Apple"/>
+		<XdevLPlugin name="XdevLOpenGLContextWGL" version="0.1.0" platform="Windows"/>
+		<XdevLPlugin name="XdevLRAIGL"			version="0.1.0"/>
+		<XdevLPlugin name="XdevLFont"       version="1.0.0"/>
   </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
 	<XdevLModules>
-	<XdevLModule id="MyWindow"		name="XdevLWindow"/>
-	<XdevLModule id="MyMouse" 		name="XdevLMouse"/>
-	<XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
-	<XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
-	<XdevLModule id="MyOpenGL"		name="XdevLRAIGL"/>
-	<XdevLModule id="MyFontSystem"	name="XdevLFontSystem"/>
-	<XdevLModule id="MyTextLayout" name="XdevLTextLayout"/>
+		<XdevLModule id="MyWindow"		name="XdevLWindow"/>
+		<XdevLModule id="MyMouse" 		name="XdevLMouse"/>
+		<XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
+		<XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
+		<XdevLModule id="MyOpenGL"		name="XdevLRAIGL"/>
+		<XdevLModule id="MyFontSystem"	name="XdevLFontSystem"/>
+		<XdevLModule id="MyTextLayout" name="XdevLTextLayout"/>
   </XdevLModules>
 
   <!-- Setting some properties of the XdevLWindowDevice module. -->
   <XdevLWindow id="MyWindow">
-	<Title> Singularity </Title>
-	<Fullscreen> 0 </Fullscreen>
-	<X> 0 </X>
-	<Y> 0 </Y>
-	<Width>1185 </Width>
-	<Height> 700 </Height>
-	<HidePointer>0</HidePointer>
+		<Title> Singularity </Title>
+		<Fullscreen> 0 </Fullscreen>
+		<X> 0 </X>
+		<Y> 0 </Y>
+		<Width>1185 </Width>
+		<Height> 700 </Height>
+		<HidePointer>0</HidePointer>
 		<Borderless>0</Borderless>
 		<BackgroundColor>0 0 0 0 </BackgroundColor>
   </XdevLWindow>
 
   <XdevLWindow id="SplashWindow">
-	<Width>480 </Width>
-	<Height> 300 </Height>
+		<Width>480 </Width>
+		<Height> 300 </Height>
 		<Borderless>0</Borderless>
 		<BackgroundColor>0 0 0 0 </BackgroundColor>
   </XdevLWindow>
@@ -61,11 +62,6 @@
 							  fsaa="0"> 
   </XdevLOpenGL>
 
-
-
-
-	<XdevLMouseDevice id="MyMouse">
-	</XdevLMouseDevice>
 
 </XdevLCoreProperties>
 

@@ -26,9 +26,9 @@
 #define GAME_INPUT_HANDLER_H
 
 
-#include <XdevLMouse/XdevLMouse.h>
-#include <XdevLKeyboard/XdevLKeyboard.h>
-#include <XdevLJoystick/XdevLJoystick.h>
+#include <XdevLInput/XdevLMouse/XdevLMouse.h>
+#include <XdevLInput/XdevLKeyboard/XdevLKeyboard.h>
+#include <XdevLInput/XdevLJoystick/XdevLJoystick.h>
 
 #include <Game/SpaceShipCommands.h>
 
