@@ -24,6 +24,7 @@
 		<XdevLModule id="MyWindow"		name="XdevLWindow"/>
 		<XdevLModule id="MyMouse" 		name="XdevLMouse"/>
 		<XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
+		<XdevLModule id="MyJoystickServer" name="XdevLJoystickServer"/>
 		<XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
 		<XdevLModule id="MyOpenGL"		name="XdevLRAIGL"/>
 		<XdevLModule id="MyFontSystem"	name="XdevLFontSystem"/>

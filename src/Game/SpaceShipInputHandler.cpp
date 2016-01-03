@@ -28,8 +28,8 @@
 namespace soan {
 	namespace game {
 		SpaceShipInputHandler::SpaceShipInputHandler(xdl::XdevLKeyboard* kd,
-		        xdl::XdevLMouse* md,
-		        xdl::XdevLJoystick* jd) : 	m_kd(kd),
+		    xdl::XdevLMouse* md,
+		    xdl::XdevLJoystick* jd) : 	m_kd(kd),
 			m_md(md),
 			m_jd(jd),
 			m_initialized(xdl::xdl_false) {
@@ -81,14 +81,17 @@ namespace soan {
 
 
 			m_jd->getAxis(xdl::AXIS_3,	&m_thrustAxis);
-			m_thrustAxis->setMinMax(0.0f, 1.0f);
-
+			if(nullptr != m_thrustAxis) {
+				m_thrustAxis->setMinMax(0.0f, 1.0f);
+			}
 			m_md->getAxis(xdl::AXIS_X, &m_headingAxis);
-			m_headingAxis->setMinMax(-1.0f, 1.0f);
-
+			if(nullptr != m_thrustAxis) {
+				m_headingAxis->setMinMax(-1.0f, 1.0f);
+			}
 			m_md->getAxis(xdl::AXIS_Y, &m_pitchAxis);
-			m_pitchAxis->setMinMax(-1.0f, 1.0f);
-
+			if(nullptr != m_thrustAxis) {
+				m_pitchAxis->setMinMax(-1.0f, 1.0f);
+			}
 
 
 			//
@@ -152,13 +155,13 @@ namespace soan {
 			if(actor == nullptr) {
 				return;
 			}
-			
+
 			// This input hander needs the pysics system. If the physics system is not
 			// activated stop here.
 			if(actor->isPhysicsEnabled() == xdl::xdl_no) {
-			  return;
+				return;
 			}
-			
+
 			btVector3 av = actor->getRigidBody()->getAngularVelocity();
 			btVector3 sum = av;
 
