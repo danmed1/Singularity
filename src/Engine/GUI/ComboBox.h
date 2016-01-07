@@ -89,22 +89,22 @@ class ComboBox : public Widget {
 					// Yes, so we have to add widgets that is used as items of the ComboBox into the event grid
 					// and we assigned a delegate that will inform us when the user selects an item.
 
-					const xdl::XdevLWindowTitle title("Test");
-
-					calulateDimensions();
-
-					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
-
-
-					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
-					pos = getCanvas()->getWindow()->getPosition();
-					pos.x += 60 + getAABB().x1;
-					pos.y -= 2.0f*getAABB().getHeight();
-
-					spawnPopupWindow(&popupWindow, title, size, pos);
-					getCanvas()->setCurrentWindow(popupWindow);
-
-					popupWindow->show();
+//					const xdl::XdevLWindowTitle title("Test");
+//
+//					calulateDimensions();
+//
+//					const xdl::XdevLWindowSize size(getAABB().getWidth(), comboxBoxListHeight);
+//
+//
+//					xdl::XdevLWindowPosition pos;//(x,getCanvas()->getHeight() - y);
+//					pos = getCanvas()->getWindow()->getPosition();
+//					pos.x += 60 + getAABB().x1;
+//					pos.y -= 2.0f*getAABB().getHeight();
+//
+//					spawnPopupWindow(&popupWindow, title, size, pos);
+//					getCanvas()->setCurrentWindow(popupWindow);
+//
+//					popupWindow->show();
 
 					// First assign the delegate that will handles selection events.
 					for(auto& widget : combBoxItemWidgetList) {

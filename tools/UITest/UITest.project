@@ -83,7 +83,6 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="main.cpp"/>
     <File Name="../../src/Engine/TextureServer.cpp"/>
     <File Name="../../src/Engine/GUI/Widgets.h"/>
     <File Name="../../src/Engine/GUI/WidgetSceneSystemUtils.h"/>
@@ -98,6 +97,7 @@
     <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.cpp"/>
     <File Name="../../src/Engine/GUI/CanvasXdevLOpenGL.h"/>
     <File Name="../../src/Engine/GUI/VBox.h"/>
+    <File Name="main.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resource">
     <File Name="../../binary/resources/ini/uitest.xml"/>

@@ -55,8 +55,7 @@ class UITest : public xdl::XdevLApplication {
 
 			getWindow()->show();
 			getWindow()->setInputFocus();
-			getWindow()->grabPointer();
-
+	
 
 			canvas = new soan::CanvasXdevLOpenGL(getWindow()->getWidth(), getWindow()->getHeight(), m_textEngine, m_opengl);
 			widgetSceneSystem->setCanvas(canvas);
@@ -78,7 +77,7 @@ class UITest : public xdl::XdevLApplication {
 
 
 			// Create a ComboBox.
-			comboBox = new ComboBox(100, 200, 100,24);
+			comboBox = new ComboBox(100, 200, 100, 24);
 			comboBox->setCanvas(canvas);
 
 			// Add Items into the ComboBox.
@@ -195,7 +194,7 @@ class UITest : public xdl::XdevLApplication {
 			m_textEngine->useFont(m_font);
 
 			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
+			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, 0, getWindow()->getHeight());
 
 
 			return xdl::ERR_OK;
@@ -292,7 +291,7 @@ class UITest : public xdl::XdevLApplication {
 
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
 			widgetSceneSystem->onPointerMotion(id, value);
-      std::cout << value << std::endl;
+      std::cout << id << ": " << value << std::endl;
 		}
 
 	private:
