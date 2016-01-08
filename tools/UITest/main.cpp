@@ -184,7 +184,7 @@ class UITest : public xdl::XdevLApplication {
 			// Initialize font system.
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
-			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
+			m_font = m_fontSystem->createFromFontFile(xdl::XdevLFileName("resources/fonts/default_info.txt"));
 
 			m_textEngine->init(getWindow(), get3DProcessor());
 			m_textEngine->usePixelUnits(xdl::xdl_true);
@@ -302,9 +302,9 @@ class UITest : public xdl::XdevLApplication {
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::IPXdevLRAI 				m_opengl;
 
-		xdl::XdevLFontSystem*			m_fontSystem;
-		xdl::XdevLFont*					m_font;
-		xdl::XdevLTextLayout*			m_textEngine;
+		xdl::IPXdevLFontSystem	m_fontSystem;
+		xdl::IPXdevLFont				m_font;
+		xdl::IPXdevLTextLayout	m_textEngine;
 
 		WidgetSceneSystem* widgetSceneSystem;
 		soan::Canvas* canvas;

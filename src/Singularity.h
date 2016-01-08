@@ -163,9 +163,9 @@ class Singularity : public xdl::XdevLApplication {
 		soan::ShadowMap*			m_shadowMap;
 		soan::GausBlur* 			m_gausBlur;
 		soan::DepthOfField* 		m_depthOfField;
-		xdl::XdevLFontSystem*		m_fontSystem;
-		xdl::XdevLFont*			m_font;
-		xdl::XdevLTextLayout*		m_textEngine;
+		xdl::IPXdevLFontSystem	m_fontSystem;
+		xdl::IPXdevLFont				m_font;
+		xdl::IPXdevLTextLayout	m_textEngine;
 		soan::phys::Physics*		m_physics;
 		soan::Light*				m_light;
 		soan::game::SkyBox*			m_skybox;
