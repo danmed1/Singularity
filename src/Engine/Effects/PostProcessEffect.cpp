@@ -45,7 +45,7 @@ namespace soan {
 	}
 
 	PostProcessEffect::~PostProcessEffect() {
-		m_opengl->destroy(m_va);
+
 	}
 
 	int PostProcessEffect::init(unsigned int width, unsigned height) {
@@ -63,7 +63,7 @@ namespace soan {
 		};
 
 
-		xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+		auto vd = m_opengl->createVertexDeclaration();
 		vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 
 
@@ -71,7 +71,7 @@ namespace soan {
 		list.push_back((xdl::xdl_uint8*)screen_vertex);
 
 
-		m_opengl->createVertexArray(&m_va);
+		m_va = m_opengl->createVertexArray();
 		if(m_va->init(list.size(), list.data(), 6, vd) != xdl::ERR_OK) {
 			return -1;
 		}
@@ -87,20 +87,20 @@ namespace soan {
 		return m_height;
 	}
 
-	xdl::XdevLTexture* PostProcessEffect::getInputTexture(unsigned int idx) {
+	xdl::IPXdevLTexture PostProcessEffect::getInputTexture(unsigned int idx) {
 		assert((idx < NUM_INPUT_TEXTURES) && "PostProcessEffect::getInputTexture: Argument not valid.");
 		return m_inputTexure[idx];
 	}
 
-	xdl::XdevLTexture* PostProcessEffect::getOutputTexture(unsigned int idx) {
+	xdl::IPXdevLTexture PostProcessEffect::getOutputTexture(unsigned int idx) {
 		return m_outTexure[idx];
 	}
 
-	void PostProcessEffect::setInputTexture(unsigned int idx, xdl::XdevLTexture* texture) {
+	void PostProcessEffect::setInputTexture(unsigned int idx, xdl::IPXdevLTexture texture) {
 		m_inputTexure[idx] = texture;
 	}
 
-	void PostProcessEffect::setOutputTexture(unsigned int idx, xdl::XdevLTexture* texture) {
+	void PostProcessEffect::setOutputTexture(unsigned int idx, xdl::IPXdevLTexture texture) {
 		m_outTexure[idx] = texture;
 	}
 }

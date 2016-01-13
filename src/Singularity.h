@@ -134,10 +134,10 @@ class Singularity : public xdl::XdevLApplication {
 	private:
 		xdl::XdevLID				m_id;
 		xdl::IPXdevLRAI 			m_opengl;
-		xdl::XdevLVertexArray* 		vb_framebufferArray;
-		xdl::XdevLVertexShader*		m_fbVertexShader;
-		xdl::XdevLFragmentShader*	m_fbFragmentShader;
-		xdl::XdevLShaderProgram* 	m_fbShaderProgram;
+		xdl::IPXdevLVertexArray 		vb_framebufferArray;
+		xdl::IPXdevLVertexShader		m_fbVertexShader;
+		xdl::IPXdevLFragmentShader	m_fbFragmentShader;
+		xdl::IPXdevLShaderProgram 	m_fbShaderProgram;
 
 		xdl::xdl_int				m_camProjectionsMatrix;
 		xdl::xdl_int				m_camViewMatrix;

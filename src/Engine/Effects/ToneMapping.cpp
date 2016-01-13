@@ -36,10 +36,7 @@ namespace soan {
 	}
 	
 	ToneMapping::~ToneMapping() {
-		delete m_vs;
-		delete m_fs;
-		delete m_shaderProgram;
-		delete m_frameBuffer;
+
 	}
 	
 	int ToneMapping::init(unsigned int width, unsigned height) {
@@ -56,18 +53,12 @@ namespace soan {
 		fs_filename += ".fs";
 
 
-		m_opengl->createShaderProgram(&m_shaderProgram);
+		m_shaderProgram = m_opengl->createShaderProgram();
 
-		if(m_opengl->createVertexShader(&m_vs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_vs = m_opengl->createVertexShader();
 		m_vs->compileFromFile(vs_filename.c_str());
 
-		if(m_opengl->createFragmentShader(&m_fs) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
+		m_fs = m_opengl->createFragmentShader();
 		m_fs->compileFromFile(fs_filename.c_str());
 		
 		m_shaderProgram->attach(m_vs);
@@ -83,7 +74,7 @@ namespace soan {
 		m_blurSize 			= 	m_shaderProgram->getUniformLocation("blurSize");
 				
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_opengl->createFrameBuffer(&m_frameBuffer);
+		m_frameBuffer = m_opengl->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;

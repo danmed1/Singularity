@@ -8,40 +8,32 @@
 
 namespace soan {
 
-	SingularityDebugDrawer::SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::XdevLTextLayout* textLayoutSystem)
+	SingularityDebugDrawer::SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::IPXdevLTextLayout textLayoutSystem)
 		: m_openGL(openGL), m_textLayoutSystem(textLayoutSystem), m_debugMode(0) {
 
-		vd = new xdl::XdevLVertexDeclaration();
+		vd = m_openGL->createVertexDeclaration();
 		vd->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		vd->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_NORMAL);
 		vd->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
-		m_openGL->createVertexBuffer(&m_linesVertexBuffer);
+		m_linesVertexBuffer = m_openGL->createVertexBuffer();
 		m_linesVertexBuffer->init();
 
-		m_openGL->createVertexArray(&m_linesVertexArray);
+		m_linesVertexArray = m_openGL->createVertexArray();
 		m_linesVertexArray->init(m_linesVertexBuffer, vd);
 
-		m_openGL->createVertexBuffer(&m_pointsVertexBuffer);
+		m_pointsVertexBuffer = m_openGL->createVertexBuffer();
 		m_pointsVertexBuffer->init();
 
-		m_openGL->createVertexArray(&m_pointsVertexArray);
+		m_pointsVertexArray = m_openGL->createVertexArray();
 		m_pointsVertexArray->init(m_pointsVertexBuffer, vd);
 
-		m_openGL->createShaderProgram(&m_shaderProgram);
+		m_shaderProgram = m_openGL->createShaderProgram();
 
-		xdl::XdevLVertexShader* vertexShader;
-		if(m_openGL->createVertexShader(&vertexShader) == -1) {
-			std::cerr << "Could not compile vertex shader." << std::endl;
-
-		}
+		auto vertexShader = m_openGL->createVertexShader();
 		vertexShader->compileFromFile("resources/shaders/debug_vs.glsl");
 
-		xdl::XdevLFragmentShader* fragmentShader;
-		if(m_openGL->createFragmentShader(&fragmentShader) == -1) {
-			std::cerr << "Could not compile fragment shader." << std::endl;
-
-		}
+		auto fragmentShader = m_openGL->createFragmentShader();
 		fragmentShader->compileFromFile("resources/shaders/debug_fs.glsl");
 
 		m_shaderProgram->attach(vertexShader);

@@ -61,7 +61,7 @@ namespace soan {
 			virtual void apply();
 
 			/// Returns the shader program.
-			xdl::XdevLShaderProgram* getShaderProgram();
+			xdl::IPXdevLShaderProgram getShaderProgram();
 
 			/// Returns the depth bias matrix.
 			tmath::mat4&	getDepthBias();
@@ -89,10 +89,10 @@ namespace soan {
 
 		private:
 			GausBlur*										m_gausBlur;
-			xdl::XdevLFrameBuffer*			m_frameBuffer;
-			xdl::XdevLShaderProgram*		m_shaderProgram;
-			xdl::XdevLVertexShader*			m_vs;
-			xdl::XdevLFragmentShader*		m_fs;
+			xdl::IPXdevLFrameBuffer			m_frameBuffer;
+			xdl::IPXdevLShaderProgram		m_shaderProgram;
+			xdl::IPXdevLVertexShader			m_vs;
+			xdl::IPXdevLFragmentShader		m_fs;
 			soan::Camera*								m_camera;
 			xdl::xdl_uint 							m_projMatrix;
 			xdl::xdl_uint 							m_viewMatrix;

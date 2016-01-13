@@ -21,7 +21,7 @@ namespace soan {
 		
 		class SplashScreen : public xdl::XdevLListener, public thread::Thread {
 			public:
-				SplashScreen(xdl::IPXdevLCore core, xdl::XdevLOpenGLContext* openglContext, xdl::XdevLTextLayout* textLayoutSystem);
+				SplashScreen(xdl::IPXdevLCore core, xdl::IPXdevLOpenGLContext openglContext, xdl::IPXdevLTextLayout textLayoutSystem);
 				~SplashScreen();
 				xdl::XdevLID* getID();
 				xdl::xdl_int notify(xdl::XdevLEvent& event);
@@ -31,14 +31,13 @@ namespace soan {
 				int RunThread(thread::ThreadArgument* p_arg) final;
 				xdl::xdl_bool getRunningState();
 		private:
-				xdl::IPXdevLCore 			m_core;
-				xdl::IPXdevLWindow			m_window;
-				xdl::XdevLOpenGLContext*	m_openglContext;
-				xdl::IPXdevLRAI		m_openGL;
-				xdl::xdl_bool 				m_running;
-				thread::Mutex				m_mutex;
-				xdl::XdevLTextLayout* 		m_textLayboutSystem;
-
+				xdl::IPXdevLCore 					m_core;
+				xdl::IPXdevLWindow				m_window;
+				xdl::IPXdevLOpenGLContext	m_openglContext;
+				xdl::IPXdevLRAI						m_openGL;
+				xdl::IPXdevLTextLayout 		m_textLayboutSystem;
+				xdl::xdl_bool 						m_running;
+				thread::Mutex							m_mutex;
 		};
 
 	}

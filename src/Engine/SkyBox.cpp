@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -42,13 +42,11 @@ namespace soan {
 
 		SkyBox::~SkyBox() {
 			delete m_material;
-			m_openGL->destroy(m_vertexArray);
-			m_openGL->destroy(m_vertexBuffer);
-			
-			// 
+
+			//
 			// The Cube Texture will be deleted by the Texture Server.
 			//
-			
+
 		}
 
 		xdl::xdl_int SkyBox::init() {
@@ -69,7 +67,7 @@ namespace soan {
 			m_textureCube->lock();
 			m_textureCube->generateMipMap();
 			m_textureCube->unlock();
-			
+
 
 			xdl::xdl_float points[] = {
 
@@ -119,17 +117,17 @@ namespace soan {
 			//
 			// Create the Vertex Buffer for the SkyBox Mesh.
 			//
-			xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+			auto vd = m_openGL->createVertexDeclaration();
 			vd->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 
-			m_openGL->createVertexBuffer(&m_vertexBuffer);
+			m_vertexBuffer = m_openGL->createVertexBuffer();
 
 			m_vertexBuffer->init((xdl::xdl_uint8*)points, vd->vertexSize()*36);
 
 			//
 			// Create the Vertex Array for this SkyBox.
 			//
-			m_openGL->createVertexArray(&m_vertexArray);
+			m_vertexArray = m_openGL->createVertexArray();
 			m_vertexArray->init(m_vertexBuffer, vd);
 
 			m_material = new soan::Material();
@@ -143,7 +141,7 @@ namespace soan {
 			m_openGL->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 36);
 		}
 
-		xdl::XdevLTextureCube*  SkyBox::getSkyBoxTexture() {
+		xdl::IPXdevLTextureCube  SkyBox::getSkyBoxTexture() {
 			return m_textureCube;
 		}
 

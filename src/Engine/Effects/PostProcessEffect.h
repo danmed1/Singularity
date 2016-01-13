@@ -50,10 +50,10 @@ namespace soan {
 			virtual void apply() = 0;
 
 			/// Sets the input texture for the calculatioin.
-			void setInputTexture(unsigned int idx, xdl::XdevLTexture* texture);
+			void setInputTexture(unsigned int idx, xdl::IPXdevLTexture texture);
 
 			/// Returns the new calculated texture.
-			xdl::XdevLTexture* getOutputTexture(unsigned int idx);
+			xdl::IPXdevLTexture getOutputTexture(unsigned int idx);
 			
 			/// Returns the internal framebuffer width.
 			unsigned int getWidth();
@@ -63,17 +63,17 @@ namespace soan {
 			
 		protected:
 			/// Returns the input texture
-			xdl::XdevLTexture* getInputTexture(unsigned int idx);
+			xdl::IPXdevLTexture getInputTexture(unsigned int idx);
 			
 			/// This method shall be used by the effects programmer.
-			void setOutputTexture(unsigned int idx, xdl::XdevLTexture* texture);
+			void setOutputTexture(unsigned int idx, xdl::IPXdevLTexture texture);
 
 		protected:
 			xdl::IPXdevLRAI	 						m_opengl;
-			xdl::XdevLVertexArray* 					m_va;
+			xdl::IPXdevLVertexArray 					m_va;
 
-			std::vector<xdl::XdevLTexture*>	m_inputTexure;
-			std::vector<xdl::XdevLTexture*>	m_outTexure;
+			std::vector<xdl::IPXdevLTexture>	m_inputTexure;
+			std::vector<xdl::IPXdevLTexture>	m_outTexure;
 
 			unsigned int m_width;
 			unsigned int m_height;

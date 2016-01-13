@@ -70,14 +70,14 @@ namespace soan {
 		m_stage1sp->setUniformi(debug, m_debugMode);
 	}
 
-	xdl::XdevLFrameBuffer* GBuffer::getGBuffer() {
+	xdl::IPXdevLFrameBuffer GBuffer::getGBuffer() {
 		return m_fb;
 	}
 
-	xdl::XdevLShaderProgram* GBuffer::getFillGBufferShaderProgram() {
+	xdl::IPXdevLShaderProgram GBuffer::getFillGBufferShaderProgram() {
 		return m_stage1sp;
 	}
-	xdl::XdevLShaderProgram* GBuffer::getLightingShaderProgram() {
+	xdl::IPXdevLShaderProgram GBuffer::getLightingShaderProgram() {
 		return m_stage2sp;
 	}
 
@@ -111,7 +111,7 @@ namespace soan {
 			-1.0f, -1.0f
 		};
 
-		xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+		auto vd = m_opengl->createVertexDeclaration();
 		vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 
 
@@ -123,7 +123,7 @@ namespace soan {
 		m_va->init(list.size(), list.data(), 6, vd);
 
 
-		m_opengl->createFrameBuffer(&m_fb);
+		m_fb = m_opengl->createFrameBuffer();
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
 		if(m_fb->init(width, height) != xdl::ERR_OK) {
@@ -176,21 +176,14 @@ namespace soan {
 
 		m_fb->addDepthTarget(xdl::XDEVL_FB_DEPTH_COMPONENT24);
 
-		m_opengl->createShaderProgram(&m_stage1sp);
-		if(m_opengl->createVertexShader(&m_stage1vs)  == xdl::ERR_ERROR) {
-			std::cerr << "GBuffer::Could not create vertex shader object." << std::endl;
-			return -1;
-		}
+		m_stage1sp = m_opengl->createShaderProgram();
+		m_stage1vs = m_opengl->createVertexShader();
 		if(m_stage1vs->compileFromFile("resources/shaders/deferred/fillGBuffer_vs.glsl") != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
 			return -1;
 		}
 
-
-		if(m_opengl->createFragmentShader(&m_stage1fs) == xdl::ERR_ERROR) {
-			std::cerr << "GBuffer::Could not create fragment shader object." << std::endl;
-			return -1;
-		}
+		m_stage1fs = m_opengl->createFragmentShader();
 		if(m_stage1fs->compileFromFile("resources/shaders/deferred/fillGBuffer_fs.glsl") != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
 			return -1;
@@ -201,18 +194,12 @@ namespace soan {
 		m_stage1sp->link();
 
 
-		m_opengl->createShaderProgram(&m_stage2sp);
-		if(m_opengl->createVertexShader(&m_stage2vs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_stage2sp = m_opengl->createShaderProgram();
+		m_stage2vs = m_opengl->createVertexShader();
 		m_stage2vs->compileFromFile("resources/shaders/deferred/doDeferredLighting_vs.glsl");
 
 
-		if(m_opengl->createFragmentShader(&m_stage2fs) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
+		m_stage2fs = m_opengl->createFragmentShader();
 
 		m_stage2fs->addShaderCodeFromFile("resources/shaders/brdf.glsl");
 		m_stage2fs->addShaderCodeFromFile("resources/shaders/shadow.glsl");
@@ -231,19 +218,12 @@ namespace soan {
 		//
 		// Create the shader program to debug.
 		//
-		m_opengl->createShaderProgram(&m_debugShaderProgram);
-		xdl::XdevLVertexShader* dvs;
-		if(m_opengl->createVertexShader(&dvs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_debugShaderProgram = m_opengl->createShaderProgram();
+		auto dvs = m_opengl->createVertexShader();
 		dvs->compileFromFile("resources/shaders/debug_vs.glsl");
 
 
-		if(m_opengl->createFragmentShader(&m_debugFragmentShader) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
+		m_debugFragmentShader = m_opengl->createFragmentShader();
 		m_debugFragmentShader->compileFromFile("resources/shaders/debug_fs.glsl");
 
 
@@ -451,7 +431,7 @@ namespace soan {
 		return 0;
 	}
 
-	xdl::XdevLTexture*  GBuffer::getTexture(GBufferTexture texture) {
+	xdl::IPXdevLTexture  GBuffer::getTexture(GBufferTexture texture) {
 		switch(texture) {
 			case DIFFUSE:
 				return m_fb->getTexture();
@@ -556,7 +536,7 @@ namespace soan {
 		return modelMatrixStage1;
 	}
 
-	void  GBuffer::setReflectionTextureCube(xdl::XdevLTextureCube* textureCube, xdl::xdl_int state) {
+	void  GBuffer::setReflectionTextureCube(xdl::IPXdevLTextureCube textureCube, xdl::xdl_int state) {
 		m_skyBoxTexture = textureCube;
 		m_reflectionTextureCube = textureCube;
 		getFillGBufferShaderProgram()->setUniformi(renderSkyBox,	state);

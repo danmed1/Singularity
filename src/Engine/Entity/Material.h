@@ -106,19 +106,19 @@ namespace soan {
 			xdl::xdl_float getRoughness();
 
 			/// Sets the texture.
-			void setTexture(MaterialTextures texture_index, xdl::XdevLTexture* texture);
+			void setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture);
 
 			/// Sets the skybox texture.
-			void setTexture(xdl::XdevLTextureCube* skybox);
+			void setTexture(xdl::IPXdevLTextureCube skybox);
 
 			/// Returns the number of available textures.
 			xdl::xdl_uint getNumTextures();
 
 			/// Returns the texture.
-			xdl::XdevLTexture* getTexture(xdl::xdl_uint idx);
+			xdl::IPXdevLTexture getTexture(xdl::xdl_uint idx);
 
 			/// Returns the skybox texture.
-			xdl::XdevLTextureCube* getSkyBoxTexture();
+			xdl::IPXdevLTextureCube getSkyBoxTexture();
 	
 		private:
 			// Holds the diffuse part of the material.
@@ -133,9 +133,9 @@ namespace soan {
 			// Holds the roughness of the material.
 			xdl::xdl_float m_roughness;
 
-			xdl::XdevLTexture*				m_textures[7];
+			xdl::IPXdevLTexture				m_textures[7];
 
-			xdl::XdevLTextureCube*		m_skyBoxTexture;
+			xdl::IPXdevLTextureCube		m_skyBoxTexture;
 
 
 			xdl::xdl_bool							m_useDiffuseConst;

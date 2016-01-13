@@ -37,10 +37,10 @@ namespace soan {
 			virtual void calculate();
 	private:
 
-		xdl::XdevLFrameBuffer* 			m_frameBuffer;	
-		xdl::XdevLShaderProgram* 		m_shaderProgram;
-		xdl::XdevLVertexShader*			m_vs;
-		xdl::XdevLFragmentShader*		m_fs;
+		xdl::IPXdevLFrameBuffer 			m_frameBuffer;	
+		xdl::IPXdevLShaderProgram 		m_shaderProgram;
+		xdl::IPXdevLVertexShader			m_vs;
+		xdl::IPXdevLFragmentShader		m_fs;
 		
 		xdl::xdl_uint 							m_projMatrix;
 		

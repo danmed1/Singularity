@@ -6,7 +6,7 @@ namespace soan {
 
 	namespace utils {
 
-		xdl::XdevLTexture* createTextureFromFile(const xdl::xdl_char* filename) {
+		xdl::IPXdevLTexture createTextureFromFile(const xdl::xdl_char* filename) {
 			return soan::TextureServer::Inst()->import(filename);
 		}
 
@@ -65,12 +65,9 @@ namespace soan {
 //			textLayouter->init(fontEngine);
 
 
-			xdl::XdevLVertexShader* vs;
-			m_openGL->createVertexShader(&vs);
-			xdl::XdevLFragmentShader* fs;
-			m_openGL->createFragmentShader(&fs);
-			xdl::XdevLShaderProgram* sp;
-			m_openGL->createShaderProgram(&sp);
+			auto vs = m_openGL->createVertexShader();
+			auto fs = m_openGL->createFragmentShader();
+			auto sp = m_openGL->createShaderProgram();
 
 			if(vs->compileFromFile("resources/shaders/splashscreen/splash_vs.glsl") != xdl::ERR_OK) {
 				return xdl::ERR_ERROR;
@@ -95,15 +92,14 @@ namespace soan {
 			};
 
 
-			xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+			auto vd = m_openGL->createVertexDeclaration();
 			vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, 0);
 
 
 			std::vector<xdl::xdl_uint8*> list;
 			list.push_back((xdl::xdl_uint8*)screen_vertex);
 
-			xdl::XdevLVertexArray* va;
-			m_openGL->createVertexArray(&va);
+			auto va = m_openGL->createVertexArray();
 			if(va->init(list.size(), list.data(), 6, vd) != xdl::ERR_OK) {
 				return -1;
 			}

@@ -39,7 +39,7 @@ namespace soan {
 		m_useSpecularMap(xdl::xdl_false),
 		m_useRoughnessMap(xdl::xdl_false) {
 
-		memset(m_textures, 0, sizeof(xdl::XdevLTexture*)*7);
+		memset(m_textures, 0, sizeof(xdl::IPXdevLTexture)*7);
 
 	}
 	Material*  Material::refCopy() {
@@ -129,19 +129,19 @@ namespace soan {
 		m_roughness = roughness;
 	}
 
-	void Material::setTexture(MaterialTextures texture_index, xdl::XdevLTexture* texture) {
+	void Material::setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture) {
 		m_textures[texture_index] = texture;
 	}
 
-	void Material::setTexture(xdl::XdevLTextureCube* skyBoxTexture) {
+	void Material::setTexture(xdl::IPXdevLTextureCube skyBoxTexture) {
 		m_skyBoxTexture = skyBoxTexture;
 	}
 
-	xdl::XdevLTexture*  Material::getTexture(xdl::xdl_uint idx) {
+	xdl::IPXdevLTexture  Material::getTexture(xdl::xdl_uint idx) {
 		return m_textures[idx];
 	}
 
-	xdl::XdevLTextureCube*  Material::getSkyBoxTexture() {
+	xdl::IPXdevLTextureCube  Material::getSkyBoxTexture() {
 		return m_skyBoxTexture;
 	}
 

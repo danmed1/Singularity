@@ -44,7 +44,7 @@ public:
 	virtual int Create(CParticleEmitter& pEmitter);
 protected:
 	xdl::IPXdevLRAI					m_3DProcessor;
-	xdl::XdevLVertexArray*			m_vertexArray;
+	xdl::IPXdevLVertexArray			m_vertexArray;
 	xdl::XdevLVertexBuffer*			m_vertexBuffer;
 	xdl::XdevLVertexDeclaration*	m_vertexDeclaration;
 };

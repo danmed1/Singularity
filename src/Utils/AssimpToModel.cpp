@@ -54,10 +54,9 @@ namespace soan {
 		int AssimpToModel::addMesh(const aiMesh* aimesh, const std::shared_ptr<Model>& model) {
 
 			// Create Vertex Declaration. This describes the strucure of a vertex.
-			xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+			auto vd = m_openGL->createVertexDeclaration();
 
-			xdl::XdevLVertexArray* va;
-			m_openGL->createVertexArray(&va);
+			auto va = m_openGL->createVertexArray();
 
 
 			std::vector<xdl::xdl_uint8*> list;
@@ -204,7 +203,7 @@ namespace soan {
 				aiReturn texFound = m_aiScene->mMaterials[aimesh->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, texIndex, &path);
 				while(texFound == AI_SUCCESS) {
 					// FIXME The import of the texture server can return nullptr. FIX THIS LINE HERE.
-					xdl::XdevLTexture* diffuseMap =soan::TextureServer::Inst()->import(path.data);
+					xdl::IPXdevLTexture diffuseMap =soan::TextureServer::Inst()->import(path.data);
 					diffuseMap->lock();
 					diffuseMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 					diffuseMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);
@@ -241,7 +240,7 @@ namespace soan {
 				aiReturn normalFound = m_aiScene->mMaterials[aimesh->mMaterialIndex]->GetTexture(aiTextureType_HEIGHT , texIndex, &path);
 				while(normalFound == AI_SUCCESS) {
 					// FIXME The import of the texture server can return nullptr. FIX THIS LINE HERE.
-					xdl::XdevLTexture* normalMap =soan::TextureServer::Inst()->import(path.data);
+					xdl::IPXdevLTexture normalMap =soan::TextureServer::Inst()->import(path.data);
 					normalMap->lock();
 					normalMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 					normalMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);
@@ -264,7 +263,7 @@ namespace soan {
 				aiReturn displacementFound = m_aiScene->mMaterials[aimesh->mMaterialIndex]->GetTexture(aiTextureType_DISPLACEMENT, texIndex, &path);
 				while(displacementFound == AI_SUCCESS) {
 					// FIXME The import of the texture server can return nullptr. FIX THIS LINE HERE.
-					xdl::XdevLTexture* displacementMap = soan::TextureServer::Inst()->import(path.data);
+					xdl::IPXdevLTexture displacementMap = soan::TextureServer::Inst()->import(path.data);
 					displacementMap->lock();
 					displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 					displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);
@@ -284,7 +283,7 @@ namespace soan {
 //				aiReturn heightFound = m_aiScene->mMaterials[aimesh->mMaterialIndex]->GetTexture(aiTextureType_HEIGHT, texIndex, &path);
 //				while(heightFound == AI_SUCCESS) {
 //					// FIXME The import of the texture server can return nullptr. FIX THIS LINE HERE.
-//					xdl::XdevLTexture* displacementMap =soan::TextureServer::Inst()->import(path.data);
+//					xdl::IPXdevLTexture displacementMap =soan::TextureServer::Inst()->import(path.data);
 //					displacementMap->lock();
 //					displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 //					displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR_MIPMAP_LINEAR);

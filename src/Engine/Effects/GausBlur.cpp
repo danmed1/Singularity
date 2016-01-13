@@ -34,11 +34,6 @@ namespace soan {
 	}
 
 	GausBlur::~GausBlur() {
-		m_opengl->destroy(m_vs);
-		m_opengl->destroy(m_fs);
-		m_opengl->destroy(m_frameBuffer);
-		m_opengl->destroy(m_frameBuffer2);
-		m_opengl->destroy(m_shaderProgram);
 	}
 	void GausBlur::setBlurSize(xdl::xdl_float xSize, xdl::xdl_float ySize) {
 		m_blurSize[0] = (1.0/m_width)*xSize;
@@ -50,18 +45,12 @@ namespace soan {
 		PostProcessEffect::init(width, height);
 
 
-		m_opengl->createShaderProgram(&m_shaderProgram);
+		m_shaderProgram = m_opengl->createShaderProgram();
 
-		if(m_opengl->createVertexShader(&m_vs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_vs = m_opengl->createVertexShader();
 		m_vs->compileFromFile("resources/shaders/blurGaus_vs.glsl");
 
-		if(m_opengl->createFragmentShader(&m_fs) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
+		m_fs = m_opengl->createFragmentShader();
 		m_fs->compileFromFile("resources/shaders/blurGaus_fs.glsl");
 
 		m_shaderProgram->attach(m_vs);
@@ -73,7 +62,7 @@ namespace soan {
 		m_blurSizeid 			= 	m_shaderProgram->getUniformLocation("blurSize");
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_opengl->createFrameBuffer(&m_frameBuffer);
+		m_frameBuffer = m_opengl->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
@@ -87,7 +76,7 @@ namespace soan {
 		m_frameBuffer->getTexture(0)->unlock();	
 		
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_opengl->createFrameBuffer(&m_frameBuffer2);
+		m_frameBuffer2 = m_opengl->createFrameBuffer();
 		if(m_frameBuffer2->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;

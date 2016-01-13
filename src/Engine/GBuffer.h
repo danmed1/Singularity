@@ -71,7 +71,7 @@ namespace soan {
 			xdl::xdl_int startLightingStage();
 
 			/// Return a specific texture of the G-Buffer.
-			xdl::XdevLTexture* getTexture(GBufferTexture texture);
+			xdl::IPXdevLTexture getTexture(GBufferTexture texture);
 
 			/// Returns the width of the G-Buffer.
 			xdl::xdl_uint getViewPortWidth();
@@ -80,16 +80,16 @@ namespace soan {
 			xdl::xdl_uint getViewPortHeight();
 
 			/// Returns the G-Buffer object.
-			xdl::XdevLFrameBuffer* 	getGBuffer();
+			xdl::IPXdevLFrameBuffer 	getGBuffer();
 
 			/// Returns the Lighting framebuffer object.
-			xdl::XdevLFrameBuffer* 	getLightingFrameBuffer();
+			xdl::IPXdevLFrameBuffer 	getLightingFrameBuffer();
 
 			/// Returns the Shader Program that fills the G-Buffer.
-			xdl::XdevLShaderProgram* getFillGBufferShaderProgram();
+			xdl::IPXdevLShaderProgram getFillGBufferShaderProgram();
 
 			/// Returns the Shader Program that does the lighting/shadowing calculation.
-			xdl::XdevLShaderProgram* getLightingShaderProgram();
+			xdl::IPXdevLShaderProgram getLightingShaderProgram();
 
 			/// Add a light source to the G-Buffer.
 			void addLight(Light* light);
@@ -134,27 +134,27 @@ namespace soan {
 			void setDebugMode(xdl::xdl_int mode);
 
 			/// Sets the SkyBox texture.
-			void setReflectionTextureCube(xdl::XdevLTextureCube* textureCube, xdl::xdl_int state);
+			void setReflectionTextureCube(xdl::IPXdevLTextureCube textureCube, xdl::xdl_int state);
 
 		private:
 			xdl::IPXdevLRAI 					m_opengl;
-			xdl::XdevLVertexArray*				m_va;
-			xdl::XdevLFrameBuffer*				m_fb;
+			xdl::IPXdevLVertexArray				m_va;
+			xdl::IPXdevLFrameBuffer				m_fb;
 
 			Camera*												m_camera;
-			xdl::XdevLTextureCube*				m_skyBoxTexture;
-			xdl::XdevLTextureCube*				m_reflectionTextureCube;
+			xdl::IPXdevLTextureCube				m_skyBoxTexture;
+			xdl::IPXdevLTextureCube				m_reflectionTextureCube;
 
-			xdl::XdevLVertexShader*				m_stage1vs;
-			xdl::XdevLFragmentShader*		m_stage1fs;
-			xdl::XdevLShaderProgram*			m_stage1sp;
+			xdl::IPXdevLVertexShader				m_stage1vs;
+			xdl::IPXdevLFragmentShader		m_stage1fs;
+			xdl::IPXdevLShaderProgram			m_stage1sp;
 
-			xdl::XdevLVertexShader*				m_stage2vs;
-			xdl::XdevLFragmentShader*		m_stage2fs;
-			xdl::XdevLShaderProgram*			m_stage2sp;
+			xdl::IPXdevLVertexShader				m_stage2vs;
+			xdl::IPXdevLFragmentShader		m_stage2fs;
+			xdl::IPXdevLShaderProgram			m_stage2sp;
 
-			xdl::XdevLShaderProgram*			m_debugShaderProgram;
-			xdl::XdevLFragmentShader* 		m_debugFragmentShader;
+			xdl::IPXdevLShaderProgram			m_debugShaderProgram;
+			xdl::IPXdevLFragmentShader 		m_debugFragmentShader;
 
 
 

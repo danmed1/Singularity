@@ -40,12 +40,11 @@ int ParticleRendererImpl::Create(CParticleEmitter& pEmitter) {
 		0.5f, 0.5f, 0.0f,
 	};
 
-	m_3DProcessor->createVertexArray(&m_vertexArray);
-
-	m_3DProcessor->createVertexBuffer(&m_vertexBuffer);
+	m_vertexArray = m_3DProcessor->createVertexArray();
+	m_vertexBuffer = m_3DProcessor->createVertexBuffer();
 	m_vertexBuffer->init(NULL, sizeof(SParticleVertex)*pEmitter.GetNumParticles()*3*2);
 
-	m_vertexDeclaration = new xdl::XdevLVertexDeclaration();
+	m_vertexDeclaration = m_3DProcessor->createVertexDeclaration();
 
 	m_vertexDeclaration->add(3, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, 0);
 	m_vertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, 4);

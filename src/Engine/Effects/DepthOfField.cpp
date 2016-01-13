@@ -36,10 +36,7 @@ namespace soan {
 	}
 
 	DepthOfField::~DepthOfField() {
-		m_opengl->destroy(m_vs);
-		m_opengl->destroy(m_fs);
-		m_opengl->destroy(m_frameBuffer);
-		m_opengl->destroy(m_shaderProgram);
+
 	}
 
 
@@ -57,19 +54,11 @@ namespace soan {
 		fs_filename += ".fs";
 
 
-		m_opengl->createShaderProgram(&m_shaderProgram);
+		m_shaderProgram = m_opengl->createShaderProgram();
 
-		if(m_opengl->createVertexShader( &m_vs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_vs = m_opengl->createVertexShader();
 		m_vs->compileFromFile(vs_filename.c_str());
-
-		if(m_opengl->createFragmentShader(&m_fs) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
-
+		m_fs = m_opengl->createFragmentShader();
 		m_fs->compileFromFile(fs_filename.c_str());
 
 		m_shaderProgram->attach(m_vs);
@@ -82,7 +71,7 @@ namespace soan {
 		m_textureHeight	=  	m_shaderProgram->getUniformLocation("textureHeight");;
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_opengl->createFrameBuffer(&m_frameBuffer);
+		m_frameBuffer = m_opengl->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
@@ -91,8 +80,7 @@ namespace soan {
 		//
 		// Now we are going to create the texture we are going to render to it.
 		//
-		xdl::XdevLTexture* texture;
-		m_opengl->createTexture(&texture);
+		auto texture = m_opengl->createTexture();
 		texture->init(m_width, m_height, xdl::XDEVL_RGBA32F);
 		
 		// 

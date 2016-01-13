@@ -35,7 +35,7 @@ namespace soan {
 	Mesh::~Mesh() {
 	}
 
-	xdl::XdevLVertexArray* Mesh::getVertexArray() {
+	xdl::IPXdevLVertexArray Mesh::getVertexArray() {
 		return m_va;
 	}
 	
@@ -63,7 +63,7 @@ namespace soan {
 		return m_parentModel;
 	}
 
-	void  Mesh::setVertexArray(xdl::XdevLVertexArray* vertexArray) {
+	void  Mesh::setVertexArray(xdl::IPXdevLVertexArray vertexArray) {
 		m_va = vertexArray;
 	}
 

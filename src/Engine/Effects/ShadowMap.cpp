@@ -59,10 +59,6 @@ namespace soan {
 		if(m_shadowMapMode == VSM) {
 			delete m_gausBlur;
 		}
-		m_opengl->destroy(m_vs);
-		m_opengl->destroy(m_fs);
-		m_opengl->destroy(m_frameBuffer);
-		m_opengl->destroy(m_shaderProgram);
 	}
 
 	void ShadowMap::setLight(Light* light) {
@@ -98,18 +94,12 @@ namespace soan {
 			m_gausBlur->init(width, height, xdl::XDEVL_FB_COLOR_RG32F);
 		}
 
-		m_opengl->createShaderProgram(&m_shaderProgram);
+		m_shaderProgram = m_opengl->createShaderProgram();
 
-		if(m_opengl->createVertexShader(&m_vs) == -1) {
-			std::cerr << "GBuffer::Could not compile vertex shader." << std::endl;
-			return -1;
-		}
+		m_vs = m_opengl->createVertexShader();
 		m_vs->compileFromFile("resources/shaders/shadowMap_vs.glsl");
 
-		if(m_opengl->createFragmentShader(&m_fs) == -1) {
-			std::cerr << "GBuffer::Could not compile fragment shader." << std::endl;
-			return -1;
-		}
+		m_fs = m_opengl->createFragmentShader();
 		m_fs->compileFromFile("resources/shaders/shadowMap_fs.glsl");
 
 		m_shaderProgram->attach(m_vs);
@@ -121,7 +111,7 @@ namespace soan {
 		m_modelMatrix 	= 	m_shaderProgram->getUniformLocation("modelMatrix");
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_opengl->createFrameBuffer(&m_frameBuffer);
+		m_frameBuffer = m_opengl->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
@@ -207,7 +197,7 @@ namespace soan {
 
 	}
 
-	xdl::XdevLShaderProgram* ShadowMap::getShaderProgram() {
+	xdl::IPXdevLShaderProgram ShadowMap::getShaderProgram() {
 		return m_shaderProgram;
 	}
 

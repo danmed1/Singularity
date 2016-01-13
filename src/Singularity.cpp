@@ -86,9 +86,6 @@ Singularity::~Singularity() {
 	delete m_depthOfField;
 	delete m_gBuffer;
 	delete m_gausBlur;
-	delete m_fbVertexShader;
-	delete m_fbFragmentShader;
-	delete vb_framebufferArray;
 }
 
 //xdl::XdevLOpenGLContext* Singularity::getOpenGLContext() {
@@ -462,18 +459,12 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_modelMatrix							= m_gBuffer->getFillGBufferShaderProgram()->getUniformLocation("modelMatrix");
 
 
-	m_opengl->createShaderProgram(&m_fbShaderProgram);
+	m_fbShaderProgram = m_opengl->createShaderProgram();
 
-	if(m_opengl->createVertexShader(&m_fbVertexShader) == -1) {
-		std::cerr << "Could not compile vertex shader." << std::endl;
-		return xdl::ERR_ERROR;
-	}
+	m_fbVertexShader = m_opengl->createVertexShader();
 	m_fbVertexShader->compileFromFile("resources/shaders/fb.vs");
 
-	if(m_opengl->createFragmentShader(&m_fbFragmentShader) == -1) {
-		std::cerr << "Could not compile fragment shader." << std::endl;
-		return xdl::ERR_ERROR;
-	}
+	m_fbFragmentShader = m_opengl->createFragmentShader();
 	m_fbFragmentShader->compileFromFile("resources/shaders/fb.fs");
 
 	m_fbShaderProgram->attach(m_fbVertexShader);
@@ -502,7 +493,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 		0.0f, 0.0f
 	};
 
-	xdl::XdevLVertexDeclaration* vd = new xdl::XdevLVertexDeclaration();
+	auto vd = get3DProcessor()->createVertexDeclaration();
 	vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, soan::VERTEX_POSITION);
 	vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, soan::VERTEX_TEXTURE_COORD);
 
@@ -520,7 +511,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 //	streamBuffer2->init((xdl::xdl_uint8*)screen_uv, 6);
 
 
-	get3DProcessor()->createVertexArray(&vb_framebufferArray);
+	vb_framebufferArray = get3DProcessor()->createVertexArray();
 	vb_framebufferArray->init(list.size(), list.data(), 6, vd);
 
 //	vb_framebufferArray->init((xdl::xdl_uint8*)list.data(), list.size(), vd);
@@ -618,7 +609,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	if(assimpToModel.import("resources/models/plane.obj", groundModel) != xdl::ERR_OK) {
 		return xdl::ERR_ERROR;
 	}
-	xdl::XdevLTexture* displacementMap = soan::TextureServer::Inst()->import("bricks_displace.jpg");
+	xdl::IPXdevLTexture displacementMap = soan::TextureServer::Inst()->import("bricks_displace.jpg");
 	displacementMap->lock();
 	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
 	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);

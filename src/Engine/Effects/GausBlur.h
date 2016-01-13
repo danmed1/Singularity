@@ -38,11 +38,11 @@ namespace soan {
 			virtual void apply();
 	private:
 
-		xdl::XdevLFrameBuffer* 			m_frameBuffer;	
-		xdl::XdevLFrameBuffer* 			m_frameBuffer2;	
-		xdl::XdevLShaderProgram* 		m_shaderProgram;
-		xdl::XdevLVertexShader*			m_vs;
-		xdl::XdevLFragmentShader*		m_fs;		
+		xdl::IPXdevLFrameBuffer 			m_frameBuffer;	
+		xdl::IPXdevLFrameBuffer 			m_frameBuffer2;	
+		xdl::IPXdevLShaderProgram 		m_shaderProgram;
+		xdl::IPXdevLVertexShader			m_vs;
+		xdl::IPXdevLFragmentShader		m_fs;		
 		
 		xdl::xdl_uint 							m_textureid;
 		xdl::xdl_uint 							m_blurDirectionid;

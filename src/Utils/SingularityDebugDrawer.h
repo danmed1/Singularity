@@ -23,30 +23,30 @@ namespace soan {
 
 	class SingularityDebugDrawer : public btIDebugDraw {
 		xdl::IPXdevLRAI				m_openGL;
-		xdl::XdevLTextLayout*		m_textLayoutSystem;
-		xdl::XdevLShaderProgram*	m_shaderProgram;
-		xdl::XdevLVertexArray*		m_linesVertexArray;
-		xdl::XdevLVertexBuffer*		m_linesVertexBuffer;
+		xdl::IPXdevLTextLayout		m_textLayoutSystem;
+		xdl::IPXdevLShaderProgram	m_shaderProgram;
+		xdl::IPXdevLVertexArray		m_linesVertexArray;
+		xdl::IPXdevLVertexBuffer		m_linesVertexBuffer;
 
 		xdl::xdl_uint			m_projMatrix;
 
-		xdl::XdevLVertexArray*	m_pointsVertexArray;
-		xdl::XdevLVertexBuffer*	m_pointsVertexBuffer;
+		xdl::IPXdevLVertexArray	m_pointsVertexArray;
+		xdl::IPXdevLVertexBuffer	m_pointsVertexBuffer;
 
 
-		xdl::XdevLVertexArray*	m_trianglesVertexArray;
-		xdl::XdevLVertexBuffer*	m_trianglesVertexBuffer;
+		xdl::IPXdevLVertexArray	m_trianglesVertexArray;
+		xdl::IPXdevLVertexBuffer	m_trianglesVertexBuffer;
 
 		int m_debugMode;
 		std::vector<btDebugVertex> m_lineVertexList;
 		std::vector<btDebugVertex> m_pointVertexList;
 		std::vector<btDebugVertex> m_trianglesVertexList;
 
-		xdl::XdevLVertexDeclaration* vd;
+		xdl::IPXdevLVertexDeclaration vd;
 
 	public:
 
-		SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::XdevLTextLayout* textLayout = nullptr);
+		SingularityDebugDrawer(xdl::IPXdevLRAI openGL, xdl::IPXdevLTextLayout textLayout = nullptr);
 
 		virtual ~SingularityDebugDrawer();
 

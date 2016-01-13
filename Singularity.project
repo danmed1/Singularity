@@ -163,32 +163,6 @@
         <File Name="src/Engine/Physics/Physics.cpp"/>
         <File Name="src/Engine/Physics/Physics.h"/>
       </VirtualDirectory>
-      <VirtualDirectory Name="Particles">
-        <File Name="src/Engine/Particles/Particle.h"/>
-        <File Name="src/Engine/Particles/ParticleDynamic.cpp"/>
-        <File Name="src/Engine/Particles/ParticleDynamic.h"/>
-        <File Name="src/Engine/Particles/ParticleDynamicEuler.cpp"/>
-        <File Name="src/Engine/Particles/ParticleDynamicEuler.h"/>
-        <File Name="src/Engine/Particles/ParticleEmitter.cpp"/>
-        <File Name="src/Engine/Particles/ParticleEmitter.h"/>
-        <File Name="src/Engine/Particles/ParticleEmitterBox.h"/>
-        <File Name="src/Engine/Particles/ParticleGenerator.cpp"/>
-        <File Name="src/Engine/Particles/ParticleGenerator.h"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorBox.h"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorBoxHull.h"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorPlane.cpp"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorPlane.h"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorSphere.cpp"/>
-        <File Name="src/Engine/Particles/ParticleGeneratorSphere.h"/>
-        <File Name="src/Engine/Particles/ParticleRenderer.h"/>
-        <File Name="src/Engine/Particles/ParticleRendererShaderCg.cpp"/>
-        <File Name="src/Engine/Particles/ParticleRendererShaderCg.h"/>
-        <File Name="src/Engine/Particles/ParticleServer.cpp"/>
-        <File Name="src/Engine/Particles/ParticleServer.h"/>
-        <File Name="src/Engine/Particles/ParticleSystem.h"/>
-        <File Name="src/Engine/Particles/ParticleRendererImpl.h"/>
-        <File Name="src/Engine/Particles/ParticleRendererImpl.cpp"/>
-      </VirtualDirectory>
       <File Name="src/Engine/TextureServer.h"/>
       <File Name="src/Engine/TextureServer.cpp"/>
       <File Name="src/Engine/Light.h"/>

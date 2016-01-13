@@ -48,7 +48,7 @@ namespace soan {
 				xdl::xdl_int init();
 
 				/// Returns the Cube Texture of this SkyBox.
-				xdl::XdevLTextureCube* getSkyBoxTexture();
+				xdl::IPXdevLTextureCube getSkyBoxTexture();
 
 				/// Returns the material.
 				Material&	getMaterial();
@@ -58,9 +58,9 @@ namespace soan {
 
 			private:
 				xdl::IPXdevLRAI		m_openGL;
-				xdl::XdevLVertexArray*	m_vertexArray;
-				xdl::XdevLVertexBuffer* m_vertexBuffer;				
-				xdl::XdevLTextureCube*	m_textureCube;
+				xdl::IPXdevLVertexArray	m_vertexArray;
+				xdl::IPXdevLVertexBuffer m_vertexBuffer;
+				xdl::IPXdevLTextureCube	m_textureCube;
 				Material*								m_material;
 
 		};
