@@ -6,11 +6,11 @@
 class text;
 namespace soan {
 
-	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::IPXdevLRAI opengl) :
+	CanvasXdevLOpenGL::CanvasXdevLOpenGL(xdl::xdl_uint width, xdl::xdl_uint height, xdl::XdevLTextLayout* textLayoutSystem, xdl::IPXdevLRAI rai) :
 		m_textLayoutSystem(textLayoutSystem),
 		m_window(nullptr),
 		m_previousWindow(nullptr),
-		m_opengl(opengl),
+		m_opengl(rai),
 		m_linesStripVertexArray(nullptr),
 		m_linesStripVertexBuffer(nullptr),
 		m_linesStripVertexDeclaration(nullptr),
@@ -19,31 +19,31 @@ namespace soan {
 		m_height(height),
 		m_currentColor(soan::Color(255, 255, 255, 255)) {
 
-		m_linesStripVertexDeclaration = new xdl::XdevLVertexDeclaration();
+		m_linesStripVertexDeclaration = rai->createVertexDeclaration();
 		m_linesStripVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		m_linesStripVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
-		m_opengl->createVertexBuffer(&m_linesStripVertexBuffer);
+		m_linesStripVertexBuffer = m_opengl->createVertexBuffer();
 		m_linesStripVertexBuffer->init();
 
-		m_opengl->createVertexArray(&m_linesStripVertexArray);
+		m_linesStripVertexArray = m_opengl->createVertexArray();
 		m_linesStripVertexArray->init(m_linesStripVertexBuffer, m_linesStripVertexDeclaration);
 
 		//
 		// Create shader
 		//
 
-		m_opengl->createShaderProgram(&m_linesStripShaderProgram);
+		m_linesStripShaderProgram = m_opengl->createShaderProgram();
 
-		xdl::XdevLVertexShader* vertexShader;
-		if(m_opengl->createVertexShader(&vertexShader) == -1) {
+		auto vertexShader = m_opengl->createVertexShader();
+		if(nullptr == vertexShader) {
 			std::cerr << "Could not compile vertex shader." << std::endl;
 
 		}
 		vertexShader->compileFromFile("resources/shaders/ui_vs.glsl");
 
-		xdl::XdevLFragmentShader* fragmentShader;
-		if(m_opengl->createFragmentShader(&fragmentShader) == -1) {
+		auto fragmentShader = m_opengl->createFragmentShader();
+		if(nullptr == fragmentShader) {
 			std::cerr << "Could not compile fragment shader." << std::endl;
 
 		}
@@ -60,14 +60,14 @@ namespace soan {
 		// Rectangle Line stuff
 		//
 
-		m_rectangleLineVertexDeclaration = new xdl::XdevLVertexDeclaration();
+		m_rectangleLineVertexDeclaration = rai->createVertexDeclaration();
 		m_rectangleLineVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		m_rectangleLineVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
-		m_opengl->createVertexBuffer(&m_rectangleLineVertexBuffer);
+		m_rectangleLineVertexBuffer = m_opengl->createVertexBuffer();
 		m_rectangleLineVertexBuffer->init();
 
-		m_opengl->createVertexArray(&m_rectangleLineVertexArray);
+		m_rectangleLineVertexArray = m_opengl->createVertexArray();
 		m_rectangleLineVertexArray->init(m_rectangleLineVertexBuffer, m_rectangleLineVertexDeclaration);
 
 
@@ -76,21 +76,21 @@ namespace soan {
 		// Rectangle stuff
 		//
 
-		m_rectangleVertexDeclaration = new xdl::XdevLVertexDeclaration();
+		m_rectangleVertexDeclaration = rai->createVertexDeclaration();
 		m_rectangleVertexDeclaration->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 		m_rectangleVertexDeclaration->add(4, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_COLOR);
 
-		m_opengl->createVertexBuffer(&m_rectangleVertexBuffer);
+		m_rectangleVertexBuffer = m_opengl->createVertexBuffer();
 		m_rectangleVertexBuffer->init();
 
-		m_opengl->createVertexArray(&m_rectangleVertexArray);
+		m_rectangleVertexArray = m_opengl->createVertexArray();
 		m_rectangleVertexArray->init(m_rectangleVertexBuffer, m_rectangleVertexDeclaration);
 
 
 	}
 
 	CanvasXdevLOpenGL::~CanvasXdevLOpenGL() {
-		delete m_linesStripVertexDeclaration;
+
 	}
 
 	void CanvasXdevLOpenGL::setCurrentWindow(xdl::IPXdevLWindow window) {

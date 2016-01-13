@@ -79,7 +79,7 @@ namespace soan {
 		return xdl::ERR_OK;
 	}
 
-	xdl::XdevLTexture*  TextureServer::getDefaultTexture() {
+	xdl::IPXdevLTexture  TextureServer::getDefaultTexture() {
 		return m_defaultTexture;
 	}
 
@@ -91,7 +91,7 @@ namespace soan {
 		return m_resourcePathPrefix.c_str();
 	}
 
-	xdl::XdevLTexture* TextureServer::import(const char* filename,
+	xdl::IPXdevLTexture TextureServer::import(const char* filename,
 	        xdl::xdl_uint image_format,
 	        xdl::xdl_uint internal_format,
 	        unsigned int level,
@@ -99,7 +99,7 @@ namespace soan {
 
 		assert(m_opengl && "TextureServer not initialized.");
 
-		xdl::XdevLTexture* tmp = nullptr;
+		xdl::IPXdevLTexture tmp = nullptr;
 
 		// Here we try to figure out if a image with the same filename was already loaded.
 		// If yes then only a referenced texture will be assigned.
@@ -171,7 +171,7 @@ namespace soan {
 
 
 			// Create the Texture object.
-			m_opengl->createTexture(&tmp);
+			tmp = m_opengl->createTexture();
 			tmp->init(width, height, internal_format,image_format, (xdl::xdl_uint8*)bits);
 
 			//store the texture ID mapping
@@ -191,13 +191,13 @@ namespace soan {
 		return tmp;
 	}
 
-	xdl::XdevLTextureCube* TextureServer::importCube(const char* filenames[],
+	xdl::IPXdevLTextureCube TextureServer::importCube(const char* filenames[],
 	        xdl::xdl_uint image_format,
 	        xdl::xdl_uint internal_format,
 	        unsigned int level,
 	        unsigned int border) {
 
-		xdl::XdevLTextureCube* tmp = nullptr;
+		xdl::IPXdevLTextureCube tmp;
 
 		struct imagesInfo {
 			std::vector<FIBITMAP*> 	dibs;
@@ -289,7 +289,7 @@ namespace soan {
 		} // for
 
 		// Create the Texture object.
-		m_opengl->createTextureCube(&tmp);
+		tmp = m_opengl->createTextureCube();
 		xdl::XdevLCubemapPosition cubemapPositionList[] = {	xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_X,
 		        xdl::XDEVL_TEXTURE_CUBE_MAP_NEGATIVE_X,
 		        xdl::XDEVL_TEXTURE_CUBE_MAP_POSITIVE_Y,
@@ -311,11 +311,10 @@ namespace soan {
 	}
 
 
-	bool TextureServer::remove(xdl::XdevLTexture* texture) {
+	bool TextureServer::remove(xdl::IPXdevLTexture texture) {
 		bool result(true);
 		//if this texture ID mapped, unload it's texture, and remove it from the map
 		if(m_texID.find(texture->id()) != m_texID.end()) {
-			delete m_texID[texture->id()];
 			m_texID.erase(texture->id());
 		}
 		//otherwise, unload failed
@@ -326,11 +325,11 @@ namespace soan {
 		return result;
 	}
 
-	xdl::XdevLTexture*  TextureServer::getTexture(xdl::xdl_int idx) {
+	xdl::IPXdevLTexture  TextureServer::getTexture(xdl::xdl_int idx) {
 		return m_texID[idx];
 	}
 
-	bool TextureServer::find(xdl::XdevLTexture* texture) {
+	bool TextureServer::find(xdl::IPXdevLTexture texture) {
 		bool result(true);
 		//if this texture ID mapped, bind it's texture as current
 		if(m_texID.find(texture->id()) == m_texID.end())
@@ -343,7 +342,6 @@ namespace soan {
 
 		//Unload the textures untill the end of the texture map is found
 		for(auto& texture : m_texID) {
-			m_opengl->destroy(texture.second);
 			remove(texture.second);
 		}
 

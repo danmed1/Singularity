@@ -63,25 +63,25 @@ namespace soan {
 			
 			virtual void onResized(xdl::xdl_uint width, xdl::xdl_uint height);
 		private:
-			xdl::XdevLTextLayout*			m_textLayoutSystem;
-			xdl::XdevLWindow* 				m_window;
-			xdl::XdevLWindow* 				m_previousWindow;
+			xdl::IPXdevLTextLayout		m_textLayoutSystem;
+			xdl::IPXdevLWindow 				m_window;
+			xdl::IPXdevLWindow 				m_previousWindow;
 			xdl::IPXdevLRAI					m_opengl;
 
-			xdl::XdevLVertexArray*			m_linesStripVertexArray;
-			xdl::XdevLVertexBuffer*			m_linesStripVertexBuffer;
-			xdl::XdevLVertexDeclaration*	m_linesStripVertexDeclaration;
+			xdl::IPXdevLVertexArray			m_linesStripVertexArray;
+			xdl::IPXdevLVertexBuffer			m_linesStripVertexBuffer;
+			xdl::IPXdevLVertexDeclaration	m_linesStripVertexDeclaration;
 
-			xdl::XdevLVertexArray*			m_rectangleLineVertexArray;
-			xdl::XdevLVertexBuffer*			m_rectangleLineVertexBuffer;
-			xdl::XdevLVertexDeclaration*	m_rectangleLineVertexDeclaration;
+			xdl::IPXdevLVertexArray			m_rectangleLineVertexArray;
+			xdl::IPXdevLVertexBuffer			m_rectangleLineVertexBuffer;
+			xdl::IPXdevLVertexDeclaration	m_rectangleLineVertexDeclaration;
 
 
-			xdl::XdevLVertexArray*			m_rectangleVertexArray;
-			xdl::XdevLVertexBuffer*			m_rectangleVertexBuffer;
-			xdl::XdevLVertexDeclaration*	m_rectangleVertexDeclaration;
+			xdl::IPXdevLVertexArray			m_rectangleVertexArray;
+			xdl::IPXdevLVertexBuffer			m_rectangleVertexBuffer;
+			xdl::IPXdevLVertexDeclaration	m_rectangleVertexDeclaration;
 
-			xdl::XdevLShaderProgram*		m_linesStripShaderProgram;
+			xdl::IPXdevLShaderProgram		m_linesStripShaderProgram;
 			xdl::xdl_uint					m_projMatrix;
 
 			xdl::xdl_uint 					m_width;

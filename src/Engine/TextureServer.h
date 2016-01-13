@@ -32,10 +32,10 @@ namespace soan {
 
 	class TextureServer {
 		public:
-			typedef std::map<xdl::xdl_int, xdl::XdevLTexture*> 	textureMapType;
+			typedef std::map<xdl::xdl_int, xdl::IPXdevLTexture> 	textureMapType;
 			typedef std::map<std::string, xdl::xdl_int> 					textureInfoMapType;
 			
-			typedef std::map<xdl::xdl_int, xdl::XdevLTextureCube*> 	textureCubeMapType;
+			typedef std::map<xdl::xdl_int, xdl::IPXdevLTextureCube> 	textureCubeMapType;
 			typedef std::map<std::string, xdl::xdl_int> 							textureInfoCubeMapType;
 
 			static TextureServer* Inst();
@@ -43,26 +43,26 @@ namespace soan {
 
 
 			//if texID is already in use, it will be unloaded and replaced with this texture
-			xdl::XdevLTexture* import(const char* filename,
+			xdl::IPXdevLTexture import(const char* filename,
 			                          xdl::xdl_uint image_format = xdl::XDEVL_BGR,
 			                          xdl::xdl_uint internal_format = xdl::XDEVL_RGBA,
 			                          unsigned int level = 0,
 			                          unsigned int border = 0);
 
-			xdl::XdevLTextureCube*	importCube(const char* filenames[],
+			xdl::IPXdevLTextureCube	importCube(const char* filenames[],
 			                          xdl::xdl_uint image_format = xdl::XDEVL_BGR,
 			                          xdl::xdl_uint internal_format = xdl::XDEVL_RGBA,
 			                          unsigned int level = 0,
 			                          unsigned int border = 0);
 
 			/// Remove texture.
-			bool remove(xdl::XdevLTexture* texture);
+			bool remove(xdl::IPXdevLTexture texture);
 
 			/// Returns the texture with a specific id.
-			xdl::XdevLTexture* getTexture(xdl::xdl_int idx);
+			xdl::IPXdevLTexture getTexture(xdl::xdl_int idx);
 
 			/// Find texture.
-			bool find(xdl::XdevLTexture* texture);
+			bool find(xdl::IPXdevLTexture texture);
 
 			//free all texture memory
 			void removeAll();
@@ -77,7 +77,7 @@ namespace soan {
 			const char* getResourcePathPrefix();
 
 			/// Returns the default textures id.
-			xdl::XdevLTexture* getDefaultTexture();
+			xdl::IPXdevLTexture getDefaultTexture();
 
 		protected:
 			TextureServer();
@@ -95,7 +95,7 @@ namespace soan {
 			
 
 			std::string m_resourcePathPrefix;
-			xdl::XdevLTexture*			m_defaultTexture;
+			xdl::IPXdevLTexture			m_defaultTexture;
 	};
 }
 #endif

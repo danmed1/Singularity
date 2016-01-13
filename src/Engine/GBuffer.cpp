@@ -57,32 +57,7 @@ namespace soan {
 	}
 
 	GBuffer::~GBuffer() {
-
 		m_lights.clear();
-		if(m_reflectionTextureCube != nullptr) {
-			m_opengl->destroy(m_reflectionTextureCube);
-		}
-		if(m_stage1sp != nullptr) {
-			m_opengl->destroy(m_stage1sp);
-		}
-		if(m_stage2sp != nullptr) {
-			m_opengl->destroy(m_stage2sp);
-		}
-		if(m_stage1vs != nullptr) {
-			m_opengl->destroy(m_stage1vs);
-		}
-		if(m_stage1fs != nullptr) {
-			m_opengl->destroy(m_stage1fs);
-		}
-		if(m_stage2vs != nullptr) {
-			m_opengl->destroy(m_stage2vs);
-		}
-		if(m_stage2fs != nullptr) {
-			m_opengl->destroy(m_stage2fs);
-		}
-		if(m_fb != nullptr) {
-			m_opengl->destroy(m_fb);
-		}
 	}
 	
 	void GBuffer::setCamera(Camera* camera) {
@@ -144,7 +119,7 @@ namespace soan {
 		list.push_back((xdl::xdl_uint8*)screen_vertex);
 
 
-		m_opengl->createVertexArray(&m_va);
+		m_va = m_opengl->createVertexArray();
 		m_va->init(list.size(), list.data(), 6, vd);
 
 
