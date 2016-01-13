@@ -54,11 +54,11 @@ namespace soan {
 		fs_filename += ".fs";
 
 
-		m_shaderProgram = m_opengl->createShaderProgram();
+		m_shaderProgram = m_rai->createShaderProgram();
 
-		m_vs = m_opengl->createVertexShader();
+		m_vs = m_rai->createVertexShader();
 		m_vs->compileFromFile(vs_filename.c_str());
-		m_fs = m_opengl->createFragmentShader();
+		m_fs = m_rai->createFragmentShader();
 		m_fs->compileFromFile(fs_filename.c_str());
 
 		m_shaderProgram->attach(m_vs);
@@ -71,7 +71,7 @@ namespace soan {
 		m_textureHeight	=  	m_shaderProgram->getUniformLocation("textureHeight");;
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_frameBuffer = m_opengl->createFrameBuffer();
+		m_frameBuffer = m_rai->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
@@ -80,7 +80,7 @@ namespace soan {
 		//
 		// Now we are going to create the texture we are going to render to it.
 		//
-		auto texture = m_opengl->createTexture();
+		auto texture = m_rai->createTexture();
 		texture->init(m_width, m_height, xdl::XDEVL_RGBA32F);
 		
 		// 
@@ -120,9 +120,9 @@ namespace soan {
 
 
 
-		m_opengl->setActiveVertexArray(m_va);
-		m_opengl->setActiveShaderProgram(m_shaderProgram);
-		m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
+		m_rai->setActiveVertexArray(m_va);
+		m_rai->setActiveShaderProgram(m_shaderProgram);
+		m_rai->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
 
 		m_shaderProgram->deactivate();
 		m_frameBuffer->deactivate();

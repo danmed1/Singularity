@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -32,7 +32,7 @@ namespace soan {
 
 	const unsigned int NUM_INPUT_TEXTURES = 7;
 	const unsigned int NUM_OUTPUT_TEXTURES = 7;
-	
+
 	/**
 		@class PostProcessEffect
 		@brief Applies an effect on a input texture.
@@ -49,28 +49,28 @@ namespace soan {
 			/// Creates the output texture.
 			virtual void apply() = 0;
 
-			/// Sets the input texture for the calculatioin.
+			/// Sets the input texture for the calculation.
 			void setInputTexture(unsigned int idx, xdl::IPXdevLTexture texture);
 
 			/// Returns the new calculated texture.
 			xdl::IPXdevLTexture getOutputTexture(unsigned int idx);
-			
+
 			/// Returns the internal framebuffer width.
 			unsigned int getWidth();
-			
+
 			/// Return the internal framebuffer height.
 			unsigned int getHeight();
-			
+
 		protected:
 			/// Returns the input texture
 			xdl::IPXdevLTexture getInputTexture(unsigned int idx);
-			
+
 			/// This method shall be used by the effects programmer.
 			void setOutputTexture(unsigned int idx, xdl::IPXdevLTexture texture);
 
 		protected:
-			xdl::IPXdevLRAI	 						m_opengl;
-			xdl::IPXdevLVertexArray 					m_va;
+			xdl::IPXdevLRAI m_rai;
+			xdl::IPXdevLVertexArray m_va;
 
 			std::vector<xdl::IPXdevLTexture>	m_inputTexure;
 			std::vector<xdl::IPXdevLTexture>	m_outTexure;

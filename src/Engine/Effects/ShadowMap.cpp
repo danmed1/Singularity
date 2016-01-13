@@ -32,7 +32,6 @@ namespace soan {
 
 	ShadowMap::ShadowMap(xdl::IPXdevLRAI opengl, ShadowMapModes mode) :
 		PostProcessEffect(opengl),
-		m_gausBlur(nullptr),
 		m_biasMatrix(	0.5f, 0.0f, 0.0f, 0.0f,
 		              0.0f, 0.5f, 0.0f, 0.0f,
 		              0.0f, 0.0f, 0.5f, 0.0f,
@@ -51,14 +50,12 @@ namespace soan {
 		m_biasProjectionMatrix = m_biasMatrix*m_projectionMatrix;
 
 		if(m_shadowMapMode == VSM) {
-			m_gausBlur = new GausBlur(opengl);
+			m_gausBlur = std::make_shared<GausBlur>(opengl);
 		}
 	}
 
 	ShadowMap::~ShadowMap() {
-		if(m_shadowMapMode == VSM) {
-			delete m_gausBlur;
-		}
+
 	}
 
 	void ShadowMap::setLight(Light* light) {
@@ -94,12 +91,12 @@ namespace soan {
 			m_gausBlur->init(width, height, xdl::XDEVL_FB_COLOR_RG32F);
 		}
 
-		m_shaderProgram = m_opengl->createShaderProgram();
+		m_shaderProgram = m_rai->createShaderProgram();
 
-		m_vs = m_opengl->createVertexShader();
+		m_vs = m_rai->createVertexShader();
 		m_vs->compileFromFile("resources/shaders/shadowMap_vs.glsl");
 
-		m_fs = m_opengl->createFragmentShader();
+		m_fs = m_rai->createFragmentShader();
 		m_fs->compileFromFile("resources/shaders/shadowMap_fs.glsl");
 
 		m_shaderProgram->attach(m_vs);
@@ -111,7 +108,7 @@ namespace soan {
 		m_modelMatrix 	= 	m_shaderProgram->getUniformLocation("modelMatrix");
 
 		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_frameBuffer = m_opengl->createFrameBuffer();
+		m_frameBuffer = m_rai->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
@@ -172,9 +169,6 @@ namespace soan {
 	}
 
 	void ShadowMap::deactivate() {
-//		glCullFace(GL_BACK);
-//glDisable(GL_MULTISAMPLE);
-
 
 		m_shaderProgram->deactivate();
 		m_frameBuffer->deactivate();

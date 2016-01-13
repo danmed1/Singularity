@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -44,24 +44,24 @@ namespace soan {
 			//
 			// Do physics setup.
 			//
-			m_collisionConfiguration 				= new btDefaultCollisionConfiguration();
+			m_collisionConfiguration	= new btDefaultCollisionConfiguration();
 			m_dispatcher 							= new btCollisionDispatcher(m_collisionConfiguration);
 			m_broadphase 							= new btDbvtBroadphase();
-			m_solver 								= new btSequentialImpulseConstraintSolver;
-			m_dynamicsWorld 						= new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
+			m_solver 									= new btSequentialImpulseConstraintSolver;
+			m_dynamicsWorld 					= new btDiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
 			m_dynamicsWorld->setGravity(btVector3(0.0f, -10.0f,0.0f));
 
 
 			m_debugDrawer = debugDraw;
 			if(debugDraw != nullptr) {
 				m_dynamicsWorld->setDebugDrawer(m_debugDrawer);
-				m_debugDrawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe | 
-																		btIDebugDraw::DBG_DrawAabb | 
-																		btIDebugDraw::DBG_DrawContactPoints |
-																		btIDebugDraw::DBG_DrawNormals | 
-																		btIDebugDraw::DBG_DrawFrames |
-																		btIDebugDraw::DBG_DrawText |
-																		btIDebugDraw::DBG_EnableCCD);
+				m_debugDrawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe |
+				                            btIDebugDraw::DBG_DrawAabb |
+				                            btIDebugDraw::DBG_DrawContactPoints |
+				                            btIDebugDraw::DBG_DrawNormals |
+				                            btIDebugDraw::DBG_DrawFrames |
+				                            btIDebugDraw::DBG_DrawText |
+				                            btIDebugDraw::DBG_EnableCCD);
 			}
 			return 0;
 		}

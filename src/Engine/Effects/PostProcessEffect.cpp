@@ -27,7 +27,7 @@
 
 namespace soan {
 
-	PostProcessEffect::PostProcessEffect(xdl::IPXdevLRAI opengl) : m_opengl(opengl) {
+	PostProcessEffect::PostProcessEffect(xdl::IPXdevLRAI rai) : m_rai(rai) {
 		m_outTexure.reserve(NUM_OUTPUT_TEXTURES);
 		m_outTexure.resize(NUM_OUTPUT_TEXTURES);
 		m_inputTexure.reserve(NUM_INPUT_TEXTURES);
@@ -63,7 +63,7 @@ namespace soan {
 		};
 
 
-		auto vd = m_opengl->createVertexDeclaration();
+		auto vd = m_rai->createVertexDeclaration();
 		vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_POSITION);
 
 
@@ -71,7 +71,7 @@ namespace soan {
 		list.push_back((xdl::xdl_uint8*)screen_vertex);
 
 
-		m_va = m_opengl->createVertexArray();
+		m_va = m_rai->createVertexArray();
 		if(m_va->init(list.size(), list.data(), 6, vd) != xdl::ERR_OK) {
 			return -1;
 		}

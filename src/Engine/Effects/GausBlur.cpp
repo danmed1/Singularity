@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -29,12 +29,13 @@
 namespace soan {
 
 
-	GausBlur::GausBlur(xdl::IPXdevLRAI opengl) : PostProcessEffect(opengl) {
-
+	GausBlur::GausBlur(xdl::IPXdevLRAI opengl) :
+		PostProcessEffect(opengl) {
 	}
 
 	GausBlur::~GausBlur() {
 	}
+
 	void GausBlur::setBlurSize(xdl::xdl_float xSize, xdl::xdl_float ySize) {
 		m_blurSize[0] = (1.0/m_width)*xSize;
 		m_blurSize[1] = (1.0f/m_height)*ySize;
@@ -44,13 +45,12 @@ namespace soan {
 
 		PostProcessEffect::init(width, height);
 
+		m_shaderProgram = m_rai->createShaderProgram();
 
-		m_shaderProgram = m_opengl->createShaderProgram();
-
-		m_vs = m_opengl->createVertexShader();
+		m_vs = m_rai->createVertexShader();
 		m_vs->compileFromFile("resources/shaders/blurGaus_vs.glsl");
 
-		m_fs = m_opengl->createFragmentShader();
+		m_fs = m_rai->createFragmentShader();
 		m_fs->compileFromFile("resources/shaders/blurGaus_fs.glsl");
 
 		m_shaderProgram->attach(m_vs);
@@ -61,67 +61,71 @@ namespace soan {
 		m_blurDirectionid	=  	m_shaderProgram->getUniformLocation("blurDirection");
 		m_blurSizeid 			= 	m_shaderProgram->getUniformLocation("blurSize");
 
-		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_frameBuffer = m_opengl->createFrameBuffer();
+		// Create Framebuffer.
+		m_frameBuffer = m_rai->createFrameBuffer();
 		if(m_frameBuffer->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
 		}
+
+		//
+		// Create one Framebuffer with one color target to Blur horizontally.
+		//
 		m_frameBuffer->addColorTarget(0, textureFormat);
-		m_frameBuffer->getTexture(0)->lock();
-		m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-		m_frameBuffer->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);	
-		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
-		m_frameBuffer->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
-		m_frameBuffer->getTexture(0)->unlock();	
-		
-		// Create Framebuffer with 4 render targets and one depth buffer.
-		m_frameBuffer2 = m_opengl->createFrameBuffer();
+
+		auto texture = m_frameBuffer->getTexture(0);
+		texture->lock();
+		texture->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
+		texture->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
+		texture->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
+		texture->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
+		texture->unlock();
+
+		//
+		// Create one Framebuffer with one color target to Blur vertically.
+		//
+		m_frameBuffer2 = m_rai->createFrameBuffer();
 		if(m_frameBuffer2->init(m_width, m_height) != xdl::ERR_OK) {
 			std::cerr << "GBuffer::Could not create Framebuffer." << std::endl;
 			return -1;
 		}
 		m_frameBuffer2->addColorTarget(0, textureFormat);
-		
-		m_frameBuffer2->getTexture(0)->lock();
-		m_frameBuffer2->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-		m_frameBuffer2->getTexture(0)->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
-		m_frameBuffer2->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
-		m_frameBuffer2->getTexture(0)->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
-		m_frameBuffer2->getTexture(0)->unlock();		
-		
-		return 0;
 
+		auto texture2 = m_frameBuffer2->getTexture(0);
+		texture2->lock();
+		texture2->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
+		texture2->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
+		texture2->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_CLAMP_TO_BORDER);
+		texture2->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_CLAMP_TO_BORDER);
+		texture2->unlock();
+
+		return 0;
 	}
+
 	void GausBlur::apply() {
 		assert(m_inputTexure[0] && "GausBlur::calculate: Input texture not specified");
 
-	//	glViewport(0, 0, getWidth(), getHeight());
-
-
-
-		m_opengl->setActiveShaderProgram(m_shaderProgram);
-		m_opengl->setActiveVertexArray(m_va);
-
-		xdl::xdl_uint targets [] = {xdl::XDEVL_COLOR_TARGET0};
 		//
 		// First pass.
 		//
+		m_rai->setActiveShaderProgram(m_shaderProgram);
+		m_rai->setActiveVertexArray(m_va);
+
+		xdl::xdl_uint targets [] = {xdl::XDEVL_COLOR_TARGET0};
+
 		m_frameBuffer->activate();
 
 		m_frameBuffer->activateColorTargets(1, targets);
 		m_frameBuffer->clearColorTargets(0.0f, 0.0f, 0.0f, 0.0f);
-		m_frameBuffer->activateDepthTarget(xdl::xdl_false);
-		m_shaderProgram->activate();
 
-		
+		m_shaderProgram->activate();
 		m_shaderProgram->setUniformi(m_blurDirectionid, 0);
 		m_shaderProgram->setUniform2v(m_blurSizeid,1, m_blurSize);
 
 		m_shaderProgram->setUniformi(m_textureid, 0);
 		m_inputTexure[0]->activate(0);
 
-		m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
+		m_rai->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
 
 
 		m_frameBuffer->deactivate();
@@ -130,7 +134,7 @@ namespace soan {
 		//
 		// Second pass
 		//
-	
+
 		m_frameBuffer2->activate();
 		m_frameBuffer2->activateColorTargets(1, targets);
 		m_frameBuffer2->clearColorTargets(1.0f, 0.0f, 0.0f, 0.0f);
@@ -142,13 +146,11 @@ namespace soan {
 		m_shaderProgram->setUniformi(m_textureid, 0);
 		m_frameBuffer->getTexture(0)->activate(0);
 
-
-
-		m_opengl->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
+		m_rai->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, 6);
 
 		m_frameBuffer2->deactivate();
-		
-		
+
+
 
 		// This is important. Set the output texture.
 		setOutputTexture(0, m_frameBuffer2->getTexture(0));

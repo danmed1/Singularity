@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -37,22 +37,22 @@ namespace soan {
 	namespace phys {
 
 		class Physics {
-		public:
-			Physics();
-			virtual ~Physics();
-			int init(SingularityDebugDrawer* debugDraw);
-			void addRigidBody(btRigidBody* body);
-			void removeRigidBody(btRigidBody* body);
-			void stepSimulation(double timeStep);
-			void debugDrawWorld(tmath::mat4& projectionMatrix);
-		private:
+			public:
+				Physics();
+				virtual ~Physics();
+				int init(SingularityDebugDrawer* debugDraw);
+				void addRigidBody(btRigidBody* body);
+				void removeRigidBody(btRigidBody* body);
+				void stepSimulation(double timeStep);
+				void debugDrawWorld(tmath::mat4& projectionMatrix);
+			private:
 
-			btBroadphaseInterface*						m_broadphase;
-			btCollisionDispatcher*						m_dispatcher;
-			btConstraintSolver*								m_solver;
-			btDefaultCollisionConfiguration* m_collisionConfiguration;
-			btDynamicsWorld*									m_dynamicsWorld;
-			SingularityDebugDrawer* 					m_debugDrawer;
+				btBroadphaseInterface*						m_broadphase;
+				btCollisionDispatcher*						m_dispatcher;
+				btConstraintSolver*								m_solver;
+				btDefaultCollisionConfiguration* 	m_collisionConfiguration;
+				btDynamicsWorld*									m_dynamicsWorld;
+				SingularityDebugDrawer* 					m_debugDrawer;
 		};
 
 	}

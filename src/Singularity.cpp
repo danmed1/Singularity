@@ -85,7 +85,6 @@ Singularity::~Singularity() {
 	delete m_shadowMap;
 	delete m_depthOfField;
 	delete m_gBuffer;
-	delete m_gausBlur;
 }
 
 //xdl::XdevLOpenGLContext* Singularity::getOpenGLContext() {
@@ -235,7 +234,7 @@ void  Singularity::handleGraphics(double dT) {
 
 
 	m_gausBlur->setInputTexture(0, m_gBuffer->getTexture(soan::GBuffer::LIGHTING));
-	m_gausBlur->setBlurSize(1.0, 1.0);
+	m_gausBlur->setBlurSize(1.5, 1.5);
 	m_gausBlur->apply();
 
 	//
@@ -429,7 +428,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 //	h = 400;
 
 	// Create gaus blur post process effect.
-	m_gausBlur = new soan::GausBlur(get3DProcessor());
+	m_gausBlur = std::make_shared<soan::GausBlur>(get3DProcessor());
 	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
 
 	// Create shadow map processor.
