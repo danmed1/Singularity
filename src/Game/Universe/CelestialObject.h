@@ -40,7 +40,7 @@ namespace soan {
 				
 				virtual ~CelestialObject();
 							
-				/// Return the mass of the astroid.
+				/// Return the mass of the asteroid.
 				float& 				getMass();
 											
 				/// Sets the mass.
@@ -49,7 +49,7 @@ namespace soan {
 				/// Update the objects state.
 				virtual bool update(xdl::xdl_uint64 timeStep);
 
-				/// Add a new mesh to the astroid.
+				/// Add a new mesh to the asteroid.
 				void add(float mass, const std::shared_ptr<Model>& model);
 				
 			protected:

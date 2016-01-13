@@ -128,7 +128,7 @@ namespace soan {
 			// Holds the orientation of the object in world coordinate.
 			tmath::quat		m_orientation;
 
-			// Holds the scale factor of the object in world coorindate.
+			// Holds the scale factor of the object in world coordinate.
 			tmath::vec3		m_scale;
 
 	};

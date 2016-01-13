@@ -53,7 +53,7 @@ namespace soan {
 				@brief Projections type of the camera.
 			*/
 			enum CameraProjectionType {
-			    ORTHO,				/// Orhtographic projection.
+			    ORTHO,				/// Orthographic projection.
 			    PERSPECTIVE		/// Perspective projection.
 			};
 
@@ -78,7 +78,7 @@ namespace soan {
 
 			/// Move camera left/right.
 			/**
-				@param value Amount to move in forward sidways.
+				@param value Amount to move in forward sideways.
 			*/
 			void moveSide(xdl::xdl_float value);
 
@@ -109,16 +109,16 @@ namespace soan {
 			/// Return the cameras projections matrix.
 			tmath::mat4& getProjectionMatrix();
 
-			/// Returns the projectsion view matrix.
+			/// Returns the projection view matrix.
 			tmath::mat4 getProjectionsViewMatrix();
 
-			/// Returns the viewports width.
+			/// Returns the view ports width.
 			unsigned int getViewPortWidth();
 
-			/// Returns the viewports height.
+			/// Returns the view ports height.
 			unsigned int getViewPortHeight();
 
-			/// Sets the viewports dimensions.
+			/// Sets the view ports dimensions.
 			void setViewPort(unsigned int width, unsigned int height);
 
 			/// Sets the projections type.
@@ -150,16 +150,16 @@ namespace soan {
 
 		private:
 
-			// Holds the type of projecttion.
+			// Holds the type of projection.
 			CameraProjectionType 	m_type;
 
 			// Holds the projection matrix.
 			tmath::mat4 			m_projection;
 
-			// Holds the cameras viewport width.
+			// Holds the cameras view port width.
 			unsigned int 			m_viewPortWidth;
 
-			// Holds the cameras viewport height.
+			// Holds the cameras view port height.
 			unsigned int 			m_viewPortHeight;
 
 			// Holds the tracked object.
@@ -168,11 +168,9 @@ namespace soan {
 			xdl::xdl_float 			m_pitch;
 			xdl::xdl_float			m_heading;
 			xdl::xdl_float			m_roll;
-
 			xdl::xdl_float			m_forwardSpeed;
 			xdl::xdl_float			m_sideSpeed;
 			xdl::xdl_float			m_upSpeed;
-
 			xdl::xdl_float			m_slerpSpeed;
 	};
 

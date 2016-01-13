@@ -36,7 +36,7 @@ namespace soan {
 
 		/**
 			@class Actor
-			@brief Objects that have some sort of behaviour in the game.
+			@brief Objects that have some sort of behavior in the game.
 			@author Cengiz Terzibas
 		*/
 		class Actor : public Renderable, public Transformable  {
@@ -57,7 +57,7 @@ namespace soan {
 
 			/// Sets the lifetime.
 			/**
-				@param lifeTime Life time of the actor. If this is zero the actor lives infinit.
+				@param lifeTime Life time of the actor. If this is zero the actor lives infinite.
 			*/
 			void setLifeTime(xdl::xdl_uint64 lifeTime);
 

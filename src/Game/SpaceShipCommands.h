@@ -52,7 +52,7 @@ namespace soan {
 					// What is this here?
 					// If we would use real physics the actor would move in a direction until
 					// the velocity into that direction is canceled. Because controlling something
-					// with that behaviour is difficult we use a trick here.
+					// with that behavior is difficult we use a trick here.
 					// We apply an impulse to that object. After that we get the linear velocity and
 					// remove all parts which is not in the forward direction of the ship and
 					// set it back to the actor. Now it gets easier to control.

@@ -60,7 +60,7 @@ namespace soan {
 			// Holds the planets in the system.
 			std::vector<Planet*> 		m_planets;
 			
-			// Holds the natural satelites in the system.
+			// Holds the natural satellites in the system.
 			std::vector<Satellite*> m_satelites;
 			
 		};

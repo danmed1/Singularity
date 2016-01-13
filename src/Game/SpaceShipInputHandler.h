@@ -46,7 +46,7 @@ namespace soan {
 				/// Initialize the handler.
 				xdl::xdl_int init();
 
-				/// Handle incomming inputs.
+				/// Handle incoming inputs.
 				void handleInput(SpaceShip* actor, xdl::xdl_double dT);
 
 				/// Redirect input events.
