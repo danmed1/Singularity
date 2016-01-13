@@ -30,9 +30,6 @@ class FontTest : public xdl::XdevLApplication {
 
 			initializeRenderSystem();
 
-			m_mouseButtonDelegate = xdl::XdevLButtonDelegateType::Create<FontTest, &FontTest::mouse_button_handle>(this);
-			getMouse()->registerDelegate(m_mouseButtonDelegate);
-
 			m_mouseAxisDelegate = xdl::XdevLAxisDelegateType::Create<FontTest, &FontTest::mouse_axis_handle>(this);
 			getMouse()->registerDelegate(m_mouseAxisDelegate);
 
@@ -59,9 +56,6 @@ class FontTest : public xdl::XdevLApplication {
 				m_textEngine->setColor(0, 0, 0, 255);
 				m_textEngine->useFont(m_font2);
 				m_textEngine->printText(L"The quick brown fox jumps over the lazy dog", 0, 0);
-
-
-
 
 				get3DProcessor()->swapBuffers();
 				xdl::sleep(0.002);
@@ -111,10 +105,6 @@ class FontTest : public xdl::XdevLApplication {
 			m_textEngine->setDFT(0);
 			m_textEngine->setEffect(0);
 
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_0, 0, getWindow()->getWidth());
-			getMouse()->setAxisRangeMinMax(xdl::AXIS_1, getWindow()->getHeight(), 0);
-
-
 			return xdl::ERR_OK;
 		}
 
@@ -125,10 +115,6 @@ class FontTest : public xdl::XdevLApplication {
 			if(eventType == xdl::BUTTON_RELEASED) {
 				m_appRun = false;
 			}
-		}
-
-		void mouse_button_handle(const xdl::XdevLButtonId& id, const xdl::XdevLButtonState& state) {
-
 		}
 
 		void mouse_axis_handle(const xdl::XdevLAxisId& id, const xdl::xdl_float& value) {
@@ -144,7 +130,6 @@ class FontTest : public xdl::XdevLApplication {
 
 		xdl::xdl_bool m_appRun;
 		xdl::XdevLButtonIdDelegateType 	m_buttonDelegate;
-		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
 		xdl::IPXdevLRAI 							m_rai;
 
