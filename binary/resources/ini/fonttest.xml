@@ -5,12 +5,17 @@
 
   <!-- Plug external plugins to the core system. -->
   <XdevLPlugins>
-    <XdevLPlugin name="XdevLWindowSDL" 	version="1.0.0"/>
+    <XdevLPlugin name="XdevLWindowX11" 		version="1.0.0" platform="Linux"/>
+    <XdevLPlugin name="XdevLWindowCocoa" 	version="1.0.0" platform="Apple"/>
+    <XdevLPlugin name="XdevLWindowWindow" 	version="1.0.0" platform="Windows"/>
     <XdevLPlugin name="XdevLMouse"		version="1.0.0"/>
     <XdevLPlugin name="XdevLKeyboard"	version="1.0.0"/>
     <XdevLPlugin name="XdevLJoystick"	version="1.0.0"/>
-    <XdevLPlugin name="XdevLOpenGL"		version="1.0.0"/>
+    <XdevLPlugin name="XdevLRAIGL"		version="0.1.0"/>
     <XdevLPlugin name="XdevLFont"       version="1.0.0"/>
+    <XdevLPlugin name="XdevLOpenGLContextGLX" version="0.1.0" platform="Linux"/>
+    <XdevLPlugin name="XdevLOpenGLContextCGL" version="0.1.0" platform="Apple"/>
+    <XdevLPlugin name="XdevLOpenGLContextWGL" version="0.1.0" platform="Windows"/>
   </XdevLPlugins>
 
   <!-- Create modules which are inside the plugins and give them identification codes. -->
@@ -19,7 +24,7 @@
     <XdevLModule id="MyMouse" 		name="XdevLMouse"/>
     <XdevLModule id="MyKeyboard"	name="XdevLKeyboard"/>
     <XdevLModule id="MyJoystick"	name="XdevLJoystick"/>
-    <XdevLModule id="MyOpenGL"		name="XdevLOpenGL"/>
+    <XdevLModule id="MyOpenGL"		name="XdevLRAIGL"/>
     <XdevLModule id="MyFontSystem"	name="XdevLFontSystem"/>
     <XdevLModule id="MyTextLayout" name="XdevLTextLayout"/>
   </XdevLModules>

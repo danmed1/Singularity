@@ -1,7 +1,7 @@
 #include <iostream>
 #include <XdevL.h>
 #include <XdevLApplication.h>
-#include <XdevLOpenGL/XdevLOpenGL.h>
+#include <XdevLRAI/XdevLRAI.h>
 #include <XdevLFont/XdevLFont.h>
 #include <XdevLFont/XdevLFontSystem.h>
 #include <XdevLFont/XdevLTextLayout.h>
@@ -22,7 +22,7 @@ class FontTest : public xdl::XdevLApplication {
 		}
 
 		~FontTest() {
-			delete m_font;
+
 		}
 
 		virtual void main(const Arguments& argv) throw() override {
@@ -43,16 +43,14 @@ class FontTest : public xdl::XdevLApplication {
 
 			getWindow()->show();
 			getWindow()->setInputFocus();
-			getWindow()->grabPointer();
 
 
 			while(m_appRun) {
 				getCore()->update();
 
-
-				glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
+				get3DProcessor()->setActiveDepthTest(xdl::xdl_true);
+				get3DProcessor()->clearColorTargets(1.0f, 1.0f, 1.0f, 0.0f);
+				get3DProcessor()->clearDepthTarget(1.0f);
 
 				m_textEngine->setColor(200, 0, 0, 255);
 				m_textEngine->useFont(m_font);
@@ -72,20 +70,20 @@ class FontTest : public xdl::XdevLApplication {
 		}
 
 
-		xdl::XdevLOpenGL330* get3DProcessor() {
-			return m_opengl;
+		xdl::IPXdevLRAI get3DProcessor() {
+			return m_rai;
 		}
 
 
 		xdl::xdl_int initializeRenderSystem() {
 			// Get the OpenGL context.
-			m_opengl = xdl::getModule<xdl::XdevLOpenGL330*>(getCore(), xdl::XdevLID("MyOpenGL"));
-			if(!m_opengl) {
+			m_rai = xdl::getModule<xdl::IPXdevLRAI>(getCore(), xdl::XdevLID("MyOpenGL"));
+			if(!m_rai) {
 				return xdl::ERR_ERROR;
 			}
 
 			// We must attach the OpenGL context to a render m_window.
-			if(m_opengl->createContext(getWindow()) != xdl::ERR_OK) {
+			if(m_rai->create(getWindow()) != xdl::ERR_OK) {
 				return xdl::ERR_ERROR;
 			}
 
@@ -104,10 +102,10 @@ class FontTest : public xdl::XdevLApplication {
 			// Initialize font system.
 			m_fontSystem->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
 
-			m_font = m_fontSystem->createFromFontFile("resources/fonts/default_info.txt");
-			m_font2 =  m_fontSystem->createFromFontFile("resources/fonts/Roboto-Regular_info.txt");
+			m_font = m_fontSystem->createFromFontFile(xdl::XdevLFileName("resources/fonts/default_info.txt"));
+			m_font2 =  m_fontSystem->createFromFontFile(xdl::XdevLFileName("resources/fonts/Roboto-Regular_info.txt"));
 
-			m_textEngine->init(getWindow()->getWidth(), getWindow()->getHeight(), get3DProcessor());
+			m_textEngine->init(getWindow(), get3DProcessor());
 			m_textEngine->usePixelUnits(xdl::xdl_true);
 			m_textEngine->setScale(1.0f);
 			m_textEngine->setDFT(0);
@@ -148,12 +146,12 @@ class FontTest : public xdl::XdevLApplication {
 		xdl::XdevLButtonIdDelegateType 	m_buttonDelegate;
 		xdl::XdevLButtonDelegateType	m_mouseButtonDelegate;
 		xdl::XdevLAxisDelegateType 		m_mouseAxisDelegate;
-		xdl::XdevLOpenGL330* 			m_opengl;
+		xdl::IPXdevLRAI 							m_rai;
 
-		xdl::XdevLFontSystem*			m_fontSystem;
-		xdl::XdevLFont*					m_font;
-		xdl::XdevLFont*					m_font2;
-		xdl::XdevLTextLayout*			m_textEngine;
+		xdl::IPXdevLFontSystem		m_fontSystem;
+		xdl::IPXdevLFont					m_font;
+		xdl::IPXdevLFont					m_font2;
+		xdl::IPXdevLTextLayout		m_textEngine;
 		xdl::xdl_float m_xaxis;
 		xdl::xdl_float m_yaxis;
 
