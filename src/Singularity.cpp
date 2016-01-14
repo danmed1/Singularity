@@ -432,7 +432,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
 
 	// Create shadow map processor.
-	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::NORMAL);
+	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::VSM);
 	m_shadowMap->init(2048, 2048);
 
 	// Create depth of field post process effect.
@@ -657,8 +657,8 @@ xdl::xdl_int Singularity::initializeAssets() {
 			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
 			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
 
-		//	m_selectedActor = planet;
-		//	m_camera->startTrackObject(planet->getModel());
+			//	m_selectedActor = planet;
+			//	m_camera->startTrackObject(planet->getModel());
 		}
 	} else {
 		return xdl::ERR_ERROR;
@@ -788,29 +788,26 @@ void Singularity::handleInputEvents(double dT) {
 	if(key_debugMode->getClicked()) {
 		m_debugMode = !m_debugMode;
 	}
-	
 
 	if(left_mouse_button->getClicked()) {
 		m_mouse_captured = !m_mouse_captured;
 
 		if(m_mouse_captured == xdl::xdl_true) {
 			getCursor()->attach(getWindow());
-
 			getCursor()->hide();
-//			getCursor()->enableRelativeMotion();
+			getCursor()->enableRelativeMotion();
 //			getCursor()->clip(getWindow()->getX(), getWindow()->getY(), getWindow()->getX() + getWindow()->getWidth(), getWindow()->getY() + getWindow()->getHeight());
-
-//			getWindow()->hidePointer();
-			getMouse()->setRelativeMode(xdl::xdl_true);
 		} else {
 			getCursor()->show();
-//			getCursor()->disableRelativeMotion();
+			getCursor()->disableRelativeMotion();
 //			getCursor()->releaseClip();
-
-//			getWindow()->showPointer();
-			getMouse()->setRelativeMode(xdl::xdl_false);
 		}
 	}
+	
+	if(m_mouse_captured) {
+		getCursor()->setPosition(getWindow()->getWidth() * 0.5,getWindow()->getHeight() * 0.5);
+	}
+
 
 	if(m_mouse_captured) {
 		static xdl::xdl_float dy = 0.0f;
