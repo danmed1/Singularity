@@ -80,19 +80,22 @@ namespace soan {
 			m_kd->getButton(xdl::KEY_E,		&m_thrustRight);
 
 
-			m_jd->getAxis(xdl::AXIS_3,	&m_thrustAxis);
-			if(nullptr != m_thrustAxis) {
-				m_thrustAxis->setMinMax(0.0f, 1.0f);
+			if(nullptr != m_jd) {
+				m_jd->getAxis(xdl::AXIS_3,	&m_thrustAxis);
+				if(nullptr != m_thrustAxis) {
+					m_thrustAxis->setMinMax(0.0f, 1.0f);
+				}
 			}
-			m_md->getAxis(xdl::AXIS_X, &m_headingAxis);
-			if(nullptr != m_thrustAxis) {
-				m_headingAxis->setMinMax(-1.0f, 1.0f);
+			if(nullptr != m_md) {
+				m_md->getAxis(xdl::AXIS_X, &m_headingAxis);
+				if(nullptr != m_thrustAxis) {
+					m_headingAxis->setMinMax(-1.0f, 1.0f);
+				}
+				m_md->getAxis(xdl::AXIS_Y, &m_pitchAxis);
+				if(nullptr != m_thrustAxis) {
+					m_pitchAxis->setMinMax(-1.0f, 1.0f);
+				}
 			}
-			m_md->getAxis(xdl::AXIS_Y, &m_pitchAxis);
-			if(nullptr != m_thrustAxis) {
-				m_pitchAxis->setMinMax(-1.0f, 1.0f);
-			}
-
 
 			//
 			// Create all used commands.
