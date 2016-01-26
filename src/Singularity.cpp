@@ -404,6 +404,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 	Singularity::m_textureServer = soan::TextureServer::Inst();
 	soan::TextureServer::Inst()->init(get3DProcessor(), "resources/models/");
 
+	m_proceduralSystem = std::make_shared<soan::ProceduralSystem>(get3DProcessor());
 	m_debugRenderer = new soan::SingularityDebugDrawer(get3DProcessor());
 
 	m_physics = new soan::phys::Physics();
@@ -676,8 +677,27 @@ xdl::xdl_int Singularity::initializeAssets() {
 //	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
 //
 
-	soan::Mesh* mesh = new soan::Mesh();
 
+	//
+	// Let's create the grid of the scene.
+	//
+
+	// Create a mesh.
+	auto grid_mesh = m_proceduralSystem->createGrid(512.0, 512.0f, 512.0, 32.0);
+
+	// Create a model.
+	auto grid_model = std::make_shared<soan::Model>(get3DProcessor());
+
+	// Assign mesh to model.
+	grid_model->add(grid_mesh);
+
+	// Create Actor that can be placed into the scene.
+	auto grid_actor = new soan::game::Actor();
+
+	// Assign model to actor.
+	grid_actor->setModel(grid_model);
+
+	m_renderable.push_back(grid_actor);
 
 	return xdl::ERR_OK;
 }

@@ -48,7 +48,7 @@ namespace soan {
 		
 		~Model();
 		
-		void add(Mesh* mesh);
+		void add(std::shared_ptr<Mesh> mesh);
 		
 		/// Returns one specific mesh from the mesh list.
 		Mesh* getMesh(xdl::xdl_uint idx);

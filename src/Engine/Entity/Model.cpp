@@ -57,9 +57,8 @@ namespace soan {
 		return m;
 	}
 
-	void Model::add(Mesh* mesh) {
-		assert(mesh && "Model::addMesh(): You can not add a nullptr mesh.");
-		m_meshes.push_back(std::shared_ptr<Mesh>(mesh));
+	void Model::add(std::shared_ptr<Mesh> mesh) {
+		m_meshes.push_back(std::move(mesh));
 	}
 
 	Mesh* Model::getMesh(xdl::xdl_uint idx) {

@@ -55,6 +55,7 @@
 #include "Engine/Light.h"
 #include "Engine/Physics/Physics.h"
 #include "Engine/SkyBox.h"
+#include "Engine/ProceduralSystem.h"
 
 #include "Game/SpaceShipInputHandler.h"
 #include "Game/Universe/Astroid.h"
@@ -250,6 +251,7 @@ class Singularity : public xdl::XdevLApplication {
 		std::shared_ptr<soan::Model> 	m_model;
 
 		soan::utils::SplashScreen*		m_splashScreen;
+		std::shared_ptr<soan::ProceduralSystem> m_proceduralSystem;
 };
 
 

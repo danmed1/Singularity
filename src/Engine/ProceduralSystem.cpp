@@ -40,6 +40,8 @@ namespace soan {
 
 		vb->init((xdl::xdl_uint8*)vertices.data(), vertices.size() * sizeof(ProceduralSystemGridVertex));
 		auto tmp = std::make_shared<soan::Mesh>();
+		auto tmp_material = std::make_shared<soan::Material>();
+		tmp->setMaterial(tmp_material);
 		tmp->setVertexArray(va);
 		tmp->setNumberOfVertices(vertices.size());
 		return tmp;
