@@ -204,6 +204,8 @@
       <File Name="src/Engine/Color.h"/>
       <File Name="src/Engine/Transformable.h"/>
       <File Name="src/Engine/Transformable.cpp"/>
+      <File Name="src/Engine/ProceduralSystem.h"/>
+      <File Name="src/Engine/ProceduralSystem.cpp"/>
     </VirtualDirectory>
     <VirtualDirectory Name="Game">
       <VirtualDirectory Name="Universe">

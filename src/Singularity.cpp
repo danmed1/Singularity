@@ -33,6 +33,7 @@
 #include <locale>
 #include <memory>
 
+
 Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw() : xdl::XdevLApplication(argc, argv, xdl::XdevLFileName(xml_filename)),
 	m_id("Singularity"),
 	m_coreRunning(xdl::xdl_true),
@@ -639,42 +640,43 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
-
-	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
-	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 2; as++) {
-			soan::game::Planet* planet = new soan::game::Planet();
-			planet->setName("Earth");
-			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
-			planet->setLifeTime(0);
-			planet->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(true);
-			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
-			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
-			planet->setPhysics(m_physics, 10.0);
-			m_renderable.push_back(planet);
-
-			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
-			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
-
-			//	m_selectedActor = planet;
-			//	m_camera->startTrackObject(planet->getModel());
-		}
-	} else {
-		return xdl::ERR_ERROR;
-	}
-
-
+//	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
+//
+//	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
+//	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
+//		for(unsigned int as = 0; as < 2; as++) {
+//			soan::game::Planet* planet = new soan::game::Planet();
+//			planet->setName("Earth");
+//			planet->setModel(std::shared_ptr<soan::Model>(planetModel->refCopy()));
+//			planet->setLifeTime(0);
+//			planet->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(true);
+//			planet->getModel()->getMesh(0)->getMaterial()->setDiffuse(rgb[as*4 + 0], rgb[as*4 + 1], rgb[as*4 + 2], rgb[as+4 + 3]);
+//			planet->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
+//			planet->setPhysics(m_physics, 10.0);
+//			m_renderable.push_back(planet);
+//
+//			m_numberOfVertices 	+= planetModel->getNumberOfVertices();
+//			m_numberOfFaces 		+= planetModel->getNumberOfFaces();
+//
+//			//	m_selectedActor = planet;
+//			//	m_camera->startTrackObject(planet->getModel());
+//		}
+//	} else {
+//		return xdl::ERR_ERROR;
+//	}
 
 
 
 
-	m_skybox = new soan::game::SkyBox(get3DProcessor());
-	m_skybox->init();
-	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
-	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
 
 
+//	m_skybox = new soan::game::SkyBox(get3DProcessor());
+//	m_skybox->init();
+//	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
+//	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
+//
+
+	soan::Mesh* mesh = new soan::Mesh();
 
 
 	return xdl::ERR_OK;
@@ -803,7 +805,7 @@ void Singularity::handleInputEvents(double dT) {
 //			getCursor()->releaseClip();
 		}
 	}
-	
+
 	if(m_mouse_captured) {
 		getCursor()->setPosition(getWindow()->getWidth() * 0.5,getWindow()->getHeight() * 0.5);
 	}

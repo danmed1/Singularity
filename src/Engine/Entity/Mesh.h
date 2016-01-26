@@ -35,7 +35,7 @@ namespace soan {
 
 	class Model;
 
-	class Mesh : public Transformable {
+	class Mesh {
 		public:
 
 			Mesh();
