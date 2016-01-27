@@ -49,7 +49,7 @@ namespace soan {
 
 
 
-		const std::shared_ptr<Model>& Renderable::getModel() {
+		std::shared_ptr<Model>& Renderable::getModel() {
 			assert(isRenderingEnabled() && "Renderable::getModel(): Rendering not enabled");
 			return m_model;
 		}

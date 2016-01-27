@@ -306,7 +306,7 @@ namespace soan {
 
 
 			auto mesh = std::make_shared<Mesh>();
-			mesh->setParent(model);
+			mesh->setParentModel(model);
 			mesh->setVertexArray(va);
 			mesh->setMaterial(material);
 			mesh->setNumberOfFaces(m_numFaces);

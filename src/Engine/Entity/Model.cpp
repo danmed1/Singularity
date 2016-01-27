@@ -45,9 +45,7 @@ namespace soan {
 		std::shared_ptr<Model> m (new Model(m_openGL));
 	
 		for(auto& mesh : m_meshes) {
-			std::shared_ptr<Material> material(mesh->getMaterial()->refCopy());
-
-			mesh->setMaterial(material);
+			mesh->setMaterial(mesh->getMaterialRef());
 			m->m_meshes.push_back(mesh);
 		}
 

@@ -589,7 +589,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 ////	if(assimpToModel.import("resources/models/HN21/space_ship.obj", spaceModel) != xdl::ERR_OK) {
 //		return xdl::ERR_ERROR;
 //	}
-//
+
 //	m_spaceShip = new soan::game::SpaceShip();
 //	m_spaceShip->setName("SpaceShip");
 //	m_spaceShip->setModel(spaceModel);
@@ -625,7 +625,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	ground->setPosition(0.0f, -10.0f, 0.0f);
 	ground->setPhysics(m_physics, 0.0f);
 
-	m_material = ground->getModel()->getMesh(0)->getMaterial();
+	m_material = ground->getModel()->getMesh(0)->getMaterialRef();
 	m_model			= groundModel;
 
 	ground->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(xdl::xdl_false);

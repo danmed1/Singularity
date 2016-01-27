@@ -45,7 +45,7 @@ namespace soan {
 				xdl::xdl_int init() ;
 
 				/// Returns the assigned model
-				const std::shared_ptr<Model>& getModel();
+				std::shared_ptr<Model>& getModel();
 
 				/// Sets the model.
 				void setModel(const std::shared_ptr<Model>& model, xdl::xdl_uint collisionShape = 0);

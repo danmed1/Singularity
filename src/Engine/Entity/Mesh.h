@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -42,8 +42,46 @@ namespace soan {
 
 			virtual ~Mesh();
 
+			//
+			// Getters
+			//
+
+			/// Returns the material.
+			Material* getMaterial();
+
+			/// Returns the reference of the material.
+			std::shared_ptr<Material> getMaterialRef();
+
+			/// Returns the vertex array.
+			xdl::IPXdevLVertexArray getVertexArray();
+
+			/// Returns the reference of the vertex array.
+			std::shared_ptr<xdl::XdevLVertexArray> getVertexArrayRef();
+
+			/// Returns the parent model for this mesh.
+			Model* getParentModel();
+
+			/// Returns the reference of the parent model.
+			std::shared_ptr<Model> getParentModelRef();
+
+			/// Returns the number of faces.
+			xdl::xdl_uint getNumberOfFaces();
+
+			/// Returns the number of vertices.
+			xdl::xdl_uint getNumberOfVertices();
+
+			//
+			// Setters
+			//
+
 			/// Set the material.
 			void setMaterial(const std::shared_ptr<Material>& material);
+
+			/// Sets the vertex array.
+			void setVertexArray(std::shared_ptr<xdl::XdevLVertexArray> vertexArray);
+
+			/// Sets the parent model.
+			void setParentModel(const std::shared_ptr<Model>& model);
 
 			/// Sets the number of faces.
 			void setNumberOfFaces(xdl::xdl_uint numberOfFaces);
@@ -51,42 +89,21 @@ namespace soan {
 			/// Sets the number of vertices.
 			void setNumberOfVertices(xdl::xdl_uint numberOfVertices);
 
-			/// Return the material.
-			const std::shared_ptr<Material>& getMaterial();
-
-			/// Return the vertex array.
-			xdl::IPXdevLVertexArray getVertexArray();
-
-			/// Returns the parent model for this mesh.
-			const std::shared_ptr<Model>&	getParentModel();
-
-			/// Sets the vertex array.
-			void setVertexArray(xdl::IPXdevLVertexArray vertexArray);
-			
-			/// Sets the parent model.
-			void setParent(const std::shared_ptr<Model>&	model);
-			
-			/// Returns the number of faces.
-			xdl::xdl_uint getNumberOfFaces();
-
-			/// Returns the number of vertices.
-			xdl::xdl_uint getNumberOfVertices();
-
 		private:
 			/// Holds the parent model.
-			std::shared_ptr<Model>		m_parentModel;
+			std::shared_ptr<Model> m_parentModel;
 
 			/// Holds the vertex array object.
-			xdl::IPXdevLVertexArray		m_va;
+			std::shared_ptr<xdl::XdevLVertexArray> m_va;
 
 			/// Holds the material for this object.
-			std::shared_ptr<Material>	m_material;
+			std::shared_ptr<Material> m_material;
 
 			/// Holds the number of faces.
-			xdl::xdl_uint 						m_numberOfFaces;
+			xdl::xdl_uint m_numberOfFaces;
 
 			/// Holds the number of vertices.
-			xdl::xdl_uint							m_numberOfVertices;
+			xdl::xdl_uint m_numberOfVertices;
 
 	};
 

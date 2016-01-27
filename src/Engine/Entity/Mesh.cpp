@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -35,16 +35,28 @@ namespace soan {
 	Mesh::~Mesh() {
 	}
 
-	xdl::IPXdevLVertexArray Mesh::getVertexArray() {
-		return m_va;
+	Material* Mesh::getMaterial() {
+		return m_material.get();
 	}
-	
-	void Mesh::setParent(const std::shared_ptr<Model>&	model) {
-		m_parentModel = model;
+
+	std::shared_ptr<Material> Mesh::getMaterialRef() {
+		return m_material;
 	}
-	
+
+	Model* Mesh::getParentModel() {
+		return m_parentModel.get();
+	}
+
+	std::shared_ptr<Model> Mesh::getParentModelRef() {
+		return m_parentModel;
+	}
+
 	void Mesh::setMaterial(const std::shared_ptr<Material>& material) {
 		m_material = material;
+	}
+
+	void Mesh::setParentModel(const std::shared_ptr<Model>& model) {
+		m_parentModel = std::move(model);
 	}
 
 	void  Mesh::setNumberOfFaces(xdl::xdl_uint numberOfFaces) {
@@ -55,16 +67,8 @@ namespace soan {
 		m_numberOfVertices = numberOfVertices;
 	}
 
-	const std::shared_ptr<Material>& Mesh::getMaterial() {
-		return m_material;
-	}
-
-	const std::shared_ptr<Model>&	Mesh::getParentModel() {
-		return m_parentModel;
-	}
-
-	void  Mesh::setVertexArray(xdl::IPXdevLVertexArray vertexArray) {
-		m_va = vertexArray;
+	void  Mesh::setVertexArray(std::shared_ptr<xdl::XdevLVertexArray> vertexArray) {
+		m_va = std::move(vertexArray);
 	}
 
 	xdl::xdl_uint Mesh::getNumberOfFaces() {
