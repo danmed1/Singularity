@@ -36,6 +36,7 @@ namespace soan {
 	class Model;
 
 	class Mesh {
+
 		public:
 
 			Mesh();
@@ -70,6 +71,9 @@ namespace soan {
 			/// Returns the number of vertices.
 			xdl::xdl_uint getNumberOfVertices();
 
+			/// Returns the primitive used for this mesh.
+			xdl::XdevLPrimitiveType getPrimitive();
+
 			//
 			// Setters
 			//
@@ -89,12 +93,19 @@ namespace soan {
 			/// Sets the number of vertices.
 			void setNumberOfVertices(xdl::xdl_uint numberOfVertices);
 
+			/// Sets the primitive type of this mesh.
+			void setPrimitive(xdl::XdevLPrimitiveType primitive);
+
 		private:
+
 			/// Holds the parent model.
 			std::shared_ptr<Model> m_parentModel;
 
 			/// Holds the vertex array object.
 			xdl::IPXdevLVertexArray m_va;
+			
+			/// Holds the index buffer of the mesh.
+			xdl::IPXdevLIndexBuffer m_indexBuffer;
 
 			/// Holds the material for this object.
 			std::shared_ptr<Material> m_material;
@@ -105,6 +116,8 @@ namespace soan {
 			/// Holds the number of vertices.
 			xdl::xdl_uint m_numberOfVertices;
 
+			/// Holds the primitive type.
+			xdl::XdevLPrimitiveType m_primitive;
 	};
 
 }

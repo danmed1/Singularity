@@ -10,7 +10,7 @@
   <Project Name="UITest" Path="tools/UITest/UITest.project" Active="No"/>
   <Project Name="FontTest" Path="tools/FontTest/FontTest.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="yes">
+    <WorkspaceConfiguration Name="Debug_MacOSX" Selected="no">
       <Environment/>
       <Project Name="UITest" ConfigName="Debug_MacOSX"/>
       <Project Name="TextureFontCreator" ConfigName="Debug_MacOSX"/>
@@ -28,7 +28,7 @@
       <Project Name="FontTest" ConfigName="Release_MacOSX"/>
       <Project Name="filo" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="no">
+    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
       <Environment/>
       <Project Name="UITest" ConfigName="Debug_Linux"/>
       <Project Name="TextureFontCreator" ConfigName="Debug_Linux"/>

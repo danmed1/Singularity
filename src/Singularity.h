@@ -132,6 +132,9 @@ class Singularity : public xdl::XdevLApplication {
 		/// Starts the deferred lighting process.
 		void startDeferredLighting();
 
+		/// Does some post process stuff.
+		void calculatePostProcessEffects();
+
 	private:
 		xdl::XdevLID				m_id;
 		xdl::IPXdevLRAI 			m_opengl;
@@ -169,7 +172,7 @@ class Singularity : public xdl::XdevLApplication {
 		xdl::IPXdevLTextLayout	m_textEngine;
 		soan::phys::Physics*		m_physics;
 		soan::Light*				m_light;
-		soan::game::SkyBox*			m_skybox;
+		std::unique_ptr<soan::game::SkyBox> m_skybox;
 
 		soan::utils::FPSCounter 	m_fpsCounter;
 
@@ -252,6 +255,7 @@ class Singularity : public xdl::XdevLApplication {
 
 		soan::utils::SplashScreen*		m_splashScreen;
 		std::shared_ptr<soan::ProceduralSystem> m_proceduralSystem;
+		xdl::xdl_bool m_runPostProcessEffects;
 };
 
 

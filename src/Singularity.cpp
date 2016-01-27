@@ -39,7 +39,6 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_coreRunning(xdl::xdl_true),
 	m_mouse_captured(xdl::xdl_false),
 	m_drawMode(1),
-
 	m_gBuffer(nullptr),
 	m_camera(nullptr),
 	m_frustum(nullptr),
@@ -59,7 +58,8 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_cameraMode(xdl::xdl_false),
 	m_numberOfVertices(0),
 	m_numberOfFaces(0),
-	m_splashScreen(nullptr) {
+	m_splashScreen(nullptr),
+	m_runPostProcessEffects(xdl::xdl_false) {
 
 	// Register Singularity as a listener to the event system.
 	getCore()->registerListener(this);
@@ -80,7 +80,6 @@ Singularity::~Singularity() {
 //	}
 	delete m_camera;
 	delete m_frustum;
-	delete m_skybox;
 	delete m_physics;
 	delete m_light;
 	delete m_shadowMap;
@@ -222,30 +221,50 @@ void Singularity::main(const Arguments& argv) throw() {
 
 }
 
-
-
-void  Singularity::handleGraphics(double dT) {
-//	xdl::XdevLOpenGLContextScope scope(get3DProcessor(), getWindow());
-	get3DProcessor()->setActiveRenderWindow(getWindow());
-
-	calculateShadowMaps();
-
-
-	startDeferredLighting();
-
+void Singularity::calculatePostProcessEffects() {
+	if(xdl::xdl_false == m_runPostProcessEffects) {
+		return;
+	}
 
 	m_gausBlur->setInputTexture(0, m_gBuffer->getTexture(soan::GBuffer::LIGHTING));
 	m_gausBlur->setBlurSize(1.5, 1.5);
 	m_gausBlur->apply();
 
+	if(m_drawMode == 6) {
+		m_depthOfField->setInputTexture(0, m_gBuffer->getTexture(soan::GBuffer::LIGHTING));
+		m_depthOfField->setInputTexture(1, m_gBuffer->getTexture(soan::GBuffer::DEPTH));
+		m_depthOfField->apply();
+	}
+}
+
+void  Singularity::handleGraphics(double dT) {
+	//
+	// Activate the render scope.
+	//
+	xdl::XdevLRAIRenderScope scope(get3DProcessor(), getWindow());
+
+	//
+	// First pass is to calculate the shadow map.
+	//
+	calculateShadowMaps();
+
+	//
+	// Second pass is to do the deferred lighting.
+	//
+	startDeferredLighting();
+
+	//
+	// Now some post processes stuff.
+	//
+	calculatePostProcessEffects();
+
 	//
 	// Draw final framebuffer
 	//
-	glDisable(GL_DEPTH_TEST);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	get3DProcessor()->setViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
+	get3DProcessor()->setActiveDepthTest(xdl::xdl_false);
+	get3DProcessor()->clearColorTargets(0.0f, 0.0f, 0.0f, 0.0f);
 
-	glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
 	tmath::mat4 fbProjection;
 	tmath::ortho(0.0f,
 	             (float)getWindow()->getWidth(),
@@ -253,35 +272,42 @@ void  Singularity::handleGraphics(double dT) {
 	             (float)getWindow()->getHeight(),
 	             -1.0f,
 	             1.0f, fbProjection);
-	m_fbShaderProgram->activate();
-	m_fbShaderProgram->setUniformMatrix4(testProj, 1, fbProjection);
-	m_fbShaderProgram->setUniformi(testTex, 0);
 
-	switch(m_drawMode) {
-		case 0:
-			m_gausBlur->getOutputTexture(0)->activate(0);
-			break;
-		case 1:
-			m_gBuffer->getTexture(soan::GBuffer::LIGHTING)->activate(0);
-			break;
-		case 2:
-			m_gBuffer->getTexture(soan::GBuffer::DIFFUSE)->activate(0);
-			break;
-		case 3:
-			m_gBuffer->getTexture(soan::GBuffer::POSITION)->activate(0);
-			break;
-		case 4:
-			m_gBuffer->getTexture(soan::GBuffer::NORMAL)->activate(0);
-			break;
-		case 5:
-			m_shadowMap->getOutputTexture(0)->activate(0);
+	{
+		xdl::XdevLShaderProgramActiveScope shaderActiveScope(m_fbShaderProgram);
+
+		m_fbShaderProgram->setUniformMatrix4(testProj, 1, fbProjection);
+		m_fbShaderProgram->setUniformi(testTex, 0);
+
+		switch(m_drawMode) {
+			case 0:
+				// Only show if post process activated.
+				if(m_runPostProcessEffects) {
+					m_gausBlur->getOutputTexture(0)->activate(0);
+				}
+				break;
+			case 1:
+				m_gBuffer->getTexture(soan::GBuffer::LIGHTING)->activate(0);
+				break;
+			case 2:
+				m_gBuffer->getTexture(soan::GBuffer::DIFFUSE)->activate(0);
+				break;
+			case 3:
+				m_gBuffer->getTexture(soan::GBuffer::POSITION)->activate(0);
+				break;
+			case 4:
+				m_gBuffer->getTexture(soan::GBuffer::NORMAL)->activate(0);
+				break;
+			case 5:
+				m_shadowMap->getOutputTexture(0)->activate(0);
 //			m_gBuffer->getTexture(soan::GBuffer::DEPTH)->activate(0);
-			break;
-		case 6:
-			m_depthOfField->getOutputTexture(0)->activate(0);
-			break;
+				break;
+			case 6:
+				m_depthOfField->getOutputTexture(0)->activate(0);
+				break;
+		}
+
 	}
-	m_fbShaderProgram->deactivate();
 
 	m_opengl->setActiveVertexArray(vb_framebufferArray);
 	m_opengl->setActiveShaderProgram(m_fbShaderProgram);
@@ -303,12 +329,6 @@ void  Singularity::handleGraphics(double dT) {
 
 		ss << m_fpsCounter.getMeanFPS();
 	}
-
-
-	// Do the font rendering.
-	//
-//	glClearColor(1.0, 0.0, 0.0, 1.0);
-//	glClear(GL_COLOR_BUFFER_BIT);
 
 
 	//
@@ -336,7 +356,6 @@ void  Singularity::handleGraphics(double dT) {
 
 	m_textEngine->render();
 
-	get3DProcessor()->swapBuffers();
 }
 
 
@@ -435,7 +454,7 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	// Create shadow map processor.
 	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::VSM);
-	m_shadowMap->init(2048, 2048);
+	m_shadowMap->init(512, 512);
 
 	// Create depth of field post process effect.
 	m_depthOfField = new soan::DepthOfField(get3DProcessor());
@@ -502,36 +521,8 @@ xdl::xdl_int Singularity::initializeEngine() {
 	list.push_back((xdl::xdl_uint8*)screen_vertex);
 	list.push_back((xdl::xdl_uint8*)screen_uv);
 
-//	xdl::XdevLVertexBuffer* streamBuffer1;
-//	xdl::XdevLVertexBuffer* streamBuffer2;
-//
-//	get3DProcessor()->createVertexBuffer(&streamBuffer1);
-//	get3DProcessor()->createVertexBuffer(&streamBuffer2);
-//
-//	streamBuffer1->init((xdl::xdl_uint8*)screen_vertex, 6);
-//	streamBuffer2->init((xdl::xdl_uint8*)screen_uv, 6);
-
-
 	vb_framebufferArray = get3DProcessor()->createVertexArray();
 	vb_framebufferArray->init(list.size(), list.data(), 6, vd);
-
-//	vb_framebufferArray->init((xdl::xdl_uint8*)list.data(), list.size(), vd);
-
-//	vb_framebufferArray->init();
-//	vb_framebufferArray->activate();
-//	vb_framebufferArray->setVertexStreamBuffer(soan::VERTEX_POSITION, 2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, streamBuffer1);
-//	vb_framebufferArray->setVertexStreamBuffer(soan::VERTEX_TEXTURE_COORD, 2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, streamBuffer2);
-//	vb_framebufferArray->deactivate();
-
-
-//	m_font2D->setScale(0.75f);
-//	std::string message = "The quick brown fox jumps over the lazy dog.";
-//	message += "\nThe quick brown fox jumps over the lazy dog.";
-//	message += "\nThe quick brown fox jumps over the lazy dog.";
-//	message += "\nThe quick brown fox jumps over the lazy dog.";
-//	message += "\nThe quick brown fox jumps over the lazy dog.";
-//
-//	m_font2D->addStaticText(message.c_str(), -1.0, 0.4);
 
 	return xdl::ERR_OK;
 
@@ -566,22 +557,22 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
-	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 2; as++) {
-			soan::game::Astroid* astroid 	= new soan::game::Astroid();
-			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
-			astroid->setPhysics(m_physics, 1.8);
-			astroid->setLifeTime(0);
-			m_renderable.push_back(astroid);
-
-			m_numberOfVertices += model->getNumberOfVertices();
-			m_numberOfFaces += model->getNumberOfFaces();
-		}
-	} else {
-		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
-		return xdl::ERR_ERROR;
-	}
+//	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
+//	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
+//		for(unsigned int as = 0; as < 1; as++) {
+//			soan::game::Astroid* astroid 	= new soan::game::Astroid();
+//			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
+//			astroid->setPhysics(m_physics, 1.8);
+//			astroid->setLifeTime(0);
+//			m_renderable.push_back(astroid);
+//
+//			m_numberOfVertices += model->getNumberOfVertices();
+//			m_numberOfFaces += model->getNumberOfFaces();
+//		}
+//	} else {
+//		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
+//		return xdl::ERR_ERROR;
+//	}
 
 
 //	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
@@ -671,7 +662,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	m_skybox = new soan::game::SkyBox(get3DProcessor());
+	m_skybox = std::unique_ptr<soan::game::SkyBox>(new soan::game::SkyBox(get3DProcessor()));
 	m_skybox->init();
 	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
 	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
@@ -683,21 +674,26 @@ xdl::xdl_int Singularity::initializeAssets() {
 	//
 
 	// Create a mesh.
-	auto grid_mesh = m_proceduralSystem->createGrid(512.0, 512.0f, 512.0, 32.0);
+	auto gridMesh = m_proceduralSystem->createGrid(1024.0, 1024.0f, 1024.0, 32.0);
 
 	// Create a model.
-	auto grid_model = std::make_shared<soan::Model>(get3DProcessor());
+	auto gridModel = std::make_shared<soan::Model>(get3DProcessor());
 
 	// Assign mesh to model.
-	grid_model->add(grid_mesh);
+	gridModel->add(gridMesh);
 
 	// Create Actor that can be placed into the scene.
-	auto grid_actor = new soan::game::Actor();
+	auto gridActor = new soan::game::Actor();
+	gridActor->setName("Grid");
+	gridActor->setLifeTime(0);
+	gridActor->setModel(gridModel);
+	gridActor->setPosition(0.0f, 0.0f, 0.0f);
+	gridActor->setCastShadow(xdl::xdl_false);
 
 	// Assign model to actor.
-	grid_actor->setModel(grid_model);
+	gridActor->setModel(gridModel);
 
-	m_renderable.push_back(grid_actor);
+	m_renderable.push_back(gridActor);
 
 	return xdl::ERR_OK;
 }
@@ -931,7 +927,7 @@ void Singularity::calculateShadowMaps() {
 
 			get3DProcessor()->setActiveVertexArray(mesh->getVertexArrayRef());
 
-			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);
+			get3DProcessor()->drawVertexArray(mesh->getPrimitive(), mesh->getNumberOfFaces() * 3);
 		}
 	}
 
@@ -970,14 +966,14 @@ void Singularity::startDeferredLighting() {
 	// Render Skybox.
 	//
 
-
-	tmath::mat4 identity, orientation;
-	tmath::identity(identity);
-	tmath::convert(m_camera->getInverseOrientation(), orientation);
-	m_gBuffer->setViewMatrix(orientation);
-	m_gBuffer->setModelMatrix(identity);
-
 	if(m_skybox != nullptr) {
+		tmath::mat4 identity, orientation;
+		tmath::identity(identity);
+		tmath::convert(m_camera->getInverseOrientation(), orientation);
+		m_gBuffer->setViewMatrix(orientation);
+		m_gBuffer->setModelMatrix(identity);
+
+
 		m_gBuffer->setReflectionTextureCube(m_skybox->getSkyBoxTexture(), 1);
 		m_gBuffer->getGBuffer()->activateDepthTarget(xdl::xdl_false);
 		m_gBuffer->setMaterial(m_skybox->getMaterial());
@@ -986,16 +982,16 @@ void Singularity::startDeferredLighting() {
 
 		m_gBuffer->setReflectionTextureCube(m_skybox->getSkyBoxTexture(), 0);
 		m_gBuffer->getGBuffer()->activateDepthTarget(xdl::xdl_true);
+
 	} else {
 		m_gBuffer->setReflectionTextureCube(nullptr, 0);
 	}
-
-
 
 	//
 	// Full transformation of the camera.
 	//
 	m_gBuffer->setViewMatrix(m_camera->getInverseTransformationMatrix());
+
 
 	//
 	// Render all actors.
@@ -1011,7 +1007,7 @@ void Singularity::startDeferredLighting() {
 			m_gBuffer->setModelMatrix(actorObject->getTransformationMatrix());
 
 			get3DProcessor()->setActiveVertexArray(mesh->getVertexArrayRef());
-			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);
+			get3DProcessor()->drawVertexArray(mesh->getPrimitive(), mesh->getNumberOfFaces() * 3);
 
 		}
 
@@ -1085,13 +1081,6 @@ void Singularity::startDeferredLighting() {
 
 
 	m_gBuffer->startLightingStage();
-
-
-	if(m_drawMode == 6) {
-		m_depthOfField->setInputTexture(0, m_gBuffer->getTexture(soan::GBuffer::LIGHTING));
-		m_depthOfField->setInputTexture(1, m_gBuffer->getTexture(soan::GBuffer::DEPTH));
-		m_depthOfField->apply();
-	}
 
 }
 

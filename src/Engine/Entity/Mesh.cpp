@@ -27,8 +27,11 @@
 namespace soan {
 
 	Mesh::Mesh() :
+		m_va(nullptr),
+		m_indexBuffer(nullptr),
 		m_numberOfFaces(0),
-		m_numberOfVertices(0) {
+		m_numberOfVertices(0),
+		m_primitive(xdl::XDEVL_PRIMITIVE_TRIANGLES) {
 
 	}
 
@@ -66,6 +69,10 @@ namespace soan {
 	xdl::xdl_uint Mesh::getNumberOfVertices() {
 		return m_numberOfVertices;
 	}
+	
+	xdl::XdevLPrimitiveType Mesh::getPrimitive() {
+		return m_primitive;
+	}
 
 	void Mesh::setMaterial(const std::shared_ptr<Material>& material) {
 		m_material = material;
@@ -85,6 +92,10 @@ namespace soan {
 
 	void Mesh::setVertexArray(xdl::IPXdevLVertexArray vertexArray) {
 		m_va = std::move(vertexArray);
+	}
+
+	void Mesh::setPrimitive(xdl::XdevLPrimitiveType primitive) {
+		m_primitive = primitive;
 	}
 
 }
