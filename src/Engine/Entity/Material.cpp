@@ -137,11 +137,19 @@ namespace soan {
 		m_skyBoxTexture = skyBoxTexture;
 	}
 
-	xdl::IPXdevLTexture  Material::getTexture(xdl::xdl_uint idx) {
+	xdl::XdevLTexture* Material::getTexture(xdl::xdl_uint idx) {
+		return m_textures[idx].get();
+	}
+
+	xdl::IPXdevLTexture Material::getTextureRef(xdl::xdl_uint idx) {
 		return m_textures[idx];
 	}
 
-	xdl::IPXdevLTextureCube  Material::getSkyBoxTexture() {
+	xdl::XdevLTextureCube* Material::getSkyBoxTexture() {
+		return m_skyBoxTexture.get();
+	}
+
+	xdl::IPXdevLTextureCube Material::getSkyBoxTextureRef() {
 		return m_skyBoxTexture;
 	}
 

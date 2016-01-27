@@ -671,11 +671,11 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-//	m_skybox = new soan::game::SkyBox(get3DProcessor());
-//	m_skybox->init();
-//	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
-//	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
-//
+	m_skybox = new soan::game::SkyBox(get3DProcessor());
+	m_skybox->init();
+	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
+	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
+
 
 
 	//
@@ -929,7 +929,7 @@ void Singularity::calculateShadowMaps() {
 
 			m_shadowMap->setModelMatrix(actorObject->getTransformationMatrix());
 
-			get3DProcessor()->setActiveVertexArray(mesh->getVertexArray());
+			get3DProcessor()->setActiveVertexArray(mesh->getVertexArrayRef());
 
 			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);
 		}
@@ -1010,7 +1010,7 @@ void Singularity::startDeferredLighting() {
 			m_gBuffer->setMaterial(*mesh->getMaterial());
 			m_gBuffer->setModelMatrix(actorObject->getTransformationMatrix());
 
-			get3DProcessor()->setActiveVertexArray(mesh->getVertexArray());
+			get3DProcessor()->setActiveVertexArray(mesh->getVertexArrayRef());
 			get3DProcessor()->drawVertexArray(xdl::XDEVL_PRIMITIVE_TRIANGLES, mesh->getNumberOfFaces() * 3);
 
 		}

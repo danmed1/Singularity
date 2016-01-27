@@ -43,12 +43,28 @@ namespace soan {
 		return m_material;
 	}
 
+	xdl::XdevLVertexArray* Mesh::getVertexArray() {
+		return m_va.get();
+	}
+
+	xdl::IPXdevLVertexArray Mesh::getVertexArrayRef() {
+		return m_va;
+	}
+
 	Model* Mesh::getParentModel() {
 		return m_parentModel.get();
 	}
 
 	std::shared_ptr<Model> Mesh::getParentModelRef() {
 		return m_parentModel;
+	}
+
+	xdl::xdl_uint Mesh::getNumberOfFaces() {
+		return m_numberOfFaces;
+	}
+
+	xdl::xdl_uint Mesh::getNumberOfVertices() {
+		return m_numberOfVertices;
 	}
 
 	void Mesh::setMaterial(const std::shared_ptr<Material>& material) {
@@ -67,15 +83,8 @@ namespace soan {
 		m_numberOfVertices = numberOfVertices;
 	}
 
-	void  Mesh::setVertexArray(std::shared_ptr<xdl::XdevLVertexArray> vertexArray) {
+	void Mesh::setVertexArray(xdl::IPXdevLVertexArray vertexArray) {
 		m_va = std::move(vertexArray);
 	}
 
-	xdl::xdl_uint Mesh::getNumberOfFaces() {
-		return m_numberOfFaces;
-	}
-
-	xdl::xdl_uint Mesh::getNumberOfVertices() {
-		return m_numberOfVertices;
-	}
 }

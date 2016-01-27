@@ -53,10 +53,10 @@ namespace soan {
 			std::shared_ptr<Material> getMaterialRef();
 
 			/// Returns the vertex array.
-			xdl::IPXdevLVertexArray getVertexArray();
+			xdl::XdevLVertexArray* getVertexArray();
 
 			/// Returns the reference of the vertex array.
-			std::shared_ptr<xdl::XdevLVertexArray> getVertexArrayRef();
+			xdl::IPXdevLVertexArray getVertexArrayRef();
 
 			/// Returns the parent model for this mesh.
 			Model* getParentModel();
@@ -78,7 +78,7 @@ namespace soan {
 			void setMaterial(const std::shared_ptr<Material>& material);
 
 			/// Sets the vertex array.
-			void setVertexArray(std::shared_ptr<xdl::XdevLVertexArray> vertexArray);
+			void setVertexArray(xdl::IPXdevLVertexArray vertexArray);
 
 			/// Sets the parent model.
 			void setParentModel(const std::shared_ptr<Model>& model);
@@ -94,7 +94,7 @@ namespace soan {
 			std::shared_ptr<Model> m_parentModel;
 
 			/// Holds the vertex array object.
-			std::shared_ptr<xdl::XdevLVertexArray> m_va;
+			xdl::IPXdevLVertexArray m_va;
 
 			/// Holds the material for this object.
 			std::shared_ptr<Material> m_material;

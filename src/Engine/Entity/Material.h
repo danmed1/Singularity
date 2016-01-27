@@ -115,10 +115,16 @@ namespace soan {
 			xdl::xdl_uint getNumTextures();
 
 			/// Returns the texture.
-			xdl::IPXdevLTexture getTexture(xdl::xdl_uint idx);
+			xdl::XdevLTexture* getTexture(xdl::xdl_uint idx);
+
+			/// Returns the reference of the texture.
+			xdl::IPXdevLTexture getTextureRef(xdl::xdl_uint idx);
 
 			/// Returns the skybox texture.
-			xdl::IPXdevLTextureCube getSkyBoxTexture();
+			xdl::XdevLTextureCube* getSkyBoxTexture();
+
+			/// Returns the reference skybox texture.
+			xdl::IPXdevLTextureCube getSkyBoxTextureRef();
 	
 		private:
 			// Holds the diffuse part of the material.
