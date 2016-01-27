@@ -99,7 +99,7 @@ namespace soan {
 			/// Returns the skybox texture.
 			xdl::XdevLTextureCube* getSkyBoxTexture();
 
-			/// Returns the reference skybox texture.
+			/// Returns the reference of the skybox texture.
 			xdl::IPXdevLTextureCube getSkyBoxTextureRef();
 
 			//

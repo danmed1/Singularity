@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -31,19 +31,18 @@ namespace soan {
 
 	}
 
-	Model::Model(xdl::IPXdevLRAI openGL) : m_openGL(openGL) {
+	Model::Model(xdl::IPXdevLRAI openGL) :
+		m_openGL(openGL) {
 
 	}
 
 	Model::~Model() {
-//		for(auto& mesh : m_meshes) {
-//			delete mesh;
-//		}
+
 	}
 
 	std::shared_ptr<Model> Model::refCopy() {
-		std::shared_ptr<Model> m (new Model(m_openGL));
-	
+		std::shared_ptr<Model> m(new Model(m_openGL));
+
 		for(auto& mesh : m_meshes) {
 			mesh->setMaterial(mesh->getMaterialRef());
 			m->m_meshes.push_back(mesh);

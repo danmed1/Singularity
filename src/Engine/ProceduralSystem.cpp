@@ -22,19 +22,34 @@ namespace soan {
 
 		for(auto w = -w2; w < w2; w+= gap) {
 			for(auto l = -l2; l < l2; l+= gap) {
-				ProceduralSystemGridVertex vertex;
+				ProceduralSystemGridVertex v1,v2,v3;
+
+				// Set color.
+				v1.r = 0.7f;
+				v1.g = 0.7f;
+				v1.b = 0.7f;
+				v1.a = 1.0f;
+
+				v2 = v1;
+				v3 = v1;
 
 				// Set position.
-				vertex.x = w;
-				vertex.y = 0.0f;
-				vertex.z = l;
-				// Set color.
-				vertex.r = 0.7f;
-				vertex.g = 0.7f;
-				vertex.b = 0.7f;
-				vertex.a = 1.0f;
+				v1.x = w;
+				v1.y = 0.0f;
+				v1.z = l;
 
-				vertices.push_back(std::move(vertex));
+				v2.x = w + gap;
+				v2.y = 0.0f;
+				v2.x = l;
+
+				v3.x = w;
+				v3.y = 0.0f;
+				v3.x = (l + 1) * gap;
+
+
+				vertices.push_back(std::move(v1));
+				vertices.push_back(std::move(v2));
+				vertices.push_back(std::move(v3));
 			}
 		}
 
