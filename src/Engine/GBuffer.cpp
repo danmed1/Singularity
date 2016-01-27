@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -59,7 +59,7 @@ namespace soan {
 	GBuffer::~GBuffer() {
 		m_lights.clear();
 	}
-	
+
 	void GBuffer::setCamera(Camera* camera) {
 		assert(camera && "GBuffer::setCamera: Invalid pointer.");
 		m_camera = camera;
@@ -486,12 +486,11 @@ namespace soan {
 
 		m_material = material;
 
-		getFillGBufferShaderProgram()->setUniform4v(m_sh_diffuse, 	1, 	getMaterial().getDiffuse());
-		getFillGBufferShaderProgram()->setUniform4v(m_sh_ambient, 	1, 	getMaterial().getAmbient());
-		getFillGBufferShaderProgram()->setUniform4v(m_sh_specular,	1, 	getMaterial().getSpecular());
-		getFillGBufferShaderProgram()->setUniform(m_sh_roughness, 			getMaterial().getRoughness());
-		getFillGBufferShaderProgram()->setUniformi(m_sh_flags, 				getMaterial().getStates());
-
+		getFillGBufferShaderProgram()->setUniform4v(m_sh_diffuse, 1, getMaterial().getDiffuse());
+		getFillGBufferShaderProgram()->setUniform4v(m_sh_ambient, 1, getMaterial().getAmbient());
+		getFillGBufferShaderProgram()->setUniform4v(m_sh_specular,1, getMaterial().getSpecular());
+		getFillGBufferShaderProgram()->setUniform(m_sh_roughness, getMaterial().getRoughness());
+		getFillGBufferShaderProgram()->setUniformi(m_sh_flags, getMaterial().getStateMask());
 
 		if(getMaterial().getSkyBoxTexture() != nullptr) {
 			getFillGBufferShaderProgram()->setUniformi(m_sh_skyBoxTexture, 4);

@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -47,41 +47,6 @@ namespace soan {
 		*nm = *this;
 		return nm;
 	}
-	void Material::setUseDiffuseConst(xdl::xdl_bool state) {
-		m_useDiffuseConst = state;
-	}
-
-	void Material::setUseNormalConst(xdl::xdl_bool state) {
-		m_useNormalConst = state;
-	}
-
-	void Material::setUseSpecularConst(xdl::xdl_bool state) {
-		m_useSpecularConst = state;
-	}
-
-	void Material::setRoughnessConst(xdl::xdl_bool state) {
-		m_useRoughnessConst = state;
-	}
-
-	void Material::setUseDiffuseMap(xdl::xdl_bool state) {
-		m_useDiffuseMap = state;
-	}
-
-	void Material::setUseNormalMap(xdl::xdl_bool state) {
-		m_useNormalMap = state;
-	}
-	
-	void  Material::setUseDisplacementMap(xdl::xdl_bool state) {
-		m_useDisplacementMap = state;
-	}
-	
-	void Material::setUseSpecularMap(xdl::xdl_bool state) {
-		m_useSpecularMap = state;
-	}
-
-	void Material::setRoughnessMap(xdl::xdl_bool state) {
-		m_useRoughnessMap = state;
-	}
 
 	unsigned int Material::getNumTextures() {
 		return 2;
@@ -101,40 +66,6 @@ namespace soan {
 
 	xdl::xdl_float Material::getRoughness() {
 		return m_roughness;
-	}
-
-	void Material::setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
-		ambient[0] = r;
-		ambient[1] = g;
-		ambient[2] = b;
-		ambient[3] = a;
-	}
-
-	void Material::setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
-		diffuse[0] = r;
-		diffuse[1] = g;
-		diffuse[2] = b;
-		diffuse[3] = a;
-	}
-
-	void Material::setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
-		specular[0] = r;
-		specular[1] = g;
-		specular[2] = b;
-		specular[3] = a;
-	}
-
-
-	void Material::setRoughness(xdl::xdl_float roughness) {
-		m_roughness = roughness;
-	}
-
-	void Material::setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture) {
-		m_textures[texture_index] = texture;
-	}
-
-	void Material::setTexture(xdl::IPXdevLTextureCube skyBoxTexture) {
-		m_skyBoxTexture = skyBoxTexture;
 	}
 
 	xdl::XdevLTexture* Material::getTexture(xdl::xdl_uint idx) {
@@ -173,7 +104,7 @@ namespace soan {
 		return m_useRoughnessMap;
 	}
 
-	xdl::xdl_uint Material::getStates() {
+	xdl::xdl_uint Material::getStateMask() {
 		xdl::xdl_uint state = 0;
 		if(m_useDiffuseConst) {
 			state |= 1;
@@ -205,4 +136,73 @@ namespace soan {
 		return state;
 	}
 
+	void Material::setUseDiffuseConst(xdl::xdl_bool state) {
+		m_useDiffuseConst = state;
+	}
+
+	void Material::setUseNormalConst(xdl::xdl_bool state) {
+		m_useNormalConst = state;
+	}
+
+	void Material::setUseSpecularConst(xdl::xdl_bool state) {
+		m_useSpecularConst = state;
+	}
+
+	void Material::setRoughnessConst(xdl::xdl_bool state) {
+		m_useRoughnessConst = state;
+	}
+
+	void Material::setUseDiffuseMap(xdl::xdl_bool state) {
+		m_useDiffuseMap = state;
+	}
+
+	void Material::setUseNormalMap(xdl::xdl_bool state) {
+		m_useNormalMap = state;
+	}
+
+	void  Material::setUseDisplacementMap(xdl::xdl_bool state) {
+		m_useDisplacementMap = state;
+	}
+
+	void Material::setUseSpecularMap(xdl::xdl_bool state) {
+		m_useSpecularMap = state;
+	}
+
+	void Material::setRoughnessMap(xdl::xdl_bool state) {
+		m_useRoughnessMap = state;
+	}
+
+	void Material::setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
+		ambient[0] = r;
+		ambient[1] = g;
+		ambient[2] = b;
+		ambient[3] = a;
+	}
+
+	void Material::setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
+		diffuse[0] = r;
+		diffuse[1] = g;
+		diffuse[2] = b;
+		diffuse[3] = a;
+	}
+
+	void Material::setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a) {
+		specular[0] = r;
+		specular[1] = g;
+		specular[2] = b;
+		specular[3] = a;
+	}
+
+
+	void Material::setRoughness(xdl::xdl_float roughness) {
+		m_roughness = roughness;
+	}
+
+	void Material::setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture) {
+		m_textures[texture_index] = texture;
+	}
+
+	void Material::setTexture(xdl::IPXdevLTextureCube skyBoxTexture) {
+		m_skyBoxTexture = skyBoxTexture;
+	}
 }

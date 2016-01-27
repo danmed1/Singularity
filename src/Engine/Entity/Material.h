@@ -18,7 +18,7 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
-	
+
 	cengiz@terzibas.de
 */
 
@@ -38,7 +38,7 @@ namespace soan {
 			enum MaterialTextures {
 			  DIFFUSE_MAP,
 			  NORMAL_MAP,
-				DISPLACEMENT_MAP,
+			  DISPLACEMENT_MAP,
 			  SPECULAR_MAP,
 			  ROUGHNESS_MAP
 			};
@@ -50,45 +50,27 @@ namespace soan {
 			*/
 			Material* refCopy();
 
-			void setUseDiffuseConst(xdl::xdl_bool state);
-			void setUseNormalConst(xdl::xdl_bool state);
-			void setUseSpecularConst(xdl::xdl_bool state);
-			void setRoughnessConst(xdl::xdl_bool state);
-			
-			void setUseDiffuseMap(xdl::xdl_bool state);
-			void setUseNormalMap(xdl::xdl_bool state);
-			void setUseDisplacementMap(xdl::xdl_bool state);
-			void setUseSpecularMap(xdl::xdl_bool state);
-			void setRoughnessMap(xdl::xdl_bool state);
+			//
+			// Getters
+			//
 
 			/// Returns the state if a diffuse map should be used.
 			xdl::xdl_bool getUseDiffuseMap();
 
 			/// Returns the state if a normal map should be used.
 			xdl::xdl_bool getUseNormalMap();
-			
+
 			/// Returns the state if a displacement map should be used.
 			xdl::xdl_bool getUseDisplacementMap();
-			
+
 			/// Returns the state if a specular map should be used.
 			xdl::xdl_bool getUseSpecularMap();
 
 			/// Returns the state if a roughness map should be used.
 			xdl::xdl_bool getUseRoughnessMap();
 
-			xdl::xdl_uint getStates();
-
-			/// Sets the diffuse color of the material.
-			void setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
-
-			/// Sets the ambient color of the material.
-			void setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
-
-			/// Sets the specular color of the material.
-			void setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
-
-			/// Sets the roughness of the material.
-			void setRoughness(xdl::xdl_float roughness);
+			/// Returns the the states as mask.
+			xdl::xdl_uint getStateMask();
 
 			/// Returns a pointer to the diffuse color array.
 			xdl::xdl_float* getDiffuse();
@@ -105,12 +87,6 @@ namespace soan {
 			/// Returns the roughness.
 			xdl::xdl_float getRoughness();
 
-			/// Sets the texture.
-			void setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture);
-
-			/// Sets the skybox texture.
-			void setTexture(xdl::IPXdevLTextureCube skybox);
-
 			/// Returns the number of available textures.
 			xdl::xdl_uint getNumTextures();
 
@@ -125,8 +101,42 @@ namespace soan {
 
 			/// Returns the reference skybox texture.
 			xdl::IPXdevLTextureCube getSkyBoxTextureRef();
-	
+
+			//
+			// Setters
+			//
+
+			void setUseDiffuseConst(xdl::xdl_bool state);
+			void setUseNormalConst(xdl::xdl_bool state);
+			void setUseSpecularConst(xdl::xdl_bool state);
+			void setRoughnessConst(xdl::xdl_bool state);
+
+			void setUseDiffuseMap(xdl::xdl_bool state);
+			void setUseNormalMap(xdl::xdl_bool state);
+			void setUseDisplacementMap(xdl::xdl_bool state);
+			void setUseSpecularMap(xdl::xdl_bool state);
+			void setRoughnessMap(xdl::xdl_bool state);
+
+			/// Sets the diffuse color of the material.
+			void setDiffuse(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
+
+			/// Sets the ambient color of the material.
+			void setAmbient(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
+
+			/// Sets the specular color of the material.
+			void setSpecular(xdl::xdl_float r, xdl::xdl_float g, xdl::xdl_float b, xdl::xdl_float a);
+
+			/// Sets the roughness of the material.
+			void setRoughness(xdl::xdl_float roughness);
+
+			/// Sets the texture.
+			void setTexture(MaterialTextures texture_index, xdl::IPXdevLTexture texture);
+
+			/// Sets the skybox texture.
+			void setTexture(xdl::IPXdevLTextureCube skybox);
+
 		private:
+
 			// Holds the diffuse part of the material.
 			xdl::xdl_float diffuse[4];
 
@@ -139,10 +149,9 @@ namespace soan {
 			// Holds the roughness of the material.
 			xdl::xdl_float m_roughness;
 
-			xdl::IPXdevLTexture				m_textures[7];
+			xdl::IPXdevLTexture			m_textures[7];
 
-			xdl::IPXdevLTextureCube		m_skyBoxTexture;
-
+			xdl::IPXdevLTextureCube	m_skyBoxTexture;
 
 			xdl::xdl_bool							m_useDiffuseConst;
 			xdl::xdl_bool							m_useNormalConst;
@@ -154,8 +163,6 @@ namespace soan {
 			xdl::xdl_bool							m_useDisplacementMap;
 			xdl::xdl_bool							m_useSpecularMap;
 			xdl::xdl_bool							m_useRoughnessMap;
-			
-
 	};
 
 }
