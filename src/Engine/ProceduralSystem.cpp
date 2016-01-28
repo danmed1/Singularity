@@ -60,10 +60,7 @@ namespace soan {
 		ib->init(xdl::XDEVL_BUFFER_ELEMENT_INT, (xdl::xdl_uint8*)m_indices.data(), m_indices.size() );
 
 		auto va = m_rai->createVertexArray();
-		va->init(vb, vd);
-		va->activate();
-		va->setIndexBuffer(ib);
-		va->deactivate();
+		va->init(vb, ib, vd);
 
 		auto tmp = std::make_shared<soan::Mesh>();
 		auto tmp_material = std::make_shared<soan::Material>();
