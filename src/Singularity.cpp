@@ -59,7 +59,7 @@ Singularity::Singularity(int argc, char** argv, const char* xml_filename) throw(
 	m_numberOfVertices(0),
 	m_numberOfFaces(0),
 	m_splashScreen(nullptr),
-	m_runPostProcessEffects(xdl::xdl_false) {
+	m_runPostProcessEffects(xdl::xdl_true) {
 
 	// Register Singularity as a listener to the event system.
 	getCore()->registerListener(this);
@@ -227,7 +227,6 @@ void Singularity::calculatePostProcessEffects() {
 	}
 
 	m_gausBlur->setInputTexture(0, m_gBuffer->getTexture(soan::GBuffer::LIGHTING));
-	m_gausBlur->setBlurSize(1.5, 1.5);
 	m_gausBlur->apply();
 
 	if(m_drawMode == 6) {
@@ -450,7 +449,8 @@ xdl::xdl_int Singularity::initializeEngine() {
 
 	// Create gaus blur post process effect.
 	m_gausBlur = std::make_shared<soan::GausBlur>(get3DProcessor());
-	m_gausBlur->init(w,h, xdl::XDEVL_FB_COLOR_RGBA);
+	m_gausBlur->init(512,512, xdl::XDEVL_FB_COLOR_RGBA);
+	m_gausBlur->setBlurSize(1.0f, 1.0f);
 
 	// Create shadow map processor.
 	m_shadowMap = new soan::ShadowMap(get3DProcessor(), soan::ShadowMap::VSM);
@@ -557,22 +557,22 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-//	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
-//	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-//		for(unsigned int as = 0; as < 1; as++) {
-//			soan::game::Astroid* astroid 	= new soan::game::Astroid();
-//			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
-//			astroid->setPhysics(m_physics, 1.8);
-//			astroid->setLifeTime(0);
-//			m_renderable.push_back(astroid);
-//
-//			m_numberOfVertices += model->getNumberOfVertices();
-//			m_numberOfFaces += model->getNumberOfFaces();
-//		}
-//	} else {
-//		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
-//		return xdl::ERR_ERROR;
-//	}
+	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
+	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
+		for(unsigned int as = 0; as < 1; as++) {
+			soan::game::Astroid* astroid 	= new soan::game::Astroid();
+			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
+			astroid->setPhysics(m_physics, 1.8);
+			astroid->setLifeTime(0);
+			m_renderable.push_back(astroid);
+
+			m_numberOfVertices += model->getNumberOfVertices();
+			m_numberOfFaces += model->getNumberOfFaces();
+		}
+	} else {
+		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
+		return xdl::ERR_ERROR;
+	}
 
 
 //	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
@@ -976,13 +976,13 @@ void Singularity::startDeferredLighting() {
 
 
 		m_gBuffer->setReflectionTextureCube(m_skybox->getSkyBoxTexture(), 1);
-		m_gBuffer->getGBuffer()->activateDepthTarget(xdl::xdl_false);
+		m_gBuffer->getGBuffer()->setActiveDepthTest(xdl::xdl_false);
 		m_gBuffer->setMaterial(m_skybox->getMaterial());
 
 		m_skybox->render();
 
 		m_gBuffer->setReflectionTextureCube(m_skybox->getSkyBoxTexture(), 0);
-		m_gBuffer->getGBuffer()->activateDepthTarget(xdl::xdl_true);
+		m_gBuffer->getGBuffer()->setActiveDepthTest(xdl::xdl_true);
 
 	} else {
 		m_gBuffer->setReflectionTextureCube(nullptr, 0);

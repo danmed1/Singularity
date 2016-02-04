@@ -156,7 +156,7 @@ namespace soan {
 		xdl::xdl_uint targets [] = {xdl::XDEVL_COLOR_TARGET0};
 		m_frameBuffer->activateColorTargets(1, targets);
 		m_frameBuffer->clearColorTargets(1.0f, 1.0f, 0.0f, 0.0f);
-		m_frameBuffer->activateDepthTarget(xdl::xdl_true);
+		m_frameBuffer->setActiveDepthTest(xdl::xdl_true);
 		m_frameBuffer->clearDepthTarget(1.0);
 
 		m_depthBiasVP = m_biasProjectionMatrix*m_light->getInverseTransformationMatrix();

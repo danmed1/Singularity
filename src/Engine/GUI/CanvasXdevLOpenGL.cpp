@@ -243,6 +243,7 @@ namespace soan {
 		             1.0f, projectionMatrix);
 
 		m_opengl->setActiveShaderProgram(m_linesStripShaderProgram);
+		m_linesStripShaderProgram->activate();
 		m_linesStripShaderProgram->setUniformMatrix4(m_projMatrix, 1, projectionMatrix);
 
 		//
@@ -299,6 +300,8 @@ namespace soan {
 			}
 			m_textList.clear();
 		}
+
+		m_linesStripShaderProgram->deactivate();
 
 		m_opengl->swapBuffers();
 		releaseCurrentWindow();

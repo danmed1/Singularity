@@ -305,7 +305,7 @@ namespace soan {
 
 		m_fb->clearColorTargets(0.3f, 0.3f, 0.8f, 1.0f);
 
-		m_fb->activateDepthTarget(xdl::xdl_true);
+		m_fb->setActiveDepthTest(xdl::xdl_true);
 		m_fb->clearDepthTarget(1.0f);
 
 		// Stage 1.
@@ -336,7 +336,7 @@ namespace soan {
 
 
 		// Disble the depth buffer.
-		m_fb->activateDepthTarget(xdl::xdl_false);
+		m_fb->setActiveDepthTest(xdl::xdl_false);
 
 		// Activate only render target 1. We have anyway just one render target for the post process
 		// framebuffer.
