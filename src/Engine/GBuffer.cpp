@@ -311,7 +311,7 @@ namespace soan {
 		// Stage 1.
 		// Render color, position, normal and depth information.
 		// Blending is disabled.
-		m_stage1sp->activate();
+		getFillGBufferShaderProgram()->activate();
 
 
 		m_beginStage1 = true;
@@ -340,8 +340,8 @@ namespace soan {
 
 		// Activate only render target 1. We have anyway just one render target for the post process
 		// framebuffer.
-		xdl::xdl_uint list_stage_init[] = {xdl::XDEVL_COLOR_TARGET3};
-		m_fb->activateColorTargets(1, list_stage_init);
+		xdl::xdl_uint list_stage_init[] = {xdl::XDEVL_COLOR_NONE, xdl::XDEVL_COLOR_NONE, xdl::XDEVL_COLOR_NONE, xdl::XDEVL_COLOR_TARGET3};
+		m_fb->activateColorTargets(4, list_stage_init);
 
 
 		//

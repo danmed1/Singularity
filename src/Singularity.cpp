@@ -557,22 +557,22 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
-	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
-		for(unsigned int as = 0; as < 1; as++) {
-			soan::game::Astroid* astroid 	= new soan::game::Astroid();
-			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
-			astroid->setPhysics(m_physics, 1.8);
-			astroid->setLifeTime(0);
-			m_renderable.push_back(astroid);
-
-			m_numberOfVertices += model->getNumberOfVertices();
-			m_numberOfFaces += model->getNumberOfFaces();
-		}
-	} else {
-		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
-		return xdl::ERR_ERROR;
-	}
+//	std::shared_ptr<soan::Model> model(new soan::Model(m_opengl));
+//	if(assimpToModel.import("resources/models/box.obj", model) == xdl::ERR_OK) {
+//		for(unsigned int as = 0; as < 1; as++) {
+//			soan::game::Astroid* astroid 	= new soan::game::Astroid();
+//			astroid->setModel(std::shared_ptr<soan::Model>(model->refCopy()));
+//			astroid->setPhysics(m_physics, 1.8);
+//			astroid->setLifeTime(0);
+//			m_renderable.push_back(astroid);
+//
+//			m_numberOfVertices += model->getNumberOfVertices();
+//			m_numberOfFaces += model->getNumberOfFaces();
+//		}
+//	} else {
+//		std::cerr << "Singularity::initializeAssets: Could not load box mesh." << std::endl;
+//		return xdl::ERR_ERROR;
+//	}
 
 
 //	std::shared_ptr<soan::Model> spaceModel(new soan::Model(get3DProcessor()));
@@ -597,37 +597,37 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	std::shared_ptr<soan::Model> groundModel(new soan::Model(get3DProcessor()));
-	if(assimpToModel.import("resources/models/plane.obj", groundModel) != xdl::ERR_OK) {
-		return xdl::ERR_ERROR;
-	}
-	xdl::IPXdevLTexture displacementMap = soan::TextureServer::Inst()->import("bricks_displace.jpg");
-	displacementMap->lock();
-	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
-	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
-	displacementMap->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_REPEAT);
-	displacementMap->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_REPEAT);
-	displacementMap->unlock();
-
-	soan::game::Actor* ground = new soan::game::SpaceShip();
-	ground->setName("Ground");
-	ground->setLifeTime(0);
-	ground->setModel(groundModel);
-	ground->setPosition(0.0f, -10.0f, 0.0f);
-	ground->setPhysics(m_physics, 0.0f);
-
-	m_material = ground->getModel()->getMesh(0)->getMaterialRef();
-	m_model			= groundModel;
-
-	ground->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(xdl::xdl_false);
-	ground->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
-	ground->getModel()->getMesh(0)->getMaterial()->setTexture(soan::Material::DISPLACEMENT_MAP, displacementMap);
-	ground->getModel()->getMesh(0)->getMaterial()->setUseDisplacementMap(xdl::xdl_true);
-	ground->getModel()->getMesh(0)->getMaterial()->setUseNormalMap(xdl::xdl_false);
-	m_numberOfVertices += groundModel->getNumberOfVertices();
-	m_numberOfFaces += groundModel->getNumberOfFaces();
-	m_renderable.push_back(ground);
-
+//	std::shared_ptr<soan::Model> groundModel(new soan::Model(get3DProcessor()));
+//	if(assimpToModel.import("resources/models/plane.obj", groundModel) != xdl::ERR_OK) {
+//		return xdl::ERR_ERROR;
+//	}
+//	xdl::IPXdevLTexture displacementMap = soan::TextureServer::Inst()->import("bricks_displace.jpg");
+//	displacementMap->lock();
+//	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MAG_FILTER, xdl::XDEVL_LINEAR);
+//	displacementMap->setTextureFilter(xdl::XDEVL_TEXTURE_MIN_FILTER, xdl::XDEVL_LINEAR);
+//	displacementMap->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_S, xdl::XDEVL_REPEAT);
+//	displacementMap->setTextureWrap(xdl::XDEVL_TEXTURE_WRAP_T, xdl::XDEVL_REPEAT);
+//	displacementMap->unlock();
+//
+//	soan::game::Actor* ground = new soan::game::SpaceShip();
+//	ground->setName("Ground");
+//	ground->setLifeTime(0);
+//	ground->setModel(groundModel);
+//	ground->setPosition(0.0f, -10.0f, 0.0f);
+//	ground->setPhysics(m_physics, 0.0f);
+//
+//	m_material = ground->getModel()->getMesh(0)->getMaterialRef();
+//	m_model			= groundModel;
+//
+//	ground->getModel()->getMesh(0)->getMaterial()->setUseDiffuseConst(xdl::xdl_false);
+//	ground->getModel()->getMesh(0)->getMaterial()->setRoughness(0.1);
+//	ground->getModel()->getMesh(0)->getMaterial()->setTexture(soan::Material::DISPLACEMENT_MAP, displacementMap);
+//	ground->getModel()->getMesh(0)->getMaterial()->setUseDisplacementMap(xdl::xdl_true);
+//	ground->getModel()->getMesh(0)->getMaterial()->setUseNormalMap(xdl::xdl_false);
+//	m_numberOfVertices += groundModel->getNumberOfVertices();
+//	m_numberOfFaces += groundModel->getNumberOfFaces();
+//	m_renderable.push_back(ground);
+//
 
 
 
@@ -674,7 +674,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	//
 
 	// Create a mesh.
-	auto gridMesh = m_proceduralSystem->createGrid(1024.0, 1024.0f, 1024.0, 32.0);
+	auto gridMesh = m_proceduralSystem->createGrid(10.0, 10.0);
 
 	// Create a model.
 	auto gridModel = std::make_shared<soan::Model>(get3DProcessor());

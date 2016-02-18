@@ -36,9 +36,12 @@ namespace soan {
 			struct ProceduralSystemGridVertex {
 				xdl::xdl_float x,y,z;
 				xdl::xdl_float r,g,b,a;
+				xdl::xdl_float nx, ny, nz;
+				xdl::xdl_float u, v;
 			};
 
-			std::shared_ptr<soan::Mesh> createGrid(xdl::xdl_float width, xdl::xdl_float length, xdl::xdl_float height, xdl::xdl_float gap);
+
+			std::shared_ptr<soan::Mesh> createGrid(xdl::xdl_float size, xdl::xdl_float resolution);
 
 		private:
 
