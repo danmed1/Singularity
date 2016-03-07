@@ -39,6 +39,10 @@ namespace soan {
 		m_useSpecularMap(xdl::xdl_false),
 		m_useRoughnessMap(xdl::xdl_false) {
 
+		memset(diffuse, 0, 4 * sizeof(xdl::xdl_float));
+		memset(ambient, 0, 4 * sizeof(xdl::xdl_float));
+		memset(specular, 0, 4 * sizeof(xdl::xdl_float));
+
 		memset(m_textures, 0, sizeof(xdl::IPXdevLTexture)*7);
 
 	}

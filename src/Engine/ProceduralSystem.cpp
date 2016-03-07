@@ -17,15 +17,20 @@ namespace soan {
 		for(float y = min; y <= max; y+= step) {
 			for(float x = min; x <= max; x+= step) {
 				ProceduralSystemGridVertex v1;
+
+				// Add position information.
 				v1.x = x;
 				v1.y = y;
 				v1.z = 0.0f;
 
+				// Add normal information.
 				v1.nx = 0.0f;
 				v1.ny = 0.0f;
-				v1.nz = 0.0f;
+				v1.nz = 1.0f;
 
+				// Add color information.
 				v1.r = v1.g = v1.b = v1.a = 1.0f;
+
 				std::cout << "(" << v1.x << "," << v1.y << ")" << std::endl;
 				vertices.push_back(v1);
 			}
@@ -62,19 +67,23 @@ namespace soan {
 		vd->add(2, xdl::XDEVL_BUFFER_ELEMENT_FLOAT, VERTEX_TEXTURE_COORD);
 
 		auto vb = m_rai->createVertexBuffer();
-		vb->init((xdl::xdl_uint8*)vertices.data(), vertices.size() * sizeof(ProceduralSystemGridVertex));
+		if(vb->init((xdl::xdl_uint8*)vertices.data(), vertices.size() * sizeof(ProceduralSystemGridVertex)) != xdl::ERR_OK) {
+			return nullptr;
+		}
 
 		auto ib = m_rai->createIndexBuffer();
-		ib->init(xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_INT, (xdl::xdl_uint8*)indices.data(), indices.size() );
+		if(ib->init(xdl::XDEVL_BUFFER_ELEMENT_UNSIGNED_INT, (xdl::xdl_uint8*)indices.data(), indices.size() ) != xdl::ERR_OK) {
+			return nullptr;
+		}
 
 		auto va = m_rai->createVertexArray();
-		va->init(vb, ib, vd);
+		if(va->init(vb, ib, vd) != xdl::ERR_OK) {
+			return nullptr;
+		}
 
 		auto tmp = std::make_shared<soan::Mesh>();
 		auto tmp_material = std::make_shared<soan::Material>();
 		tmp_material->setUseDiffuseConst(true);
-		tmp_material->setUseNormalConst(false);
-		tmp_material->setUseDisplacementMap(false);
 		tmp_material->setDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
 
 		tmp->setMaterial(tmp_material);
