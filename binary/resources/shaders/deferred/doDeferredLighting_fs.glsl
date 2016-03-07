@@ -166,4 +166,5 @@ void main() {
 	//color0.rgb = pow( color0.rgb, vec3(1.0/2.2) ) * 1.0f;
 	color0.rgb *= 2.0f;
 
+
 }

@@ -68,7 +68,7 @@ namespace soan {
 			xdl::xdl_int stopFillGBuffer();
 
 			/// Begin the Lighting Stage.
-			xdl::xdl_int startLightingStage();
+			xdl::xdl_int runLightingStage();
 
 			/// Return a specific texture of the G-Buffer.
 			xdl::IPXdevLTexture getTexture(GBufferTexture texture);

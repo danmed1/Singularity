@@ -53,7 +53,9 @@
 
 
   <!-- Setting some properties of the XdevLOpenGL module. -->
-  <XdevLOpenGL id="MyOpenGL"  profile="core"
+  <XdevLOpenGL id="MyOpenGL"
+								debug="1"
+								profile="core"
 							  major="3"
 							  minor="2" 
 							  framebuffer_depth="32" 
