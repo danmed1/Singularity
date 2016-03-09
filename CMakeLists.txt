@@ -4,6 +4,7 @@ project(Singularity)
 
 #
 # Set the output directories
+#
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/binary)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/binary)
@@ -29,8 +30,16 @@ elseif(MSVC_VERSION GREATER 1400) # VisualStudio 8.0+
   set(COMPILER_VISUAL_STUDIO TRUE)
 endif()
 
-set(XDEVL_HOME /Users/coda/Public/Projects/XdevLSDK/XdevL)
-set(XDEVL_PLUGINS /Users/coda/Public/Projects/XdevLSDK/XdevLPlugins)
+#
+# Set the XdevLSDK environment variables.
+#
+
+set(XDEVL_HOME $ENV{XDEVL_HOME})
+set(XDEVL_PLUGINS $ENV{XDEVL_PLUGINS})
+
+#
+# Set all used sources.
+#
 
 set(SOURCES_FILES
 	${CMAKE_SOURCE_DIR}/src/Singularity.cpp
@@ -83,6 +92,10 @@ if(COMPILER_GCC OR COMPILER_CLANG)
 elseif(COMPILER_VISUAL_STUDIO)
 endif()
 
+#
+# Add used include directories
+#
+
 include_directories(
 	${CMAKE_SOURCE_DIR}/src 
 	${XDEVL_HOME}/include 
@@ -92,6 +105,10 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/dependencies/assimp/include
 	${CMAKE_SOURCE_DIR}/dependencies/freeimage/include
 )
+
+#
+# Add used library directories
+#
 
 set(LINK_DIRECTORIES 
 	${XDEVL_HOME}/lib
@@ -113,21 +130,29 @@ endif()
 
 link_directories( ${LINK_DIRECTORIES})
 
+#
+# Create the Singularity executable
+#
 
 add_executable(Singularity ${SOURCES_FILES})
 
+#
+# Set the used external libraries
+#
 
 set(LINK_LIBRARIES 
 	XdevLd
-	LinearMath
 	assimp
 	freeimage
 	BulletDynamics
 	BulletCollision
+	LinearMath
 )
 
-if(APPLE) 
-	set(${LINK_LIBRARIES} "-framework OpenGL")
+if(UNIX AND NOT APPLE)
+	set(LINK_LIBRARIES ${LINK_LIBRARIES} GL pthread dl)
+elseif(APPLE) 
+	set(LINK_LIBRARIES ${LINK_LIBRARIES} "-framework OpenGL")
 endif()
 
-target_link_libraries(Singularity ${LINK_LIBRARIES} "-framework OpenGL")
+target_link_libraries(Singularity ${LINK_LIBRARIES})
