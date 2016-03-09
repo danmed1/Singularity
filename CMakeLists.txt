@@ -93,12 +93,26 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/dependencies/freeimage/include
 )
 
-link_directories( 
+set(LINK_DIRECTORIES 
 	${XDEVL_HOME}/lib
-	${CMAKE_SOURCE_DIR}/dependencies/bullet/lib/macosx 
-	${CMAKE_SOURCE_DIR}/dependencies/assimp/lib/macosx
-	${CMAKE_SOURCE_DIR}/dependencies/freeimage/lib/macosx
 )
+
+if(APPLE)
+	set(LINK_DIRECTORIES ${LINK_DIRECTORIES}
+		${CMAKE_SOURCE_DIR}/dependencies/bullet/lib/macosx 
+		${CMAKE_SOURCE_DIR}/dependencies/assimp/lib/macosx
+		${CMAKE_SOURCE_DIR}/dependencies/freeimage/lib/macosx
+	)
+elseif(UNIX)
+	set(LINK_DIRECTORIES ${LINK_DIRECTORIES}
+		${CMAKE_SOURCE_DIR}/dependencies/bullet/lib/linux 
+		${CMAKE_SOURCE_DIR}/dependencies/assimp/lib/linux
+		${CMAKE_SOURCE_DIR}/dependencies/freeimage/lib/linux
+	)
+endif()
+
+link_directories( ${LINK_DIRECTORIES})
+
 
 add_executable(Singularity ${SOURCES_FILES})
 
