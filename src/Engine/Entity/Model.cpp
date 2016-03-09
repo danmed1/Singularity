@@ -79,7 +79,7 @@ namespace soan {
 		return(m_boundingBoxMax.z - m_boundingBoxMin.z);
 	}
 
-	void  Model::setBoundingBox(tmath::vec3& min, tmath::vec3& max) {
+	void  Model::setBoundingBox(const tmath::vec3& min, const tmath::vec3& max) {
 		m_boundingBoxMin = min;
 		m_boundingBoxMax = max;
 	}

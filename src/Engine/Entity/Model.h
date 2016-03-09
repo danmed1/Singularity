@@ -75,7 +75,7 @@ namespace soan {
 			xdl::xdl_float getBoundingBoxZ();
 
 			/// sets the bounding box.
-			void setBoundingBox(tmath::vec3& min, tmath::vec3& max);
+			void setBoundingBox(const tmath::vec3& min, const tmath::vec3& max);
 
 			/// Returns the number of vertices of all meshes together.
 			xdl::xdl_uint getNumberOfVertices();

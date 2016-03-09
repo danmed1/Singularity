@@ -303,7 +303,7 @@ namespace soan {
 		xdl::xdl_uint list_stage_init[] = {xdl::XDEVL_COLOR_TARGET0, xdl::XDEVL_COLOR_TARGET1, xdl::XDEVL_COLOR_TARGET2};
 		m_fb->activateColorTargets(3, list_stage_init);
 
-		m_fb->clearColorTargets(0.3f, 0.3f, 0.8f, 1.0f);
+		m_fb->clearColorTargets(0.3f, 0.3f, 0.3f, 1.0f);
 
 		m_fb->setActiveDepthTest(xdl::xdl_true);
 		m_fb->clearDepthTarget(1.0f);

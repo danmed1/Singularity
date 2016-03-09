@@ -209,9 +209,7 @@ void Singularity::main(const Arguments& argv) throw() {
 			renderable->getCollisionShape();
 			if(m_frustum->isPointInside(renderable->getPosition())) {
 				std::cout << "Inside the Frustum: " << renderable->getPosition() << std::endl;
-				renderable->setCastShadow(xdl::xdl_false);
 			} else {
-				renderable->setCastShadow(xdl::xdl_true);
 			}
 		}
 
@@ -632,7 +630,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
+//	xdl::xdl_float rgb [] = {1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0};
 //
 //	std::shared_ptr<soan::Model> planetModel(new soan::Model(get3DProcessor()));
 //	if(assimpToModel.import("resources/models/sphere.obj", planetModel) == xdl::ERR_OK) {
@@ -678,6 +676,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 	// Create a model.
 	auto gridModel = std::make_shared<soan::Model>(get3DProcessor());
+	gridMesh->setParentModel(gridModel);
 
 	// Assign mesh to model.
 	gridModel->add(gridMesh);
@@ -689,6 +688,7 @@ xdl::xdl_int Singularity::initializeAssets() {
 	gridActor->setModel(gridModel);
 	gridActor->setPosition(0.0f, 0.0f, 0.0f);
 	gridActor->setCastShadow(xdl::xdl_false);
+
 
 	// Assign model to actor.
 	gridActor->setModel(gridModel);
@@ -985,6 +985,7 @@ void Singularity::startDeferredLighting() {
 		m_gBuffer->getGBuffer()->setActiveDepthTest(xdl::xdl_true);
 
 	} else {
+		m_gBuffer->getGBuffer()->setActiveDepthTest(xdl::xdl_true);
 		m_gBuffer->setReflectionTextureCube(nullptr, 0);
 	}
 
@@ -1077,7 +1078,7 @@ void Singularity::startDeferredLighting() {
 
 
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
 

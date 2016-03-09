@@ -168,5 +168,5 @@ void main() {
 	}
 
 	//diffuseTarget.rgb = binormal.rgb;//texture(SoanMaterial.normalMap,fragment.texCoord);
-
+//	diffuseTarget.rgb = vec3(1.0f, 1.0f, 1.0f);
 }
