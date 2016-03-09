@@ -28,7 +28,7 @@
 #include <XdevL.h>
 #include <XdevLApplication.h>
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <XdevLRAI/XdevLRAI.h>
 #include <XdevLWindow/XdevLWindow.h>
 #include <XdevLFont/XdevLFont.h>

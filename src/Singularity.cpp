@@ -662,10 +662,10 @@ xdl::xdl_int Singularity::initializeAssets() {
 
 
 
-//	m_skybox = std::unique_ptr<soan::game::SkyBox>(new soan::game::SkyBox(get3DProcessor()));
-//	m_skybox->init();
-//	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
-//	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
+	m_skybox = std::unique_ptr<soan::game::SkyBox>(new soan::game::SkyBox(get3DProcessor()));
+	m_skybox->init();
+	m_skybox->getMaterial().setUseDiffuseConst(xdl::xdl_false);
+	m_skybox->getMaterial().setUseNormalMap(xdl::xdl_false);
 
 
 
